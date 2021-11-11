@@ -28,7 +28,7 @@ class ObraController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->ptc != 1){
+        if($permisoUsuario[0]->obra != 1){
             return redirect()->route("home");
         }
         //Redireccionamos a la vista para cargar obras
@@ -44,7 +44,13 @@ class ObraController extends Controller
      */
     public function create()
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->crear_obra != 1 || $permisoUsuario[0]->obra != 1){
+            return redirect()->route("home");
+        }
+        return view('sistema.obra.crear')->with('permisoUsuario', $permisoUsuario[0]);
     }
 
     /**

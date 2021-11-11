@@ -58,6 +58,7 @@ Route::middleware('auth')->prefix('maestroPTC')->group(function () {
 Route::middleware('auth')->prefix('control-de-obras')->group(function () {
     Route::get("/",[App\Http\Controllers\ObraController::class, 'index'])->name('obra.index');
     Route::get("lista-de-obras",[App\Http\Controllers\ObraController::class, 'jq_lista']);
+    Route::get("crear-obra",[App\Http\Controllers\ObraController::class, 'create'])->name('obra.crear');
 });
 
 

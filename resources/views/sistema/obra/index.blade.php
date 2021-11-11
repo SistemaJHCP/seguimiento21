@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Totalidad de obras</h3><a href=""><button class="btn btn-info float-right">Nuevo</button></a>
+              <h3 class="card-title">Totalidad de obras</h3><a href="{{ route('obra.crear') }}"><button class="btn btn-info float-right">Nuevo</button></a>
             </div>
             <!-- /.card-header -->
               <div class="card-body">
