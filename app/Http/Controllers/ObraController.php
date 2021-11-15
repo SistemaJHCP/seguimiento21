@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Obra;
 use App\Models\Permiso;
+use App\Models\Tipo;
+use App\Models\Cliente;
+use App\Models\Codventas;
 use Illuminate\Http\Request;
 
 class ObraController extends Controller
@@ -50,7 +53,16 @@ class ObraController extends Controller
         if($permisoUsuario[0]->crear_obra != 1 || $permisoUsuario[0]->obra != 1){
             return redirect()->route("home");
         }
-        return view('sistema.obra.crear')->with('permisoUsuario', $permisoUsuario[0]);
+
+        //Solicito todo el listado de la tabla tipo
+        $tipo = Tipo::select("id", "tipo_nombre")->orderBy("tipo_nombre", "ASC")->get();
+        //Solicito todo el listado de la tabla cliente
+        $cli = Cliente::select("id", "cliente_nombre")->orderBy("cliente_nombre", "ASC")->get();
+        //Solicito todo el listado de la tabla codventa
+        $cod = Codventas::select("id", "codventa_codigo")->orderBy("id", "DESC")->get();
+
+        //se envia todas las consultas a la vista
+        return view('sistema.obra.crear')->with('permisoUsuario', $permisoUsuario[0])->with("tipo", $tipo)->with("cli", $cli)->with("cod", $cod);
     }
 
     /**
