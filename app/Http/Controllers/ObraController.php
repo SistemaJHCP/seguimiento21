@@ -6,6 +6,7 @@ use App\Models\Obra;
 use App\Models\Permiso;
 use App\Models\Tipo;
 use App\Models\Cliente;
+use App\Models\Personal;
 use App\Models\Codventas;
 use Illuminate\Http\Request;
 
@@ -60,9 +61,11 @@ class ObraController extends Controller
         $cli = Cliente::select("id", "cliente_nombre")->orderBy("cliente_nombre", "ASC")->get();
         //Solicito todo el listado de la tabla codventa
         $cod = Codventas::select("id", "codventa_codigo")->orderBy("id", "DESC")->get();
+        //Solicito todo el listado de la tabla Personal
+        $per = Personal::select("id", "personal_nombre")->where("personal_estado", 1)->orderBy("personal_nombre", "ASC")->get();
 
         //se envia todas las consultas a la vista
-        return view('sistema.obra.crear')->with('permisoUsuario', $permisoUsuario[0])->with("tipo", $tipo)->with("cli", $cli)->with("cod", $cod);
+        return view('sistema.obra.crear')->with('permisoUsuario', $permisoUsuario[0])->with("tipo", $tipo)->with("cli", $cli)->with("cod", $cod)->with("per", $per);
     }
 
     /**
