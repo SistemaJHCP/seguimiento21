@@ -76,7 +76,7 @@ class ObraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd( $request->all() );
     }
 
     /**
@@ -85,7 +85,7 @@ class ObraController extends Controller
      * @param  \App\Models\Obra  $obra
      * @return \Illuminate\Http\Response
      */
-    public function show(Obra $obra)
+    public function show(Request $request)
     {
         //
     }
@@ -166,5 +166,14 @@ class ObraController extends Controller
 
 
     }
+
+
+    public function consultarCoord($id)
+    {
+        $personal = Personal::find($id);
+        return response()->json($personal);
+    }
+
+
 
 }

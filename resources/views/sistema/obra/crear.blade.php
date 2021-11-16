@@ -19,13 +19,13 @@
                       Datos a cargar
                     </div>
                     <div class="card-body">
-                        <form action="" method="post">
+                    <form action="{{ route('obra.creando') }}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Tipo</label>
-                                    <select name="tipo" id="" class="form-control" required>
+                                    <select name="tipo" id="tipo" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($tipo as $t)
                                             <option value="{{ $t->id }}">{{ $t->tipo_nombre }}</option>
@@ -36,7 +36,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Cliente</label>
-                                    <select name="" id="" class="form-control" required>
+                                    <select name="cliente" id="cliente" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($cli as $c)
                                             <option value="{{ $c->id }}">{{ $c->cliente_nombre }}</option>
@@ -47,7 +47,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Codventa</label>
-                                    <select name="" id="" class="form-control" required>
+                                    <select name="codventa" id="codventa" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($cod as $v)
                                             <option value="{{ $v->id }}">{{ $v->codventa_codigo }}</option>
@@ -71,7 +71,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Porcentaje de ganancia</label>
-                                    <input type="text" name="total" id="total" class="form-control" placeholder="Porcentaje de ganancia">
+                                    <input type="text" name="porcentaje" id="porcentaje" class="form-control" placeholder="Porcentaje de ganancia">
                                 </div>
                             </div>
                         </div>
@@ -94,25 +94,18 @@
                                 <div class="form-group">
                                     <label for="">Observaciones</label>
                                     <textarea name="observaciones" id="observaciones" class="form-control" placeholder="Indique aqui su observación"></textarea>
+                                    <div id="coordin"></div>
+                                    <div id="cargooo"></div>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <a href="#" class="btn btn-info">Regresar</a>
+                            <input type="submit" value="Cargar obra" class="btn btn-info d-flex justify-content-between align-items-center">
+                        </div>
+                    </form>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-                </form>
             </div>
         </div>
     </div>
@@ -122,26 +115,24 @@
               Personal
             </div>
             <div class="card-body">
-              <h5 class="card-title">Seleccione aqui</h5>
-              <p class="card-text">al personal responsable de esta obra.</p>
+              <h5 class="card-title">Coordinador / residente </h5>
+              <p class="card-text">Recuerde seleccionar al personal responsable de la obra.</p>
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staticBackdrop">
                 Seleccione personal
               </button>
+              <i class="fas fa-trash-alt float-right" id="borrarTodo" style="color: #910e04;margin-top:-10px; font-size:26px;border:3px solid #910e04;padding:8px; border-radius:25px;"></i>
             </div>
         </div>
         <div id="cargoPersonal"></div>
-        <div class="callout callout-info">
-            <h5>Nombre de la persona</h5>
-            <p>Cargo laboral.</p>
-        </div>
-        <div class="callout callout-info">
-            <h5>Nombre de la persona</h5>
-            <p>Cargo laboral.</p>
-        </div>
-        <div class="callout callout-info">
-            <h5>Nombre de la persona</h5>
-            <p>Cargo laboral.</p>
-        </div>
+        {{-- <div class="info-box">
+            <span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Messages</span>
+              <span class="info-box-number">1,410<i class="fas fa-trash-alt float-right" style="color: #910e04; font-size:20px;"></span></i>
+            </div>
+        </div> --}}
+
     </div>
 </div>
 
@@ -175,6 +166,7 @@
           </button>
         </div>
         <div class="modal-body">
+
           <div class="form-group">
               <label for="">Seleccione personal</label>
               <select name="personal" id="personal" class="form-control">
@@ -186,16 +178,17 @@
           </div>
           <div class="form-group">
                 <label for="">Cargo</label>
-                <select name="personal" id="estudio" class="form-control">
+                <select name="cargoLab" id="estudio" class="form-control">
                     <option value="">Seleccione...</option>
-                    <option value="">Coordinador</option>
-                    <option value="">Residente</option>
+                    <option value="1">Coordinador</option>
+                    <option value="2">Residente</option>
                 </select>
           </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Agregar</button>
+          <button type="button" id="agregarResponsable" class="btn btn-primary">Agregar</button>
         </div>
       </div>
     </div>
