@@ -59,19 +59,19 @@
                         </div>
                         <div class="form-group">
                             <label for="">Nombre</label>
-                            <input type="text" name="nombreObra" id="nombreObra" class="form-control" placeholder="Nombre de la obra">
+                            <input type="text" name="nombreObra" id="nombreObra" class="form-control" placeholder="Nombre de la obra" maxlength="100">
                         </div>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">Total planificado</label>
-                                    <input type="text" name="total" id="total" class="form-control" placeholder="Gasto planificado de la obra">
+                                    <input type="text" name="total" id="total" class="form-control" placeholder="Gasto planificado de la obra" maxlength="20">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Porcentaje de ganancia</label>
-                                    <input type="text" name="porcentaje" id="porcentaje" class="form-control" placeholder="Porcentaje de ganancia">
+                                    <input type="number" name="porcentaje" id="porcentaje" class="form-control" placeholder="Porcentaje de ganancia"  oninput="if(value.length>6)value=value.slice(0,6)">
                                 </div>
                             </div>
                         </div>

@@ -61,6 +61,7 @@ Route::middleware('auth')->prefix('control-de-obras')->group(function () {
     Route::get("crear-obra",[App\Http\Controllers\ObraController::class, 'create'])->name('obra.crear');
     Route::get("consultar-coord/{id}",[App\Http\Controllers\ObraController::class, 'consultarCoord']);
     Route::post("cargando", [App\Http\Controllers\ObraController::class, 'store'])->name('obra.creando');
+    Route::get("ver-obra/89ssgvd76ds7tdsgds8gsuddrdst789dsijbhsdvt{id}9s7dds8gsd", [App\Http\Controllers\ObraController::class, 'show'])->name('obra.ver');
 });
 
 

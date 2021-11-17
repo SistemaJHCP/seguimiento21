@@ -85,9 +85,38 @@ class ObraController extends Controller
      * @param  \App\Models\Obra  $obra
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($id)
     {
-        //
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->ver_botones_obra != 1){
+            return redirect()->route("home");
+        }
+        //Busca en BD la indormacion relacioana al la obra con ese ID
+        $obra = Obra::select(
+            'obra.id AS id',
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_monto AS obra_monto',
+            'obra.obra_observaciones AS obra_observaciones',
+            'obra.obra_ganancia AS obra_ganancia',
+            'obra.obra_fechainicio AS obra_fechainicio',
+            'obra.obra_fechafin AS obra_fechafin',
+            'cliente.cliente_nombre AS cliente_nombre',
+            'tipo.tipo_nombre AS tipo_nombre',
+            'codventa.codventa_nombre AS codventa_nombre'
+            )
+            ->join("cliente", "cliente.id", "=", "obra.cliente_id")
+            ->join("tipo", "tipo.id", "=", "obra.tipo_id")
+            ->join("codventa", "codventa.id", "=", "obra.codventa_id")
+            ->where("obra.id", $id)
+            ->get();
+            dump($obra[0]);
+        //Envia la informacion a la vista, se inicializa la vista junto con los permisos
+        return view("sistema.obra.verObra")->with('permisoUsuario', $permisoUsuario[0])->with('obra', $obra[0]);
+
     }
 
     /**
@@ -156,7 +185,7 @@ class ObraController extends Controller
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->obra == 1 && $permisoUsuario[0]->ver_botones_obra == 1) {
             return datatables()->of($query)
-            ->addColumn('btn','sistema.cliente.btnModificarCliente')
+            ->addColumn('btn','sistema.obra.btnVerObra')
             ->rawColumns(['btn'])->toJson();
         } else {
             return datatables()->of($query)

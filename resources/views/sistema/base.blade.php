@@ -5,7 +5,7 @@
 @endsection
 @section('navegador')
     {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
+    <li class="breadcrumb-item">Layout</li> --}}
     <li class="breadcrumb-item active">Inicio</li>
 @endsection
 

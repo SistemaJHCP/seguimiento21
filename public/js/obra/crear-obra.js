@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+    limpiar();
+
+
     $("#datepicker").datepicker({
         dateFormat: "dd-mm-yy",
         closeText: 'Cerrar',
@@ -28,17 +31,16 @@ $(document).ready(function(){
         weekHeader: 'Sm'
     });
 
-    // $("#personal").change(function(){
-    //     if ($("#personal").val() > 0) {
-    //         $("#estudio").attr("disabled", "disabled");
-    //     }
-    // });
-
 
     $(document).on("click", "#agregarResponsable", function(){
+
         let responsable = $("#personal").val();
         let cargo = $("#estudio").val();
         let url = "consultar-coord/" + responsable;
+
+        if(responsable != "" && cargo != ""){
+            $("#agregarResponsable").attr("disabled", "disabled");
+        }
 
         if( responsable > "" && cargo > "" ){
 
@@ -57,11 +59,11 @@ $(document).ready(function(){
                 }
 
                 $("#cargoPersonal").append('<div class="info-box"><span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span><div class="info-box-content"><span class="info-box-text">' + comp.personal_nombre + '</span><span class="info-box-number">' + car + '</span></div></div>');
-                // $("#cargoPersonal").append('<div class="callout callout-info"><h5>' + comp.personal_nombre + '</h5><p>' + car + '.</p></div>');
                 $("#coordin").append('<input type="hidden" name="responsable[]" value="' + responsable + '">');
                 $("#cargooo").append('<input type="hidden" name="cargoResponsable[]" value="' + cargo + '">');
                 $("#personal").val("");
                 $("#estudio").val("");
+                $("#agregarResponsable").attr("disabled", false);
             })
             .fail( function(){
                 console.log("fallo el ajax en el modulo de cargar coordinador / residente");
@@ -69,21 +71,10 @@ $(document).ready(function(){
 
 
             $("#borrarTodo").click(function(){
-                $("#cargoPersonal").remove();
-                $("#coordin").remove();
-                $("#cargooo").remove();
+                $("#cargoPersonal").empty();
+                $("#coordin").empty();
+                $("#cargooo").empty();
             });
-
-
-
-
-
-
-
-
-
-
-
 
             // $("#cargoPersonal").append('<div class="callout callout-info"><h5>Nombre de la persona</h5><p>Cargo laboral.</p></div>');
             // $("#cargoPersonal").append('<input type="hidden" name="" value="">');
@@ -94,6 +85,25 @@ $(document).ready(function(){
 
 
     });
+
+    function limpiar(){
+        $("#cargoPersonal").val("");
+        $("#coordin").val("");
+        $("#cargooo").val("");
+        $("#tipo").val("");
+        $("#cliente").val("");
+        $("#codventa").val("");
+        $("#nombreObra").val("");
+        $("#total").val("");
+        $("#porcentaje").val("");
+        $("#datepicker").val("");
+        $("#datepicker2").val("");
+        $("#observaciones").val("");
+        $("#personal").val("");
+        $("#estudio").val("");
+    }
+
+
 
 
 });
