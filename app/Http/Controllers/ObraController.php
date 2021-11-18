@@ -9,6 +9,7 @@ use App\Models\Cliente;
 use App\Models\Personal;
 use App\Models\Codventas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ObraController extends Controller
 {
@@ -76,6 +77,39 @@ class ObraController extends Controller
      */
     public function store(Request $request)
     {
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->crear_obra != 1 || $permisoUsuario[0]->obra != 1){
+            return redirect()->route("home");
+        }
+
+        $request->validate([
+            'tipo' => 'required',
+            'cliente' => 'required',
+            'codventa' => 'required',
+            'nombreObra' => 'max:100',
+            'total' => 'max:17',
+            'porcentaje' => 'max:6',
+            'observaciones' => 'max:200'
+        ]);
+
+        //Instancio la variable que se encargara de enviar la info a la BD
+        $obra = new Obra();
+        //Se llenan los campos
+        $obra-> = $request-> ;
+        $obra-> = $request-> ;
+        $obra-> = $request-> ;
+        $obra-> = $request-> ;
+        $obra-> = $request-> ;
+        $obra-> = $request-> ;
+        $obra-> = $request-> ;
+        $obra-> = $request-> ;
+        $obra-> = $request-> ;
+
+
+
         dd( $request->all() );
     }
 
@@ -106,16 +140,25 @@ class ObraController extends Controller
             'obra.obra_fechafin AS obra_fechafin',
             'cliente.cliente_nombre AS cliente_nombre',
             'tipo.tipo_nombre AS tipo_nombre',
-            'codventa.codventa_nombre AS codventa_nombre'
+            'codventa.codventa_codigo AS codventa_codigo'
             )
-            ->join("cliente", "cliente.id", "=", "obra.cliente_id")
-            ->join("tipo", "tipo.id", "=", "obra.tipo_id")
-            ->join("codventa", "codventa.id", "=", "obra.codventa_id")
+            ->leftJoin("cliente", "cliente.id", "=", "obra.cliente_id")
+            ->leftJoin("tipo", "tipo.id", "=", "obra.tipo_id")
+            ->leftJoin("codventa", "codventa.id", "=", "obra.codventa_id")
             ->where("obra.id", $id)
             ->get();
-            dump($obra[0]);
+
+        //En base al ID de la obra se buscan el personal asignado
+        $personal = Personal::select(
+            "personal.personal_nombre AS personal_nombre",
+            "obra_personal.op_cargo AS op_cargo"
+        )
+        ->join("obra_personal", "personal.id", "=", "obra_personal.personal_id")
+        ->where("obra_personal.obra_id", $obra[0]->id)
+        ->get();
+
         //Envia la informacion a la vista, se inicializa la vista junto con los permisos
-        return view("sistema.obra.verObra")->with('permisoUsuario', $permisoUsuario[0])->with('obra', $obra[0]);
+        return view("sistema.obra.verObra")->with('permisoUsuario', $permisoUsuario[0])->with('obra', $obra[0])->with('personal', $personal);
 
     }
 

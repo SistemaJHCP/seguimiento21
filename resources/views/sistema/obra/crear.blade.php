@@ -65,7 +65,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">Total planificado</label>
-                                    <input type="text" name="total" id="total" class="form-control" placeholder="Gasto planificado de la obra" maxlength="20">
+                                    <input type="text" name="total" id="total" class="form-control" placeholder="Gasto planificado de la obra" maxlength="17">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -93,15 +93,17 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observaciones</label>
-                                    <textarea name="observaciones" id="observaciones" class="form-control" placeholder="Indique aqui su observación"></textarea>
+                                    <textarea name="observaciones" id="observaciones" class="form-control" placeholder="Indique aqui su observación" maxlength="200"></textarea>
                                     <div id="coordin"></div>
                                     <div id="cargooo"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <a href="#" class="btn btn-info">Regresar</a>
-                            <input type="submit" value="Cargar obra" class="btn btn-info d-flex justify-content-between align-items-center">
+                            <div class="col-12">
+                                <a href="{{ route('obra.index') }}" class="btn btn-info">Regresar</a>
+                                <input type="submit" value="Cargar obra" class="btn btn-info float-right">
+                            </div>
                         </div>
                     </form>
                     </div>
@@ -124,14 +126,7 @@
             </div>
         </div>
         <div id="cargoPersonal"></div>
-        {{-- <div class="info-box">
-            <span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span>
 
-            <div class="info-box-content">
-              <span class="info-box-text">Messages</span>
-              <span class="info-box-number">1,410<i class="fas fa-trash-alt float-right" style="color: #910e04; font-size:20px;"></span></i>
-            </div>
-        </div> --}}
 
     </div>
 </div>

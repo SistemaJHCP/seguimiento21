@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    limpiar();
+    //limpiar();
 
 
     $("#datepicker").datepicker({
