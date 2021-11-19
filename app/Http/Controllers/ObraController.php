@@ -97,20 +97,51 @@ class ObraController extends Controller
 
         //Instancio la variable que se encargara de enviar la info a la BD
         $obra = new Obra();
+
+        //se crea el codigo de la obra
+        $codObra = Obra::select("obra_codigo")->orderBy("id", "desc")->limit(1)->get();
+
+        if(count($codObra) < 1){
+            //Si es menor a 1
+            $codObraNro = "OBR-1";
+        } else {
+            //Se extrae el numero y se le agrega un valor mas (xx + 1)
+            preg_match_all('!\d+!', $codObra[0]->obra_codigo, $cod);
+            $cod = $cod[0][0] + 1;
+            $codObraNro = "OBR-".$cod;
+        }
+
         //Se llenan los campos
-        $obra-> = $request-> ;
-        $obra-> = $request-> ;
-        $obra-> = $request-> ;
-        $obra-> = $request-> ;
-        $obra-> = $request-> ;
-        $obra-> = $request-> ;
-        $obra-> = $request-> ;
-        $obra-> = $request-> ;
-        $obra-> = $request-> ;
+        $obra->obra_codigo = $codObraNro;
+        $obra->tipo_id = $request->tipo;
+        $obra->cliente_id = $request->cliente;
+        $obra->codventa_id = $request->codventa;
+        $obra->obra_nombre = $request->nombreObra;
+        $obra->obra_monto = $request->total;
+        $obra->obra_ganancia = $request->porcentaje;
+        $obra->obra_fechainicio = $request->fechaInicio;
+        $obra->obra_fechafin = $request->fechaFin;
+        $obra->obra_observaciones = $request->observaciones;
+        $obra->obra_estado = 1;
+        //guardar la informacion
+        $obra->save();
+
+        //Si existe el responsable, hara un buche y lo guardara en la BD
+        if($request->responsable){
+            for ($i=0; $i < count($request->responsable); $i++) {
+
+                DB::table('obra_personal')->insert([
+                    'op_cargo' => $request->cargoResponsable[$i],
+                    'obra_id' => $obra->id,
+                    'personal_id' => $request->responsable[$i]
+                ]);
+            }
+        }
+
+        //Retorna a la ruta del index
+        return redirect()->route('obra.index')->with('obra', $obra);
 
 
-
-        dd( $request->all() );
     }
 
     /**

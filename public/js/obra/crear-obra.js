@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 
     $("#datepicker").datepicker({
-        dateFormat: "dd-mm-yy",
+        dateFormat: "yy-mm-dd",
         closeText: 'Cerrar',
         prevText: '< Ant',
         nextText: 'Sig >',
@@ -18,7 +18,7 @@ $(document).ready(function(){
     });
 
     $("#datepicker2").datepicker({
-        dateFormat: "dd-mm-yy",
+        dateFormat: "yy-mm-dd",
         closeText: 'Cerrar',
         prevText: '< Ant',
         nextText: 'Sig >',

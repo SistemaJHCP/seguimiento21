@@ -69,3 +69,36 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("js/obra/obra.js") }}"></script>
 @endsection
+@if (Session::has('obra'))
+
+    @if (Session::has('obra'))
+    <script>
+        Swal.fire(
+        'Sulicitud procesada!',
+        'La información fue cargada exitosamente!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+
+    @if (count($errors) > 0)
+    {{-- Este es el mensaje de error desde la validacion --}}
+        <script>
+            Swal.fire(
+            'Hubo un error!',
+            'el formulario no esta correctamente cargado!',
+            'error'
+            )
+        </script>
+    @endif
+
+
+@endif
