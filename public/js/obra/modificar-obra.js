@@ -1,8 +1,5 @@
 $(document).ready(function(){
 
-    limpiar();
-
-
     $("#datepicker").datepicker({
         dateFormat: "yy-mm-dd",
         closeText: 'Cerrar',
@@ -31,13 +28,12 @@ $(document).ready(function(){
         weekHeader: 'Sm'
     });
 
-
     $(document).on("click", "#agregarResponsable", function(){
 
         let responsable = $("#personal").val();
         let cargo = $("#estudio").val();
-        let url = "consultar-coord/" + responsable;
-
+        let url = "../consultar-coord/" + responsable;
+        console.log(responsable);
         if(responsable != "" && cargo != ""){
             $("#agregarResponsable").attr("disabled", "disabled");
         }
@@ -58,7 +54,7 @@ $(document).ready(function(){
                     var car = "Residente";
                 }
 
-                $("#cargoPersonal").append('<div class="info-box"><span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span><div class="info-box-content"><span class="info-box-text">' + comp.personal_nombre + '</span><span class="info-box-number">' + car + '</span></div></div>');
+                $("#cargoPersonal").append('<div class="info-box"><span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span><div class="info-box-content"><span class="info-box-text">' + comp.personal_nombre + '</span><span class="info-box-number">' + car + '</span>x</div>');
                 $("#coordin").append('<input type="hidden" name="responsable[]" value="' + responsable + '">');
                 $("#cargooo").append('<input type="hidden" name="cargoResponsable[]" value="' + cargo + '">');
                 $("#personal").val("");
@@ -70,11 +66,7 @@ $(document).ready(function(){
             })
 
 
-            $("#borrarTodo").click(function(){
-                $("#cargoPersonal").empty();
-                $("#coordin").empty();
-                $("#cargooo").empty();
-            });
+
 
             // $("#cargoPersonal").append('<div class="callout callout-info"><h5>Nombre de la persona</h5><p>Cargo laboral.</p></div>');
             // $("#cargoPersonal").append('<input type="hidden" name="" value="">');
@@ -86,24 +78,10 @@ $(document).ready(function(){
 
     });
 
-    function limpiar(){
-        $("#cargoPersonal").val("");
-        $("#coordin").val("");
-        $("#cargooo").val("");
-        $("#tipo").val("");
-        $("#cliente").val("");
-        $("#codventa").val("");
-        $("#nombreObra").val("");
-        $("#total").val("");
-        $("#porcentaje").val("");
-        $("#datepicker").val("");
-        $("#datepicker2").val("");
-        $("#observaciones").val("");
-        $("#personal").val("");
-        $("#estudio").val("");
-    }
-
-
-
+    $("#borrarTodo").click(function(){
+        $("#cargoPersonal").empty();
+        $("#coordin").empty();
+        $("#cargooo").empty();
+    });
 
 });

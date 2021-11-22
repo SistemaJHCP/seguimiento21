@@ -199,9 +199,30 @@ class ObraController extends Controller
      * @param  \App\Models\Obra  $obra
      * @return \Illuminate\Http\Response
      */
-    public function edit(Obra $obra)
+    public function edit($id)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->modificar_obra != 1){
+            return redirect()->route("home");
+        }
+
+        //buscamos los datos de la obra solicitados por ID
+        $obra = Obra::find($id);
+
+        //Solicito todo el listado de la tabla tipo
+        $tipo = Tipo::select("id", "tipo_nombre")->orderBy("tipo_nombre", "ASC")->get();
+        //Solicito todo el listado de la tabla cliente
+        $cli = Cliente::select("id", "cliente_nombre")->orderBy("cliente_nombre", "ASC")->get();
+        //Solicito todo el listado de la tabla codventa
+        $cod = Codventas::select("id", "codventa_codigo")->orderBy("id", "DESC")->get();
+        //Solicito todo el listado de la tabla Personal
+        $per = Personal::select("id", "personal_nombre")->where("personal_estado", 1)->orderBy("personal_nombre", "ASC")->get();
+
+
+        return view("sistema.obra.modificar")->with('obra', $obra)->with('permisoUsuario', $permisoUsuario[0])->with("tipo", $tipo)->with("cli", $cli)->with("cod", $cod)->with("per", $per);
+
     }
 
     /**
@@ -211,9 +232,9 @@ class ObraController extends Controller
      * @param  \App\Models\Obra  $obra
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Obra $obra)
+    public function update(Request $request, $id)
     {
-        //
+        dd($request->all());
     }
 
     /**
@@ -277,6 +298,18 @@ class ObraController extends Controller
         return response()->json($personal);
     }
 
+    public function consultarPersonal3456($id)
+    {
+        $personal = Personal::select(
+            "personal.personal_nombre AS personal_nombre",
+            "obra_personal.op_cargo AS op_cargo"
+        )
+        ->join("obra_personal", "personal.id", "=", "obra_personal.personal_id")
+        ->where("obra_personal.obra_id", $id)
+        ->get();
+
+        return response()->json($personal);
+    }
 
 
 }

@@ -16,11 +16,11 @@ $(document).ready(function(){
             {data: 'btn'}
         ],
         order: [
-            [1, "desc"]
+            [0, "desc"]
           ],
         bLengthChange: false,
         searching: true,
-        "order": [[ 3, "desc" ]],
+        "order": [[ 0, "desc" ]],
         responsive: true,
         autoWidth: false,
         info: false,

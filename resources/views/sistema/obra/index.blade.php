@@ -68,7 +68,7 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("js/obra/obra.js") }}"></script>
-@endsection
+
 @if (Session::has('obra'))
 
     @if (Session::has('obra'))
@@ -102,3 +102,5 @@
 
 
 @endif
+@endsection
+
