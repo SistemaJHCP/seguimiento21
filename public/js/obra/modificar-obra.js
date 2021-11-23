@@ -54,7 +54,7 @@ $(document).ready(function(){
                     var car = "Residente";
                 }
 
-                $("#cargoPersonal").append('<div class="info-box"><span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span><div class="info-box-content"><span class="info-box-text">' + comp.personal_nombre + '</span><span class="info-box-number">' + car + '</span>x</div>');
+                $("#cargoPersonal").append('<div class="info-box"><span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span><div class="info-box-content"><span class="info-box-text">' + comp.personal_nombre + '</span><span class="info-box-number">' + car + '</span><i class="far fa-trash-alt" style="color:#910e04;"></i></div>');
                 $("#coordin").append('<input type="hidden" name="responsable[]" value="' + responsable + '">');
                 $("#cargooo").append('<input type="hidden" name="cargoResponsable[]" value="' + cargo + '">');
                 $("#personal").val("");
@@ -83,5 +83,31 @@ $(document).ready(function(){
         $("#coordin").empty();
         $("#cargooo").empty();
     });
+
+    $(document).on("click", "#element", function(){
+        //alert("presionaste el " + $(this).attr('value') );
+        $.ajax({
+            url: "../eliminando-personal-obra",
+            type: 'post',
+            dataType: 'json',
+            data:{codigo:$(this).attr('value')},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        })
+        .done(function(comp) {
+            if(comp == 1){
+                location.reload();
+            }else {
+                console.log("No ha realizado el borrado")
+            }
+        })
+        .fail( function(){
+            console.log("fallo el ajax en el modulo de eliminr a un coordinador / residente");
+        })
+    });
+
+
+
+
+
 
 });

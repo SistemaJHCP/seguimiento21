@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('titulo')
-    <h1 class="m-0"> Crear <small>nueva obra</small></h1>
+    <h1 class="m-0"> Modificar <small>una obra</small></h1>
 @endsection
 @section('navegador')
     {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>--}}
-    <li class="breadcrumb-item">Nueva obra</li>
+    <li class="breadcrumb-item">Modificar obra</li>
     <li class="breadcrumb-item active">Inicio</li>
 @endsection
 
@@ -25,7 +25,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Tipo</label>
-                                    <select name="tipo" id="tipo" class="form-control" required>
+                                    <select name="tipo" id="tipo" class="form-control">
                                         <option value="">Seleccione...</option>
                                         @foreach ($tipo as $t)
                                             <option value="{{ $t->id }}" {!! $obra->tipo_id == $t->id ? "selected" : "" !!}>{{ $t->tipo_nombre }}</option>
@@ -36,7 +36,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Cliente</label>
-                                    <select name="cliente" id="cliente" class="form-control" required>
+                                    <select name="cliente" id="cliente" class="form-control">
                                         <option value="">Seleccione...</option>
                                         @foreach ($cli as $c)
                                             <option value="{{ $c->id }}" {!! $obra->cliente_id == $c->id ? "selected" : "" !!}>{{ $c->cliente_nombre }}</option>
@@ -47,7 +47,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Codventa</label>
-                                    <select name="codventa" id="codventa" class="form-control" required>
+                                    <select name="codventa" id="codventa" class="form-control">
                                         <option value="">Seleccione...</option>
                                         @foreach ($cod as $v)
                                             <option value="{{ $v->id }}" {!! $obra->codventa_id == $v->id ? "selected" : "" !!}>{{ $v->codventa_codigo }}</option>
@@ -211,12 +211,8 @@
             var car = "Residente";
         }
 
-        $("#cargoPersonal").append('<div class="info-box"><span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span><div class="info-box-content"><span class="info-box-text">' + element.personal_nombre + '</span><span class="info-box-number">' + car + '</span></div></div>');
-        $("#coordin").append('<input type="hidden" name="responsable[]" value="' + element.personal_nombre + '">');
-        $("#cargooo").append('<input type="hidden" name="cargoResponsable[]" value="' + car + '">');
-        $("#personal").val("");
-        $("#estudio").val("");
-        $("#agregarResponsable").attr("disabled", false);
+        $("#cargoPersonal").append('<div class="info-box"><span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span><div class="info-box-content"><span class="info-box-text">' + element.personal_nombre + '</span><span class="info-box-number">' + car + '</span><i class="far fa-trash-alt" style="color:#910e04;" id="element" value="'+ element.id +'"></i></div></div>');
+
         });
 
 

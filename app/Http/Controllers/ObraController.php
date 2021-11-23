@@ -234,7 +234,44 @@ class ObraController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->modificar_obra != 1){
+            return redirect()->route("home");
+        }
+
+        //Buscar obra en base al ID seleccionado
+        $obra = Obra::find($id);
+
+        //Se agregan los nuevos valores lod cuales sustituyen los antiguos
+        $obra->tipo_id = $request->tipo;
+        $obra->cliente_id = $request->cliente;
+        $obra->codventa_id = $request->codventa;
+        $obra->obra_nombre = $request->nombreObra;
+        $obra->obra_monto = $request->total;
+        $obra->obra_ganancia = $request->porcentaje;
+        $obra->obra_fechainicio = $request->fechaInicio;
+        $obra->obra_fechafin = $request->fechaFin;
+        $obra->obra_observaciones = $request->observaciones;
+        $obra->obra_estado = 1;
+        //guardar la informacion
+        $guardar = $obra->save();
+
+        if($request->responsable){
+            for ($i=0; $i < count($request->responsable); $i++) {
+
+                DB::table('obra_personal')->insert([
+                    'op_cargo' => $request->cargoResponsable[$i],
+                    'obra_id' => $obra->id,
+                    'personal_id' => $request->responsable[$i]
+                ]);
+            }
+        }
+
+        //Retorna a la ruta del index
+        return redirect()->route('obra.index')->with('obra', $obra);
+
     }
 
     /**
@@ -301,6 +338,7 @@ class ObraController extends Controller
     public function consultarPersonal3456($id)
     {
         $personal = Personal::select(
+            "obra_personal.id AS id",
             "personal.personal_nombre AS personal_nombre",
             "obra_personal.op_cargo AS op_cargo"
         )
@@ -311,5 +349,43 @@ class ObraController extends Controller
         return response()->json($personal);
     }
 
+    public function eliminarPersonalRelacionadoObra(Request $request)
+    {
+
+        $obra = DB::table('obra_personal')->where('id', '=', $request->codigo)->delete();
+
+        return response()->json($obra);
+
+    }
+
+    public function desactivarObra(Request $request)
+    {
+
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->desactivar_obra != 1){
+            return redirect()->route("home");
+        }
+
+        //Se realiza la busqueda en base al ID
+        $obra = Obra::find($request->id);
+
+        //Se cambia el estado de la obra a inactivo
+        $obra->obra_estado = 0;
+        //Se guarda en la BD el cambio realizado y se guarda en variable el resultado
+        $resultado = $obra->save();
+
+        //Se envia la respuesta a la vista usando Json
+        return response()->json($resultado);
+
+
+
+
+
+
+
+    }
 
 }

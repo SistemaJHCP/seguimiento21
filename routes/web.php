@@ -65,6 +65,8 @@ Route::middleware('auth')->prefix('control-de-obras')->group(function () {
     Route::get("modificar-obra/9s7dds8gsd891ssgvd7gs89dsijbhsdvt23{id}d3d4d321", [App\Http\Controllers\ObraController::class, 'edit'])->name('obra.modificar');
     Route::get("modificar-personal-3948/8330/{id}", [App\Http\Controllers\ObraController::class, 'consultarPersonal3456']);
     Route::post("modificando/09uyhc9ed8y7ygeuhijei8ye{id}7t6yegc", [App\Http\Controllers\ObraController::class, 'update'])->name('obra.modificando');
+    Route::post("eliminando-personal-obra", [App\Http\Controllers\ObraController::class, 'eliminarPersonalRelacionadoObra']);
+    Route::post("desactivar/i9u4rdddu9ih", [App\Http\Controllers\ObraController::class, 'desactivarObra']);
 });
 
 Auth::routes();
