@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2021 a las 20:56:58
+-- Tiempo de generación: 24-11-2021 a las 21:13:06
 -- Versión del servidor: 10.1.40-MariaDB
 -- Versión de PHP: 7.3.5
 
@@ -561,7 +561,7 @@ INSERT INTO `obra` (`id`, `obra_codigo`, `obra_nombre`, `obra_monto`, `obra_mont
 (207, 'OBR-207', 'PDVG-ADQEQP-GRNAS', NULL, NULL, NULL, '2017-11-22', '2017-11-23', NULL, NULL, NULL, 1, 20, 16, 148, NULL, NULL),
 (208, 'OBR-208', 'ZTE-USDMAKO-BVI', '0.00', NULL, NULL, '2018-02-05', '2018-03-28', NULL, NULL, NULL, 1, 21, 11, 150, NULL, NULL),
 (209, 'OBR-209', 'ZTE-BSMAKO-BVI', NULL, NULL, NULL, '2018-02-05', '2018-03-28', NULL, NULL, NULL, 1, 21, 11, 149, NULL, NULL),
-(210, 'OBR-990', 'DEVOLUCIÓN DE PRÉSTAMO', '0.00', NULL, NULL, '2018-01-22', NULL, 'Jesús Fornerino', 'Jesús Fornerino', '0', 1, NULL, NULL, NULL, NULL, NULL),
+(210, 'OBR-101', 'DEVOLUCIÓN DE PRÉSTAMO', '0.00', NULL, NULL, '2018-01-22', NULL, 'Jesús Fornerino', 'Jesús Fornerino', '0', 1, NULL, NULL, 0, NULL, '2021-11-23 23:07:37'),
 (211, 'OBR-211', 'DRTV-REMOFIC-CCS', '519045018.00', NULL, '30.00', '2018-02-19', NULL, NULL, NULL, NULL, 0, 18, 8, 151, NULL, NULL),
 (212, 'OBR-212', 'TMVE-VALVUEXPA-CCS', NULL, NULL, NULL, '2018-02-06', NULL, NULL, NULL, NULL, 1, 5, 16, 152, NULL, NULL),
 (213, 'OBR-213', 'ZTE-USDMAKO-SKN', NULL, NULL, NULL, '2018-02-26', NULL, NULL, NULL, NULL, 1, 21, 11, 155, NULL, NULL),
@@ -634,7 +634,13 @@ INSERT INTO `obra` (`id`, `obra_codigo`, `obra_nombre`, `obra_monto`, `obra_mont
 (280, 'OBR-280', 'Gastos USD de Recursos Humanos ', NULL, NULL, NULL, NULL, NULL, 'Josselyn Tovar', 'Josselyn Tovar', NULL, 1, NULL, NULL, NULL, NULL, NULL),
 (281, 'OBR-281', 'CVER-REPSANIT-MQTA', NULL, NULL, NULL, '2021-08-09', NULL, NULL, NULL, NULL, 1, 11, 6, 206, NULL, NULL),
 (283, 'OBR-282', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore', '10002222222222222.00', NULL, '111111.00', '2021-11-04', '2021-11-26', NULL, NULL, 'El número habilitado es el 22688 y están disponibles los servicios de consulta de saldo de líneas fijas, reporte de incidencias en los servicios de telefonía fija e Internet y consulta de estatus de a', 1, 9, 8, 201, '2021-11-19 20:11:23', '2021-11-19 20:11:23'),
-(284, 'OBR-283', 'aaaaaa', '1000.00', NULL, '0.00', '2021-11-20', '2021-11-09', NULL, NULL, 'hytsdtyuiuytf', 1, 22, 8, 205, '2021-11-19 20:16:49', '2021-11-19 20:16:49');
+(284, 'OBR-283', 'bbbbbbbb', '2000.00', NULL, '18.00', '2021-11-25', '2021-11-25', NULL, NULL, 'se ha realizado modificaciones en tdos los campos', 1, 27, 5, 74, '2021-11-19 20:16:49', '2021-11-23 22:23:56'),
+(285, 'OBR-284', 'Gastos generales de rrhh JHCP Vzla', '1000.00', NULL, '6.00', '2021-11-12', '2021-11-20', NULL, NULL, 'sssss', 1, 30, 4, 0, '2021-11-22 18:19:46', '2021-11-22 18:19:46'),
+(286, 'OBR-285', 'Prueba de eliminacion de personal', '100.00', NULL, '3.00', NULL, NULL, NULL, NULL, NULL, 1, 24, 10, 204, '2021-11-23 19:57:21', '2021-11-23 19:57:21'),
+(287, 'OBR-286', 'hahahhaa', '5466049.00', NULL, '5.00', '2021-11-04', '2021-11-03', NULL, NULL, 'wertyujikbyhnujmk,l', 0, 9, 1, 0, '2021-11-23 22:28:11', '2021-11-24 22:54:41'),
+(288, 'OBR-287', 'para eliminar', '2826739.00', NULL, '3.00', '2021-11-11', '2021-11-26', NULL, NULL, 'xxxxxx xxxxxx xxxxxx xxx xxxxxx x', 1, 30, 4, 0, '2021-11-23 23:57:04', '2021-11-24 23:02:40'),
+(289, 'OBR-288', 'erfrerferf', '1000.00', NULL, '3.00', '2021-11-11', NULL, NULL, NULL, 'eee  eefef wfwesdsvdvd', 1, 22, 8, 0, '2021-11-24 23:12:04', '2021-11-24 23:12:42'),
+(290, 'OBR-289', 'compra de engrapadora', '200.00', NULL, '0.00', '2021-11-18', NULL, NULL, NULL, 'necesito un aengrapadora', 0, 22, 10, 0, '2021-11-24 23:26:58', '2021-11-24 23:27:12');
 
 -- --------------------------------------------------------
 
@@ -901,11 +907,17 @@ INSERT INTO `obra_personal` (`id`, `op_cargo`, `obra_id`, `personal_id`, `create
 (245, '1', 277, 33, NULL, NULL),
 (246, '1', 278, 33, NULL, NULL),
 (247, '1', 281, 33, NULL, NULL),
-(248, '1', 283, 14, NULL, NULL),
 (249, '1', 283, 31, NULL, NULL),
-(250, '2', 283, 10, NULL, NULL),
-(251, '2', 283, 8, NULL, NULL),
-(252, '2', 284, 21, NULL, NULL);
+(253, '1', 286, 14, NULL, NULL),
+(254, '1', 286, 17, NULL, NULL),
+(255, '2', 286, 31, NULL, NULL),
+(260, '1', 284, 31, NULL, NULL),
+(261, '1', 287, 33, NULL, NULL),
+(263, '1', 288, 1, NULL, NULL),
+(264, '2', 288, 33, NULL, NULL),
+(265, '1', 284, 14, NULL, NULL),
+(267, '2', 289, 21, NULL, NULL),
+(268, '1', 289, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -961,7 +973,7 @@ CREATE TABLE `permisos` (
 --
 
 INSERT INTO `permisos` (`id`, `nombre_permiso`, `usuario`, `crear_usuario`, `modificar_usuario`, `ver_botones_usuario`, `desactivar_usuario`, `reactivar_usuario`, `cliente`, `crear_cliente`, `modificar_cliente`, `ver_botones_cliente`, `desactivar_cliente`, `reactivar_cliente`, `ptc`, `crear_ptc`, `modificar_ptc`, `ver_botones_ptc`, `desactivar_ptc`, `reactivar_ptc`, `obra`, `crear_obra`, `modificar_obra`, `ver_botones_obra`, `desactivar_obra`, `reactivar_obra`, `created_at`, `updated_at`) VALUES
-(1, 'Supremo', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, NULL),
+(1, 'Supremo', 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, NULL),
 (2, 'dos', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, NULL),
 (3, 'tres', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, NULL),
 (4, 'cuatro', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, NULL),
@@ -1314,13 +1326,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `obra`
 --
 ALTER TABLE `obra`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=285;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
 
 --
 -- AUTO_INCREMENT de la tabla `obra_personal`
 --
 ALTER TABLE `obra_personal`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=269;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`

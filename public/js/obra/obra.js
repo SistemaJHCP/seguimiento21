@@ -64,7 +64,7 @@ $(document).ready(function(){
                 if(comp == true){
                     Swal.fire(
                         'Deshabilitado',
-                        'la bra a sido deshabilitada.',
+                        'la obra a sido deshabilitada.',
                         'success'
                     )
                     $('#listaObras').DataTable().ajax.reload()
@@ -81,11 +81,6 @@ $(document).ready(function(){
             .fail( function(){
                 console.log("Error al deshabilitar una obra");
             })
-
-
-
-
-
         }
         })
     });

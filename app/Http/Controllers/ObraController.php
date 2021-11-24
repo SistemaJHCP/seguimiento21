@@ -285,6 +285,23 @@ class ObraController extends Controller
         //
     }
 
+
+    public function reactivar()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->reactivar_obra != 1){
+            return redirect()->route("home");
+        }
+
+        return view('sistema.obra.reactivarObra')->with('permisoUsuario', $permisoUsuario[0]);
+
+    }
+
+
+
+
     public function jq_lista()
     {
 
@@ -328,6 +345,48 @@ class ObraController extends Controller
 
     }
 
+    public function jq_listaDes()
+    {
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->reactivar_obra != 1){
+            return redirect()->route("home");
+        }
+
+        //Realizamos la consulta a la base de datos
+        $query = Obra::select(
+            'obra.id AS id',
+            'obra.obra_codigo AS obra_codigo',
+            'tipo.tipo_nombre AS obra_tipo',
+            'cliente.cliente_nombre AS obra_cliente',
+            'codventa.codventa_codigo AS obra_codventa',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_fechainicio AS obra_fechaInicio',
+            'obra.obra_fechafin AS obra_fechaFin',
+            'obra.obra_monto AS obra_monto'
+        )
+        ->leftJoin('tipo','tipo.id', '=', 'obra.tipo_id')
+        ->leftJoin('cliente','cliente.id', '=', 'obra.cliente_id')
+        ->leftJoin('codventa','codventa.id', '=', 'obra.codventa_id')
+        ->orderBy('obra.id', 'DESC')
+        ->where('obra.obra_estado',0)
+        ->get();
+
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->obra == 1 && $permisoUsuario[0]->ver_botones_obra == 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.obra.btnReactivar')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        }
+
+    }
+
 
     public function consultarCoord($id)
     {
@@ -358,7 +417,32 @@ class ObraController extends Controller
 
     }
 
-    public function desactivarObra(Request $request)
+    public function jq_reactivarObra(Request $request)
+    {
+
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->desactivar_obra != 1){
+            return redirect()->route("home");
+        }
+
+        //Se realiza la busqueda en base al ID
+        $obra = Obra::find($request->id);
+
+        //Se cambia el estado de la obra a inactivo
+        $obra->obra_estado = 1;
+        //Se guarda en la BD el cambio realizado y se guarda en variable el resultado
+        $resultado = $obra->save();
+
+        //Se envia la respuesta a la vista usando Json
+        return response()->json($resultado);
+
+    }
+
+
+    public function jq_desactivarObra(Request $request)
     {
 
 
@@ -379,12 +463,6 @@ class ObraController extends Controller
 
         //Se envia la respuesta a la vista usando Json
         return response()->json($resultado);
-
-
-
-
-
-
 
     }
 
