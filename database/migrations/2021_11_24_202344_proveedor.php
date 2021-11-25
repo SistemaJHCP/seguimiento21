@@ -27,13 +27,13 @@ class Proveedor extends Migration
         Schema::create('proveedor', function (Blueprint $table) {
             $table->id();
             $table->string("proveedor_codigo", 25);
-            $table->string("proveedor_tipo", 25);
-            $table->string("proveedor_rif", 50);
-            $table->string("proveedor_nombre", 100);
-            $table->string("proveedor_telefono", 50);
-            $table->string("proveedor_direccion", 250);
-            $table->string("proveedor_correo", 100);
-            $table->string("proveedor_contacto", 100);
+            $table->string("proveedor_tipo", 25)->nullable();
+            $table->string("proveedor_rif", 50)->nullable();
+            $table->string("proveedor_nombre", 100)->nullable();
+            $table->string("proveedor_telefono", 50)->nullable();
+            $table->string("proveedor_direccion", 250)->nullable();
+            $table->string("proveedor_correo", 100)->nullable();
+            $table->string("proveedor_contacto", 100)->nullable();
             $table->boolean('proveedor_estado')->default(1);
             $table->unsignedBigInteger('suministro_id')->nullable();
 

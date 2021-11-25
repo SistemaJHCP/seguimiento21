@@ -72,6 +72,17 @@ Route::middleware('auth')->prefix('control-de-obras')->group(function () {
     Route::get("lista-de-obras-deshabilitadas/09uyghid9876tdyuido",[App\Http\Controllers\ObraController::class, 'jq_listaDes']);
 });
 
+Route::middleware('auth')->prefix('suministros')->group(function () {
+    Route::get("/",[App\Http\Controllers\SuministroController::class, 'index'])->name('suministro.index');
+    Route::get("listado-suministro",[App\Http\Controllers\SuministroController::class, 'jq_lista']);
+    Route::post('agregando',[App\Http\Controllers\SuministroController::class, 'store'])->name("suministro.guardar");
+    Route::get("modificar/98uihjhsft6t79ys8u{id}",[App\Http\Controllers\SuministroController::class, 'jq_modificar']);
+    Route::post("modificando/9ihbi8cgdu",[App\Http\Controllers\SuministroController::class, 'update'])->name("suministro.modificar");
+});
+
+
+
+
+
+
 Auth::routes();
-
-

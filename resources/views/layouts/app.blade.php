@@ -42,9 +42,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Maestros</a>
                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                 <?php
-                    if ($permisoUsuario->usuario == 1){
+                    if ($permisoUsuario->suministros == 1){
                 ?>
-                    <li><a href="" class="dropdown-item">Suministros </a></li>
+                    <li><a href="{{ route('suministro.index') }}" class="dropdown-item">Suministros </a></li>
                 <?php
                     }
                 ?>

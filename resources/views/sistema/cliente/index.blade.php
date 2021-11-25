@@ -138,20 +138,7 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("js/clientes/clientes.js") }}"></script>
-<script>
-    function key(){
-        console.log("wwww");
-        // if ($('#correo').val().length <= 1) {
-        //     errorCaracteres();
-        //     $('#correo').css({'border':'1px solid red'});
-        //     $('#cargarCliente').prop('disabled',true);
-        //     return false;
-        // } else {
-        //     $('#correo').css({'border':'1px solid #d2d6de'});
-        //     activarBoton();
-        // }
-    }
-</script>
+
 @if (Session::has('cliente'))
 {{ Session::has('cliente') }}
     @if (Session::has('cliente') == 1)

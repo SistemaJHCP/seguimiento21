@@ -131,7 +131,7 @@ class ClienteController extends Controller
      */
     public function edit( $id)
     {
-        
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -170,10 +170,10 @@ class ClienteController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->modificar_cliente != 1 && $permisoUsuario[0]->modificar_cliente != 1){
+        if($permisoUsuario[0]->cliente != 1 || $permisoUsuario[0]->modificar_cliente != 1){
             return redirect()->route("home");
         }
-        
+
         //Realizamos la validacion de que todos los pasos solicitados sean correctos
         $request->validate([
             'tipo' => 'required',
