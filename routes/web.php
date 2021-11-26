@@ -78,6 +78,8 @@ Route::middleware('auth')->prefix('suministros')->group(function () {
     Route::post('agregando',[App\Http\Controllers\SuministroController::class, 'store'])->name("suministro.guardar");
     Route::get("modificar/98uihjhsft6t79ys8u{id}",[App\Http\Controllers\SuministroController::class, 'jq_modificar']);
     Route::post("modificando/9ihbi8cgdu",[App\Http\Controllers\SuministroController::class, 'update'])->name("suministro.modificar");
+    Route::get("deshabilitar/cefefdfsfdsfys8u{id}", [App\Http\Controllers\SuministroController::class, 'js_deshabilitar']);
+    Route::get("habilitar/cefe45fdfds6v3svdvsf9ds30fys098u{id}", [App\Http\Controllers\SuministroController::class, 'js_habilitar']);
 });
 
 

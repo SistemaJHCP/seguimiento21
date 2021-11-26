@@ -47,7 +47,7 @@
                 </div>
                 <!-- /.card-header -->
                   <div class="card-body">
-                      <table id="listaUsuarios" class="table table-bordered table-hover display responsive no-wrap">
+                      <table id="listaSuministros" class="table table-bordered table-hover display responsive no-wrap">
                       <thead>
                       <tr>
                           <th>Codigo</th>
@@ -114,13 +114,13 @@
             @csrf
             <div class="form-group">
                 <label for="">Nombre del suministro</label>
-                <input type="text" name="suministroMod" id="nombreSuministroMod" class="form-control" maxlength="60" autocomplete="off" required>
+                <input type="text" name="suministroMod" id="nombreSuministroMod" class="form-control" maxlength="60" autocomplete="off" placeholder="ESPERE......" required>
                 <input type="hidden" name="dato" id="dato" value="">
             </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="cerrarMod" data-dismiss="modal">Cerrar</button>
-          <input type="submit" class="btn btn-primary" id="agregarSuministroMod" value="Agregar" disabled>
+          <input type="submit" class="btn btn-primary" id="agregarSuministroMod" value="Modificar" disabled>
         </div>
         </form>
       </div>

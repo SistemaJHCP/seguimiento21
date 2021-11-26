@@ -7,7 +7,7 @@ $(document).ready(function(){
         $("#agregarSuministro").attr("disabled", true);
     });
 
-    $('#listaUsuarios').DataTable({
+    $('#listaSuministros').DataTable({
         serverSide:true,
         processing: true,
         ajax: "suministros/listado-suministro",
@@ -86,9 +86,50 @@ $(document).ready(function(){
         }
     });
 
-
-
-
     });
 
+    $(document).on("click", "#deshabilitar", function(){
+
+        Swal.fire({
+            title: 'Esta seguro?',
+            text: "¿de querer deshabilitar este suministro?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, deshabilita!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "suministros/deshabilitar/cefefdfsfdsfys8u" + this.value,
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+                })
+                .done(function(comp) {
+
+                    if(comp == true){
+                        $('#listaSuministros').DataTable().ajax.reload();
+                        Swal.fire(
+                            'Solicitud procesada',
+                            'Se ha desactivado este suministro.',
+                            'success'
+                        )
+                    }else{
+                        Swal.fire(
+                            'Hubo un error',
+                            'No se pudo desactivar el suministro suministro.',
+                            'success'
+                        )
+                    }
+                })
+                .fail( function(){
+                    console.log("Hubo un error en el ajax de mostra el suministro para deshabilitarlo");
+                });
+
+            }
+          })
+    });
 });

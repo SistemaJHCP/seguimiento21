@@ -138,7 +138,6 @@ class SuministroController extends Controller
     public function jq_lista()
     {
 
-
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
         //consultamos a la base de datos
@@ -162,6 +161,31 @@ class SuministroController extends Controller
         return response()->json($sum);
     }
 
+    public function js_deshabilitar($id)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        if($permisoUsuario[0]->suministros != 1 || $permisoUsuario[0]->modificar_suministros != 1){
+            return redirect()->route("home");
+        }
+        //uscamos el suministro con el ID
+        $sum = Suministro::find($id);
+        //Se cambia el estado de inactivo a activo
+        $sum->suministro_estado = 0;
+        //Se guarda el cambio
+        $resp = $sum->save();
+        
+        //envia la respuesta via json
+        return response()->json($resp);
+        
+
+
+    }
+
+    public function js_habilitar($id)
+    {
+        dd("habilitar");
+    }
 
 }
