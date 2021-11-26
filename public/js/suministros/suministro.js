@@ -91,13 +91,13 @@ $(document).ready(function(){
     $(document).on("click", "#deshabilitar", function(){
 
         Swal.fire({
-            title: 'Esta seguro?',
+            title: '¿Esta seguro?',
             text: "¿de querer deshabilitar este suministro?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, deshabilita!',
+            confirmButtonText: 'Si, deshabilita!',
             cancelButtonText: 'Cancelar'
           }).then((result) => {
             if (result.isConfirmed) {

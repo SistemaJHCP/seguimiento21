@@ -80,9 +80,14 @@ Route::middleware('auth')->prefix('suministros')->group(function () {
     Route::post("modificando/9ihbi8cgdu",[App\Http\Controllers\SuministroController::class, 'update'])->name("suministro.modificar");
     Route::get("deshabilitar/cefefdfsfdsfys8u{id}", [App\Http\Controllers\SuministroController::class, 'js_deshabilitar']);
     Route::get("habilitar/cefe45fdfds6v3svdvsf9ds30fys098u{id}", [App\Http\Controllers\SuministroController::class, 'js_habilitar']);
+    Route::get("suministros-deshabilitados", [App\Http\Controllers\SuministroController::class, 'indexDeshabilitados'])->name("suministros.deshabilitados");
+    Route::get("listado-suministros-deshabilitados",[App\Http\Controllers\SuministroController::class, 'jq_listaDes']);
 });
 
-
+Route::middleware('auth')->prefix('proveedores')->group(function () {
+    Route::get("/",[App\Http\Controllers\ProveedoresController::class, 'index'])->name('proveedor.index');
+    Route::get("lista-proveedores",[App\Http\Controllers\ProveedoresController::class, 'jq_lista']);
+});
 
 
 

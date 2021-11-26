@@ -25,7 +25,7 @@
                 </div>
             <!-- /.info-box-content -->
             </div>
-            <a href="#">
+            <a href="{{ route("suministros.deshabilitados") }}">
                 <div class="info-box">
                     <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-cog"></i></span>
 

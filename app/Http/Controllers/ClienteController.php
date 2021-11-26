@@ -214,10 +214,6 @@ class ClienteController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
         $query = Cliente::select()->where("cliente_estado", 1)->get();
-
-
-
-
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->cliente == 1 && $permisoUsuario[0]->ver_botones_cliente == 1) {
             return datatables()->of($query)

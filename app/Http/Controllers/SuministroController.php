@@ -166,7 +166,7 @@ class SuministroController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->suministros != 1 || $permisoUsuario[0]->modificar_suministros != 1){
+        if($permisoUsuario[0]->suministros != 1 || $permisoUsuario[0]->desactivar_suministros != 1){
             return redirect()->route("home");
         }
         //uscamos el suministro con el ID
@@ -175,17 +175,70 @@ class SuministroController extends Controller
         $sum->suministro_estado = 0;
         //Se guarda el cambio
         $resp = $sum->save();
-        
+
         //envia la respuesta via json
         return response()->json($resp);
-        
+
 
 
     }
 
     public function js_habilitar($id)
     {
-        dd("habilitar");
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->suministros != 1 || $permisoUsuario[0]->reactivar_suministros != 1){
+            return redirect()->route("home");
+        }
+        //uscamos el suministro con el ID
+        $sum = Suministro::find($id);
+        //Se cambia el estado de inactivo a activo
+        $sum->suministro_estado = 1;
+        //Se guarda el cambio
+        $resp = $sum->save();
+
+        //envia la respuesta via json
+        return response()->json($resp);
     }
+
+    public function indexDeshabilitados()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->suministros != 1 || $permisoUsuario[0]->reactivar_suministros != 1){
+            return redirect()->route("home");
+        }
+        return view("sistema.suministros.deshabilitado")->with('permisoUsuario', $permisoUsuario[0]);
+    }
+
+
+    public function jq_listaDes()
+    {
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        //consultamos a la base de datos
+        $query = Suministro::select()->where("suministro_estado", 0)->get();
+
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ($permisoUsuario[0]->suministros != 1 || $permisoUsuario[0]->ver_botones_suministros != 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.suministros.btnDeshabilitado')
+            ->rawColumns(['btn'])->toJson();
+        }
+    }
+
+
+
+
+
+
+
 
 }

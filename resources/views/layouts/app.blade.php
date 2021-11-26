@@ -49,9 +49,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     }
                 ?>
                 <?php
-                    if ($permisoUsuario->cliente == 1){
+                    if ($permisoUsuario->proveedores == 1){
                 ?>
-                    <li><a href="" class="dropdown-item">Proveedores </a></li>
+                    <li><a href="{{ route("proveedor.index") }}" class="dropdown-item">Proveedores </a></li>
                 <?php
                     }
                 ?>
