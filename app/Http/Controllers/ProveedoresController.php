@@ -119,7 +119,7 @@ class ProveedoresController extends Controller
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->cliente == 1 && $permisoUsuario[0]->ver_botones_cliente == 1) {
             return datatables()->of($query)
-            ->addColumn('btn','sistema.cliente.btnModificarCliente')
+            ->addColumn('btn','sistema.proveedor.btnProveedores')
             ->rawColumns(['btn'])->toJson();
         } else {
             return datatables()->of($query)
