@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Proveedores de la empresa</h3><a href="#"><button style="margin-left:10px;" class="btn btn-info float-right">Deshabilitadas</button></a> <a href="#"><button style="margin-left:10px;" class="btn btn-info float-right">Nuevo</button></a>
+              <h3 class="card-title">Proveedores de la empresa</h3><a href="#"><button style="margin-left:10px;" class="btn btn-info float-right">Deshabilitadas</button></a> <a href="#"><button style="margin-left:10px;"  data-target="#nuevoProveedor" data-toggle="modal" class="btn btn-info float-right">Nuevo</button></a>
             </div>
             <!-- /.card-header -->
               <div class="card-body">
@@ -54,6 +54,75 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="nuevoProveedor" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Crear un nuevo proveedor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <form action="{{ route('proveedor.crear') }}" method="post">
+            @csrf
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-group col-2">
+                        <label for="inputState">Estado</label>
+                        <select name="tipo" id="tipo" class="form-control" required autocomplete="off">
+                          <option value="Natural">N</option>
+                          <option value="Juridico">J</option>
+                          <option value="Gubernamental">G</option>
+                        </select>
+                      </div>
+                    <div class="form-group col-10">
+                      <label for="inputCity">Identificación</label>
+                      <input type="text" class="form-control" placeholder="Ingrese el número de cédula" id="cedula" minlength="5"  maxlength="9" name="cedula" required autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre del proveedor" class="form-control" minlength="3" maxlength="50" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Suministro</label>
+                    <select name="suministro" id="suministro" required class="form-control">
+                        <option value="" required>Seleccione...</option>
+                        @foreach ($suministro as $sum)
+                            <option value="{{ $sum->id }}">{{ $sum->suministro_nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" name="telefono" id="telefono" class="form-control" minlength="3" maxlength="11" placeholder="Ingrese el número del proveedor" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <input type="text" name="direccion" id="direccion" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" name="email" id="email" class="form-control" maxlength="60" placeholder="Ingrese la dirección del proveedor" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Persona de Contacto</label>
+                    <input type="text" name="contacto" id="contacto" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" autocomplete="off">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="cerrar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <input type="submit" id="crear" class="btn btn-primary" value="Crear">
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
 @endsection
 @section('js')
 <script src="{{ asset("plugins/plugins/datatables/jquery.dataTables.min.js") }}"></script>

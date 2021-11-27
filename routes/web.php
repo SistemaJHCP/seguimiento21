@@ -87,6 +87,7 @@ Route::middleware('auth')->prefix('suministros')->group(function () {
 Route::middleware('auth')->prefix('proveedores')->group(function () {
     Route::get("/",[App\Http\Controllers\ProveedoresController::class, 'index'])->name('proveedor.index');
     Route::get("lista-proveedores",[App\Http\Controllers\ProveedoresController::class, 'jq_lista']);
+    Route::post("creando",[App\Http\Controllers\ProveedoresController::class, 'store'])->name('proveedor.crear');
 });
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Permiso;
 use App\Models\Proveedor;
+use App\Models\Suministro;
 
 class ProveedoresController extends Controller
 {
@@ -27,8 +28,12 @@ class ProveedoresController extends Controller
         if($permisoUsuario[0]->proveedores != 1){
             return redirect()->route("home");
         }
+
+        //Ver suminsitro
+        $suministro = Suministro::select()->where('suministro_estado', 1)->orderBy("suministro_nombre", "ASC")->get();
+
         //Retorna a la vista de la ruta principal con los permisos de usuario
-        return view("sistema.proveedor.index")->with('permisoUsuario', $permisoUsuario[0]);
+        return view("sistema.proveedor.index")->with('permisoUsuario', $permisoUsuario[0])->with('suministro', $suministro);
     }
 
     /**
@@ -49,7 +54,7 @@ class ProveedoresController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd("creando");
     }
 
     /**
