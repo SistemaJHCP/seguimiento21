@@ -81,7 +81,7 @@
                 </div>
                 <div class="form-group">
                     <label>Teléfono</label>
-                    <input type="text" name="telefonoPTC" id="telefonoPTC" class="form-control" placeholder="Ingrese teléfono de contacto" maxlength="40">
+                    <input type="text" name="telefonoPTC" id="telefonoPTC" class="form-control" placeholder="Ingrese teléfono de contacto" maxlength="12">
                 </div>
                 <div class="form-group">
                     <label>Dirección</label>
@@ -93,7 +93,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="cerrar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <input type="submit" id="cargar" class="btn btn-primary" value="Cargar una PTC" disabled>
             </div>
         </form>
@@ -144,6 +144,7 @@
 <script src="{{ asset("plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
+<script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/maestro/ptc.js") }}"></script>
 @endsection
 

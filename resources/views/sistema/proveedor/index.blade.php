@@ -71,7 +71,7 @@
                 <div class="form-row">
                     <div class="form-group col-2">
                         <label for="inputState">Estado</label>
-                        <select name="tipo" id="tipo" class="form-control" required autocomplete="off">
+                        <select name="tipo" id="tipo" class="form-control" required autocomplete="on">
                           <option value="Natural">N</option>
                           <option value="Juridico">J</option>
                           <option value="Gubernamental">G</option>
@@ -79,12 +79,12 @@
                       </div>
                     <div class="form-group col-10">
                       <label for="inputCity">Identificación</label>
-                      <input type="text" class="form-control" placeholder="Ingrese el número de cédula" id="cedula" minlength="5"  maxlength="9" name="cedula" required autocomplete="off">
+                      <input type="text" class="form-control" placeholder="Ingrese el número de cédula" id="cedula" minlength="5"  maxlength="9" name="identificacion" required autocomplete="on">
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Nombre</label>
-                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre del proveedor" class="form-control" minlength="3" maxlength="50" required autocomplete="off">
+                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre del proveedor" class="form-control" minlength="3" maxlength="50" required autocomplete="on">
                 </div>
                 <div class="form-group">
                     <label>Tipo de Suministro</label>
@@ -97,25 +97,25 @@
                 </div>
                 <div class="form-group">
                     <label>Teléfono</label>
-                    <input type="text" name="telefono" id="telefono" class="form-control" minlength="3" maxlength="11" placeholder="Ingrese el número del proveedor" required autocomplete="off">
+                    <input type="text" name="telefono" id="telefono" class="form-control" minlength="3" maxlength="11" placeholder="Ingrese el número del proveedor" required autocomplete="on">
                 </div>
                 <div class="form-group">
                     <label>Dirección</label>
-                    <input type="text" name="direccion" id="direccion" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" required autocomplete="off">
+                    <input type="text" name="direccion" id="direccion" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" required autocomplete="on">
                 </div>
                 <div class="form-group">
                     <label>Correo Electrónico</label>
-                    <input type="email" name="email" id="email" class="form-control" maxlength="60" placeholder="Ingrese la dirección del proveedor" required autocomplete="off">
+                    <input type="email" name="email" id="email" class="form-control" maxlength="60" placeholder="Ingrese la dirección del proveedor" required autocomplete="on">
                 </div>
                 <div class="form-group">
                     <label>Persona de Contacto</label>
-                    <input type="text" name="contacto" id="contacto" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" autocomplete="off">
+                    <input type="text" name="contacto" id="contacto" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" autocomplete="on">
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" id="cerrar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <input type="submit" id="crear" class="btn btn-primary" value="Crear">
+            <input type="submit" id="crear" class="btn btn-primary" value="Cargar proveedor" disabled>
         </div>
         </form>
       </div>
@@ -131,7 +131,41 @@
 <script src="{{ asset("plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
+<script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/proveedores/proveedor.js") }}"></script>
+@if (Session::has('resp'))
+{{ Session::has('resp') }}
+    @if (Session::has('resp') == 1)
+    <script>
+        Swal.fire(
+        'Sulicitud procesada!',
+        'La información fue cargada exitosamente!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+
+@endif
+
+
+@if (count($errors) > 0)
+{{-- Este es el mensaje de error desde la validacion --}}
+<script>
+    Swal.fire(
+    'Hubo un error!',
+    'el formulario no esta correctamente cargado!',
+    'error'
+    )
+</script>
+@endif
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}">

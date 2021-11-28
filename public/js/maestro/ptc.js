@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    limpiar();
+    $("#telefonoPTC").numeric(false);
 
     $('#listaPTC').DataTable({
         serverSide:true,
@@ -157,6 +159,23 @@ $(document).ready(function(){
                     })
                 }
             })
+        });
+
+        function limpiar(){
+            $("#codigoPTC").val("");
+            $("#codigoPTC").css({'border':'1px solid #d2d6de'});
+            $("#nombrePTC").val("");
+            $("#nombrePTC").css({'border':'1px solid #d2d6de'});
+            $("#telefonoPTC").val("");
+            $("#telefonoPTC").css({'border':'1px solid #d2d6de'});
+            $("#direccionPTC").val("");
+            $("#direccionPTC").css({'border':'1px solid #d2d6de'});
+            $("#correoPTC").val("");
+            $("#correoPTC").css({'border':'1px solid #d2d6de'});
+        }
+
+        $("#cerrar").on("click", function(){
+            limpiar();
         });
 
 

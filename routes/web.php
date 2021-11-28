@@ -88,9 +88,9 @@ Route::middleware('auth')->prefix('proveedores')->group(function () {
     Route::get("/",[App\Http\Controllers\ProveedoresController::class, 'index'])->name('proveedor.index');
     Route::get("lista-proveedores",[App\Http\Controllers\ProveedoresController::class, 'jq_lista']);
     Route::post("creando",[App\Http\Controllers\ProveedoresController::class, 'store'])->name('proveedor.crear');
+    Route::get("consultar-proveedor/90dcghuocdtd7cgudocudc0y8{id}cd",[App\Http\Controllers\ProveedoresController::class, 'show'])->name('proveedor.consultar');
+    Route::get("modificar-proveedor/19102d34cghu5ocd56td7cgudoasascudc0y8{id}cd",[App\Http\Controllers\ProveedoresController::class, 'edit'])->name('proveedor.modificar');
+    Route::post("modificando-proveedor/191treoe7cgudoasascudc0y8{id}cd",[App\Http\Controllers\ProveedoresController::class, 'update'])->name('proveedor.modificando');
 });
-
-
-
 
 Auth::routes();

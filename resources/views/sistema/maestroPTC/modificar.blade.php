@@ -39,7 +39,7 @@
                           </div>
                           <div class="form-group">
                               <label>Teléfono</label>
-                              <input type="text" name="telefonoPTC" id="telefonoPTC" class="form-control" value="{{ $ptc->codventa_telefono }}" placeholder="Ingrese teléfono de contacto" maxlength="40" autocomplete="off">
+                              <input type="text" name="telefonoPTC" id="telefonoPTC" class="form-control" value="{{ $ptc->codventa_telefono }}" placeholder="Ingrese teléfono de contacto" maxlength="12" autocomplete="off">
                           </div>
                           <div class="form-group">
                               <label>Dirección</label>
@@ -64,8 +64,8 @@
 
 @endsection
 @section('js')
+<script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/maestro/modificarPTC.js") }}"></script>
-
 @endsection
 @section('css')
 

@@ -1,5 +1,7 @@
 $(document).ready( function(){
 
+    $("#telefonoPTC").numeric(false);
+
     $("#codigoPTC").keyup( function(){
         if ($('#codigoPTC').val().length <= 2 || $('#codigoPTC').val().length > 23) {
             $('#codigoPTC').css({'border':'1px solid red'});

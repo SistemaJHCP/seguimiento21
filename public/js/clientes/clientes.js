@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-
+    $("#codigo").numeric(false);
+    $("#telefono").numeric(false);
 
     $('#listaClientes').DataTable({
         serverSide:true,
@@ -176,11 +177,10 @@ $(document).ready(function(){
     });
 
 
-
-
-
-
-
+    $("#cerrar").on("click", function(){
+        $("#codigo").val("");
+        $('#codigo').css({'border':'1px solid #d2d6de'});
+    });
 
 
     function success()

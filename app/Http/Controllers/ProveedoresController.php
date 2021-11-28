@@ -54,7 +54,51 @@ class ProveedoresController extends Controller
      */
     public function store(Request $request)
     {
-        dd("creando");
+        
+        //validamos que request cumpla con las normas
+        $request->validate([
+            'tipo' => 'min:5|required',
+            'identificacion' => 'required|min:5|max:9',
+            'nombre' => 'required|min:3|max:50',
+            'suministro' => 'required',
+            'email' => 'required',
+            'telefono' => 'required|min:3|max:11',
+            'direccion' => 'required|min:1|max:200'
+        ]);
+
+        //Se instancia la clase proveedor
+        $proveedor = new Proveedor();
+
+        //Se valida el ultimo codigo en el sistema
+        $codigo = Proveedor::select("proveedor_codigo")->orderBy("id", "desc")->limit(1)->get();
+        //Si la variable codigo es mayor o igual a 1, ejecuta el conteo
+        if(count($codigo) < 1){
+            //Si es menor a 1
+            $codigoPRO = "PRO-1";
+        } else {
+            //Se extrae el numero y se le agrega un valor mas (xx + 1)
+            preg_match_all('!\d+!', $codigo[0]->proveedor_codigo, $cod);
+            $cod = $cod[0][0] + 1;
+            $codigoPRO = "PRO-".$cod;
+        }
+        
+        //Se agrega la informacion capturada
+        $proveedor->proveedor_codigo = $codigoPRO;
+        $proveedor->proveedor_tipo = $request->tipo;
+        $proveedor->proveedor_rif = $request->identificacion;
+        $proveedor->proveedor_nombre = $request->nombre;
+        $proveedor->suministro_id  = $request->suministro;
+        $proveedor->proveedor_telefono = $request->telefono;
+        $proveedor->proveedor_direccion = $request->direccion;
+        $proveedor->proveedor_correo = $request->email;
+        $proveedor->proveedor_contacto = $request->contacto;
+        $proveedor->proveedor_estado = 1;
+
+        //Se guarda la informacion capturada
+        $resp =$proveedor->save();
+
+        return redirect()->route('proveedor.index')->with('resp', $resp);
+
     }
 
     /**
@@ -65,7 +109,36 @@ class ProveedoresController extends Controller
      */
     public function show($id)
     {
-        //
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->ver_botones_proveedores != 1){
+            return redirect()->route("home");
+        }
+        
+        //buscar el id del proveedor
+        $pro = Proveedor::select(
+            'proveedor.id AS id',
+            'proveedor.proveedor_codigo AS proveedor_codigo',
+            'suministro.suministro_nombre AS suministro_nombre',
+            'proveedor.proveedor_tipo AS proveedor_tipo',
+            'proveedor.proveedor_rif AS proveedor_rif',
+            'proveedor.proveedor_nombre AS proveedor_nombre',
+            'proveedor.proveedor_telefono AS proveedor_telefono',
+            'proveedor.proveedor_direccion AS proveedor_direccion',
+            'proveedor.proveedor_correo AS proveedor_correo',
+            'proveedor.proveedor_contacto AS proveedor_contacto',
+            'proveedor.suministro_id AS suministro_id',
+            'proveedor.created_at AS created_at'
+        )
+        ->join("suministro", "suministro.id", "=", "proveedor.suministro_id")
+        ->where('proveedor.id', $id)
+        ->get();
+
+        //Enviar lo capturado a la vista
+        return view('sistema.proveedor.verProveedor')->with('permisoUsuario', $permisoUsuario[0])->with('proveedor', $pro[0]);
+
     }
 
     /**
@@ -76,7 +149,38 @@ class ProveedoresController extends Controller
      */
     public function edit($id)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->ver_botones_proveedores != 1){
+            return redirect()->route("home");
+        }
+        //Ver suminsitro
+        $suministro = Suministro::select()->where('suministro_estado', 1)->orderBy("suministro_nombre", "ASC")->get();
+
+        //buscar el id del proveedor
+        $pro = Proveedor::select(
+            'proveedor.id AS id',
+            'proveedor.proveedor_codigo AS proveedor_codigo',
+            'suministro.suministro_nombre AS suministro_nombre',
+            'proveedor.proveedor_tipo AS proveedor_tipo',
+            'proveedor.proveedor_rif AS proveedor_rif',
+            'proveedor.proveedor_nombre AS proveedor_nombre',
+            'proveedor.proveedor_telefono AS proveedor_telefono',
+            'proveedor.proveedor_direccion AS proveedor_direccion',
+            'proveedor.proveedor_correo AS proveedor_correo',
+            'proveedor.proveedor_contacto AS proveedor_contacto',
+            'proveedor.suministro_id AS suministro_id',
+            'proveedor.created_at AS created_at'
+        )
+        ->join("suministro", "suministro.id", "=", "proveedor.suministro_id")
+        ->where('proveedor.id', $id)
+        ->get();
+        dump($pro[0]);
+        //Agregar todas las solicitudes a la vista
+        return view('sistema.proveedor.modificar')->with('permisoUsuario', $permisoUsuario[0])->with('proveedor', $pro[0])->with('suministro', $suministro);
+
+
     }
 
     /**
@@ -88,7 +192,7 @@ class ProveedoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request->all());
     }
 
     /**
