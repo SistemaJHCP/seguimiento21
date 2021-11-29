@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    //limpiar();
+    limpiar();
     $("#cedula").numeric(false);
     $("#telefono").numeric(false);
 
@@ -104,7 +104,7 @@ $(document).ready(function(){
     });
 
     function activarBoton(){
-        if( $("#cedula").val().length > 1 &&  $("#nombre").val().length > 1 && $("#telefono").val().length > 1 && $("#direccion").val().length > 1 && $("#email").val().length > 1 && $("#contacto").val().length > 1 ){
+        if( $("#cedula").val().length > 1 &&  $("#nombre").val().length > 1 && $("#telefono").val().length > 1 && $("#direccion").val().length > 1  ){
             $('#crear').prop('disabled',false);
         } else {
             $('#crear').prop('disabled',true);
@@ -122,7 +122,61 @@ $(document).ready(function(){
         $("#contacto").val("");
     }
 
+    $(document).on("click", "#desactivar",function(){
 
+        Swal.fire({
+            title: '¿Esta usted seguro?',
+            text: "¿Desea deshabilitar a este proveedor?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, deshabilita!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "proveedores/desactivar-proveedor/191trwfwddsgyhus64567ushcd",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {id: this.value},
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+                })
+                .done(function(comp) {
+
+                    if (comp) {
+                        $('#listaProveedores').DataTable().ajax.reload();
+                        Swal.fire(
+                            'Solicitud procesada!',
+                            'Se ha desahabilitado a este proveedor',
+                            'success'
+                          )
+                    } else {
+                    Swal.fire(
+                        'Hubo un error!',
+                        'al deshabilitar al proveedor!',
+                        'error'
+                      )
+                    }
+
+
+
+                })
+                .fail( function(){
+                    Swal.fire(
+                        'Hubo un error!',
+                        'al momento de realizar esta accion!',
+                        'error'
+                      )
+                })
+
+            }
+        })
+
+
+
+    });
 
 
 

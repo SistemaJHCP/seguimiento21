@@ -41,6 +41,9 @@ class Proveedor extends Migration
 
             $table->timestamps();
         });
+
+
+
     }
 
     /**

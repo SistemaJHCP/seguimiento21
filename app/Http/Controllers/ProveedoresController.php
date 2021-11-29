@@ -54,14 +54,13 @@ class ProveedoresController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         //validamos que request cumpla con las normas
         $request->validate([
             'tipo' => 'min:5|required',
             'identificacion' => 'required|min:5|max:9',
             'nombre' => 'required|min:3|max:50',
             'suministro' => 'required',
-            'email' => 'required',
             'telefono' => 'required|min:3|max:11',
             'direccion' => 'required|min:1|max:200'
         ]);
@@ -81,7 +80,7 @@ class ProveedoresController extends Controller
             $cod = $cod[0][0] + 1;
             $codigoPRO = "PRO-".$cod;
         }
-        
+
         //Se agrega la informacion capturada
         $proveedor->proveedor_codigo = $codigoPRO;
         $proveedor->proveedor_tipo = $request->tipo;
@@ -116,7 +115,7 @@ class ProveedoresController extends Controller
         if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->ver_botones_proveedores != 1){
             return redirect()->route("home");
         }
-        
+
         //buscar el id del proveedor
         $pro = Proveedor::select(
             'proveedor.id AS id',
@@ -176,7 +175,7 @@ class ProveedoresController extends Controller
         ->join("suministro", "suministro.id", "=", "proveedor.suministro_id")
         ->where('proveedor.id', $id)
         ->get();
-        dump($pro[0]);
+
         //Agregar todas las solicitudes a la vista
         return view('sistema.proveedor.modificar')->with('permisoUsuario', $permisoUsuario[0])->with('proveedor', $pro[0])->with('suministro', $suministro);
 
@@ -192,7 +191,43 @@ class ProveedoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->modificar_proveedores != 1){
+            return redirect()->route("home");
+        }
+
+        //validamos que request cumpla con las normas
+        $request->validate([
+            'tipo' => 'min:5|required',
+            'identificacion' => 'required|min:5|max:9',
+            'nombre' => 'required|min:3|max:50',
+            'suministro' => 'required',
+            'telefono' => 'required|min:3|max:11',
+            'direccion' => 'required|min:1|max:200'
+        ]);
+
+
+        //Buscar el proveedor por el ID
+        $pro = Proveedor::find($id);
+
+        //sustituyo los valores
+        $pro->proveedor_tipo = $request->tipo;
+        $pro->proveedor_rif = $request->identificacion;
+        $pro->proveedor_nombre = $request->nombre;
+        $pro->proveedor_telefono = $request-> telefono;
+        $pro->suministro_id = $request->suministro;
+        $pro->proveedor_direccion = $request->direccion;
+        $pro->proveedor_correo = $request->email;
+        $pro->proveedor_contacto = $request->contacto;
+        //Se guardan las modificaciones en la BD
+        $resp = $pro->save();
+        //Se retorna a la vista el resultado
+        return redirect()->route('proveedor.index')->with('resp', $resp);
+
+
     }
 
     /**
@@ -201,9 +236,29 @@ class ProveedoresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->desactivar_proveedores != 1){
+            return redirect()->route("home");
+        }
+
+        //Se buscar el proveedor segun el ID capturado
+        $pro = Proveedor::find($request->id);
+        //Se cmbia el valor de proveedor estado a 0 para que este inhabilitado
+        $pro->proveedor_estado = 0;
+
+        //Se guarda la informacion
+        $resp = $pro->save();
+
+        //Se retorna la respuesta a la vista mediante json
+        return response()->json($resp);
+
+
+
+
     }
 
     public function jq_lista()

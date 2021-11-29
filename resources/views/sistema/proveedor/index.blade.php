@@ -105,7 +105,7 @@
                 </div>
                 <div class="form-group">
                     <label>Correo Electrónico</label>
-                    <input type="email" name="email" id="email" class="form-control" maxlength="60" placeholder="Ingrese la dirección del proveedor" required autocomplete="on">
+                    <input type="email" name="email" id="email" class="form-control" maxlength="60" placeholder="Ingrese la dirección del proveedor" autocomplete="on">
                 </div>
                 <div class="form-group">
                     <label>Persona de Contacto</label>
