@@ -92,6 +92,8 @@ Route::middleware('auth')->prefix('proveedores')->group(function () {
     Route::get("modificar-proveedor/19102d34cghu5ocd56td7cgudoasascudc0y8{id}cd",[App\Http\Controllers\ProveedoresController::class, 'edit'])->name('proveedor.modificar');
     Route::post("modificando-proveedor/191treoe7cgudoasascudc0y8{id}cd",[App\Http\Controllers\ProveedoresController::class, 'update'])->name('proveedor.modificando');
     Route::post("desactivar-proveedor/191trwfwddsgyhus64567ushcd",[App\Http\Controllers\ProveedoresController::class, 'destroy']);
+    Route::get("cuenta-bancaria/5678uhgbjdiuyt567du{id}", [App\Http\Controllers\BancoController::class, 'consultar'])->name('proveedor.cuenta');
+    Route::post("guardar-cuenta", [App\Http\Controllers\BancoController::class, 'store'])->name('proveedor.guardarCuenta');
 });
 
 Auth::routes();

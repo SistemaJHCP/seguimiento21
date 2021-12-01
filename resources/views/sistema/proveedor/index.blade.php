@@ -29,7 +29,7 @@
                       <th>Correo</th>
                       <th>Contacto</th>
                       <th>Suministro</th>
-                      <th style="width: 140px">Acción</th>
+                      <th style="width: 180px">Acción</th>
                   </tr>
                   </thead>
                   <tbody>
