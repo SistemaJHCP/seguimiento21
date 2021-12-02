@@ -1,5 +1,24 @@
 $(document).ready(function(){
 
+    limpiar();
+
+    $("#banco").on("change", function(){
+        if($("#banco").val() == true){
+            activar();
+        }
+    });
+
+    $("#tipo").on("change", function(){
+        if($("#tipo").val() == true){
+            activar();
+        }
+    });
+
+    $("#cerrar").click(function(){
+        limpiar();
+    });
+
+
     $("#nroCuenta").keyup(function(){
         if ($("#nroCuenta").val().length < 20) {
             $("#nroCuenta").css({"border": "1px solid red"});
@@ -13,14 +32,78 @@ $(document).ready(function(){
 
     function activar()
     {
-        if( $("#banco").val() != "" && $("#nroCuenta").val().length > 19 && $("#tipo").val().length != ""  ){
+        if( $("#banco").val() == true && $("#nroCuenta").val().length > 19 && $("#tipo").val().length  == true  ){
             $("#agregar").attr("disabled", false);
             console.log("si");
         } else {
-            console.log($("#banco").val().length);
-            console.log("no");
+            $("#agregar").attr("disabled", true);
+
         }
     }
+
+    function limpiar(){
+        $("#banco").val("");
+        $("#nroCuenta").val("");
+        $("#nroCuenta").css({"border": "1px solid #ced4da"});
+        $("#tipo").val("");
+        $("#agregar").attr("disabled", true);
+    }
+
+    $(document).on("click", "#deshabilitarCuenta", function(){
+        console.log( "No toma el valor: " +  );
+    });
+
+
+    // $(document).on("click","#deshabilitar",function(){
+        // alert( $("#deshabilitar").val() );
+        // Swal.fire({
+        //     title: '¿Esta usted seguro?',
+        //     text: "¿Desea deshabilitar a este número de cuenta?",
+        //     icon: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     confirmButtonText: 'Si, deshabilita!',
+        //     cancelButtonText: 'Cancelar'
+        //   }).then((result) => {
+        //     if (result.isConfirmed) {
+
+        //         $.ajax({
+        //             url: "../desactivar-cuenta/tgyu89876tty789oiuhgfdrftgyhuji9u8ygtfcdxedrfty7ytrfdfgyuiokjhgf",
+        //             type: 'POST',
+        //             dataType: 'json',
+        //             data: {id: this.value},
+        //             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        //         })
+        //         .done(function(comp) {
+
+        //             if (comp) {
+
+        //                 Swal.fire(
+        //                     'Solicitud procesada!',
+        //                     'Se ha desahabilitado a este proveedor',
+        //                     'success'
+        //                   )
+        //             } else {
+        //             Swal.fire(
+        //                 'Hubo un error!',
+        //                 'al deshabilitar al proveedor!',
+        //                 'error'
+        //               )
+        //             }
+
+        //         })
+        //         .fail( function(){
+        //             Swal.fire(
+        //                 'Hubo un error!',
+        //                 'al momento de realizar esta accion!',
+        //                 'error'
+        //               )
+        //         })
+
+        //     }
+        // })
+    // });
 
 
 });

@@ -94,6 +94,7 @@ Route::middleware('auth')->prefix('proveedores')->group(function () {
     Route::post("desactivar-proveedor/191trwfwddsgyhus64567ushcd",[App\Http\Controllers\ProveedoresController::class, 'destroy']);
     Route::get("cuenta-bancaria/5678uhgbjdiuyt567du{id}", [App\Http\Controllers\BancoController::class, 'consultar'])->name('proveedor.cuenta');
     Route::post("guardar-cuenta", [App\Http\Controllers\BancoController::class, 'store'])->name('proveedor.guardarCuenta');
+    Route::post("desactivar-cuenta/tgyu89876tty789oiuhgfdrftgyhuji9u8ygtfcdxedrfty7ytrfdfgyuiokjhgf",[App\Http\Controllers\BancoController::class, 'jq_desactivar']);
 });
 
 Auth::routes();

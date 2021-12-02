@@ -54,7 +54,8 @@
         <div class="card-body">
             @foreach ($banco as $b)
                 <div class="callout callout-info"  style="color: black">
-                    <h5><b>Banco: </b>{{ $b->banco_nombre }}</h5>
+                    <h5><b>Banco: </b>{{ $b->banco_nombre }}</h5><div class="float-right"><i style="color:#943838;font-size:24px;" class="far fa-trash-alt" id="deshabilitarCuenta" value="{{ $b->id }}"></i></div>
+
                     <p><b>Cuenta: </b>{{ $b->numero }}</p>
                     @if($b->tipodecuenta == 1)
                         Ahorro
@@ -89,7 +90,7 @@
             </div>
             <div class="form-group">
                 <label for="">Cuenta</label>
-                <input type="text" name="nroCuenta" id="nroCuenta" class="form-control" maxlength="20" placeholder="Agregar el número de cuenta" required>
+                <input type="text" name="nroCuenta" id="nroCuenta" class="form-control" maxlength="20" placeholder="Agregar el número de cuenta" autocomplete="off" required>
                 <input type="hidden" name="dato" value="{{ $dato }}">
             </div>
             <div class="form-group">

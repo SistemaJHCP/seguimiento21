@@ -128,8 +128,29 @@ class BancoController extends Controller
         //Se agrega la informacion capturada previamente a la vista
         return view('sistema.proveedor.cuenta.cuenta')->with( ['permisoUsuario'=> $permisoUsuario[0], 'pro' => $pro, 'banco' => $banco, 'bancos' => $b, 'dato' => $id] );
 
+    }
+
+    public function jq_desactivar(Request $request)
+    {
+        dd($request->all());
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->banco != 1 || $permisoUsuario[0]->desactivar_banco != 1 ){
+            return redirect()->route("home");
+        }
+
+        //Buscamos el numero de cuenta por ID
+        $cuenta = Banco::find($request->id);
+
+
 
     }
+
+
+
+
+
 
 
 
