@@ -65,6 +65,12 @@ class CreateUsersTable extends Migration
             $table->boolean('ver_botones_banco')->default(1);
             $table->boolean('desactivar_banco')->default(1);
             $table->boolean('reactivar_banco')->default(1);
+            $table->boolean('requisicion')->default(1);
+            $table->boolean('crear_requisicion')->default(1);
+            $table->boolean('modificar_requisicion')->default(1);
+            $table->boolean('ver_botones_requisicion')->default(1);
+            $table->boolean('desactivar_requisicion')->default(1);
+            $table->boolean('reactivar_requisicion')->default(1);
             $table->timestamps();
         });
 

@@ -97,4 +97,10 @@ Route::middleware('auth')->prefix('proveedores')->group(function () {
     Route::post("desactivar-cuenta/tgyu89876tty789oiuhgfdrftgyhuji9u8ygtfcdxedrfty7ytrfdfgyuiokjhgf",[App\Http\Controllers\BancoController::class, 'jq_desactivar']);
 });
 
+
+Route::middleware('auth')->prefix('requisicion')->group(function () {
+    Route::get("/",[App\Http\Controllers\RequisicionController::class, 'index'])->name('requisicion.index');
+    Route::get("lista-de-requisicion",[App\Http\Controllers\RequisicionController::class, 'jq_lista']);
+    Route::get("crear-requisicion",[App\Http\Controllers\RequisicionController::class, 'create'])->name('requisicion.crear');
+});
 Auth::routes();

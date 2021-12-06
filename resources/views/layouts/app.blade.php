@@ -176,6 +176,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </ul>
             </li>
           </li>
+            <?php
+            if ($permisoUsuario->requisicion == 1){
+            ?>
+                <li class="nav-item">
+                    <li class="nav-item">
+                        <a id="dropdownSubMenu1" href="{{ route('requisicion.index') }}" class="nav-link">Requisición</a>
+                    </li>
+                </li>
+            <?php
+            }
+            ?>
+
+
+
+
           <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">

@@ -23,16 +23,16 @@ class Requisicion extends Migration
             $table->longText('requisicion_direccion');
             $table->longText('requisicion_observaciones')->default(NULL);
             $table->string('requisicion_estado', 25)->default("No Vista");
+            $table->bigInteger('requisicion_comentario')->default(NULL);
             $table->bigInteger('requisicion_solicitud')->default(NULL);
             $table->unsignedBigInteger('usuario_id');
             $table->bigInteger('usuario_view_id')->default(NULL);
             $table->unsignedBigInteger('obra_id');
             $table->bigInteger('proveedor_id')->default(NULL);
             $table->bigInteger('aprobador_id')->default(NULL);
-            $table->unsignedBigInteger('');
-            $table->unsignedBigInteger('');
 
-            $table->foreign('usuario_id')->references('id')->on('usuario');
+
+            $table->foreign('usuario_id')->references('id')->on('users');
             $table->foreign('obra_id')->references('id')->on('obra');
 
 
