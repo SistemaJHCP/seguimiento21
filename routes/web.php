@@ -97,6 +97,16 @@ Route::middleware('auth')->prefix('proveedores')->group(function () {
     Route::post("desactivar-cuenta/tgyu89876tty789oiuhgfdrftgyhuji9u8ygtfcdxedrfty7ytrfdfgyuiokjhgf",[App\Http\Controllers\BancoController::class, 'jq_desactivar']);
 });
 
+Route::middleware('auth')->prefix('materiales')->group(function () {
+    Route::get("/",[App\Http\Controllers\MaterialController::class, 'index'])->name('materiales.index');
+    Route::get("lista-materiales", [App\Http\Controllers\MaterialController::class, 'jq_material']);
+    Route::post("cargar-materiales", [App\Http\Controllers\MaterialController::class, 'store'])->name('materiales.crear');
+    Route::post("modificar-materiales", [App\Http\Controllers\MaterialController::class, 'update'])->name('materiales.modificar');
+    Route::get("modificar-material/j92bsnkjiugy2dhijokdlm32{id}", [App\Http\Controllers\MaterialController::class, 'jq_modificar']);
+    Route::post("eliminar-material/j192bs2qnsqk1ji8ugy27dhijokd5l55", [App\Http\Controllers\MaterialController::class, 'destroy']);
+});
+
+
 
 Route::middleware('auth')->prefix('requisicion')->group(function () {
     Route::get("/",[App\Http\Controllers\RequisicionController::class, 'index'])->name('requisicion.index');

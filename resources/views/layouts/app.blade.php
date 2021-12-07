@@ -77,9 +77,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     }
                 ?>
                 <?php
-                    if ($permisoUsuario->cliente == 1){
+                    if ($permisoUsuario->materiales == 1){
                 ?>
-                    <li><a href="" class="dropdown-item">Materiales </a></li>
+                    <li><a href="{{ route('materiales.index') }}" class="dropdown-item">Materiales </a></li>
                 <?php
                     }
                 ?>
