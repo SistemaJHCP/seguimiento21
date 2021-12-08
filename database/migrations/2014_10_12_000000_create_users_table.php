@@ -71,6 +71,18 @@ class CreateUsersTable extends Migration
             $table->boolean('ver_botones_requisicion')->default(1);
             $table->boolean('desactivar_requisicion')->default(1);
             $table->boolean('reactivar_requisicion')->default(1);
+            $table->boolean('servicio')->default(1);
+            $table->boolean('crear_servicio')->default(1);
+            $table->boolean('modificar_servicio')->default(1);
+            $table->boolean('ver_botones_servicio')->default(1);
+            $table->boolean('desactivar_servicio')->default(1);
+            $table->boolean('reactivar_servicio')->default(1);
+            $table->boolean('viatico')->default(1);
+            $table->boolean('crear_viatico')->default(1);
+            $table->boolean('modificar_viatico')->default(1);
+            $table->boolean('ver_botones_viatico')->default(1);
+            $table->boolean('desactivar_viatico')->default(1);
+            $table->boolean('reactivar_viatico')->default(1);
             $table->timestamps();
         });
 
