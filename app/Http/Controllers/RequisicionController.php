@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Permiso;
 use App\Models\Requisicion;
+use App\Models\Obra;
+use App\Models\Proveedor;
 
 class RequisicionController extends Controller
 {
@@ -44,11 +46,14 @@ class RequisicionController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        $proveedor = Proveedor::select("id", "proveedor_nombre")->orderBy("proveedor_nombre", "ASC")->get();
+        $obra = Obra::select("id", "obra_codigo", "obra_nombre")->orderBy("obra_nombre", "ASC")->get();
+
         if($permisoUsuario[0]->requisicion != 1){
             return redirect()->route("home");
         }
         //Retorna la vista para cargar la requisicion
-        return view('sistema.requisicion.crear')->with('permisoUsuario', $permisoUsuario[0]);
+        return view('sistema.requisicion.crear')->with(['permisoUsuario' => $permisoUsuario[0], 'proveedor' => $proveedor, 'obra' => $obra]);
     }
 
     /**

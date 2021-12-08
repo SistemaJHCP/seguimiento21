@@ -26,7 +26,7 @@ $(document).ready(function(){
         "language": {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",
-            "zeroRecords": "Lo que busca no esta en el registro",
+            "zeroRecords": "Ninguna requisición cargada por usted",
             "info": "Mostrando la página _PAGE_ of _PAGES_",
             "infoEmpty": "No records available",
             "infoFiltered": "(Filtrado de _MAX_ registros totales)",
