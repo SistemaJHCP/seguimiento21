@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Permiso;
 use App\Models\Requisicion;
 use App\Models\Obra;
+use App\Models\Material;
+use App\Models\Servicio;
+use App\Models\Viatico;
 use App\Models\Proveedor;
 
 class RequisicionController extends Controller
@@ -148,9 +151,46 @@ class RequisicionController extends Controller
             ->addColumn('btn','sistema.btnNull')
             ->rawColumns(['btn'])->toJson();
         }
+
     }
 
+    public function jq_consultarTipo($valor)
+    {
 
+        //Dependendo de la seleccion, muestra todo lo referente a material, servicio o viatico
+        switch ($valor) {
+            case 'Material':
+                $query = Material::get();
+                break;
+
+            case 'Servicio':
+                $query = Servicio::get();
+                break;
+
+            case 'Viatico':
+                $query = Viatico::get();
+                break;
+
+            default:
+                $query = Material::get();
+                break;
+        }
+        //retorna toda la informacion por json
+        return response()->json($query);
+    }
+
+    public function jq_consultarprov($id)
+    {
+        $pro = Proveedor::find($id);
+        return response()->json($pro);
+    }
+
+    public function jq_consultarObra($id)
+    {
+
+        $obra = Obra::find($id);
+        return response()->json($obra);
+    }
 
 
 }

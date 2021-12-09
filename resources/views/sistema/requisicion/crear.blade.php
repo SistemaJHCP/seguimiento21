@@ -46,7 +46,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Proveedor Recomendado</label>
-                                <select name="proveedor" id="proveedor" class="form-control select2" style="width: 100%;">
+                                <select name="proveedorRec" id="proveedorRec" class="form-control select2" style="width: 100%;">
                                     <option value="">Seleccione...</option>
                                     @foreach ($proveedor as $p)
                                     <option value="{{ $p->id }}">{{ $p->proveedor_nombre }}</option>
@@ -57,7 +57,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Obra Relacionada</label>
-                                <select name="obra" id="obra" class="form-control select3">
+                                <select name="obra" id="obraRel" class="form-control select3">
                                     <option value="">Seleccione...</option>
                                     @foreach ($obra as $o)
                                     <option value="{{ $o->id }}">{{ $o->obra_codigo }} - {{ $o->obra_nombre }}</option>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button class="btn btn-info float-right" data-toggle="modal" data-target="#mostrarRequisiciones" style="margin-top: 20px;margin-botton: 20px;">Seleccione requisiciones</button>
+                            <button class="btn btn-info float-right" data-toggle="modal" data-target="#mostrarRequisiciones" id="selectReq" style="margin-top: 20px;margin-botton: 20px;" disabled>Seleccione requisiciones</button>
                         </div>
                     </div>
 
@@ -83,8 +83,38 @@
             </div>
         </div>
         <div class="col-md-4">
+            <div id="proovedorRelacionado"></div>
+            <div id="obraRelacionada"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         </div>
+
+
+
+
+
+
 
         <div class="modal fade" id="mostrarRequisiciones" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="mostrarRequisicionesLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -104,19 +134,20 @@
                     </div>
                     <div class="form-group">
                         <label for="">Concepto o Descripción</label>
-                        <select name="concepto" id="concepto" class="form-control">
+                        <select name="concepto" id="conceptoDescrip" class="form-control">
 
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="">Especificaciones</label>
                         <textarea name="especificaciones" id="especificaciones" class="form-control" placeholder="Caracteristicas del material"></textarea>
+                        <input type="hidden" name="clase">
                     </div>
 
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
-                  <input type="submit" value="Agregar" id="agregar">
+                  <input type="submit"  class="btn btn-primary" value="Agregar" id="agregar" disabled>
                 </div>
                 </form>
               </div>

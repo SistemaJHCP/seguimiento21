@@ -112,5 +112,8 @@ Route::middleware('auth')->prefix('requisicion')->group(function () {
     Route::get("/",[App\Http\Controllers\RequisicionController::class, 'index'])->name('requisicion.index');
     Route::get("lista-de-requisicion",[App\Http\Controllers\RequisicionController::class, 'jq_lista']);
     Route::get("crear-requisicion",[App\Http\Controllers\RequisicionController::class, 'create'])->name('requisicion.crear');
+    Route::get("tipo-solicitud/{valor}/987yuisjihu8u7t6rstfyuiijshugytfrs5t6",[App\Http\Controllers\RequisicionController::class, 'jq_consultarTipo']);
+    Route::get("consultar-proveedor/987yuiokkjhgy8u9i9876edght{id}", [App\Http\Controllers\RequisicionController::class, 'jq_consultarprov']);
+    Route::get("consultar-obra/vhbjihugvcf5678uishugfdrstfyg8t7stc{id}", [App\Http\Controllers\RequisicionController::class, 'jq_consultarObra']);
 });
 Auth::routes();
