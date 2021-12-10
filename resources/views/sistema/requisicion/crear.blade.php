@@ -38,7 +38,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Fecha de Entrega</label>
-                                <input type="text" name="fechaE" id="fechaE" class="form-control" placeholder="AAAA-MM-DD">
+                                <input type="text" name="fechaE" id="fechaE" class="form-control" placeholder="aaaa-mm-dd">
                             </div>
                         </div>
                     </div>
@@ -85,36 +85,7 @@
         <div class="col-md-4">
             <div id="proovedorRelacionado"></div>
             <div id="obraRelacionada"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
-
-
-
-
-
-
 
         <div class="modal fade" id="mostrarRequisiciones" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="mostrarRequisicionesLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -153,8 +124,57 @@
               </div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
 
+            <div class="card">
+                <div class="card-header">
+                    Motivo
+                </div>
+                <div class="card-body">
+                    <textarea name="" id="" class="form-control"></textarea>
+                </div>
+            </div>
 
+            <div class="card">
+                <div class="card-header">
+                    Observación
+                </div>
+                <div class="card-body">
+                    <textarea name="" id="" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Materiales
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                              <th>Cantidad</th>
+                              <th>Concepto</th>
+                              <th>Especificación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-body">
+                    <hr>
+                    <input type="submit" value="Cargar requisición" class="btn btn-info float-right">
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @section('js')

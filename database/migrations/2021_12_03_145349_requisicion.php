@@ -21,15 +21,15 @@ class Requisicion extends Migration
             $table->date('requisicion_fechae');
             $table->longText('requisicion_motivo');
             $table->longText('requisicion_direccion');
-            $table->longText('requisicion_observaciones')->default(NULL);
+            $table->longText('requisicion_observaciones')->nullable()->default(NULL);
             $table->string('requisicion_estado', 25)->default("No Vista");
-            $table->bigInteger('requisicion_comentario')->default(NULL);
-            $table->bigInteger('requisicion_solicitud')->default(NULL);
+            $table->bigInteger('requisicion_comentario')->nullable()->default(NULL);
+            $table->bigInteger('requisicion_solicitud')->nullable()->default(NULL);
             $table->unsignedBigInteger('usuario_id');
-            $table->bigInteger('usuario_view_id')->default(NULL);
+            $table->bigInteger('usuario_view_id')->nullable()->default(NULL);
             $table->unsignedBigInteger('obra_id');
-            $table->bigInteger('proveedor_id')->default(NULL);
-            $table->bigInteger('aprobador_id')->default(NULL);
+            $table->bigInteger('proveedor_id')->nullable()->default(NULL);
+            $table->bigInteger('aprobador_id')->nullable()->default(NULL);
 
 
             $table->foreign('usuario_id')->references('id')->on('users');

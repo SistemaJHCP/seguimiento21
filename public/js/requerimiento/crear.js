@@ -1,5 +1,9 @@
 $(document).ready(function(){
 
+limpiar();
+$("#cantidad").numeric();
+$("#selectReq").attr('disabled', true);
+
 $("#fechaE").datepicker({
     dateFormat: "yy-mm-dd",
     closeText: 'Cerrar',
@@ -38,8 +42,8 @@ $("#fechaE").datepicker({
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-
-            $('#selectReq').attr('disabled', true);
+            console.log( comp );
+            // $('#selectReq').attr('disabled', true);
             var html = '<option value="">Seleccione...</option>';
 
             if ($('#tipo').val() === 'Material') {
@@ -59,7 +63,7 @@ $("#fechaE").datepicker({
                 }
             }
 
-            $('#concepto').html(html);
+            $('#conceptoDescrip').html(html);
             $('#selectReq').attr('disabled', false);
 
         })
@@ -131,11 +135,11 @@ $("#fechaE").datepicker({
             html2 += '<div class="callout callout-info">' +
                         '<h5>Código de Obra: '+ comp.obra_codigo +'</h5>' +
                         '<b>Nombre: </b> '+ comp.obra_nombre +' <br>' +
-                        '<b>Fecha inicio: </b> '+ comp.obra_codigo +' <br>' +
-                        '<b>Fecha fín:</b> '+ comp.obra_codigo +' <br>' +
-                        '<b>Residente: </b> '+ comp.obra_codigo +' <br>' +
-                        '<b>Coordinador: </b> '+ comp.obra_codigo +' <br>' +
-                        '<b>Observación: </b> '+ comp.obra_codigo +' <br>' +
+                        '<b>Fecha inicio: </b> '+ comp.obra_fechainicio +' <br>' +
+                        '<b>Fecha fín:</b> '+ comp.obra_fechafin +' <br>' +
+                        '<b>Residente: </b> '+ comp.obra_residente +' <br>' +
+                        '<b>Coordinador: </b> '+ comp.obra_coordinador +' <br>' +
+                        '<b>Observación: </b> '+ comp.obra_observaciones +' <br>' +
                      '</div>'
 
             $('#obraRelacionada').html(html2);
@@ -152,6 +156,40 @@ $("#fechaE").datepicker({
 
     });
 
+
+    function limpiar(){
+        $("#tipo").val("");
+        $("#fechaE").val("");
+        $("#proveedorRec").val("");
+        $("#obraRel").val("");
+        $("#direccion").val("");
+        $("#cantidad").val("");
+        $("#conceptoDescrip").val("");
+        $("#especificaciones").val("");
+        $("#agregar").attr('disabled', true);
+    }
+
+    $('#cantidad').keyup(function(){
+        cargarMateriales()
+    });
+
+    $('#conceptoDescrip').keyup(function(){
+        cargarMateriales()
+    });
+
+    $('#especificaciones').keyup(function(){
+        cargarMateriales()
+    });
+
+    function cargarMateriales(){
+        if ( $('#cantidad').val().length >= 1 &&  $('#conceptoDescrip').val().length >= 1 &&  $('#especificaciones').val().length >= 3 ) {
+            $('#agregar').attr('disabled', false);
+            console.log("Si que si");
+        } else {
+            $('#agregar').attr('disabled', true);
+            console.log("Nopp");
+        }
+    }
 
 
 
