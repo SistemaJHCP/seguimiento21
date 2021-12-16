@@ -10,6 +10,7 @@
 @endsection
 
 @section('contenedor')
+<form action="{{ route('requisicion.cargar') }}" method="post">
     <div class="row">
         <div class="col-md-8">
             <div class="card">
@@ -21,7 +22,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Tipo</label>
-                                <select name="tipo" id="tipo" class="form-control">
+                                <select name="tipo" id="tipo" class="form-control" required>
                                     <option value="">Seleccione...</option>
                                     <option value="Material">Material</option>
                                     <option value="Servicio">Servicio</option>
@@ -38,7 +39,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Fecha de Entrega</label>
-                                <input type="text" name="fechaE" id="fechaE" class="form-control" placeholder="aaaa-mm-dd">
+                                <input type="text" name="fechaE" id="fechaE" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" required>
                             </div>
                         </div>
                     </div>
@@ -46,7 +47,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Proveedor Recomendado</label>
-                                <select name="proveedorRec" id="proveedorRec" class="form-control select2" style="width: 100%;">
+                                <select name="proveedorRec" id="proveedorRec" class="form-control select2" style="width: 100%;" required>
                                     <option value="">Seleccione...</option>
                                     @foreach ($proveedor as $p)
                                     <option value="{{ $p->id }}">{{ $p->proveedor_nombre }}</option>
@@ -57,7 +58,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Obra Relacionada</label>
-                                <select name="obra" id="obraRel" class="form-control select3">
+                                <select name="obra" id="obraRel927y2" class="form-control select3" required>
                                     <option value="">Seleccione...</option>
                                     @foreach ($obra as $o)
                                     <option value="{{ $o->id }}">{{ $o->obra_codigo }} - {{ $o->obra_nombre }}</option>
@@ -69,12 +70,12 @@
                     <div class="row">
                         <div class="col-12">
                             <label for="">Dirección</label>
-                            <textarea name="direccion" id="direccion" class="form-control" placeholder="Ingrese la dirección de la obra"></textarea>
+                            <textarea name="direccion" id="direccion" class="form-control" required placeholder="Ingrese la dirección de la obra"></textarea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button class="btn btn-info float-right" data-toggle="modal" data-target="#mostrarRequisiciones" id="selectReq" style="margin-top: 20px;margin-botton: 20px;" disabled>Seleccione requisiciones</button>
+                            <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#mostrarRequisiciones" id="selectRequis8ty" style="margin-top: 20px;margin-botton: 20px;">Seleccione requisiciones</button>
                         </div>
                     </div>
 
@@ -97,30 +98,29 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                <form action="" method="post">
+                {{-- <form  method="post"> --}}
                 @csrf
                     <div class="form-group">
                         <label for="">Cantidad</label>
-                        <input type="text" name="cantidad" id="cantidad" class="form-control">
+                        <input type="text" id="cantidad" placeholder="Indique la cantidad" class="form-control" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="">Concepto o Descripción</label>
-                        <select name="concepto" id="conceptoDescrip" class="form-control">
+                        <select  id="conceptoDescrip" class="form-control">
 
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="">Especificaciones</label>
-                        <textarea name="especificaciones" id="especificaciones" class="form-control" placeholder="Caracteristicas del material"></textarea>
-                        <input type="hidden" name="clase">
+                        <textarea id="especificaciones" class="form-control" placeholder="Caracteristicas del material"></textarea>
                     </div>
 
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
-                  <input type="submit"  class="btn btn-primary" value="Agregar" id="agregar" disabled>
+                  <button type="button"  class="btn btn-primary" id="agregar" disabled>Agregar requisicion</button>
                 </div>
-                </form>
+                {{-- </form> --}}
               </div>
             </div>
         </div>
@@ -133,7 +133,7 @@
                     Motivo
                 </div>
                 <div class="card-body">
-                    <textarea name="" id="" class="form-control"></textarea>
+                    <textarea name="motivo" id="motivo" class="form-control" required></textarea>
                 </div>
             </div>
 
@@ -142,40 +142,45 @@
                     Observación
                 </div>
                 <div class="card-body">
-                    <textarea name="" id="" class="form-control"></textarea>
+                    <textarea name="observacion" id="observacion" class="form-control" required></textarea>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
-            <div class="card">
+
+            <div class="card card-row card-info">
                 <div class="card-header">
                     Materiales
                 </div>
                 <div class="card-body">
-                    <table class="table">
+                    <table class="table" id="table">
                         <thead>
                             <tr>
+                              <th>Tipo</th>
                               <th>Cantidad</th>
                               <th>Concepto</th>
                               <th>Especificación</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                            </tr>
+
                         </tbody>
                     </table>
+                    <div id="ctipo234"></div>
+                    <div id="cantidad234"></div>
+                    <div id="conceptoDescrip234"></div>
+                    <div id="especificaciones234"></div>
                 </div>
                 <div class="card-body">
                     <hr>
-                    <input type="submit" value="Cargar requisición" class="btn btn-info float-right">
+                    <input type="submit" value="Cargar requisición" id="cargarRequisicion" class="btn btn-info float-right" disabled>
                 </div>
             </div>
+
         </div>
     </div>
+</form>
+<input type="hidden" name="">
 @endsection
 @section('js')
 <script src="{{ asset("plugins/plugins/jquery-ui/jquery-ui.js") }}"></script>

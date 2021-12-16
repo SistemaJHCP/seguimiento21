@@ -67,7 +67,7 @@ class RequisicionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd( $request->all() );
     }
 
     /**
@@ -136,7 +136,7 @@ class RequisicionController extends Controller
             'requisicion.requisicion_estado AS requisicion_estado',
         )
         ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
-        ->where('requisicion.usuario_id', \Auth::user()->id)
+        // ->where('requisicion.usuario_id', \Auth::user()->id)
         // ->orderBy('requisicion.requisicion_codigo', 'DESC')
         ->get();
 
@@ -192,5 +192,27 @@ class RequisicionController extends Controller
         return response()->json($obra);
     }
 
+    public function jq_consultarNombreConcepto($id, $tipo)
+    {
+        //dependiendo del tipo de producto que busque se activara la consulta Sql, se busca y se guarda en variable
+        switch ($tipo) {
+            case 'Material':
+                $nombre = Material::select("material_nombre")->where('id', $id)->first();
+                break;
+
+            case 'Viatico':
+                $nombre = Viatico::select("viatico_nombre")->where('id', $id)->first();
+                break;
+
+            case 'Servicio':
+                $nombre = Servicio::select("servicio_nombre")->where('id', $id)->first();
+                break;
+            default:
+                $nombre = Material::select("material_nombre")->where('id', $id)->first();
+                break;
+        }
+        //Se envia por json a la vista
+        return response()->json($nombre);
+    }
 
 }

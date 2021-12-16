@@ -1,8 +1,11 @@
 $(document).ready(function(){
 
+
+
+
 limpiar();
 $("#cantidad").numeric();
-$("#selectReq").attr('disabled', true);
+$("#selectRequis8ty").attr('disabled', true);
 
 $("#fechaE").datepicker({
     dateFormat: "yy-mm-dd",
@@ -33,6 +36,7 @@ $("#fechaE").datepicker({
 
     $('#tipo').change(function(){
         if ( $('#tipo').val() == "") {
+            $('#selectRequis8ty').attr('disabled', true);
             return false;
         }
         $.ajax({
@@ -42,9 +46,9 @@ $("#fechaE").datepicker({
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            console.log( comp );
-            // $('#selectReq').attr('disabled', true);
-            var html = '<option value="">Seleccione...</option>';
+
+            // $('#selectRequis8ty').attr('disabled', true);
+            var html = '<option value="" id="sel45">Seleccione...</option>';
 
             if ($('#tipo').val() === 'Material') {
                 for (let i = 0; i < comp.length; i++) {
@@ -64,7 +68,7 @@ $("#fechaE").datepicker({
             }
 
             $('#conceptoDescrip').html(html);
-            $('#selectReq').attr('disabled', false);
+            $('#selectRequis8ty').attr('disabled', false);
 
         })
         .fail( function(){
@@ -89,7 +93,6 @@ $("#fechaE").datepicker({
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            console.log( comp );
 
             let html = '';
 
@@ -116,19 +119,18 @@ $("#fechaE").datepicker({
     });
 
 
-    $('#obraRel').change(function(){
-        if ( $('#obraRel').val() == "") {
+    $('#obraRel927y2').change(function(){
+        if ( $('#obraRel927y2').val() == "") {
             return false;
         }
 
         $.ajax({
-            url: 'consultar-obra/vhbjihugvcf5678uishugfdrstfyg8t7stc' + $('#obraRel').val(),
+            url: 'consultar-obra/vhbjihugvcf5678uishugfdrstfyg8t7stc' + $('#obraRel927y2').val(),
             type: 'GET',
             dataType: 'json',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            console.log( comp )
 
             let html2 = '';
 
@@ -161,7 +163,7 @@ $("#fechaE").datepicker({
         $("#tipo").val("");
         $("#fechaE").val("");
         $("#proveedorRec").val("");
-        $("#obraRel").val("");
+        $("#obraRel927y2").val("");
         $("#direccion").val("");
         $("#cantidad").val("");
         $("#conceptoDescrip").val("");
@@ -184,14 +186,74 @@ $("#fechaE").datepicker({
     function cargarMateriales(){
         if ( $('#cantidad').val().length >= 1 &&  $('#conceptoDescrip').val().length >= 1 &&  $('#especificaciones').val().length >= 3 ) {
             $('#agregar').attr('disabled', false);
-            console.log("Si que si");
         } else {
             $('#agregar').attr('disabled', true);
-            console.log("Nopp");
         }
     }
 
+    $("#agregar").on("click", function(){
+        let cant = $('#cantidad').val();
+        let concepto = $('#conceptoDescrip').val();
+        let especificaciones = $('#especificaciones').val();
+        let tipo = $('#tipo').val();
+
+        $.ajax({
+            url: 'consultar-nombre-concepto/x33ddwqfvhbjihugvcdcdf5678t7stc' + concepto +'/'+ tipo,
+            type: 'GET',
+            dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        })
+        .done(function(comp) {
+
+            let listado = '';
+            let nombre = '';
+
+            if(tipo == 'Material'){
+                nombre = comp.material_nombre;
+            } else {
+                if(tipo == 'Servicio'){
+                    nombre = comp.servicio_nombre;
+                } else {
+                    nombre = comp.viatico_nombre;
+                }
+            }
+
+            // listado +=  '<div class="card card-info card-outline">'+
+            //                 '<div class="card-header">'+
+            //                     '<div class="row">'+
+            //                         '<div class="col-md-4"><b>Cantidad: ' + cant + '</b></div>'+
+            //                         '<div class="col-md-4"><b>Concepto: ' + comp.material_nombre + '</b></div>'+
+            //                         '<div class="col-md-4"><b>Monto: ' + especificaciones + '</b></div>'+
+            //                     '</div>'+
+            //                 '</div>'+
+            //             '</div>';
 
 
+
+            $("#table").append('<tr><td>' + tipo + '</td><td>' + cant + '</td>' + '<td>' + nombre + '</td>' + '<td>' + especificaciones + '</td><tr>');
+            $('#cargarRequisicion').attr('disabled', false);
+            $('#ctipo234').append('<input type="hidden" name="tipo[]" value="' + tipo + '">');
+            $('#cantidad234').append('<input type="hidden" name="cantdd[]" value="' + cant + '">');
+            $('#conceptoDescrip234').append('<input type="hidden" name="conceptoDescrip424[]" value="' + concepto + '">');
+            $('#especificaciones234').append('<input type="hidden" name="especificacionesewq[]" value="' + especificaciones + '">');
+
+            $('#cantidad').val("");
+            $('conceptoDescrip select:first').first().focus();
+            $('#sel45').attr('selected', true);
+            $('#especificaciones').val("");
+            $('#agregar').attr('disabled', false);
+
+
+        })
+        .fail( function(){
+            console.log("hay un error en la carga de solicitud de nombre de concepto")
+        });
+
+
+    })
+
+    function borradoUnico(a){
+        alert("Si entro en el borrado unico");
+    }
 
 });

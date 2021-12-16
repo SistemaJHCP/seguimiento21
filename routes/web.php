@@ -115,5 +115,7 @@ Route::middleware('auth')->prefix('requisicion')->group(function () {
     Route::get("tipo-solicitud/{valor}/987yuisjihu8u7t6rstfyuiijshugytfrs5t6",[App\Http\Controllers\RequisicionController::class, 'jq_consultarTipo']);
     Route::get("consultar-proveedor/987yuiokkjhgy8u9i9876edght{id}", [App\Http\Controllers\RequisicionController::class, 'jq_consultarprov']);
     Route::get("consultar-obra/vhbjihugvcf5678uishugfdrstfyg8t7stc{id}", [App\Http\Controllers\RequisicionController::class, 'jq_consultarObra']);
+    Route::get("consultar-nombre-concepto/x33ddwqfvhbjihugvcdcdf5678t7stc{id}/{tipo}", [App\Http\Controllers\RequisicionController::class, 'jq_consultarNombreConcepto']);
+    Route::post("cargar-requisicion", [App\Http\Controllers\RequisicionController::class, 'store'])->name('requisicion.cargar');
 });
 Auth::routes();
