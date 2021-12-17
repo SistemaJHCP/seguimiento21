@@ -30,9 +30,9 @@ $("#fechaE").datepicker({
         theme: 'bootstrap4'
     });
 
-    $('#conceptoDescrip').select2({
-        theme: 'bootstrap4'
-    });
+    // $('#sugsbjhs98yu').select2({
+    //     theme: 'bootstrap4'
+    // });
 
     $('#tipo').change(function(){
         if ( $('#tipo').val() == "") {
@@ -47,8 +47,8 @@ $("#fechaE").datepicker({
         })
         .done(function(comp) {
 
-            // $('#selectRequis8ty').attr('disabled', true);
-            var html = '<option value="" id="sel45">Seleccione...</option>';
+            $('#selectRequis8ty').attr('disabled', true);
+            var html = '<option value="" selected">Seleccione...</option>';
 
             if ($('#tipo').val() === 'Material') {
                 for (let i = 0; i < comp.length; i++) {
@@ -67,7 +67,7 @@ $("#fechaE").datepicker({
                 }
             }
 
-            $('#conceptoDescrip').html(html);
+            $('#sugsbjhs98yu').html(html);
             $('#selectRequis8ty').attr('disabled', false);
 
         })
@@ -166,7 +166,7 @@ $("#fechaE").datepicker({
         $("#obraRel927y2").val("");
         $("#direccion").val("");
         $("#cantidad").val("");
-        $("#conceptoDescrip").val("");
+        $("#concrip").val("");
         $("#especificaciones").val("");
         $("#agregar").attr('disabled', true);
     }
@@ -175,7 +175,7 @@ $("#fechaE").datepicker({
         cargarMateriales()
     });
 
-    $('#conceptoDescrip').keyup(function(){
+    $('#concrip').keyup(function(){
         cargarMateriales()
     });
 
@@ -184,7 +184,7 @@ $("#fechaE").datepicker({
     });
 
     function cargarMateriales(){
-        if ( $('#cantidad').val().length >= 1 &&  $('#conceptoDescrip').val().length >= 1 &&  $('#especificaciones').val().length >= 3 ) {
+        if ( $('#cantidad').val().length >= 1 &&  $('#sugsbjhs98yu').val().length >= 1 &&  $('#especificaciones').val().length >= 3 ) {
             $('#agregar').attr('disabled', false);
         } else {
             $('#agregar').attr('disabled', true);
@@ -193,7 +193,7 @@ $("#fechaE").datepicker({
 
     $("#agregar").on("click", function(){
         let cant = $('#cantidad').val();
-        let concepto = $('#conceptoDescrip').val();
+        let concepto = $('#concrip').val();
         let especificaciones = $('#especificaciones').val();
         let tipo = $('#tipo').val();
 
@@ -205,7 +205,7 @@ $("#fechaE").datepicker({
         })
         .done(function(comp) {
 
-            let listado = '';
+            console.log( comp );
             let nombre = '';
 
             if(tipo == 'Material'){
@@ -218,30 +218,18 @@ $("#fechaE").datepicker({
                 }
             }
 
-            // listado +=  '<div class="card card-info card-outline">'+
-            //                 '<div class="card-header">'+
-            //                     '<div class="row">'+
-            //                         '<div class="col-md-4"><b>Cantidad: ' + cant + '</b></div>'+
-            //                         '<div class="col-md-4"><b>Concepto: ' + comp.material_nombre + '</b></div>'+
-            //                         '<div class="col-md-4"><b>Monto: ' + especificaciones + '</b></div>'+
-            //                     '</div>'+
-            //                 '</div>'+
-            //             '</div>';
-
-
-
             $("#table").append('<tr><td>' + tipo + '</td><td>' + cant + '</td>' + '<td>' + nombre + '</td>' + '<td>' + especificaciones + '</td><tr>');
             $('#cargarRequisicion').attr('disabled', false);
             $('#ctipo234').append('<input type="hidden" name="tipo[]" value="' + tipo + '">');
             $('#cantidad234').append('<input type="hidden" name="cantdd[]" value="' + cant + '">');
-            $('#conceptoDescrip234').append('<input type="hidden" name="conceptoDescrip424[]" value="' + concepto + '">');
+            $('#concrip234').append('<input type="hidden" name="concrip424[]" value="' + concepto + '">');
             $('#especificaciones234').append('<input type="hidden" name="especificacionesewq[]" value="' + especificaciones + '">');
 
             $('#cantidad').val("");
-            $('conceptoDescrip select:first').first().focus();
-            $('#sel45').attr('selected', true);
+            $('sugsbjhs98yu').val("").change();
+            $('#sel45').attr('selected', 'selected');
             $('#especificaciones').val("");
-            $('#agregar').attr('disabled', false);
+            $('#agregar').attr('disabled', true);
 
 
         })
@@ -252,8 +240,5 @@ $("#fechaE").datepicker({
 
     })
 
-    function borradoUnico(a){
-        alert("Si entro en el borrado unico");
-    }
 
 });

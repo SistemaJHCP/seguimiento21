@@ -106,7 +106,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Concepto o Descripción</label>
-                        <select  id="conceptoDescrip" class="form-control">
+                        <select  id="sugsbjhs98yu" class="form-control">
 
                         </select>
                     </div>

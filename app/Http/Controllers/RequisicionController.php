@@ -50,7 +50,7 @@ class RequisicionController extends Controller
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
         $proveedor = Proveedor::select("id", "proveedor_nombre")->orderBy("proveedor_nombre", "ASC")->get();
-        $obra = Obra::select("id", "obra_codigo", "obra_nombre")->orderBy("id", "ASC")->get();
+        $obra = Obra::select("id", "obra_codigo", "obra_nombre")->orderBy("id", "DESC")->get();
 
         if($permisoUsuario[0]->requisicion != 1){
             return redirect()->route("home");
@@ -160,19 +160,19 @@ class RequisicionController extends Controller
         //Dependendo de la seleccion, muestra todo lo referente a material, servicio o viatico
         switch ($valor) {
             case 'Material':
-                $query = Material::get();
+                $query = Material::orderBy('material_nombre', 'ASC')->get();
                 break;
 
             case 'Servicio':
-                $query = Servicio::get();
+                $query = Servicio::orderBy('servicio_nombre', 'ASC')->get();
                 break;
 
             case 'Viatico':
-                $query = Viatico::get();
+                $query = Viatico::orderBy('viatico_nombre', 'ASC')->get();
                 break;
 
             default:
-                $query = Material::get();
+                $query = Material::orderBy('material_nombre', 'ASC')->get();
                 break;
         }
         //retorna toda la informacion por json
