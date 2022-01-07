@@ -22,6 +22,14 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+
+                                @error( Session::has('deshabilitado') )
+                                <span class="invalid-feedback" role="alert">
+                                    {{-- <strong>{{ $session('error') }}</strong> --}}
+
+                                    cuenta desabilitada
+                                </span>
+                                @enderror
                             </div>
                         </div>
 

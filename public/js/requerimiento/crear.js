@@ -193,10 +193,10 @@ $("#fechaE").datepicker({
 
     $("#agregar").on("click", function(){
         let cant = $('#cantidad').val();
-        let concepto = $('#concrip').val();
+        let concepto = $('#sugsbjhs98yu').val();
         let especificaciones = $('#especificaciones').val();
         let tipo = $('#tipo').val();
-
+        $('#tipo').attr('disabled', true);
         $.ajax({
             url: 'consultar-nombre-concepto/x33ddwqfvhbjihugvcdcdf5678t7stc' + concepto +'/'+ tipo,
             type: 'GET',
@@ -205,7 +205,10 @@ $("#fechaE").datepicker({
         })
         .done(function(comp) {
 
-            console.log( comp );
+            // console.log( comp );
+            // console.log( comp.servicio_nombre );
+            // console.log( tipo );
+
             let nombre = '';
 
             if(tipo == 'Material'){
@@ -220,7 +223,7 @@ $("#fechaE").datepicker({
 
             $("#table").append('<tr><td>' + tipo + '</td><td>' + cant + '</td>' + '<td>' + nombre + '</td>' + '<td>' + especificaciones + '</td><tr>');
             $('#cargarRequisicion').attr('disabled', false);
-            $('#ctipo234').append('<input type="hidden" name="tipo[]" value="' + tipo + '">');
+            $('#ctipo234').append('<input type="hidden" name="tipo" value="' + tipo + '">');
             $('#cantidad234').append('<input type="hidden" name="cantdd[]" value="' + cant + '">');
             $('#concrip234').append('<input type="hidden" name="concrip424[]" value="' + concepto + '">');
             $('#especificaciones234').append('<input type="hidden" name="especificacionesewq[]" value="' + especificaciones + '">');

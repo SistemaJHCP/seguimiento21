@@ -39,7 +39,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Fecha de Entrega</label>
-                                <input type="text" name="fechaE" id="fechaE" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" required>
+                                <input type="text" name="fechaE" id="fechaE" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                     <div class="row">
                         <div class="col-12">
                             <label for="">Dirección</label>
-                            <textarea name="direccion" id="direccion" class="form-control" required placeholder="Ingrese la dirección de la obra"></textarea>
+                            <textarea name="direccion" id="direccion" class="form-control" required placeholder="Ingrese la dirección de la obra" maxlength="300"></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -102,7 +102,7 @@
                 @csrf
                     <div class="form-group">
                         <label for="">Cantidad</label>
-                        <input type="text" id="cantidad" placeholder="Indique la cantidad" class="form-control" autocomplete="off">
+                        <input type="text" id="cantidad" placeholder="Indique la cantidad" class="form-control" autocomplete="off"  maxlength="10">
                     </div>
                     <div class="form-group">
                         <label for="">Concepto o Descripción</label>
@@ -112,7 +112,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Especificaciones</label>
-                        <textarea id="especificaciones" class="form-control" placeholder="Caracteristicas del material"></textarea>
+                        <textarea id="especificaciones" class="form-control" placeholder="Caracteristicas del material" autocomplete="off"  maxlength="180"></textarea>
                     </div>
 
                 </div>
@@ -133,7 +133,7 @@
                     Motivo
                 </div>
                 <div class="card-body">
-                    <textarea name="motivo" id="motivo" class="form-control" required></textarea>
+                    <textarea name="motivo" id="motivo" class="form-control" required  maxlength="300"></textarea>
                 </div>
             </div>
 
@@ -142,7 +142,7 @@
                     Observación
                 </div>
                 <div class="card-body">
-                    <textarea name="observacion" id="observacion" class="form-control" required></textarea>
+                    <textarea name="observacion" id="observacion" class="form-control" required  maxlength="300"></textarea>
                 </div>
             </div>
         </div>
@@ -168,7 +168,7 @@
                     </table>
                     <div id="ctipo234"></div>
                     <div id="cantidad234"></div>
-                    <div id="conceptoDescrip234"></div>
+                    <div id="concrip234"></div>
                     <div id="especificaciones234"></div>
                 </div>
                 <div class="card-body">

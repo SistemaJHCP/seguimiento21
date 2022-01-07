@@ -67,7 +67,58 @@ class RequisicionController extends Controller
      */
     public function store(Request $request)
     {
-        dd( $request->all() );
+        dump( $request->all() );
+
+        //validamos que todo este bien
+        $request->validate([
+            'fechaE' => 'required|max:10',
+            'proveedorRec' => 'required',
+            'obra' => 'required',
+            'direccion' => 'required|max:320',
+            'motivo' => 'required|max:320'
+
+        ]);
+
+
+        $codRequi = Requisicion::select("requisicion_codigo")->orderBy("id", "desc")->limit(1)->get();
+
+        if(count($codRequi) < 1){
+            //Si es menor a 1
+            $codRequiNro = "REQ-1";
+        } else {
+            //Se extrae el numero y se le agrega un valor mas (xx + 1)
+            preg_match_all('!\d+!', $codRequi[0]->requisicion_codigo, $cod);
+            $cod = $cod[0][0] + 1;
+            $codRequiNro = "REQ-".$cod;
+        }
+
+        $req = new Requisicion();
+
+        $req->requisicion_codigo = $codRequiNro;
+        $req->requisicion_tipo = $request->tipo;
+        $req->requisicion_fecha = date('Y-m-d');
+        $req->requisicion_fechae = $request->fechaE;
+        $req->requisicion_motivo = $request->motivo;
+        $req->requisicion_direccion = $request->direccion;
+        $req->requisicion_observaciones = $request->observacion;
+        $req->requisicion_estado = "No Vista";
+        $req->usuario_id = \Auth::user()->id;
+        $req->obra_id = $request->obra;
+        $req->proveedor_id = $request->proveedorRec;
+
+        $req->save();
+
+
+        foreach ($request->cantdd as $key => $value) {
+
+
+
+
+
+
+            
+        }
+
     }
 
     /**
@@ -211,6 +262,7 @@ class RequisicionController extends Controller
                 $nombre = Material::select("material_nombre")->where('id', $id)->first();
                 break;
         }
+
         //Se envia por json a la vista
         return response()->json($nombre);
     }
