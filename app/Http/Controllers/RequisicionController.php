@@ -109,15 +109,16 @@ class RequisicionController extends Controller
         $req->save();
 
 
-        foreach ($request->cantdd as $key => $value) {
+        // foreach (array_keys( $request->cantdd ) as $key) {
+        //     $jerarquia = new Eliminar();
+        //     $jerarquia->evaluacion_id = $request->id_evaluacionElim[$key];
+        //     // $jerarquia->tipo = $request->tipoElim[$key];
+        //     $jerarquia->responsable = $request->responsableElim[$key];
+        //     $jerarquia->rut = $request->rutElim[$key];
+        //     $jerarquia->registro_id  = $dato;
 
-
-
-
-
-
-            
-        }
+        //     $jerarquia->save();
+        // }
 
     }
 
