@@ -10,6 +10,8 @@ use App\Models\Material;
 use App\Models\Servicio;
 use App\Models\Viatico;
 use App\Models\Proveedor;
+use App\Models\Solicitud_detalle;
+
 
 class RequisicionController extends Controller
 {
@@ -67,7 +69,13 @@ class RequisicionController extends Controller
      */
     public function store(Request $request)
     {
-        dump( $request->all() );
+        //Validamos permisos de este usuario
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->requisicion != 1 || $permisoUsuario[0]->crear_requisicion != 1){
+            return redirect()->route("home");
+        }
+
 
         //validamos que todo este bien
         $request->validate([
@@ -95,7 +103,7 @@ class RequisicionController extends Controller
         $req = new Requisicion();
 
         $req->requisicion_codigo = $codRequiNro;
-        $req->requisicion_tipo = $request->tipo;
+        $req->requisicion_tipo = $request->tipos[0];
         $req->requisicion_fecha = date('Y-m-d');
         $req->requisicion_fechae = $request->fechaE;
         $req->requisicion_motivo = $request->motivo;
@@ -109,16 +117,29 @@ class RequisicionController extends Controller
         $req->save();
 
 
-        // foreach (array_keys( $request->cantdd ) as $key) {
-        //     $jerarquia = new Eliminar();
-        //     $jerarquia->evaluacion_id = $request->id_evaluacionElim[$key];
-        //     // $jerarquia->tipo = $request->tipoElim[$key];
-        //     $jerarquia->responsable = $request->responsableElim[$key];
-        //     $jerarquia->rut = $request->rutElim[$key];
-        //     $jerarquia->registro_id  = $dato;
+        foreach (array_keys( $request->cantdd ) as $key) {
+            $soldet = new Solicitud_detalle();
+            $soldet->sd_cantidad = $request->cantdd[$key];
+            $soldet->requisicion_id = $req->id;
 
-        //     $jerarquia->save();
-        // }
+            if ($request->tipos[$key] == "Material") {
+                $soldet->material_id = $request->concrip424[$key];
+            } elseif ($request->tipos[$key] == "Servicio") {
+                $soldet->servicio_id = $request->concrip424[$key];
+            } elseif ($request->tipos[$key] == "Viatico") {
+                $soldet->viatico_id = $request->concrip424[$key];
+            }
+
+            $soldet->sd_caracteristicas = $request->especificacionesewq[$key];
+
+            $soldet->save();
+        }
+
+        if ($soldet) {
+            return redirect()->route('requisicion.crear')->with('resp', 1);
+        } else {
+            return redirect()->route('requisicion.crear')->with('resp', 0);
+        }
 
     }
 

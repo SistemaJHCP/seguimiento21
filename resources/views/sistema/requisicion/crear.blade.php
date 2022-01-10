@@ -22,7 +22,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Tipo</label>
-                                <select name="tipo" id="tipo" class="form-control" required>
+                                <select name="clase" id="tipo" class="form-control" required>
                                     <option value="">Seleccione...</option>
                                     <option value="Material">Material</option>
                                     <option value="Servicio">Servicio</option>
@@ -133,7 +133,7 @@
                     Motivo
                 </div>
                 <div class="card-body">
-                    <textarea name="motivo" id="motivo" class="form-control" required  maxlength="300"></textarea>
+                    <textarea name="motivo" id="motivo" class="form-control" required  maxlength="300" autocomplete="off"></textarea>
                 </div>
             </div>
 
@@ -142,7 +142,7 @@
                     Observación
                 </div>
                 <div class="card-body">
-                    <textarea name="observacion" id="observacion" class="form-control" required  maxlength="300"></textarea>
+                    <textarea name="observacion" id="observacion" class="form-control"  maxlength="300" autocomplete="off"></textarea>
                 </div>
             </div>
         </div>
@@ -154,12 +154,13 @@
                 </div>
                 <div class="card-body">
                     <table class="table" id="table">
-                        <thead>
+                        <thead >
                             <tr>
                               <th>Tipo</th>
                               <th>Cantidad</th>
                               <th>Concepto</th>
                               <th>Especificación</th>
+                              <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -187,6 +188,39 @@
 <script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/requerimiento/crear.js") }}"></script>
+@if (Session::has('resp'))
+{{ Session::has('resp') }}
+    @if (Session::has('resp') == 1)
+    <script>
+        Swal.fire(
+        'Sulicitud procesada!',
+        'La información fue cargada exitosamente!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+
+@endif
+
+<script>
+
+    function borrarMat(a) {
+
+        var valor = "tabla";
+
+    }
+
+</script>
+
+
 @endsection
 @section('css')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

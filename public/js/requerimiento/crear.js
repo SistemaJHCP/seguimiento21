@@ -30,9 +30,9 @@ $("#fechaE").datepicker({
         theme: 'bootstrap4'
     });
 
-    // $('#sugsbjhs98yu').select2({
-    //     theme: 'bootstrap4'
-    // });
+    $('#sugsbjhs98yu').select2({
+        theme: 'bootstrap4'
+    });
 
     $('#tipo').change(function(){
         if ( $('#tipo').val() == "") {
@@ -210,6 +210,7 @@ $("#fechaE").datepicker({
             // console.log( tipo );
 
             let nombre = '';
+            let union = tipo + concepto;
 
             if(tipo == 'Material'){
                 nombre = comp.material_nombre;
@@ -221,19 +222,18 @@ $("#fechaE").datepicker({
                 }
             }
 
-            $("#table").append('<tr><td>' + tipo + '</td><td>' + cant + '</td>' + '<td>' + nombre + '</td>' + '<td>' + especificaciones + '</td><tr>');
+            $("#table").append('<tr id="tabla' + tipo + concepto + '"><td>' + tipo + '</td><td>' + cant + '</td>' + '<td>' + nombre + '</td>' + '<td>' + especificaciones + '</td>' + '<td> <i style="color:#6b1022;" onclick="borrarMat('+ union +')" class="fas fa-trash"></i> </td>' + '<tr>');
             $('#cargarRequisicion').attr('disabled', false);
-            $('#ctipo234').append('<input type="hidden" name="tipo" value="' + tipo + '">');
-            $('#cantidad234').append('<input type="hidden" name="cantdd[]" value="' + cant + '">');
-            $('#concrip234').append('<input type="hidden" name="concrip424[]" value="' + concepto + '">');
-            $('#especificaciones234').append('<input type="hidden" name="especificacionesewq[]" value="' + especificaciones + '">');
+            $('#ctipo234').append('<input type="hidden" id="tipos' + concepto + '" name="tipos[]" value="' + tipo + '">');
+            $('#cantidad234').append('<input type="hidden" id="cantdd' + concepto + '" name="cantdd[]" value="' + cant + '">');
+            $('#concrip234').append('<input type="hidden" id="concrip424' + concepto + '" name="concrip424[]" value="' + concepto + '">');
+            $('#especificaciones234').append('<input type="hidden" id="especificacionesewq' + concepto + '" name="especificacionesewq[]" value="' + especificaciones + '">');
 
             $('#cantidad').val("");
-            $('sugsbjhs98yu').val("").change();
+            $('#sugsbjhs98yu').val("");
             $('#sel45').attr('selected', 'selected');
             $('#especificaciones').val("");
             $('#agregar').attr('disabled', true);
-
 
         })
         .fail( function(){
