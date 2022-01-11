@@ -71,7 +71,7 @@
                 <div class="form-row">
                     <div class="form-group col-2">
                         <label for="inputState">Estado</label>
-                        <select name="tipo" id="tipo" class="form-control" required autocomplete="on">
+                        <select name="tipo" id="tipo" class="form-control" required autocomplete="off">
                           <option value="Natural">N</option>
                           <option value="Juridico">J</option>
                           <option value="Gubernamental">G</option>
@@ -79,12 +79,12 @@
                       </div>
                     <div class="form-group col-10">
                       <label for="inputCity">Identificación</label>
-                      <input type="text" class="form-control" placeholder="Ingrese el número de cédula" id="cedula" minlength="5"  maxlength="9" name="identificacion" required autocomplete="on">
+                      <input type="text" class="form-control" placeholder="Ingrese el número de cédula" id="cedula" minlength="5"  maxlength="9" name="identificacion" required autocomplete="off">
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Nombre</label>
-                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre del proveedor" class="form-control" minlength="3" maxlength="50" required autocomplete="on">
+                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre del proveedor" class="form-control" minlength="3" maxlength="50" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Tipo de Suministro</label>
@@ -97,19 +97,19 @@
                 </div>
                 <div class="form-group">
                     <label>Teléfono</label>
-                    <input type="text" name="telefono" id="telefono" class="form-control" minlength="3" maxlength="11" placeholder="Ingrese el número del proveedor" required autocomplete="on">
+                    <input type="text" name="telefono" id="telefono" class="form-control" minlength="3" maxlength="11" placeholder="Ingrese el número del proveedor" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Dirección</label>
-                    <input type="text" name="direccion" id="direccion" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" required autocomplete="on">
+                    <input type="text" name="direccion" id="direccion" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Correo Electrónico</label>
-                    <input type="email" name="email" id="email" class="form-control" maxlength="60" placeholder="Ingrese la dirección del proveedor" autocomplete="on">
+                    <input type="email" name="email" id="email" class="form-control" maxlength="60" placeholder="Ingrese la dirección del proveedor" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Persona de Contacto</label>
-                    <input type="text" name="contacto" id="contacto" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" autocomplete="on">
+                    <input type="text" name="contacto" id="contacto" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" autocomplete="off">
                 </div>
             </div>
         </div>

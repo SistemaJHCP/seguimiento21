@@ -97,9 +97,9 @@ class CodventasController extends Controller
 
         $cod->save();
         if($cod){
-            dd("Verdadero");
+            return redirect()->route("maestro.index")->with('resp', 1);
         } else {
-            dd("Farrrso");
+            return redirect()->route("maestro.index")->with('resp', 0);
         }
 
     }

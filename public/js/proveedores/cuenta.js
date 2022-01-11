@@ -3,14 +3,18 @@ $(document).ready(function(){
     limpiar();
 
     $("#banco").on("change", function(){
-        if($("#banco").val() == true){
-            activar();
+        if( $("#banco").val() >= 1 ){
+        activar();
+        } else {
+            $("#agregar").attr("disabled", true);
         }
     });
 
-    $("#tipo").on("change", function(){
-        if($("#tipo").val() == true){
-            activar();
+    $(document).on("change", "#tipo",  function(){
+        if($("#tipo").val() >= 1){
+        activar();
+        } else {
+            $("#agregar").attr("disabled", true);
         }
     });
 
@@ -20,7 +24,7 @@ $(document).ready(function(){
 
 
     $("#nroCuenta").keyup(function(){
-        if ($("#nroCuenta").val().length < 20) {
+        if ( $("#nroCuenta").val().length < 20 ) {
             $("#nroCuenta").css({"border": "1px solid red"});
             $("#agregar").attr("disabled", true);
             activar();
@@ -32,12 +36,10 @@ $(document).ready(function(){
 
     function activar()
     {
-        if( $("#banco").val() == true && $("#nroCuenta").val().length > 19 && $("#tipo").val().length  == true  ){
+        if( $("#banco").val() >= 1 && $("#nroCuenta").val().length > 19 && $("#tipo").val().length  >= 1  ){
             $("#agregar").attr("disabled", false);
-            console.log("si");
         } else {
             $("#agregar").attr("disabled", true);
-
         }
     }
 
@@ -49,9 +51,9 @@ $(document).ready(function(){
         $("#agregar").attr("disabled", true);
     }
 
-    $(document).on("click", "#deshabilitarCuenta", function(){
-        console.log( "No toma el valor: " +  );
-    });
+    // $(document).on("click", "#deshabilitarCuenta", function(){
+    //     console.log( "No toma el valor: " +  );
+    // });
 
 
     // $(document).on("click","#deshabilitar",function(){

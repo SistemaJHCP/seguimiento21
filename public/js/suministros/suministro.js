@@ -1,5 +1,20 @@
 $(document).ready(function(){
 
+    $(document).on("click", "#agregarSuministro", function(){
+        $("form").on("submit", function () {
+            $("#agregarSuministro").attr("value", "Guardando, espere...");
+            $("#agregarSuministro").attr("disabled", true);
+        });
+    });
+
+    $(document).on("click", "#agregarSuministroMod", function(){
+        $("form").on("submit", function () {
+            $("#agregarSuministroMod").attr("value", "Guardando, espere...");
+            $("#agregarSuministroMod").attr("disabled", true);
+        });
+    });
+
+
     $("#nombreSuministro").val("");
     $("#nombreSuministroMod").val("");
     $("#cerrar").click(function(){

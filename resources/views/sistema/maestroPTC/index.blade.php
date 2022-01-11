@@ -73,23 +73,23 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Código de PTC</label>
-                    <input type="text" name="codigoPTC" id="codigoPTC" class="form-control" placeholder="Ingrese el código de PTC" maxlength="22">
+                    <input type="text" name="codigoPTC" id="codigoPTC" class="form-control" placeholder="Ingrese el código de PTC" maxlength="22" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Nombre</label>
-                    <input type="text" name="nombrePTC" id="nombrePTC" class="form-control" placeholder="Ingrese las caracteristicas" maxlength="100">
+                    <input type="text" name="nombrePTC" id="nombrePTC" class="form-control" placeholder="Ingrese las caracteristicas" maxlength="100" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Teléfono</label>
-                    <input type="text" name="telefonoPTC" id="telefonoPTC" class="form-control" placeholder="Ingrese teléfono de contacto" maxlength="12">
+                    <input type="text" name="telefonoPTC" id="telefonoPTC" class="form-control" placeholder="Ingrese teléfono de contacto" maxlength="12" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Dirección</label>
-                    <input type="text" name="direccionPTC" id="direccionPTC" class="form-control" placeholder="Ingrese la dirección" maxlength="220">
+                    <input type="text" name="direccionPTC" id="direccionPTC" class="form-control" placeholder="Ingrese la dirección" maxlength="220" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Correo electrónico</label>
-                    <input type="text" name="correoPTC" id="correoPTC" class="form-control" placeholder="Ingrese el correo electrónico" maxlength="60">
+                    <input type="text" name="correoPTC" id="correoPTC" class="form-control" placeholder="Ingrese el correo electrónico" maxlength="60" autocomplete="off">
                 </div>
             </div>
             <div class="modal-footer">
@@ -146,6 +146,43 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/maestro/ptc.js") }}"></script>
+@endsection
+@section('js')
+<script>
+@if (Session::has('resp'))
+{{ Session::has('resp') }}
+    @if (Session::has('resp') == 1)
+    <script>
+        Swal.fire(
+        'Sulicitud procesada!',
+        'La información fue cargada exitosamente!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+
+@endif
+
+
+@if (count($errors) > 0)
+{{-- Este es el mensaje de error desde la validacion --}}
+<script>
+    Swal.fire(
+    'Hubo un error!',
+    'el formulario no esta correctamente cargado!',
+    'error'
+    )
+</script>
+@endif
+</script>
 @endsection
 
 

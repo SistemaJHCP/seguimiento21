@@ -11,7 +11,7 @@
 
 @section('contenedor')
 <div class="row">
-    <div class="col-md-2">1</div>
+    <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="card">
 
@@ -52,14 +52,14 @@
                       </div>
                       <div class="modal-footer">
                         <p><a href="{{ route('maestro.index') }}"><button type="button" class="btn btn-info float-right">Regresar</button></a></p>
-                          <input type="submit" id="cargar" class="btn btn-info" value="Cargar una PTC">
+                          <input type="submit" id="cargar" class="btn btn-info" value="Modificar PTC">
                       </div>
                   </form>
                 </div>
 
         </div>
     </div>
-    <div class="col-md-2">3</div>
+    <div class="col-md-2"></div>
 </div>
 
 @endsection

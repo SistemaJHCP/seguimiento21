@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Banco;
 use App\Models\Permiso;
 use App\Models\Proveedor;
+use App\Models\Banco_proveedor;
 
 class BancoController extends Controller
 {
@@ -48,7 +49,34 @@ class BancoController extends Controller
      */
     public function store(Request $request)
     {
-        dd( $request->all() );
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->banco != 1 || $permisoUsuario[0]->crear_banco != 1){
+            return redirect()->route("home");
+        }
+
+        $request->validate([
+            'banco' => 'required',
+            'nroCuenta' => 'required|max:20',
+            'dato' => 'required',
+            'tipo' => 'required'
+        ]);
+
+        $banco = new Banco_proveedor();
+        $banco->banco_id = $request->banco;
+        $banco->proveedor_id = $request->dato;
+        $banco->tipodecuenta = $request->tipo;
+        $banco->numero = $request->nroCuenta;
+
+        $resp = $banco->save();
+
+        if ($resp) {
+            return redirect()->route('proveedor.cuenta', $request->dato)->with('resp', 1);
+        } else {
+            return redirect()->route('proveedor.cuenta', $request->dato)->with('resp', 0);
+        }
+
     }
 
     /**

@@ -122,6 +122,13 @@ $(document).ready(function(){
         $("#contacto").val("");
     }
 
+    $("#crear").on("click", function(){
+        $("form").on("submit", function () {
+            $("#crear").attr("value", "Guardando, espere...");
+            $("#crear").attr("disabled", true);
+        });
+    });
+
     $(document).on("click", "#desactivar",function(){
 
         Swal.fire({
