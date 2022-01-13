@@ -113,7 +113,7 @@
                 <label for="">Dirección del cliente / empresa</label>
                 <input type="text" name="direccion" id="direccion" class="form-control" minlength="1" maxlength="200" placeholder="Direccion de la empresa a registrar" required autocomplete="off">
                 <label for="">Correo del cliente / empresa</label>
-                <input type="text" name="correo" id="correo" class="form-control" onkeyup="key();" minlength="7" maxlength="40" placeholder="Correo para contactar al cliente" required autocomplete="off">
+                <input type="text" name="correo" id="correo" class="form-control" minlength="7" maxlength="40" placeholder="Correo para contactar al cliente" required autocomplete="off">
             </div>
         </div>
         <div class="modal-footer">

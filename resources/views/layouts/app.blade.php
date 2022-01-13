@@ -4,7 +4,7 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -139,16 +139,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     }
                 ?>
                 <?php
-                    if ($permisoUsuario->cliente == 1){
+                    if ($permisoUsuario->tipo == 1){
                 ?>
-                    <li><a href="" class="dropdown-item">Tipo de obra</a></li>
+                    <li><a href="{{ route('tipo.index') }}" class="dropdown-item">Tipo de obra</a></li>
                 <?php
                     }
                 ?>
                 <?php
-                    if ($permisoUsuario->cliente == 1){
+                    if ($permisoUsuario->personal == 1){
                 ?>
-                    <li><a href="" class="dropdown-item">Personal  </a></li>
+                    <li><a href="{{ route('personal.index') }}" class="dropdown-item">Personal  </a></li>
                 <?php
                     }
                 ?>

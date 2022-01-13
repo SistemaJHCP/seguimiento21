@@ -65,13 +65,13 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">Total planificado</label>
-                                    <input type="text" name="total" id="total" class="form-control" placeholder="Gasto planificado de la obra" maxlength="17">
+                                    <input type="text" name="total" id="total" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Gasto planificado de la obra" maxlength="17">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Porcentaje de ganancia</label>
-                                    <input type="number" name="porcentaje" id="porcentaje" class="form-control" placeholder="Porcentaje de ganancia"  oninput="if(value.length>6)value=value.slice(0,6)">
+                                    <input type="number" name="porcentaje" id="porcentaje" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Porcentaje de ganancia"  oninput="if(value.length>6)value=value.slice(0,6)">
                                 </div>
                             </div>
                         </div>
@@ -172,8 +172,8 @@
 @endsection
 @section('js')
 <script src="{{ asset("plugins/plugins/jquery-ui/jquery-ui.js") }}"></script>
+<script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/obra/crear-obra.js") }}"></script>
-
 @endsection
 @section('css')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

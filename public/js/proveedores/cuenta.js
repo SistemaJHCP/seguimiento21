@@ -22,6 +22,11 @@ $(document).ready(function(){
         limpiar();
     });
 
+    $(document).on("click", "#deshabilitarCuenta", function(){
+        alert( this.value );
+    });
+
+    $("#nroCuenta").numeric();
 
     $("#nroCuenta").keyup(function(){
         if ( $("#nroCuenta").val().length < 20 ) {

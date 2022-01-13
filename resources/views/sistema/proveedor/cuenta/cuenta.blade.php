@@ -51,20 +51,22 @@
 
         </div>
     <div class="col-md-7">
-        <div class="card-body">
-            @foreach ($banco as $b)
-                <div class="callout callout-info"  style="color: black">
-                    <h5><b>Banco: </b>{{ $b->banco_nombre }}</h5><div class="float-right"><i style="color:#943838;font-size:24px;" class="far fa-trash-alt" id="deshabilitarCuenta" value="{{ $b->id }}"></i></div>
+        <form  method="post">
+            <div class="card-body">
+                @foreach ($banco as $b)
+                    <div class="callout callout-info"  style="color: black">
+                        <h5><b>Banco: </b>{{ $b->banco_nombre }}</h5><div class="float-right"><i style="color:#943838;font-size:24px;" class="far fa-trash-alt" id="deshabilitarCuenta" value="{{ $b->id }}"></i></div>
 
-                    <p><b>Cuenta: </b>{{ $b->numero }}</p>
-                    @if($b->tipodecuenta == 1)
-                        Ahorro
-                    @else
-                        Corriente
-                    @endif
-                </div>
-            @endforeach
-        </div>
+                        <p><b>Cuenta: </b>{{ $b->numero }}</p>
+                        @if($b->tipodecuenta == 1)
+                            Ahorro
+                        @else
+                            Corriente
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </form>
     </div>
 </div>
 <div class="modal fade" id="agregarCuenta" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="agregarCuentaLabel" aria-hidden="true">

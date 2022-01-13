@@ -75,7 +75,7 @@ $(document).ready(function(){
     });
 
     $("#direccion").keyup(function(){
-        if ($('#direccion').val().length <= 6 || $('#direccion').val().length > 201) {
+        if ($('#direccion').val().length <= 6 || $('#direccion').val().length > 190) {
             $('#direccion').css({'border':'1px solid red'});
             $('#cargarCliente').prop('disabled',true);
             activarBoton();
@@ -99,24 +99,24 @@ $(document).ready(function(){
     });
 
 
-    function key(){
-        iff();
-    }
+    // function key(){
+    //     iff();
+    // }
 
-    function iff(){
-        if ($('#correo').val().length <= 1) {
-            console.log("qqqq");
-            $('#correo').css({'border':'1px solid red'});
-            $('#cargarCliente').prop('disabled',true);
-            activarBoton();
-            return false;
-        } else {
-            console.log("rrrrr");
-            $('#correo').css({'border':'1px solid #d2d6de'});
-            $('#cargarCliente').prop('disabled',false);
-            activarBoton();
-        }
-    }
+    // function iff(){
+    //     if ($('#correo').val().length <= 1) {
+    //         console.log("qqqq");
+    //         $('#correo').css({'border':'1px solid red'});
+    //         $('#cargarCliente').prop('disabled',true);
+    //         activarBoton();
+    //         return false;
+    //     } else {
+    //         console.log("rrrrr");
+    //         $('#correo').css({'border':'1px solid #d2d6de'});
+    //         $('#cargarCliente').prop('disabled',false);
+    //         activarBoton();
+    //     }
+    // }
 
     function activarBoton(){
         if($('#codigo').val().length > 1 && $('#nombre').val().length > 1 && $('#telefono').val().length > 1 && $('#direccion').val().length > 1 && $('#correo').val().length > 1 ){
@@ -130,7 +130,7 @@ $(document).ready(function(){
     $("#cargarCliente").click(function(){
         $("form").on("submit", function () {
             $("#cargarCliente").attr("value", "Guardando, espere...");
-            $(this).find(":submit").prop("disabled", true);
+            $("#cargarCliente").prop("disabled", true);
         });
     });
 

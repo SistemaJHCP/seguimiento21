@@ -53,6 +53,18 @@ class CreateUsersTable extends Migration
             $table->boolean('ver_botones_proveedores')->default(1);
             $table->boolean('desactivar_proveedores')->default(1);
             $table->boolean('reactivar_proveedores')->default(1);
+            $table->boolean('tipo')->default(1);
+            $table->boolean('crear_tipo')->default(1);
+            $table->boolean('modificar_tipo')->default(1);
+            $table->boolean('ver_botones_tipo')->default(1);
+            $table->boolean('desactivar_tipo')->default(1);
+            $table->boolean('reactivar_tipo')->default(1);
+            $table->boolean('personal')->default(1);
+            $table->boolean('crear_personal')->default(1);
+            $table->boolean('modificar_personal')->default(1);
+            $table->boolean('ver_botones_personal')->default(1);
+            $table->boolean('desactivar_personal')->default(1);
+            $table->boolean('reactivar_personal')->default(1);
             $table->boolean('suministros')->default(1);
             $table->boolean('crear_suministros')->default(1);
             $table->boolean('modificar_suministros')->default(1);

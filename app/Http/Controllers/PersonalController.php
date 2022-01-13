@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Personal;
 use Illuminate\Http\Request;
+use App\Models\Permiso;
 
 class PersonalController extends Controller
 {
+
+    public function permisos($p)
+    {
+        //Se encarga de validar los permisos que se manejan en el sistema,
+        //saber a que areas del sistema se puede ingresar
+        $permiso = Permiso::select()->where('id', $p )->get();
+        return $permiso;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,14 @@ class PersonalController extends Controller
      */
     public function index()
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->obra != 1){
+            return redirect()->route("home");
+        }
+
+        return view('sistema.personal.index')->with('permisoUsuario', $permisoUsuario[0]);
     }
 
     /**
@@ -82,4 +100,32 @@ class PersonalController extends Controller
     {
         //
     }
+
+    public function jq_listaPersonal()
+    {
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->reactivar_obra != 1){
+            return redirect()->route("home");
+        }
+
+        //Realizamos la consulta a la base de datos
+        $query = Personal::select()->where('personal_estado', 1)->get();
+
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->personal == 1 && $permisoUsuario[0]->ver_botones_personal == 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.obra.btnReactivar')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        }
+    }
+
+
+
 }

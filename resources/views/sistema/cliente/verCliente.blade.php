@@ -11,7 +11,7 @@
 
 @section('contenedor')
 <div class="row">
-    <div class="col-md-2">1</div>
+    <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="card mb-3">
             <div class="row no-gutters">
@@ -27,13 +27,13 @@
                   <p class="card-text"><b>Correo: </b>{{ $cliente->cliente_correo }}</p>
                   <hr>
                   <p class="card-text"><b></b>{{ $cliente->cliente_direccion }}</p>
-                  <p class="card-text"><small class="text-muted">Fecha de creación: {{ $cliente->created_at }}</small></p>
+                  <p class="card-text"><small class="text-muted">Fecha de creación: {{ $cliente->created_at }}</small> <a href="{{ route('cliente.index') }}" class="btn btn-primary float-right">Regresar</a> </p>
                 </div>
               </div>
             </div>
         </div>
     </div>
-    <div class="col-md-2">3</div>
+    <div class="col-md-2"></div>
 </div>
 @endsection
 @section('js')

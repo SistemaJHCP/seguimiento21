@@ -55,6 +55,21 @@ Route::middleware('auth')->prefix('maestroPTC')->group(function () {
     Route::post("eliminar-ptc/8yg28yb2728{id}282", [App\Http\Controllers\CodventasController::class, 'jq_desactivar']);
 });
 
+Route::middleware('auth')->prefix('tipo')->group(function () {
+    Route::get("/",[App\Http\Controllers\TipoController::class, 'index'])->name('tipo.index');
+    Route::get("lista-de-tipos-de-obras",[App\Http\Controllers\TipoController::class, 'jq_listaObras']);
+    Route::post("crear-tipo",[App\Http\Controllers\TipoController::class, 'store'])->name('tipo.crear');
+    Route::post("modificar-tipo/4567ygsvgy765srty3ush93ts5r",[App\Http\Controllers\TipoController::class, 'update'])->name('tipo.modificar');
+    Route::get("busqueda-tipo/{id}",[App\Http\Controllers\TipoController::class, 'jq_busquedaTipo']);
+    Route::get("deshabilitando/{id}",[App\Http\Controllers\TipoController::class, 'jq_deshabilitar']);
+
+});
+
+Route::middleware('auth')->prefix('personal')->group(function () {
+    Route::get("/",[App\Http\Controllers\PersonalController::class, 'index'])->name('personal.index');
+    Route::get("lista-de-personal",[App\Http\Controllers\PersonalController::class, 'jq_listaPersonal']);
+});
+
 Route::middleware('auth')->prefix('control-de-obras')->group(function () {
     Route::get("/",[App\Http\Controllers\ObraController::class, 'index'])->name('obra.index');
     Route::get("lista-de-obras",[App\Http\Controllers\ObraController::class, 'jq_lista']);
