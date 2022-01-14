@@ -59,19 +59,19 @@
                         </div>
                         <div class="form-group">
                             <label for="">Nombre</label>
-                            <input type="text" name="nombreObra" id="nombreObra" class="form-control" placeholder="Nombre de la obra" maxlength="100">
+                            <input type="text" name="nombreObra" id="nombreObra" autocomplete="off" class="form-control" placeholder="Nombre de la obra" maxlength="100">
                         </div>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">Total planificado</label>
-                                    <input type="text" name="total" id="total" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Gasto planificado de la obra" maxlength="17">
+                                    <input type="text" name="total" id="total" autocomplete="off" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Gasto planificado de la obra" maxlength="17">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Porcentaje de ganancia</label>
-                                    <input type="number" name="porcentaje" id="porcentaje" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Porcentaje de ganancia"  oninput="if(value.length>6)value=value.slice(0,6)">
+                                    <input type="text" name="porcentaje" id="porcentaje" autocomplete="off" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Porcentaje de ganancia"  oninput="if(value.length>6)value=value.slice(0,6)">
                                 </div>
                             </div>
                         </div>
@@ -79,13 +79,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Fecha de inicio</label>
-                                    <input type="text" name="fechaInicio" id="datepicker" class="form-control" placeholder="dd-mm-yyyy">
+                                    <input type="text" name="fechaInicio" autocomplete="off" id="datepicker" class="form-control" placeholder="dd-mm-yyyy">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Fecha de culminación</label>
-                                    <input type="text" name="fechaFin" id="datepicker2" class="form-control" placeholder="dd-mm-yyyy">
+                                    <input type="text" name="fechaFin" id="datepicker2" autocomplete="off" class="form-control" placeholder="dd-mm-yyyy">
                                 </div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observaciones</label>
-                                    <textarea name="observaciones" id="observaciones" class="form-control" placeholder="Indique aqui su observación" maxlength="200"></textarea>
+                                    <textarea name="observaciones" id="observaciones" autocomplete="off" class="form-control" placeholder="Indique aqui su observación" maxlength="200"></textarea>
                                     <div id="coordin"></div>
                                     <div id="cargooo"></div>
                                 </div>
@@ -102,7 +102,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <a href="{{ route('obra.index') }}" class="btn btn-info">Regresar</a>
-                                <input type="submit" value="Cargar obra" class="btn btn-info float-right">
+                                <input type="submit" id="agregar" value="Cargar una obra" class="btn btn-info float-right">
                             </div>
                         </div>
                     </form>

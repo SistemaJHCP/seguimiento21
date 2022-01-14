@@ -57,11 +57,11 @@ class ObraController extends Controller
         }
 
         //Solicito todo el listado de la tabla tipo
-        $tipo = Tipo::select("id", "tipo_nombre")->orderBy("tipo_nombre", "ASC")->get();
+        $tipo = Tipo::select("id", "tipo_nombre")->where('tipo_estado', 1)->orderBy("tipo_nombre", "ASC")->get();
         //Solicito todo el listado de la tabla cliente
-        $cli = Cliente::select("id", "cliente_nombre")->orderBy("cliente_nombre", "ASC")->get();
+        $cli = Cliente::select("id", "cliente_nombre")->where('cliente_estado', 1)->orderBy("cliente_nombre", "ASC")->get();
         //Solicito todo el listado de la tabla codventa
-        $cod = Codventas::select("id", "codventa_codigo")->orderBy("id", "DESC")->get();
+        $cod = Codventas::select("id", "codventa_codigo")->where('codventa_estado', 1)->orderBy("id", "DESC")->get();
         //Solicito todo el listado de la tabla Personal
         $per = Personal::select("id", "personal_nombre")->where("personal_estado", 1)->orderBy("personal_nombre", "ASC")->get();
 

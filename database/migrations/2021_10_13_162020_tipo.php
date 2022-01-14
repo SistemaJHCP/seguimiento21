@@ -17,7 +17,7 @@ class Tipo extends Migration
             $table->id();
             $table->string('tipo_codigo', 25);
             $table->string('tipo_nombre', 100);
-            $table->tinyInteger('tipo_estado', 1)->default(1);
+            $table->boolean('tipo_estado')->default(1);
             $table->timestamps();
         });
     }

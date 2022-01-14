@@ -40,7 +40,7 @@
                           <th style="width: 140px">Acción</th>
                       </tr>
                       </thead>
-                      <tbody>
+                      <tbody  style="text-transform: capitalize !important;">
 
                       </tbody>
                       <tfoot>
@@ -59,31 +59,81 @@
     </div>
 
 
-
     <div class="modal fade" id="cargarPersonal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="cargarPersonalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="cargarPersonalLabel">Cargar personal</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true" id="cerrarCruz">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-            <form action="" method="post">
+            <form action="{{ route('personal.crear') }}" method="post">
             @csrf
             <div class="form-group">
-                <label for=""></label>
+                <label for="">Nombre del personal</label>
+                <input type="text" name="personal" id="personal" class="form-control" maxlength="80" placeholder="Ingrese el nombre del personal">
+            </div>
+            <div class="form-group">
+                <label for="">Indique su profesion</label>
+                <select name="profesion" id="profesion" class="form-control">
+                    <option value="">Seleccione...</option>
+                    @foreach ($profesion as $p)
+                        <option value="{{ $p->profesion }}">{{ $p->profesion }}</option>
+                    @endforeach
+                </select>
             </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary">Cargar personal</button>
+              <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
+              <input type="submit" class="btn btn-primary" id="agregar" value="Cargar personal" disabled>
             </form>
             </div>
           </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modificarPersonal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modificarPersonalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modificarPersonalLabel">Modificar al personal</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" id="cerrarCruzMod">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <form action="{{ route('personal.modificar') }}" method="post">
+            @csrf
+            <div class="form-group">
+                <label for="">Modificar el nombre del personal</label>
+                <input type="text" name="personalMod" id="personalMod" disabled class="form-control" maxlength="80" placeholder="Ingrese el nombre del personal">
+                <input type="hidden" name="dato" id="dato">
+            </div>
+            <div class="form-group">
+                <label for="">Indique su profesion</label>
+                <select name="profesionMod" id="profesionMod" class="form-control" disabled>
+                    <option value="">Seleccione...</option>
+                    @foreach ($profesion as $p)
+                        <option value="{{ $p->profesion }}">{{ $p->profesion }}</option>
+                    @endforeach
+                </select>
+            </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="cerrarMod" data-dismiss="modal">Cerrar</button>
+              <input type="submit" class="btn btn-primary" id="agregarMod" value="Modificar un personal" disabled>
+            </form>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+
+
+
 @endsection
 @section('js')
 <script src="{{ asset("plugins/plugins/datatables/jquery.dataTables.min.js") }}"></script>
@@ -93,6 +143,39 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("js/personal/personal.js") }}"></script>
+@if (Session::has('resp'))
+
+    @if (Session::has('resp'))
+    <script>
+        Swal.fire(
+        'Sulicitud procesada!',
+        'La información fue cargada exitosamente!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+
+    @if (count($errors) > 0)
+    {{-- Este es el mensaje de error desde la validacion --}}
+        <script>
+            Swal.fire(
+            'Hubo un error!',
+            'el formulario no esta correctamente cargado!',
+            'error'
+            )
+        </script>
+    @endif
+
+
+@endif
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}">

@@ -134,7 +134,12 @@ $(document).ready(function(){
     }
 
 
-
+    $("#agregar").click(function(){
+        $("form").on("submit", function () {
+            $("#agregar").attr("value", "Guardando, espere...");
+            $("#agregar").prop("disabled", true);
+        });
+    });
 
 
 

@@ -18,7 +18,7 @@ class Personal extends Migration
             $table->string('personal_codigo', 25);
             $table->string('personal_nombre', 100);
             $table->string('personal_profesion', 100);
-            $table->tinyInteger('personal_estado');
+            $table->boolean('personal_estado')->default(1);
             $table->timestamps();
         });
     }

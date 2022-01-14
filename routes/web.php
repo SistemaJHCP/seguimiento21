@@ -68,6 +68,10 @@ Route::middleware('auth')->prefix('tipo')->group(function () {
 Route::middleware('auth')->prefix('personal')->group(function () {
     Route::get("/",[App\Http\Controllers\PersonalController::class, 'index'])->name('personal.index');
     Route::get("lista-de-personal",[App\Http\Controllers\PersonalController::class, 'jq_listaPersonal']);
+    Route::post("cargar-personal",[App\Http\Controllers\PersonalController::class, 'store'])->name('personal.crear');
+    Route::post("modificar-personal",[App\Http\Controllers\PersonalController::class, 'update'])->name('personal.modificar');
+    Route::get("modificar/y89onjhehy89{id}",[App\Http\Controllers\PersonalController::class, 'jq_traerDatos']);
+    Route::post("eliminar-personal/{id}",[App\Http\Controllers\PersonalController::class, 'jq_deshabilitar']);
 });
 
 Route::middleware('auth')->prefix('control-de-obras')->group(function () {

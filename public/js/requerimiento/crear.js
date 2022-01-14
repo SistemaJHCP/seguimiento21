@@ -191,6 +191,14 @@ $("#fechaE").datepicker({
         }
     }
 
+    $("#cargarRequisicion").click(function(){
+        $("form").on("submit", function () {
+            $("#cargarRequisicion").attr("value", "Guardando, espere...");
+            $("#cargarRequisicion").prop("disabled", true);
+        });
+    });
+
+
     $("#agregar").on("click", function(){
         let cant = $('#cantidad').val();
         let concepto = $('#sugsbjhs98yu').val();

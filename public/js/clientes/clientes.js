@@ -124,7 +124,6 @@ $(document).ready(function(){
         } else {
             $('#cargarCliente').prop('disabled',true);
         }
-
     };
 
     $("#cargarCliente").click(function(){
