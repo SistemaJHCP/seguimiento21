@@ -227,10 +227,83 @@ class RequisicionController extends Controller
 
     }
 
-    public function jq_consultarTipo($valor)
+    public function jq_consultarTipo(Request $request, $valor)
     {
 
-        //Dependendo de la seleccion, muestra todo lo referente a material, servicio o viatico
+        // $busqueda = $request->search;
+
+
+
+        //     switch ($valor) {
+        //             case 'Material':
+        //                 $querys = Material::orderBy('material_nombre', 'ASC')->select('id', 'material_nombre')->get();
+        //                 break;
+
+        //             case 'Servicio':
+        //                 $querys = Servicio::orderBy('servicio_nombre', 'ASC')->select('id', 'servicio_nombre')->get();
+        //                 break;
+
+        //             case 'Viatico':
+        //                 $querys = Viatico::orderBy('viatico_nombre', 'ASC')->select('id', 'viatico_nombre')->get();
+        //                 break;
+
+        //             default:
+        //                 $querys = Material::orderBy('material_nombre', 'ASC')->select('id', 'material_nombre')->get();
+        //                 break;
+        //     }
+
+        // $response = array();
+
+        // switch ($valor) {
+        //     case 'Material':
+
+        //         foreach ($querys as $query) {
+        //             $response[] = array(
+        //                 'id' => $query->id,
+        //                 'text' => $query->material_nombre,
+        //             );
+        //         }
+        //         break;
+
+        //     case 'Servicio':
+
+        //         foreach ($querys as $query) {
+        //             $response[] = array(
+        //                 'id' => $query->id,
+        //                 'text' => $query->servicio_nombre,
+        //             );
+        //         }
+        //         break;
+
+        //     case 'Viatico':
+
+        //         foreach ($querys as $query) {
+        //             $response[] = array(
+        //                 'id' => $query->id,
+        //                 'text' => $query->viatico_nombre,
+        //             );
+        //         }
+        //         break;
+
+        //     default:
+
+        //         foreach ($querys as $query) {
+        //             $response[] = array(
+        //                 'id' => $query->id,
+        //                 'text' => $query->material_nombre,
+        //             );
+        //         }
+        //         break;
+        // }
+
+        // return response()->json( $response );
+
+
+        //----------------------------------------
+
+        // Metodo antiguo sin uso de ajax
+
+        // Dependendo de la seleccion, muestra todo lo referente a material, servicio o viatico
         switch ($valor) {
             case 'Material':
                 $query = Material::orderBy('material_nombre', 'ASC')->get();

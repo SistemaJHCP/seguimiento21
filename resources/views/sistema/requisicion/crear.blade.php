@@ -106,7 +106,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Concepto o Descripción</label>
-                        <select  id="sugsbjhs98yu" class="form-control">
+                        <select name="descripcionMaterialViatico" class="form-control select4" required>
 
                         </select>
                     </div>
@@ -160,7 +160,6 @@
                               <th>Cantidad</th>
                               <th>Concepto</th>
                               <th>Especificación</th>
-                              <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -174,6 +173,7 @@
                 </div>
                 <div class="card-body">
                     <hr>
+                    <i style="color:#6b1022; border:3px solid #6b1022; border-radius:25px; font-size:15px; padding:8px;" id="borrarTodo"  class="fas fa-trash"></i>
                     <input type="submit" value="Cargar requisición" id="cargarRequisicion" class="btn btn-info float-right" disabled>
                 </div>
             </div>
@@ -181,13 +181,17 @@
         </div>
     </div>
 </form>
-<input type="hidden" name="">
+
 @endsection
 @section('js')
 <script src="{{ asset("plugins/plugins/jquery-ui/jquery-ui.js") }}"></script>
 <script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/requerimiento/crear.js") }}"></script>
+
+
+
+
 @if (Session::has('resp'))
 {{ Session::has('resp') }}
     @if (Session::has('resp') == 1)
@@ -210,15 +214,6 @@
 
 @endif
 
-<script>
-
-    function borrarMat(a) {
-
-        var valor = "tabla";
-
-    }
-
-</script>
 
 
 @endsection

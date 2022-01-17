@@ -1,6 +1,6 @@
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
 $(document).ready(function(){
-
-
 
 
 limpiar();
@@ -30,7 +30,7 @@ $("#fechaE").datepicker({
         theme: 'bootstrap4'
     });
 
-    $('#sugsbjhs98yu').select2({
+    $('.select4').select2({
         theme: 'bootstrap4'
     });
 
@@ -67,7 +67,7 @@ $("#fechaE").datepicker({
                 }
             }
 
-            $('#sugsbjhs98yu').html(html);
+            $('.select4').html(html);
             $('#selectRequis8ty').attr('disabled', false);
 
         })
@@ -80,7 +80,48 @@ $("#fechaE").datepicker({
         })
     });
 
+//--------------------------------------------------------------------------------------------
 
+
+    // $('#tipo').change(function(){
+    //     if ( $('#tipo').val() == "") {
+    //         $('#selectRequis8ty').attr('disabled', true);
+    //         return false;
+    //     }
+
+    //     $('#selectRequis8ty').attr('disabled', false);
+    //     $('.select4').select2({
+    //         theme: 'bootstrap4',
+    //         ajax: {
+    //             url: "tipo-solicitud/"+ $('#tipo').val() +"/987yuisjihu8u7t6rstfyuiijshugytfrs5t6",
+    //             type: 'POST',
+    //             dataType: 'json',
+    //             delay: 250,
+    //             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    //             data: function(params){
+    //                 return {
+    //                     _token: CSRF_TOKEN,
+    //                     search: $(".select4").val()
+    //                 }
+    //             },
+    //             processResults: function(response){
+    //                 return{
+    //                     results: response
+    //                 }
+    //             },
+    //             cache: true
+    //         }
+    //     });
+
+    // });
+
+
+
+
+
+
+
+//--------------------------------------------------------------------------------------------
     $('#proveedorRec').change(function(){
         if ( $('#proveedorRec').val() == "") {
             return false;
@@ -184,7 +225,7 @@ $("#fechaE").datepicker({
     });
 
     function cargarMateriales(){
-        if ( $('#cantidad').val().length >= 1 &&  $('#sugsbjhs98yu').val().length >= 1 &&  $('#especificaciones').val().length >= 3 ) {
+        if ( $('#cantidad').val().length >= 1 &&  $('.select4').val().length >= 1 &&  $('#especificaciones').val().length >= 3 ) {
             $('#agregar').attr('disabled', false);
         } else {
             $('#agregar').attr('disabled', true);
@@ -201,7 +242,7 @@ $("#fechaE").datepicker({
 
     $("#agregar").on("click", function(){
         let cant = $('#cantidad').val();
-        let concepto = $('#sugsbjhs98yu').val();
+        let concepto = $('.select4').val();
         let especificaciones = $('#especificaciones').val();
         let tipo = $('#tipo').val();
         $('#tipo').attr('disabled', true);
@@ -218,7 +259,7 @@ $("#fechaE").datepicker({
             // console.log( tipo );
 
             let nombre = '';
-            let union = tipo + concepto;
+            let union = '"' + tipo + '"' + ', ' + concepto;
 
             if(tipo == 'Material'){
                 nombre = comp.material_nombre;
@@ -230,15 +271,15 @@ $("#fechaE").datepicker({
                 }
             }
 
-            $("#table").append('<tr id="tabla' + tipo + concepto + '"><td>' + tipo + '</td><td>' + cant + '</td>' + '<td>' + nombre + '</td>' + '<td>' + especificaciones + '</td>' + '<td> <i style="color:#6b1022;" onclick="borrarMat('+ union +')" class="fas fa-trash"></i> </td>' + '<tr>');
+            $("#table").append('<tr id="tabla' + tipo + concepto + '"><td>' + tipo + '</td><td>' + cant + '</td>' + '<td>' + nombre + '</td>' + '<td>' + especificaciones + '</td>' );
             $('#cargarRequisicion').attr('disabled', false);
-            $('#ctipo234').append('<input type="hidden" id="tipos' + concepto + '" name="tipos[]" value="' + tipo + '">');
-            $('#cantidad234').append('<input type="hidden" id="cantdd' + concepto + '" name="cantdd[]" value="' + cant + '">');
-            $('#concrip234').append('<input type="hidden" id="concrip424' + concepto + '" name="concrip424[]" value="' + concepto + '">');
-            $('#especificaciones234').append('<input type="hidden" id="especificacionesewq' + concepto + '" name="especificacionesewq[]" value="' + especificaciones + '">');
+            $('#ctipo234').append('<input type="hidden" id="tipos' + concepto + '" name="tipos[]" value="' + tipo + '" class="borrarHidden">');
+            $('#cantidad234').append('<input type="hidden" id="cantdd' + concepto + '" name="cantdd[]" value="' + cant + '" class="borrarHidden">');
+            $('#concrip234').append('<input type="hidden" id="concrip424' + concepto + '" name="concrip424[]" value="' + concepto + '" class="borrarHidden">');
+            $('#especificaciones234').append('<input type="hidden" id="especificacionesewq' + concepto + '" name="especificacionesewq[]" value="' + especificaciones + '" class="borrarHidden">');
 
             $('#cantidad').val("");
-            $('#sugsbjhs98yu').val("");
+            $('.select4').val("");
             $('#sel45').attr('selected', 'selected');
             $('#especificaciones').val("");
             $('#agregar').attr('disabled', true);
@@ -251,5 +292,12 @@ $("#fechaE").datepicker({
 
     })
 
+    $("#borrarTodo").click(function(){
+        $("#table > tbody").empty();
+        $("#tipo").attr('disabled', false);
+        $("#tipo").val("");
+        $("#selectRequis8ty").attr('disabled', true);
+        $('#borrarHidden').empty();
+    });
 
 });
