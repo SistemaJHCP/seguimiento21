@@ -225,7 +225,7 @@ $("#fechaE").datepicker({
     });
 
     function cargarMateriales(){
-        if ( $('#cantidad').val().length >= 1 &&  $('.select4').val().length >= 1 &&  $('#especificaciones').val().length >= 3 ) {
+        if ( $('#cantidad').val().length >= 1 &&  $('.select4').val().length !== "" &&  $('#especificaciones').val().length >= 3 ) {
             $('#agregar').attr('disabled', false);
         } else {
             $('#agregar').attr('disabled', true);
@@ -283,6 +283,7 @@ $("#fechaE").datepicker({
             $('#sel45').attr('selected', 'selected');
             $('#especificaciones').val("");
             $('#agregar').attr('disabled', true);
+            $("#cargarRequisicion").attr('disabled', false);
 
         })
         .fail( function(){
@@ -298,6 +299,15 @@ $("#fechaE").datepicker({
         $("#tipo").val("");
         $("#selectRequis8ty").attr('disabled', true);
         $('#borrarHidden').empty();
+        $("#cargarRequisicion").attr('disabled', true);
+    });
+
+
+    $("#cargarRequisicion").click(function(){
+        $("form").on("submit", function () {
+            $("#cargarRequisicion").attr("value", "Guardando, espere...");
+            $("#cargarRequisicion").prop("disabled", true);
+        });
     });
 
 });

@@ -136,5 +136,6 @@ Route::middleware('auth')->prefix('requisicion')->group(function () {
     Route::get("consultar-obra/vhbjihugvcf5678uishugfdrstfyg8t7stc{id}", [App\Http\Controllers\RequisicionController::class, 'jq_consultarObra']);
     Route::get("consultar-nombre-concepto/x33ddwqfvhbjihugvcdcdf5678t7stc{id}/{tipo}", [App\Http\Controllers\RequisicionController::class, 'jq_consultarNombreConcepto']);
     Route::post("cargar-requisicion", [App\Http\Controllers\RequisicionController::class, 'store'])->name('requisicion.cargar');
+    Route::get("consultar/098husnkhsuhii0s9u8ustfyguiusoi08s9y8{id}ugysyugyiuoisp0u8yt7ys8s99ushi",[App\Http\Controllers\RequisicionController::class, 'show'])->name('requisicion.ver');
 });
 Auth::routes();

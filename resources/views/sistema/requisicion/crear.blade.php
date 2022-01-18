@@ -75,7 +75,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#mostrarRequisiciones" id="selectRequis8ty" style="margin-top: 20px;margin-botton: 20px;">Seleccione requisiciones</button>
+                            <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#mostrarRequisiciones" id="selectRequis8ty" style="margin-top: 20px;margin-botton: 20px;" disabled>Seleccione requisiciones</button>
                         </div>
                     </div>
 
@@ -88,7 +88,7 @@
             <div id="obraRelacionada"></div>
         </div>
 
-        <div class="modal fade" id="mostrarRequisiciones" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="mostrarRequisicionesLabel" aria-hidden="true">
+        <div class="modal fade" id="mostrarRequisiciones" style="overflow:hidden;" data-backdrop="static" data-keyboard="false"  aria-labelledby="mostrarRequisicionesLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -106,7 +106,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Concepto o Descripción</label>
-                        <select name="descripcionMaterialViatico" class="form-control select4" required>
+                        <select name="descripcionMaterialViatico" class="form-control select4">
 
                         </select>
                     </div>
