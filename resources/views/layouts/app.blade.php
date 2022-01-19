@@ -20,6 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset("plugins/plugins/fontawesome-free/css/all.css") }}">
   <link rel="stylesheet" href="{{ asset("plugins/plugins/sweetalert2/sweetalert2.css") }}">
   <link rel="stylesheet" href="{{ asset("css/estilos.css") }}">
+  <script src="{{ asset('js/proccess.js') }}"></script>
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">

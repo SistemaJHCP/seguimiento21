@@ -76,6 +76,7 @@ $(document).ready(function(){
 
     function limpiar(){
         $("#material").val("");
+        $('#cargar').attr("disabled", true);
     }
 
     $(document).on("click", "#desactivar", function(){
@@ -126,6 +127,12 @@ $(document).ready(function(){
           })
     });
 
+    $('#cargar').click(function(){
+        $("form").on("submit", function () {
+            $("#cargar").attr("value", "Guardando, espere...");
+            $("#cargar").prop("disabled", true);
+        });
+    });
 
 
 

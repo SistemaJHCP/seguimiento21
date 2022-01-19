@@ -73,7 +73,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Código de PTC</label>
-                    <input type="text" name="codigoPTC" id="codigoPTC" class="form-control" placeholder="Ingrese el código de PTC" maxlength="22" autocomplete="off">
+                    <input type="text" name="codigoPTC" id="codigoPTC" style="text-transform: uppercase;" class="form-control" placeholder="Ingrese el código de PTC" maxlength="22" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Nombre</label>

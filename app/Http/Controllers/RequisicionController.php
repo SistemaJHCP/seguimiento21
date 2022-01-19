@@ -214,6 +214,8 @@ class RequisicionController extends Controller
         ->where('solicitud_detalle.requisicion_id', $id)
         ->get();
 
+        dump( $sol_det );
+
         return view('sistema.requisicion.consultar')
         ->with('permisoUsuario', $permisoUsuario[0])
         ->with('requisicion', $requisicion[0])

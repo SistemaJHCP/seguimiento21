@@ -70,7 +70,56 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-info">
+                      <h3 class="card-title">
+                        Solicitud de materiales
+                      </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Cantidad</th>
+                                    <th>Característica</th>
+                                    <th>Material</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($sol_det as $detalle)
 
+                                @if ( $detalle->material_codigo )
+                                    <tr>
+                                        <td>{{ $detalle->sd_cantidad }}</td>
+                                        <td>{{ $detalle->sd_caracteristicas }}</td>
+                                        <td>{{ $detalle->material_nombre}}</td>
+                                    </tr>
+                                @endif
+                                @if ( $detalle->servicio_codigo )
+                                    <tr>
+                                        <td>{{ $detalle->sd_cantidad }}</td>
+                                        <td>{{ $detalle->sd_caracteristicas }}</td>
+                                        <td>{{ $detalle->servicio_nombre}}</td>
+                                    </tr>
+                                @endif
+                                @if ( $detalle->viatico_codigo )
+                                    <tr>
+                                        <td>{{ $detalle->sd_cantidad }}</td>
+                                        <td>{{ $detalle->sd_caracteristicas }}</td>
+                                        <td>{{ $detalle->viatico_nombre}}</td>
+                                    </tr>
+                                @endif
+
+
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
         </div>
     </div>
 </div>

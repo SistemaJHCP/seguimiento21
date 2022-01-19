@@ -56,6 +56,7 @@ class MaterialController extends Controller
      */
     public function store(Request $request)
     {
+        dd("stop");
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 

@@ -87,7 +87,7 @@ class CodventasController extends Controller
         }
 
         //Insertamos los nuevos valores en cada uno de los campos
-        $cod->codventa_codigo = $request->codigoPTC;
+        $cod->codventa_codigo = strtoupper($request->codigoPTC);
         $cod->codventa_nombre = $request->nombrePTC;
         $cod->codventa_codigo2 = $codigoCli;
         $cod->codventa_telefono = $request->telefonoPTC;
@@ -175,7 +175,7 @@ class CodventasController extends Controller
         //Busca los valores en la base de datos
         $cod = Codventas::findOrFail($id);
         //Inserta los valores en los campos permitidos
-        $cod->codventa_codigo = $request->codigoPTC;
+        $cod->codventa_codigo = strtoupper($request->codigoPTC);
         $cod->codventa_nombre = $request->nombrePTC;
         $cod->codventa_telefono = $request->telefonoPTC;
         $cod->codventa_direccion = $request->direccionPTC;

@@ -36,4 +36,6 @@ class HomeController extends Controller
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
         return view('sistema.home')->with('permisoUsuario', $permisoUsuario[0]);
     }
+
+
 }
