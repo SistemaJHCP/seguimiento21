@@ -141,6 +141,16 @@ $(document).ready(function(){
         });
     });
 
+    $('#tipo').select2({
+        theme: 'bootstrap4'
+    });
 
+    $('#cliente').select2({
+        theme: 'bootstrap4'
+    });
+
+    $('#codventa').select2({
+        theme: 'bootstrap4'
+    });
 
 });

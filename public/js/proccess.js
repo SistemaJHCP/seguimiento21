@@ -9,9 +9,9 @@ setTimeout(function(){
         imageAlt: 'Custom image',
     })
 
-}, 1080000);
+}, 1040000);
 
 setTimeout(function(){
-    window.location.href = "http://localhost/seguimiento21/public/";
+    document.getElementById('logout-form').submit();
 }, 1140000);
 

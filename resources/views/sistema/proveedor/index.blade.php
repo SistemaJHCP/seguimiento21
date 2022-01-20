@@ -55,7 +55,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="nuevoProveedor" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="nuevoProveedor" data-backdrop="static" data-keyboard="false" style="overflow:hidden" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -132,6 +132,8 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
+<script src="{{ asset("plugins/plugins/jquery-ui/jquery-ui.js") }}"></script>
+<script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
 <script src="{{ asset("js/proveedores/proveedor.js") }}"></script>
 @if (Session::has('resp'))
 {{ Session::has('resp') }}
@@ -168,6 +170,8 @@
 @endif
 @endsection
 @section('css')
+<link rel="stylesheet" href="{{ asset('plugins/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}">
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-responsive/css/responsive.bootstrap4.min.css") }}">
 @endsection

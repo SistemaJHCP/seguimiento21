@@ -289,8 +289,6 @@ $("#fechaE").datepicker({
         .fail( function(){
             console.log("hay un error en la carga de solicitud de nombre de concepto")
         });
-
-
     })
 
     $("#borrarTodo").click(function(){

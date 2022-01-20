@@ -177,12 +177,14 @@ $(document).ready(function(){
                         'error'
                       )
                 })
-
             }
         })
+    });
 
 
 
+    $('#suministro').select2({
+        theme: 'bootstrap4'
     });
 
 

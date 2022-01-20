@@ -177,5 +177,7 @@
 <script src="{{ asset("js/obra/crear-obra.js") }}"></script>
 @endsection
 @section('css')
+<link rel="stylesheet" href="{{ asset('plugins/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 @endsection

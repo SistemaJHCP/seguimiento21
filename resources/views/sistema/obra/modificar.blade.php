@@ -131,26 +131,6 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -214,8 +194,6 @@
         $("#cargoPersonal").append('<div class="info-box"><span class="info-box-icon bg-info"><i class="fas fa-user-alt"></i></span><div class="info-box-content"><span class="info-box-text">' + element.personal_nombre + '</span><span class="info-box-number">' + car + '</span><i class="far fa-trash-alt" style="color:#910e04;" id="element" value="'+ element.id +'"></i></div></div>');
 
         });
-
-
 
     }
 

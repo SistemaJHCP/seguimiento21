@@ -230,7 +230,77 @@ class RequisicionController extends Controller
      */
     public function edit($id)
     {
-        //
+        //Validamos permisos de este usuario
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->requisicion != 1 || $permisoUsuario[0]->modificar_requisicion != 1){
+            return redirect()->route("home");
+        }
+
+        //Realizo las consultas
+
+        $proveedor = Proveedor::select("id", "proveedor_nombre")->orderBy("proveedor_nombre", "ASC")->get();
+        $obra = Obra::select("id", "obra_codigo", "obra_nombre")->orderBy("id", "DESC")->get();
+
+        $requisicion = Requisicion::select(
+            'requisicion.id AS id',
+            'requisicion.requisicion_codigo',
+            'requisicion.requisicion_tipo AS requisicion_tipo',
+            'requisicion.requisicion_fecha AS requisicion_fecha',
+            'requisicion.requisicion_fechae AS requisicion_fechae',
+            'requisicion.requisicion_motivo AS requisicion_motivo',
+            'requisicion.requisicion_direccion AS requisicion_direccion',
+            'requisicion.requisicion_observaciones AS requisicion_observaciones',
+            'requisicion.requisicion_estado AS requisicion_estado',
+            'obra.id AS obra_id',
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_monto AS obra_monto',
+            'obra.obra_ganancia AS obra_ganancia',
+            'obra.obra_fechainicio AS obra_fecha_inicio',
+            'obra.obra_fechafin AS obra_fecha_fin',
+            'obra.obra_observaciones AS obra_observaciones',
+            'proveedor.id AS proveedor_id',
+            'proveedor.proveedor_codigo AS proveedor_codigo',
+            'proveedor.proveedor_tipo AS proveedor_tipo',
+            'proveedor.proveedor_rif AS proveedor_rif',
+            'proveedor.proveedor_nombre AS proveedor_nombre',
+            'proveedor.proveedor_telefono AS proveedor_telefono',
+            'proveedor.proveedor_direccion AS proveedor_direccion',
+            'proveedor.proveedor_correo AS proveedor_correo'
+        )
+        ->leftJoin('obra', 'obra.id', '=','requisicion.obra_id')
+        ->leftJoin('proveedor', 'proveedor.id', '=','requisicion.proveedor_id')
+        ->where('requisicion.id', $id)
+        ->limit(1)->get();
+
+        // $sol_det = Solicitud_detalle::select(
+        //     'solicitud_detalle.id AS id',
+        //     'solicitud_detalle.sd_cantidad AS sd_cantidad',
+        //     'solicitud_detalle.requisicion_id AS requisicion_id',
+        //     'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+        //     'solicitud_detalle.material_id AS material_id',
+        //     'solicitud_detalle.servicio_id AS servicio_id',
+        //     'solicitud_detalle.viatico_id AS viatico_id',
+        //     'material.material_codigo AS material_codigo',
+        //     'material.material_nombre AS material_nombre',
+        //     'servicio.servicio_codigo AS servicio_codigo',
+        //     'servicio.servicio_nombre AS servicio_nombre',
+        //     'viatico.viatico_codigo AS viatico_codigo',
+        //     'viatico.viatico_nombre AS viatico_nombre'
+        // )
+        // ->leftJoin('material', 'material.id', '=','solicitud_detalle.material_id')
+        // ->leftJoin('servicio', 'servicio.id', '=','solicitud_detalle.servicio_id')
+        // ->leftJoin('viatico', 'viatico.id', '=','solicitud_detalle.viatico_id')
+        // ->where('solicitud_detalle.requisicion_id', $id)
+        // ->get();
+
+        // dump( $requisicion );
+
+        return view('sistema.requisicion.modificar')
+        ->with('requisicion', $requisicion[0])
+        // ->with('sol_det', $sol_det)
+        ->with(['permisoUsuario' => $permisoUsuario[0], 'proveedor' => $proveedor, 'obra' => $obra]);
     }
 
     /**
@@ -429,5 +499,43 @@ class RequisicionController extends Controller
         //Se envia por json a la vista
         return response()->json($nombre);
     }
+
+    public function jq_listaMateriales($id)
+    {
+
+        $sol_det = Solicitud_detalle::select(
+            'solicitud_detalle.id AS id',
+            'solicitud_detalle.sd_cantidad AS sd_cantidad',
+            'solicitud_detalle.requisicion_id AS requisicion_id',
+            'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+            'solicitud_detalle.material_id AS material_id',
+            'solicitud_detalle.servicio_id AS servicio_id',
+            'solicitud_detalle.viatico_id AS viatico_id',
+            'material.material_codigo AS material_codigo',
+            'material.material_nombre AS material_nombre',
+            'servicio.servicio_codigo AS servicio_codigo',
+            'servicio.servicio_nombre AS servicio_nombre',
+            'viatico.viatico_codigo AS viatico_codigo',
+            'viatico.viatico_nombre AS viatico_nombre'
+        )
+        ->leftJoin('material', 'material.id', '=','solicitud_detalle.material_id')
+        ->leftJoin('servicio', 'servicio.id', '=','solicitud_detalle.servicio_id')
+        ->leftJoin('viatico', 'viatico.id', '=','solicitud_detalle.viatico_id')
+        ->where('solicitud_detalle.requisicion_id', $id)
+        ->get();
+
+        return response()->json($sol_det);
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 }

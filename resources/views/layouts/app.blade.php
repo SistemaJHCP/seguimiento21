@@ -63,20 +63,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?php
                     }
                 ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="" class="dropdown-item">Descuentos </a></li>
-                <?php
-                    }
-                ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="" class="dropdown-item">Nómina </a></li>
-                <?php
-                    }
-                ?>
+
                 <?php
                     if ($permisoUsuario->materiales == 1){
                 ?>
@@ -84,20 +71,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?php
                     }
                 ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="" class="dropdown-item">Servicios </a></li>
-                <?php
-                    }
-                ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="" class="dropdown-item">Viáticos </a></li>
-                <?php
-                    }
-                ?>
+
                 <?php
                     if ($permisoUsuario->usuario == 1){
                 ?>
@@ -105,20 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?php
                     }
                 ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="" class="dropdown-item">Registro y auditorias </a></li>
-                <?php
-                    }
-                ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="" class="dropdown-item">Maestro ventas </a></li>
-                <?php
-                    }
-                ?>
+
                 <?php
                     if ($permisoUsuario->ptc == 1){
                 ?>
@@ -153,27 +114,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?php
                     }
                 ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="" class="dropdown-item">Histórico</a></li>
-                <?php
-                    }
-                ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="" class="dropdown-item">Egreso </a></li>
-                <?php
-                    }
-                ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="" class="dropdown-item">Proyección </a></li>
-                <?php
-                    }
-                ?>
+
+
                 </ul>
             </li>
           </li>
@@ -192,7 +134,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-          <li class="nav-item dropdown">
+          {{-- <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
               <li><a href="#" class="dropdown-item">Some action </a></li>
@@ -224,14 +166,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
               <!-- End Level two -->
             </ul>
-          </li>
+          </li> --}}
           <li class="user-footer">
-                <a>
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-default" style="border:ra">Cerrar sesión</a>
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="cerrar sesión" class="btn btn-default" style="color:rgb(136, 25, 25)"><i class="fas fa-power-off"></i></a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                     </form>
-                </a>
             </li>
         </ul>
 

@@ -138,5 +138,6 @@ Route::middleware('auth')->prefix('requisicion')->group(function () {
     Route::post("cargar-requisicion", [App\Http\Controllers\RequisicionController::class, 'store'])->name('requisicion.cargar');
     Route::get("consultar/098husnkhsuhii0s9u8ustfyguiusoi08s9y8{id}ugysyugyiuoisp0u8yt7ys8s99ushi",[App\Http\Controllers\RequisicionController::class, 'show'])->name('requisicion.ver');
     Route::get("modificar/9yuidjhu98dyujdnbgyuiod8{id}7ywnbtfgj3hty78y",[App\Http\Controllers\RequisicionController::class, 'edit'])->name('requisicion.modificar');
+    Route::get("modificar/consultar-materiales-guardados/6t7yhutgyuhy7t6{id}",[App\Http\Controllers\RequisicionController::class, 'jq_listaMateriales']);
 });
 Auth::routes();
