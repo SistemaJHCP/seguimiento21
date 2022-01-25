@@ -312,7 +312,26 @@ class RequisicionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //vlidamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->requisicion != 1 || $permisoUsuario[0]->modificar_requisicion != 1){
+            return redirect()->route("home");
+        }
+
+        //Buscamos la requisicion en base a su id
+        $req = Requisicion::find( $id );
+        $req->requisicion_fechae = $request->fechaE;
+        $req->proveedor_id = $request->proveedorRec;
+        $req->obra_id = $request->obra;
+        $req->requisicion_direccion = $request->direccion;
+        $req->requisicion_motivo = $request->motivo;
+        $req->requisicion_observaciones = $request->observacion;
+        //Guardamos la modificacion
+        $resp = $req->save();
+        //Retornamos a la vista principal de requisicion con la respuesta para enviar el mensaje
+        return redirect()->route('requisicion.index')->with('resp', $resp);
+
     }
 
     /**
@@ -323,7 +342,20 @@ class RequisicionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->requisicion != 1 && $permisoUsuario[0]->desactivar_requisicion != 1 ){
+            return redirect()->route("home");
+        }
+        //Buscamos  esta solicitud
+        $destroy = Solicitud_detalle::find( $id );
+        //Eliminamos el archivo solicitado
+        $resp = $destroy->delete();
+        //retornar la respuesta a la vista
+        return response()->json($resp);
+
+
     }
 
     public function jq_lista()
@@ -471,7 +503,6 @@ class RequisicionController extends Controller
 
     public function jq_consultarObra($id)
     {
-
         $obra = Obra::find($id);
         return response()->json($obra);
     }
@@ -500,35 +531,100 @@ class RequisicionController extends Controller
         return response()->json($nombre);
     }
 
-    public function jq_listaMateriales($id)
+    public function jq_listaMateriales($id, $tipo)
     {
 
-        $sol_det = Solicitud_detalle::select(
-            'solicitud_detalle.id AS id',
-            'solicitud_detalle.sd_cantidad AS sd_cantidad',
-            'solicitud_detalle.requisicion_id AS requisicion_id',
-            'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
-            'solicitud_detalle.material_id AS material_id',
-            'solicitud_detalle.servicio_id AS servicio_id',
-            'solicitud_detalle.viatico_id AS viatico_id',
-            'material.material_codigo AS material_codigo',
-            'material.material_nombre AS material_nombre',
-            'servicio.servicio_codigo AS servicio_codigo',
-            'servicio.servicio_nombre AS servicio_nombre',
-            'viatico.viatico_codigo AS viatico_codigo',
-            'viatico.viatico_nombre AS viatico_nombre'
-        )
-        ->leftJoin('material', 'material.id', '=','solicitud_detalle.material_id')
-        ->leftJoin('servicio', 'servicio.id', '=','solicitud_detalle.servicio_id')
-        ->leftJoin('viatico', 'viatico.id', '=','solicitud_detalle.viatico_id')
-        ->where('solicitud_detalle.requisicion_id', $id)
-        ->get();
+        if ($tipo == "Material") {
+            $sol_det = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+                'material.material_nombre AS material_nombre'
+            )
+            ->leftJoin('material', 'material.id', '=','solicitud_detalle.material_id')
+            ->where('solicitud_detalle.requisicion_id', $id)
+            ->get();
+        }
 
-        return response()->json($sol_det);
+        if ($tipo == "Servicio") {
+            $sol_det = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+                'servicio.servicio_nombre AS servicio_nombre'
+            )
+            ->leftJoin('servicio', 'servicio.id', '=','solicitud_detalle.servicio_id')
+            ->where('solicitud_detalle.requisicion_id', $id)
+            ->get();
+        }
+
+        if ($tipo == "Viatico") {
+
+            $sol_det = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+                'viatico.viatico_nombre AS viatico_nombre'
+            )
+            ->leftJoin('viatico', 'viatico.id', '=','solicitud_detalle.viatico_id')
+            ->where('solicitud_detalle.requisicion_id', $id)
+            ->get();
+
+        }
+
+        return response()->json([$sol_det, $tipo]);
 
     }
 
+    public function jq_modificarNombreConcepto(Request $request)
+    {
 
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->requisicion != 1 && $permisoUsuario[0]->modificar_requisicion != 1 ){
+            return redirect()->route("home");
+        }
+
+        // instanciamos y guardamos los archivos
+
+
+            $agregar = new Solicitud_detalle();
+
+            $agregar->sd_cantidad = $request->cantidad;
+            $agregar->requisicion_id = $request->dato;
+
+            if ($request->tipo == "Material") {
+                $agregar->material_id = $request->concepto;
+            } elseif ($request->tipo == "Servicio") {
+                $agregar->servicio_id = $request->concepto;
+            } elseif ($request->tipo == "Viatico") {
+                $agregar->viatico_id = $request->concepto;
+            }
+
+            $agregar->sd_caracteristicas = $request->especificaciones;
+
+            $resp = $agregar->save();
+
+            if ($resp) {
+                if ($request->tipo == "Material") {
+                    $mostrar = Material::find( $request->concepto );
+                    $mostrarNombre = $mostrar->material_nombre;
+                } elseif ($request->tipo == "Servicio") {
+                    $mostrar = Servicio::find( $request->concepto );
+                    $mostrarNombre = $mostrar->servicio_nombre;
+                } elseif ($request->tipo == "Viatico") {
+                    $mostrar = Viatico::find( $request->concepto );
+                    $mostrarNombre = $mostrar->viatico_nombre;
+                }
+            }
+
+
+
+
+            return response()->json( [$mostrarNombre, $agregar->id] );
+
+    }
 
 
 

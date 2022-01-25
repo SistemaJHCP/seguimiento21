@@ -10,7 +10,7 @@
 @endsection
 
 @section('contenedor')
-<form action="{{ route('requisicion.cargar') }}" method="post">
+<form action="{{ route('requisicion.modificarCampo', $requisicion->id) }}" method="post">
     <div class="row">
         <div class="col-md-8">
             <div class="card">
@@ -98,15 +98,15 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                {{-- <form  method="post"> --}}
                 @csrf
                     <div class="form-group">
                         <label for="">Cantidad</label>
                         <input type="text" id="cantidad" placeholder="Indique la cantidad" class="form-control" autocomplete="off"  maxlength="10">
+                        <input type="hidden"  id="dato" value="{{ $requisicion->id }}">
                     </div>
                     <div class="form-group">
                         <label for="">Concepto o Descripción</label>
-                        <select name="descripcionMaterialViatico" class="form-control select4">
+                        <select class="form-control select4">
 
                         </select>
                     </div>
@@ -118,9 +118,8 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
-                  <button type="button"  class="btn btn-primary" id="agregar" disabled>Agregar requisicion</button>
+                  <button type="button"  class="btn btn-primary" id="agregarModificacion" disabled>Agregar requisicion</button>
                 </div>
-                {{-- </form> --}}
               </div>
             </div>
         </div>
@@ -152,20 +151,22 @@
                 <div class="card-header">
                     Materiales
                 </div>
-                <div class="card-body">
-                    <table class="table" id="table">
-                        <thead >
-                            <tr>
-                              <th>Cantidad</th>
-                              <th>Concepto</th>
-                              <th>Especificación</th>
-                              <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <div class="card-body" style="overflow:scroll; max-height:400px;">
 
-                        </tbody>
-                    </table>
+                        <table class="table" id="table">
+                            <thead >
+                                <tr>
+                                  <th>Cantidad</th>
+                                  <th>Concepto</th>
+                                  <th>Especificación</th>
+                                  <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
                     <div id="ctipo234"></div>
                     <div id="cantidad234"></div>
                     <div id="concrip234"></div>
@@ -173,8 +174,7 @@
                 </div>
                 <div class="card-body">
                     <hr>
-                    <i style="color:#6b1022; border:3px solid #6b1022; border-radius:25px; font-size:15px; padding:8px;" id="borrarTodo"  class="fas fa-trash"></i>
-                    <input type="submit" value="Cargar requisición" id="cargarRequisicion" class="btn btn-info float-right" disabled>
+                    <input type="submit" value="Modificar requisición" id="cargarRequisicion" class="btn btn-info float-right">
                 </div>
             </div>
 
@@ -189,10 +189,10 @@
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/requerimiento/modificar.js") }}"></script>
 <script>
-    cargarProveedor( {{ $requisicion->proveedor_id }} );
-    cargarObra( {{ $requisicion->obra_id }} );
+    cargarProveedor( $('#proveedorRec').val() );
+    consultarObra( $('#obraRel927y2').val() );
     $('#proveedorRec').change(function(){
-        cargarProveedor( {{ $requisicion->proveedor_id }} );
+        cargarProveedor( $('#proveedorRec').val() );
     });
     requisicionMaterial( $("#tipo").val() );
     listaMaterial( {{ $requisicion->id }} );

@@ -35,12 +35,16 @@ $("#fechaE").datepicker({
     });
 
     $('#tipo').change(function(){
+        listarMaterial( $('#tipo').val() );
+    });
+
+    function listarMaterial( valor ){
         if ( $('#tipo').val() == "") {
             $('#selectRequis8ty').attr('disabled', true);
             return false;
         }
         $.ajax({
-            url: "tipo-solicitud/"+ $('#tipo').val() +"/987yuisjihu8u7t6rstfyuiijshugytfrs5t6",
+            url: "tipo-solicitud/"+ valor +"/987yuisjihu8u7t6rstfyuiijshugytfrs5t6",
             type: 'GET',
             dataType: 'json',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -78,7 +82,9 @@ $("#fechaE").datepicker({
                 'error'
               )
         })
-    });
+    }
+
+
 
 //--------------------------------------------------------------------------------------------
 
@@ -240,7 +246,7 @@ $("#fechaE").datepicker({
     });
 
 
-    $("#agregar").on("click", function(){
+    $(document).on("click", "#agregar", function(){
         let cant = $('#cantidad').val();
         let concepto = $('.select4').val();
         let especificaciones = $('#especificaciones').val();
@@ -285,11 +291,12 @@ $("#fechaE").datepicker({
             $('#agregar').attr('disabled', true);
             $("#cargarRequisicion").attr('disabled', false);
 
+            listarMaterial( $('#tipo').val() );
         })
         .fail( function(){
             console.log("hay un error en la carga de solicitud de nombre de concepto")
         });
-    })
+    });
 
     $("#borrarTodo").click(function(){
         $("#table > tbody").empty();

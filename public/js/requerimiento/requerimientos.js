@@ -38,7 +38,26 @@ $(document).ready(function(){
         },
     });
 
-
+    $(document).on("click", '#desactivar', function(){
+        Swal.fire({
+            title: '¿Desea anular',
+            text: "esta requisicion?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, deshabilitar!',
+            cancelButtonText: 'Cancelar!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
+            }
+          })
+    });
 
 
 });

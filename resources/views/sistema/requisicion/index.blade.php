@@ -60,6 +60,39 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("js/requerimiento/requerimientos.js") }}"></script>
+@if (Session::has('resp'))
+{{ Session::has('resp') }}
+    @if (Session::has('resp') == true)
+    <script>
+        Swal.fire(
+        'Sulicitud procesada!',
+        'La información fue cargada exitosamente!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+
+@endif
+
+
+@if (count($errors) > 0)
+{{-- Este es el mensaje de error desde la validacion --}}
+<script>
+    Swal.fire(
+    'Hubo un error!',
+    'el formulario no esta correctamente cargado!',
+    'error'
+    )
+</script>
+@endif
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}">
