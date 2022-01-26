@@ -142,5 +142,6 @@ Route::middleware('auth')->prefix('requisicion')->group(function () {
     Route::get("eliminar-solicitud-de-material/{id}",[App\Http\Controllers\RequisicionController::class, 'destroy'])->name('requisicion.eliminar');
     Route::post("modificar-nombre-concepto/x33ddwqfvhbjihugvcdcdf5678t7stc", [App\Http\Controllers\RequisicionController::class, 'jq_modificarNombreConcepto']);
     Route::post("modificar-formulario/87ytyuijgtyu8987tyui{id}jhgft5ertyhftyutrtyuihgfty7",[App\Http\Controllers\RequisicionController::class, 'update'])->name('requisicion.modificarCampo');
+    Route::post("anular-requisicion/metodo-app/huijbvcfghji66789ijdvgyu8d7yt",[App\Http\Controllers\RequisicionController::class, 'anular'])->name('requisicion.anular');
 });
 Auth::routes();

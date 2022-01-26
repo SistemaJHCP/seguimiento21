@@ -214,8 +214,6 @@ class RequisicionController extends Controller
         ->where('solicitud_detalle.requisicion_id', $id)
         ->get();
 
-        dump( $sol_det );
-
         return view('sistema.requisicion.consultar')
         ->with('permisoUsuario', $permisoUsuario[0])
         ->with('requisicion', $requisicion[0])
@@ -274,28 +272,10 @@ class RequisicionController extends Controller
         ->where('requisicion.id', $id)
         ->limit(1)->get();
 
-        // $sol_det = Solicitud_detalle::select(
-        //     'solicitud_detalle.id AS id',
-        //     'solicitud_detalle.sd_cantidad AS sd_cantidad',
-        //     'solicitud_detalle.requisicion_id AS requisicion_id',
-        //     'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
-        //     'solicitud_detalle.material_id AS material_id',
-        //     'solicitud_detalle.servicio_id AS servicio_id',
-        //     'solicitud_detalle.viatico_id AS viatico_id',
-        //     'material.material_codigo AS material_codigo',
-        //     'material.material_nombre AS material_nombre',
-        //     'servicio.servicio_codigo AS servicio_codigo',
-        //     'servicio.servicio_nombre AS servicio_nombre',
-        //     'viatico.viatico_codigo AS viatico_codigo',
-        //     'viatico.viatico_nombre AS viatico_nombre'
-        // )
-        // ->leftJoin('material', 'material.id', '=','solicitud_detalle.material_id')
-        // ->leftJoin('servicio', 'servicio.id', '=','solicitud_detalle.servicio_id')
-        // ->leftJoin('viatico', 'viatico.id', '=','solicitud_detalle.viatico_id')
-        // ->where('solicitud_detalle.requisicion_id', $id)
-        // ->get();
-
-        // dump( $requisicion );
+        //validamos que aun no haya sido vista para permitir su modificacion
+        if ( $requisicion[0]->requisicion_estado != "No Vista" ) {
+            return redirect()->route("home");
+        }
 
         return view('sistema.requisicion.modificar')
         ->with('requisicion', $requisicion[0])
@@ -321,6 +301,12 @@ class RequisicionController extends Controller
 
         //Buscamos la requisicion en base a su id
         $req = Requisicion::find( $id );
+
+        //validamos que aun no haya sido vista para permitir su modificacion
+        if ( $req->requisicion_estado != "No Vista" ) {
+            return redirect()->route("home");
+        }
+
         $req->requisicion_fechae = $request->fechaE;
         $req->proveedor_id = $request->proveedorRec;
         $req->obra_id = $request->obra;
@@ -626,7 +612,31 @@ class RequisicionController extends Controller
 
     }
 
+    public function anular(Request $request)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        if( $permisoUsuario[0]->requisicion != 1 && $permisoUsuario[0]->desactivar_requisicion != 1 ){
+            return redirect()->route("home");
+        }
+
+        //Ubicamos la requisicion usando el ID
+        $req = Requisicion::find( $request->dato );
+
+        //validamos que aun no haya sido vista para permitir su anulacion
+        if ( $req->requisicion_estado != "No Vista" ) {
+            return redirect()->route("home");
+        }
+
+        //Cambiamos el estado de la reuqisicion a anulada
+        $req->requisicion_estado = "Anulada";
+        //Guardamos los cambios
+        $resp = $req->save();
+        //Retornamos los cambios por medio de json
+        return response()->json( $resp );
+
+    }
 
 
 

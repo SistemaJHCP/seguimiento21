@@ -46,18 +46,45 @@ $(document).ready(function(){
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, deshabilitar!',
-            cancelButtonText: 'Cancelar!'
+            confirmButtonText: 'Si, anular!',
+            cancelButtonText: 'Cancelar'
           }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-              )
+
+                $.ajax({
+                    url: "requisicion/anular-requisicion/metodo-app/huijbvcfghji66789ijdvgyu8d7yt",
+                    type: 'post',
+                    dataType: 'json',
+                    data:{dato: this.value},
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+                })
+                .done(function(comp) {
+
+                    if (comp) {
+
+                        $('#listaObras').DataTable().ajax.reload();
+
+                        Swal.fire(
+                            'Anulado!',
+                            'La requisicion ha sido anulada.',
+                            'success'
+                          )
+                    }
+
+
+                })
+                .fail( function(){
+                    Swal.fire(
+                        'Hubo un error!',
+                        'no pudo anular la requisición.',
+                        'error'
+                      )
+                })
+
             }
           })
     });
+
 
 
 });
