@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Todas las requisiciones</h3><a href="#"><button style="margin-left:10px;" class="btn btn-info float-right">Deshabilitadas</button></a> <a href="{{ route('requisicion.crear') }}"><button style="margin-left:10px;" class="btn btn-info float-right">Nuevo</button></a>
+                <h3 class="card-title">Todas las requisiciones</h3> <a href="{{ route('requisicion.crear') }}"><button style="margin-left:10px;" class="btn btn-info float-right">Nueva requisición</button></a>
             </div>
             <div class="card-body">
                 <table id="listaObras" class="table table-bordered table-hover" style="font-size: 12px">
@@ -27,6 +27,7 @@
                     <th>Obra</th>
                     <th>Motivo</th>
                     <th>Estado</th>
+                    <th>Creado por</th>
                     <th style="width: 140px">Acción</th>
 
                 </tr>
@@ -43,6 +44,7 @@
                   <th>Obra</th>
                   <th>Motivo</th>
                   <th>Estado</th>
+                  <th>Creado por</th>
                     <th>Acción</th>
                 </tr>
                 </tfoot>

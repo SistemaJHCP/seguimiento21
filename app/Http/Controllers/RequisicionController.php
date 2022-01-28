@@ -186,10 +186,12 @@ class RequisicionController extends Controller
             'proveedor.proveedor_nombre AS proveedor_nombre',
             'proveedor.proveedor_telefono AS proveedor_telefono',
             'proveedor.proveedor_direccion AS proveedor_direccion',
-            'proveedor.proveedor_correo AS proveedor_correo'
+            'proveedor.proveedor_correo AS proveedor_correo',
+            'users.user_name AS usuario_nombre',
         )
         ->leftJoin('obra', 'obra.id', '=','requisicion.obra_id')
         ->leftJoin('proveedor', 'proveedor.id', '=','requisicion.proveedor_id')
+        ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
         ->where('requisicion.id', $id)
         ->limit(1)->get();
 
@@ -220,12 +222,7 @@ class RequisicionController extends Controller
         ->with('sol_det', $sol_det);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //Validamos permisos de este usuario
@@ -363,10 +360,10 @@ class RequisicionController extends Controller
             'obra.obra_nombre AS obra',
             'requisicion.requisicion_motivo AS requisicion_motivo',
             'requisicion.requisicion_estado AS requisicion_estado',
+            'users.user_name AS usuario_nombre',
         )
         ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
-        // ->where('requisicion.usuario_id', \Auth::user()->id)
-        // ->orderBy('requisicion.requisicion_codigo', 'DESC')
+        ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
         ->get();
 
 
@@ -617,7 +614,7 @@ class RequisicionController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if( $permisoUsuario[0]->requisicion != 1 && $permisoUsuario[0]->desactivar_requisicion != 1 ){
+        if( $permisoUsuario[0]->requisicion != 1 && $permisoUsuario[0]->anular_requisicion != 1 ){
             return redirect()->route("home");
         }
 

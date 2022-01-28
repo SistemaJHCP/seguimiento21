@@ -130,7 +130,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <?php
             }
             ?>
-
+            <?php
+            if ($permisoUsuario->solicitud == 1){
+                ?>
+                    <li class="nav-item">
+                        <li class="nav-item">
+                            <a id="dropdownSubMenu1" href="{{ route('solicitud.index') }}" class="nav-link">Solicitud</a>
+                        </li>
+                    </li>
+                <?php
+                }
+                ?>
 
 
 

@@ -12,6 +12,7 @@ $(document).ready(function(){
             {data: 'obra'},
             {data: 'requisicion_motivo'},
             {data: 'requisicion_estado'},
+            {data: 'usuario_nombre'},
             {data: 'btn'}
         ],
         order: [

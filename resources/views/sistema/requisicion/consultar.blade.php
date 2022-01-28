@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('titulo')
-    <h1 class="m-0"> Consultar <small>requisición</small></h1>
+    <h1 class="m-0"> Consultar <small>requisición Nro. {{ $requisicion->requisicion_codigo }}</small></h1>
 @endsection
 @section('navegador')
-    {{-- <li class="breadcrumb-item">Home</li>
-    <li class="breadcrumb-item">Layout</li> --}}
+    {{-- <li class="breadcrumb-item">Home</li> --}}
+    <li class="breadcrumb-item">Consultar requisición</li>
     <li class="breadcrumb-item active">Inicio</li>
 @endsection
 
@@ -15,7 +15,7 @@
         <div class="card">
             <div class="card-header bg-info">
               <h3 class="card-title">
-                Requisición: {{ $requisicion->requisicion_codigo }}
+                Usuario: {{ $requisicion->usuario_nombre }}
               </h3>
             </div>
             <!-- /.card-header -->

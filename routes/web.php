@@ -144,4 +144,12 @@ Route::middleware('auth')->prefix('requisicion')->group(function () {
     Route::post("modificar-formulario/87ytyuijgtyu8987tyui{id}jhgft5ertyhftyutrtyuihgfty7",[App\Http\Controllers\RequisicionController::class, 'update'])->name('requisicion.modificarCampo');
     Route::post("anular-requisicion/metodo-app/huijbvcfghji66789ijdvgyu8d7yt",[App\Http\Controllers\RequisicionController::class, 'anular'])->name('requisicion.anular');
 });
+
+
+Route::middleware('auth')->prefix('solicitud')->group(function () {
+    Route::get("/",[App\Http\Controllers\SolicitudController::class, 'index'])->name('solicitud.index');
+    Route::get("crear-solicitud",[App\Http\Controllers\SolicitudController::class, 'create'])->name('solicitud.crear');
+    Route::get("lista-de-solicitud",[App\Http\Controllers\SolicitudController::class, 'jq_lista']);
+});
+
 Auth::routes();
