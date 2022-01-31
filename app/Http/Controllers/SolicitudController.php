@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Permiso;
 use App\Models\Solicitud;
+use App\Models\Obra;
+use App\Models\Proveedor;
 
 class SolicitudController extends Controller
 {
@@ -28,7 +30,9 @@ class SolicitudController extends Controller
             return redirect()->route("home");
         }
 
-        return view('sistema.solicitud.index')->with('permisoUsuario', $permisoUsuario[0]);
+        return view('sistema.solicitud.index')->with([
+            'permisoUsuario' => $permisoUsuario[0]
+        ]);
     }
 
     /**
@@ -44,8 +48,17 @@ class SolicitudController extends Controller
         if($permisoUsuario[0]->solicitud != 1 && $permisoUsuario[0]->crear_solicitud != 1){
             return redirect()->route("home");
         }
+        //Solicitamos la lista de obra
+        $obra = Obra::select('id', 'obra_codigo', 'obra_nombre')->orderBy('id', 'DESC')->get();
+
+        //Solicitamos la lista de proveedores
+        $proveedor = Proveedor::select('id', 'proveedor_codigo', 'proveedor_nombre')->get();
+
         //retornamos a la vista para crear solicitudes
-        return view('sistema.solicitud.crear')->with('permisoUsuario', $permisoUsuario[0]);
+        return view('sistema.solicitud.crear')
+        ->with('permisoUsuario', $permisoUsuario[0])
+        ->with('obra', $obra)
+        ->with('proveedor', $proveedor);
     }
 
     /**

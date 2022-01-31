@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     $('#listaObras').DataTable({
-        serverSide:true,
+        serverSide:false,
         processing: true,
         ajax: "requisicion/lista-de-requisicion",
         columns: [
@@ -20,7 +20,7 @@ $(document).ready(function(){
           ],
         bLengthChange: false,
         searching: true,
-        "order": [[ 0, "desc" ]],
+        "order": [[ 2, "desc" ]],
         responsive: true,
         autoWidth: false,
         info: false,

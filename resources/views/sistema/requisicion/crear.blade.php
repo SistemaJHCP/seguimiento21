@@ -152,7 +152,7 @@
                 <div class="card-header">
                     Materiales
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table" id="table">
                         <thead >
                             <tr>
