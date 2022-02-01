@@ -8,6 +8,7 @@ use App\Models\Solicitud;
 use App\Models\Obra;
 use App\Models\Proveedor;
 
+
 class SolicitudController extends Controller
 {
 
@@ -150,11 +151,60 @@ class SolicitudController extends Controller
             ->rawColumns(['btn'])->toJson();
         }
 
+    }
 
+    public function consultarObra( $id )
+    {
+        //Busca en BD la indormacion relacioana al la obra con ese ID
+        $obra = Obra::select(
+            'obra.id AS id',
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_monto AS obra_monto',
+            'obra.obra_observaciones AS obra_observaciones',
+            'obra.obra_ganancia AS obra_ganancia',
+            'obra.obra_fechainicio AS obra_fechainicio',
+            'obra.obra_fechafin AS obra_fechafin',
+            'cliente.cliente_nombre AS cliente_nombre',
+            'tipo.tipo_nombre AS tipo_nombre',
+            'codventa.codventa_codigo AS codventa_codigo'
+            )
+            ->leftJoin("cliente", "cliente.id", "=", "obra.cliente_id")
+            ->leftJoin("tipo", "tipo.id", "=", "obra.tipo_id")
+            ->leftJoin("codventa", "codventa.id", "=", "obra.codventa_id")
+            ->where("obra.id", $id)
+            ->get();
 
+        return response()->json($obra);
+    }
+
+    public function consultarProveedores($id)
+    {
+        $pro = Proveedor::select(
+            'proveedor.id AS id',
+            'proveedor.proveedor_codigo AS proveedor_codigo',
+            'suministro.suministro_nombre AS suministro_nombre',
+            'proveedor.proveedor_tipo AS proveedor_tipo',
+            'proveedor.proveedor_rif AS proveedor_rif',
+            'proveedor.proveedor_nombre AS proveedor_nombre',
+            'proveedor.proveedor_telefono AS proveedor_telefono',
+            'proveedor.proveedor_direccion AS proveedor_direccion',
+            'proveedor.proveedor_correo AS proveedor_correo',
+            'proveedor.proveedor_contacto AS proveedor_contacto',
+            'proveedor.suministro_id AS suministro_id',
+            'proveedor.created_at AS created_at'
+        )
+        ->join("suministro", "suministro.id", "=", "proveedor.suministro_id")
+        ->where('proveedor.id', $id)
+        ->get();
+
+        return response()->json($pro);
     }
 
 
 
 
+
 }
+
+

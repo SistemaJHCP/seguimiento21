@@ -113,39 +113,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="info-box" data-toggle="modal" data-target="#consultarObra">
-                                <span class="info-box-icon bg-info"><i class="far fa-building"></i></span>
 
-                                <div class="info-box-content" >
-                                    <span class="info-box-text">Consultar</span>
-                                    <span class="info-box-number">OBRA</span>
-                                </div>
-                                <!-- /.info-box-content -->
+                </div>
+                <div class="row" style="min-height: 90px;">
+                    <div class="col-md-4">
+                        <div id="botonObra"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="botonProveedor"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box" id="consultarReq" data-toggle="modal" data-target="#consultarRequisicion">
+                            <span class="info-box-icon bg-info"><i class="far fa-list-alt"></i></span>
+
+                            <div class="info-box-content" >
+                                <span class="info-box-text">Consultar</span>
+                                <span class="info-box-number">REQUISICION</span>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="info-box" data-toggle="modal" data-target="#consultarProveedor">
-                                <span class="info-box-icon bg-info"><i class="fas fa-tools"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Consultar</span>
-                                    <span class="info-box-number">PROVEEDOR</span>
-                                </div>
                             <!-- /.info-box-content -->
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="info-box" data-toggle="modal" data-target="#consultarObra">
-                                <span class="info-box-icon bg-info"><i class="far fa-building"></i></span>
-
-                                <div class="info-box-content" >
-                                    <span class="info-box-text">Consultar</span>
-                                    <span class="info-box-number">REQUISICION</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -174,7 +159,7 @@
             <div class="col-md-8">
                 <div class="card card-info card-outline">
                     <div class="card-header">
-                      <h5 class="card-title">Cargar la solicitud</h5><button class="btn btn-info float-right"  data-toggle="modal" data-target="#agregarListaSolicitud">Agregar lista de solicitud</button>
+                      <h5 class="card-title">Cargar la solicitud</h5><button type="button" class="btn btn-info float-right"  data-toggle="modal" data-target="#agregarListaSolicitud">Agregar lista de solicitud</button>
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table" id="table">
@@ -195,7 +180,7 @@
                         <div id="especificaciones234"></div>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-info float-right">Cargar solicitud</button>
+                        <button class="btn btn-info float-right" disabled>Cargar solicitud</button>
                     </div>
                 </div>
             </div>
@@ -207,7 +192,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="agregarListaSolicitudLabel">Modal title</h5>
+              <h5 class="modal-title" id="agregarListaSolicitudLabel">Listado de solicitud</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -221,7 +206,7 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
       <div class="modal fade" id="consultarObra" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="consultarObraLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -233,7 +218,8 @@
               </button>
             </div>
             <div class="modal-body">
-              ...
+              <div id="infoObra">Espere...</div>
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -252,7 +238,7 @@
               </button>
             </div>
             <div class="modal-body">
-              ...
+                <div id="infoProveedor">Espere...</div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -260,6 +246,27 @@
           </div>
         </div>
       </div>
+
+    <div class="modal fade" id="consultarRequisicion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="consultarRequisicionLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="consultarRequisicionLabel">Datos de la requisicion</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary">Agregar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
     </form>
 </div>
 @endsection
@@ -273,4 +280,5 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="{{ asset('plugins/plugins/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/solicitud/crear.css') }}">
 @endsection
