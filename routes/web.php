@@ -152,6 +152,8 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::get("lista-de-solicitud",[App\Http\Controllers\SolicitudController::class, 'jq_lista']);
     Route::get("consultar-obra/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarObra']);
     Route::get("consultar-proveedores/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarProveedores']);
+    Route::get("listar-requisicion/{valor}",[App\Http\Controllers\SolicitudController::class, 'listarRequisicion']);
+    Route::get("consultar-requisicion/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarRequisicion']);
 });
 
 Auth::routes();

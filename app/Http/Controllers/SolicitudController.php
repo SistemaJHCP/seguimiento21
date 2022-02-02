@@ -7,6 +7,11 @@ use App\Models\Permiso;
 use App\Models\Solicitud;
 use App\Models\Obra;
 use App\Models\Proveedor;
+use App\Models\Requisicion;
+use App\Models\Material;
+use App\Models\Servicio;
+use App\Models\Nomina;
+use App\Models\Viatico;
 
 
 class SolicitudController extends Controller
@@ -201,8 +206,52 @@ class SolicitudController extends Controller
         return response()->json($pro);
     }
 
+    public function listarRequisicion($valor)
+    {
+
+        $requisicion = Requisicion::select(
+            'requisicion.id AS id',
+            'requisicion.requisicion_codigo AS requisicion_codigo',
+            // 'requisicion.requisicion_tipo AS requisicion_tipo',
+            // 'requisicion.requisicion_fecha AS requisicion_fecha',
+            // 'requisicion.requisicion_fechae AS requisicion_fechae',
+            'obra.obra_nombre AS obra',
+            // 'requisicion.requisicion_motivo AS requisicion_motivo',
+            // 'requisicion.requisicion_estado AS requisicion_estado',
+            // 'users.user_name AS usuario_nombre',
+        )
+        ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
+        // ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
+        ->where('requisicion.requisicion_tipo', $valor)
+        ->orderBy('id', 'DESC')
+        ->get();
+
+        return response()->json($requisicion);
+
+    }
 
 
+    public function consultarRequisicion($id)
+    {
+        $requisicion = Requisicion::select(
+            'requisicion.id AS id',
+            'requisicion.requisicion_codigo AS requisicion_codigo',
+            'requisicion.requisicion_tipo AS requisicion_tipo',
+            'requisicion.requisicion_fecha AS requisicion_fecha',
+            'requisicion.requisicion_fechae AS requisicion_fechae',
+            'obra.obra_nombre AS obra',
+            'requisicion.requisicion_motivo AS requisicion_motivo',
+            'requisicion.requisicion_estado AS requisicion_estado',
+            'users.user_name AS usuario_nombre',
+        )
+        ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
+        ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
+        ->where('requisicion.id', $id)
+        ->limit(1)
+        ->get();
+
+        return response()->json($requisicion);
+    }
 
 
 }

@@ -19,12 +19,12 @@
                 <div class="row">
                     <div class="col-md-7"><h3 class="card-title"><label for="">Seleccione las opciones pertinentes</label></h3></div>
                     <div class="col-md-5">
-                        <select name="tipoSolicitud" id="" class="form-control">
+                        <select name="tipoSolicitud" id="opciones" class="form-control">
                             <option value="">Seleccione el tipo de solicitud</option>
                             <option value="Nomina">Nómina</option>
-                            <option value="Materiales">Materiales</option>
-                            <option value="Servicios">Servicios</option>
-                            <option value="Viaticos">Viáticos</option>
+                            <option value="Material">Materiales</option>
+                            <option value="Servicio">Servicios</option>
+                            <option value="Viatico">Viáticos</option>
                         </select>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Requisicion *</label>
-                                    <select name="requsicion" id="requsicion" class="form-control" disabled>
+                                    <select name="requisicion" id="requisicion" class="form-control" disabled>
                                         <option value="">Seleccione...</option>
                                     </select>
                                 </div>
@@ -123,7 +123,8 @@
                         <div id="botonProveedor"></div>
                     </div>
                     <div class="col-md-4">
-                        <div class="info-box" id="consultarReq" data-toggle="modal" data-target="#consultarRequisicion">
+                        <div id="botonRequisicion"></div>
+                        {{-- <div class="info-box" id="consultarReq" data-toggle="modal" data-target="#consultarRequisicion">
                             <span class="info-box-icon bg-info"><i class="far fa-list-alt"></i></span>
 
                             <div class="info-box-content" >
@@ -131,7 +132,7 @@
                                 <span class="info-box-number">REQUISICION</span>
                             </div>
                             <!-- /.info-box-content -->
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -257,11 +258,10 @@
               </button>
             </div>
             <div class="modal-body">
-              ...
+              <div id="infoRequisicion"></div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary">Agregar</button>
             </div>
           </div>
         </div>
