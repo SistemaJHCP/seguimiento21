@@ -12,6 +12,8 @@ use App\Models\Material;
 use App\Models\Servicio;
 use App\Models\Nomina;
 use App\Models\Viatico;
+use App\Models\Banco;
+use App\Models\Banco_proveedor;
 
 
 class SolicitudController extends Controller
@@ -251,6 +253,22 @@ class SolicitudController extends Controller
         ->get();
 
         return response()->json($requisicion);
+    }
+
+    public function consultarNroCuenta($id)
+    {
+        $banco = Banco_proveedor::select(
+            'banco_proveedor.numero AS numero',
+            'banco.banco_nombre AS banco_nombre',
+            'banco.banco_rif AS banco_rif',
+            'banco_proveedor.tipodecuenta AS tipoCuenta'
+        )
+        ->leftJoin('banco', 'banco_proveedor.banco_id', '=', 'banco.id')
+        ->where('banco_proveedor.proveedor_id', $id)
+        ->get();
+
+        dd($banco);
+
     }
 
 

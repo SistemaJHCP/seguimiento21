@@ -154,6 +154,7 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::get("consultar-proveedores/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarProveedores']);
     Route::get("listar-requisicion/{valor}",[App\Http\Controllers\SolicitudController::class, 'listarRequisicion']);
     Route::get("consultar-requisicion/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarRequisicion']);
+    Route::get("numero-de-cuenta/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarNroCuenta']);
 });
 
 Auth::routes();

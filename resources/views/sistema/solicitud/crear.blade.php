@@ -36,7 +36,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Fecha de Solicitud *</label>
-                                    <input type="text" name="fecha" id="fecha" value="{{ date('Y-m-d') }}" class="form-control">
+                                    <input type="text" name="fecha" id="fecha" value="{{ date('Y-m-d') }}" class="form-control" disabled>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -160,7 +160,7 @@
             <div class="col-md-8">
                 <div class="card card-info card-outline">
                     <div class="card-header">
-                      <h5 class="card-title">Cargar la solicitud</h5><button type="button" class="btn btn-info float-right"  data-toggle="modal" data-target="#agregarListaSolicitud">Agregar lista de solicitud</button>
+                      <h5 class="card-title">Cargar la solicitud</h5><button type="button" id="btn-agregar" class="btn btn-info float-right"  data-toggle="modal" data-target="#agregarListaSolicitud" disabled>Agregar lista de solicitud</button>
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table" id="table">

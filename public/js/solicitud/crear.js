@@ -31,25 +31,81 @@ $(document).ready(function(){
         $('#botonProveedor').empty();
         consultarProveedor( this.value );
 
+        $.ajax({
+            url: 'numero-de-cuenta/' + this.value,
+            type: 'GET',
+            dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        }).done(function(comp){
+
+            console.log( comp );
+
+        }).fail(function(){
+
+            alert("Error en la carga del listado");
+
+        });
+
+
     });
 
 
     $('#opciones').change(function(){
 
-        if( this.value == "" || this.value === "Nomina" ) {
+        if( this.value == ""  ) {
             $('#botonRequisicion').empty();
             $('#requisicion').attr('disabled', true);
             $('#requisicion').attr('required', false);
             $('#requisicion').empty();
             $('#requisicion').html('<option value="">Seleccione...</option>');
-
+            $('#btn-agregar').attr('disabled', true);
             return false;
         }
+
+        if( this.value === "Nomina" ) {
+            $('#botonRequisicion').empty();
+            $('#requisicion').attr('disabled', true);
+            $('#requisicion').attr('required', false);
+            $('#requisicion').empty();
+            $('#requisicion').html('<option value="">Seleccione...</option>');
+            alert("Aqui");
+            $.ajax({
+                url: 'materiales-y-nomina/' + this.value,
+                type: 'GET',
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            }).done(function(comp){
+
+                console.log( comp );
+
+            }).fail(function(){
+
+                alert("Error en la carga del listado");
+
+            });
+
+
+
+
+
+            $('#btn-agregar').attr('disabled', false);
+            return false;
+        }
+
+
 
         consultarRequisicion( this.value );
         $('#requisicion').attr('disabled', false);
         $('#requisicion').attr('required', true);
-        $('#botonRequisicion').empty()
+        $('#botonRequisicion').empty();
+
+
+
+
+
+
+
+
     });
 
 
