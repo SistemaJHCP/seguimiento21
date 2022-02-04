@@ -214,16 +214,10 @@ class SolicitudController extends Controller
         $requisicion = Requisicion::select(
             'requisicion.id AS id',
             'requisicion.requisicion_codigo AS requisicion_codigo',
-            // 'requisicion.requisicion_tipo AS requisicion_tipo',
-            // 'requisicion.requisicion_fecha AS requisicion_fecha',
-            // 'requisicion.requisicion_fechae AS requisicion_fechae',
             'obra.obra_nombre AS obra',
-            // 'requisicion.requisicion_motivo AS requisicion_motivo',
-            // 'requisicion.requisicion_estado AS requisicion_estado',
-            // 'users.user_name AS usuario_nombre',
+
         )
         ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
-        // ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
         ->where('requisicion.requisicion_tipo', $valor)
         ->orderBy('id', 'DESC')
         ->get();
@@ -258,6 +252,7 @@ class SolicitudController extends Controller
     public function consultarNroCuenta($id)
     {
         $banco = Banco_proveedor::select(
+            'banco_proveedor.id AS id',
             'banco_proveedor.numero AS numero',
             'banco.banco_nombre AS banco_nombre',
             'banco.banco_rif AS banco_rif',
@@ -267,9 +262,30 @@ class SolicitudController extends Controller
         ->where('banco_proveedor.proveedor_id', $id)
         ->get();
 
-        dd($banco);
+        return response()->json( $banco);
 
     }
+
+    public function consultarNomina()
+    {
+        $nomina = Nomina::select()->orderBy('id', 'DESC')->get();
+        return response()->json( $nomina );
+    }
+
+    public function consultarListaMateriales($valor)
+    {
+        if ($valor == "Material") {
+            $mat = Material::select()->orderBy('material_nombre', 'ASC')->get();
+        } elseif($valor == "Servicio") {
+            $mat = Servicio::select()->orderBy('id', 'DESC')->get();
+        } elseif($valor == "Viatico") {
+            $mat = Viatico::select()->orderBy('id', 'DESC')->get();
+        }
+
+        return response()->json( $mat );
+
+    }
+
 
 
 }

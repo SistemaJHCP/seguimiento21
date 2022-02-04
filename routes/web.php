@@ -155,6 +155,8 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::get("listar-requisicion/{valor}",[App\Http\Controllers\SolicitudController::class, 'listarRequisicion']);
     Route::get("consultar-requisicion/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarRequisicion']);
     Route::get("numero-de-cuenta/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarNroCuenta']);
+    Route::get("lista-de-momina",[App\Http\Controllers\SolicitudController::class, 'consultarNomina']);
+    Route::get("lista-de-materiales/{valor}",[App\Http\Controllers\SolicitudController::class, 'consultarListaMateriales']);
 });
 
 Auth::routes();

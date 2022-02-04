@@ -32,6 +32,14 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
+                        {{-- <div class="row">
+                            <div class="col-12">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input bg-info" id="customSwitch1" name="dolar">
+                                    <label class="custom-control-label float-right" for="customSwitch1">Monto en Bolivares</label><br><br>
+                                </div>
+                            </div>
+                        </div> --}}
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -189,7 +197,7 @@
 
     </div>
 
-    <div class="modal fade" id="agregarListaSolicitud" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="agregarListaSolicitudLabel" aria-hidden="true">
+    <div class="modal fade" id="agregarListaSolicitud" data-backdrop="static" data-keyboard="false" style="overflow:hidden;" aria-labelledby="agregarListaSolicitudLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -199,7 +207,19 @@
               </button>
             </div>
             <div class="modal-body">
-              ...
+            <form action="" method="post">
+            @csrf
+                <div class="form-group">
+                    <label for="">Cantidad</label>
+                    <input type="text" name="cantidad" id="cantidadSelect" class="form-control">
+                    <label for="">Concepto</label>
+                    <select name="concepto" id="conceptoSelect" class="form-control">
+                        <option value="">Seleccione...</option>
+                    </select>
+                    <label for="">Precio unitario</label>
+                    <input type="text" name="precioUnitario" id="precioUnitarioSelect" class="form-control">
+                </div>
+            </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -240,6 +260,8 @@
             </div>
             <div class="modal-body">
                 <div id="infoProveedor">Espere...</div>
+                <br>
+                <div id="datosBancos"></div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -249,7 +271,7 @@
       </div>
 
     <div class="modal fade" id="consultarRequisicion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="consultarRequisicionLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="consultarRequisicionLabel">Datos de la requisicion</h5>
@@ -258,7 +280,40 @@
               </button>
             </div>
             <div class="modal-body">
-              <div id="infoRequisicion"></div>
+              <div class="row">
+                  <div class="col-md-6">
+                    <div id="infoRequisicion"></div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card card-row card-info">
+                        <div class="card-header">
+                            Materiales
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table" id="table">
+                                <thead >
+                                    <tr>
+                                      <th>Cantidad</th>
+                                      <th>Concepto</th>
+                                      <th>Especificación</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <div id="cantidad234"></div>
+                            <div id="concrip234"></div>
+                            <div id="especificaciones234"></div>
+                        </div>
+                        {{-- <div class="card-body">
+                            <hr>
+                            <i style="color:#6b1022; border:3px solid #6b1022; border-radius:25px; font-size:15px; padding:8px;" id="borrarTodo"  class="fas fa-trash"></i>
+                            <input type="submit" value="Cargar requisición" id="cargarRequisicion" class="btn btn-info float-right" disabled>
+                        </div> --}}
+                    </div>
+                  </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
