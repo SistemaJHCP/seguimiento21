@@ -14,6 +14,7 @@ use App\Models\Nomina;
 use App\Models\Viatico;
 use App\Models\Banco;
 use App\Models\Banco_proveedor;
+use App\Models\Solicitud_detalle;
 
 
 class SolicitudController extends Controller
@@ -208,8 +209,31 @@ class SolicitudController extends Controller
         return response()->json($pro);
     }
 
-    public function listarRequisicion($valor)
+    public function listarRequisicion($id)
     {
+
+        switch ($id) {
+            case '1':
+                $valor = "Material";
+                break;
+            case '2':
+                $valor = "Servicio";
+                break;
+            case '3':
+                $valor = "Viatico";
+            break;
+            case '4':
+                $valor = "Nomina";
+            break;
+            case '5':
+                $valor = "Nomina";
+            break;
+
+        default:
+            # code...
+            break;
+        }
+
 
         $requisicion = Requisicion::select(
             'requisicion.id AS id',
@@ -246,7 +270,17 @@ class SolicitudController extends Controller
         ->limit(1)
         ->get();
 
-        return response()->json($requisicion);
+        $materiales = Solicitud_detalle::select(
+            'solicitud_detalle.id AS id',
+            'solicitud_detalle.sd_cantidad AS sd_cantidad',
+            'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+            'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+            'material.material_nombre AS material_nombre'
+            )
+            ->leftJoin('material', 'material.id', '=', 'solicitud_detalle.material_id')
+            ->where('requisicion_id', $requisicion[0]->id)->get();
+
+        return response()->json([$requisicion, $materiales]);
     }
 
     public function consultarNroCuenta($id)
@@ -272,13 +306,14 @@ class SolicitudController extends Controller
         return response()->json( $nomina );
     }
 
-    public function consultarListaMateriales($valor)
+    public function consultarListaMateriales($id)
     {
-        if ($valor == "Material") {
+
+        if ($id == 1) {
             $mat = Material::select()->orderBy('material_nombre', 'ASC')->get();
-        } elseif($valor == "Servicio") {
+        } elseif($id == 2) {
             $mat = Servicio::select()->orderBy('id', 'DESC')->get();
-        } elseif($valor == "Viatico") {
+        } elseif($id == 3) {
             $mat = Viatico::select()->orderBy('id', 'DESC')->get();
         }
 
@@ -286,8 +321,50 @@ class SolicitudController extends Controller
 
     }
 
+    public function cargarNombreConcepto(Request $request)
+    {
+        $mat = "";
+
+        switch ($request->opcion) {
+
+            case '1':
+                # Materiales
+                $mat = Material::find($request->concepto);
+                break;
+
+            case '2':
+                # Servicio
+                $mat = Servicio::find($request->concepto);
+                break;
+
+            case '3':
+                # Viatico
+                $mat = Viatico::find($request->concepto);
+                break;
+
+            case '4':
+                # Caja Chica la cual no esta creada
+                $mat = Nomina::find($request->concepto);
+                break;
+
+            case '5':
+                # Nomina
+                $mat = Nomina::find($request->concepto);
+                break;
+
+        }
+
+        // $mat = Material::find($request->concepto);
+        return response()->json($mat);
+    }
+
+    public function cargarSolicitud(Request $request)
+    {
+        dd($request->all());
+    }
+
+
+
 
 
 }
-
-

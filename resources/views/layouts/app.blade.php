@@ -18,6 +18,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset("plugins/tema/dist/css/adminlte.min.css") }}">
   <link rel="stylesheet" href="{{ asset("plugins/plugins/fontawesome-free/css/all.css") }}">
+  {{-- <link rel="stylesheet" href="{{ asset("plugins/plugins/fontawesome6/fontawesome.min.css") }}"> --}}
   <link rel="stylesheet" href="{{ asset("plugins/plugins/sweetalert2/sweetalert2.css") }}">
   <link rel="stylesheet" href="{{ asset("css/estilos.css") }}">
   <script src="{{ asset('js/proccess.js') }}"></script>

@@ -152,11 +152,13 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::get("lista-de-solicitud",[App\Http\Controllers\SolicitudController::class, 'jq_lista']);
     Route::get("consultar-obra/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarObra']);
     Route::get("consultar-proveedores/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarProveedores']);
-    Route::get("listar-requisicion/{valor}",[App\Http\Controllers\SolicitudController::class, 'listarRequisicion']);
+    Route::get("listar-requisicion/{id}",[App\Http\Controllers\SolicitudController::class, 'listarRequisicion']);
     Route::get("consultar-requisicion/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarRequisicion']);
     Route::get("numero-de-cuenta/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarNroCuenta']);
     Route::get("lista-de-momina",[App\Http\Controllers\SolicitudController::class, 'consultarNomina']);
-    Route::get("lista-de-materiales/{valor}",[App\Http\Controllers\SolicitudController::class, 'consultarListaMateriales']);
+    Route::get("lista-de-materiales/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarListaMateriales']);
+    Route::post("cargar-nombre-concepto",[App\Http\Controllers\SolicitudController::class, 'cargarNombreConcepto']);
+    Route::post("cargar-solicitud-completa",[App\Http\Controllers\SolicitudController::class, 'cargarSolicitud'])->name('solicitud.cargarSolicitud');
 });
 
 Auth::routes();

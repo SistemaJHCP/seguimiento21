@@ -12,7 +12,7 @@
 @section('contenedor')
 <div class="row">
     <div class="col-md-12">
-        <form action="" method="post">
+        <form action="{{ route('solicitud.cargarSolicitud') }}" method="post">
         @csrf
         <div class="card card-info card-outline">
             <div class="card-header">
@@ -21,10 +21,11 @@
                     <div class="col-md-5">
                         <select name="tipoSolicitud" id="opciones" class="form-control">
                             <option value="">Seleccione el tipo de solicitud</option>
-                            <option value="Nomina">Nómina</option>
-                            <option value="Material">Materiales</option>
-                            <option value="Servicio">Servicios</option>
-                            <option value="Viatico">Viáticos</option>
+                            <option value="5">Nómina</option>
+                            <option value="1">Materiales</option>
+                            <option value="2">Servicios</option>
+                            <option value="3">Viáticos</option>
+                            {{-- <option value="4">Caja chica</option> --}}
                         </select>
                     </div>
                 </div>
@@ -152,7 +153,7 @@
                       <h5 class="card-title">Motivo</h5>
                     </div>
                     <div class="card-body">
-                        <textarea name="" id="" class="form-control"></textarea>
+                        <textarea name="motivo" id="motivo" class="form-control"></textarea>
                     </div>
                 </div>
 
@@ -161,7 +162,7 @@
                       <h5 class="card-title">Observaciones</h5>
                     </div>
                     <div class="card-body">
-                        <textarea name="" id="" class="form-control"></textarea>
+                        <textarea name="observacion" id="observacion" class="form-control"></textarea>
                     </div>
                 </div>
             </div>
@@ -171,7 +172,7 @@
                       <h5 class="card-title">Cargar la solicitud</h5><button type="button" id="btn-agregar" class="btn btn-info float-right"  data-toggle="modal" data-target="#agregarListaSolicitud" disabled>Agregar lista de solicitud</button>
                     </div>
                     <div class="card-body table-responsive">
-                        <table class="table" id="table">
+                        <table class="table" id="tableListado">
                             <thead >
                                 <tr>
                                   <th>Cantidad</th>
@@ -183,13 +184,14 @@
 
                             </tbody>
                         </table>
-                        <div id="ctipo234"></div>
-                        <div id="cantidad234"></div>
-                        <div id="concrip234"></div>
-                        <div id="especificaciones234"></div>
+
                     </div>
+                    <div id="cant1"></div>
+                    <div id="concep1"></div>
+                    <div id="prec1"></div>
                     <div class="card-footer">
-                        <button class="btn btn-info float-right" disabled>Cargar solicitud</button>
+                        <div id="limpiador" class="float-left" style="color: #6b1022; border:3px solid #6b1022; padding-left:7px; padding-right:7px; font-size:22px; border-radius:130px;"><i class="fas fa-trash" style="color: #6b1022"></i></div>
+                        <input type="submit" value="Cargar solicitud" class="btn btn-info float-right" id="cargarLaSolicitud" disabled>
                     </div>
                 </div>
             </div>
@@ -207,23 +209,22 @@
               </button>
             </div>
             <div class="modal-body">
-            <form action="" method="post">
-            @csrf
+
                 <div class="form-group">
                     <label for="">Cantidad</label>
-                    <input type="text" name="cantidad" id="cantidadSelect" class="form-control">
+                    <input type="text" name="cantidad" id="cantidadSelect" class="form-control"autocomplete="off" placeholder="Ingrese la cantidad">
                     <label for="">Concepto</label>
                     <select name="concepto" id="conceptoSelect" class="form-control">
                         <option value="">Seleccione...</option>
                     </select>
                     <label for="">Precio unitario</label>
-                    <input type="text" name="precioUnitario" id="precioUnitarioSelect" class="form-control">
+                    <input type="text" name="precioUnitario" id="precioUnitarioSelect" class="form-control"autocomplete="off" placeholder="Ingrese en monto">
                 </div>
-            </form>
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary">Agregar</button>
+              <button type="button" class="btn btn-primary" id="agregar132">Agregar</button>
             </div>
           </div>
         </div>
@@ -274,7 +275,7 @@
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="consultarRequisicionLabel">Datos de la requisicion</h5>
+              <h5 class="modal-title" id="consultarRequisicionLabel">Datos de la requisición</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -290,7 +291,7 @@
                             Materiales
                         </div>
                         <div class="card-body table-responsive">
-                            <table class="table" id="table">
+                            <table class="table" id="tableDesplegable">
                                 <thead >
                                     <tr>
                                       <th>Cantidad</th>

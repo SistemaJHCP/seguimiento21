@@ -14,6 +14,10 @@ $(document).ready(function(){
         theme: 'bootstrap4'
     });
 
+    $('#cantidadSelect').numeric('.');
+
+    $('#precioUnitarioSelect').numeric('.');
+
     $('#requisicion').select2({
         theme: 'bootstrap4'
     });
@@ -43,16 +47,27 @@ $(document).ready(function(){
             dataType: 'json',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         }).done(function(comp){
-            console.log(comp);
+
             var ban = "";
+            var cuenta = "";
             var list = '<option value="">Seleccione...</option>';
             if (comp) {
                 for (let i = 0; i < comp.length; i++) {
 
+                    if (comp[i].tipoCuenta == 1) {
+                        cuenta = "Ahorro";
+                    } else {
+                        if (comp[i].tipoCuenta == 2) {
+                            cuenta = "Corriente";
+                        } else {
+                            cuenta = "Tarjeta";
+                        }
+                    }
+
                     ban+=   '<div class="info-box mb-3 bg-info">' +
                                 '<span class="info-box-icon"><i class="fas fa-money-bill"></i></span>' +
                             '<div class="info-box-content">'+
-                                '<span class="">Nro. ' + comp[i].numero + '</span>'+
+                                '<span class="">Nro. ' + comp[i].numero + '</span>' + '<span class="">Cuenta: ' + cuenta + '</span>'+
                                 '<span class="">Rif / Cédula: ' + comp[i].banco_rif + '</span>'+
                                 '<span class="info-box-number"><b>Banco: </b>' + comp[i].banco_nombre + '</span>'+
                             '</div>'+
@@ -81,7 +96,7 @@ $(document).ready(function(){
 
     $('#opciones').change(function(){
 
-        if( this.value == ""  ) {
+        if( this.value === "" ) {
             $('#botonRequisicion').empty();
             $('#requisicion').attr('disabled', true);
             $('#requisicion').attr('required', false);
@@ -91,14 +106,14 @@ $(document).ready(function(){
             return false;
         }
 
-        if( this.value === "Nomina" ) {
+        if( this.value == 5 ) {
             $('#botonRequisicion').empty();
             $('#requisicion').attr('disabled', true);
             $('#requisicion').attr('required', false);
             $('#requisicion').empty();
             $('#requisicion').html('<option value="">Seleccione...</option>');
 
-            $('#btn-agregar').attr('disabled', false);
+            $('#btn-agregar').attr('disabled', true);
 
             $.ajax({
                 url: 'lista-de-momina',
@@ -116,7 +131,7 @@ $(document).ready(function(){
                     }
 
                 $('#conceptoSelect').html(listaConcepto);
-                // $('#opciones').attr('disabled', true);
+                $('#btn-agregar').attr('disabled', false);
             })
 
             .fail( function(){
@@ -125,25 +140,9 @@ $(document).ready(function(){
 
             return false;
         } else {
-            //Esto es lo que buscaria de ser material, viatico o servicio
-            $.ajax({
-                url: 'lista-de-materiales/' + this.value,
-                type: 'GET',
-                dataType: 'json',
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-            })
-            .done(function(comp) {
-                console.log(comp);
-                $('#conceptoSelect').empty();
 
-                var listaConcepto = '<option value="">Seleccione...</option>';
-                    for (let i = 0; i < comp.length; i++) {
-                        listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].material_codigo + ' | ' + comp[i].material_nombre + '</option>';
-                    }
+            consultarListaSol(this.value);
 
-                $('#conceptoSelect').html(listaConcepto);
-                // $('#opciones').attr('disabled', true);
-            })
         }
 
         consultarRequisicion( this.value );
@@ -154,6 +153,47 @@ $(document).ready(function(){
 
 
     });
+
+    function consultarListaSol( valor ){
+
+            //Esto es lo que buscaria de ser material, viatico o servicio
+            $.ajax({
+                url: 'lista-de-materiales/' + valor,
+                type: 'GET',
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            })
+            .done(function(comp) {
+
+                $('#conceptoSelect').empty();
+
+                var listaConcepto = '<option value="">Seleccione...</option>';
+
+                if ( $('#opciones').val() == 1 ) {
+                    for (let i = 0; i < comp.length; i++) {
+                        listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].material_codigo + ' | ' + comp[i].material_nombre + '</option>';
+                    }
+                } else {
+                    if ( $('#opciones').val() == 2 ) {
+                        for (let i = 0; i < comp.length; i++) {
+                            listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].servicio_codigo + ' | ' + comp[i].servicio_nombre + '</option>';
+                        }
+                    } else {
+                        for (let i = 0; i < comp.length; i++) {
+                            listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].viatico_codigo + ' | ' + comp[i].viatico_nombre + '</option>';
+                        }
+                    }
+                }
+
+                $('#conceptoSelect').html(listaConcepto);
+                // $('#opciones').attr('disabled', true);
+            })
+
+    }
+
+
+
+
 
     function limpiar(){
         $('#opciones').val("");
@@ -167,10 +207,24 @@ $(document).ready(function(){
         $('#requisicion').val("");
         $('#requisicion').attr("disabled", true);
         $('#btn-agregar').attr('disabled', true);
+        $('#cantidadSelect').val("");
+        $('#motivo').val("");
+        $('#observacion').val("");
+        $('#precioUnitarioSelect').val("");
+        $('#cargarLaSolicitud').attr('disabled', true);
     }
 
 
-
+    $('#limpiador').click(function(){
+        $('#cant1').empty();
+        $('#concep1').empty();
+        $('#prec1').empty();
+        $('#tableListado > tbody').empty();
+        $('#cargarLaSolicitud').attr('disabled', true);
+        $('#opciones').val("");
+        $('#opciones').attr('disabled', false);
+        $('#btn-agregar').attr('disabled', true);
+    });
 
 
     $('#requisicion').change(function(){
@@ -182,8 +236,8 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
+            console.log("REQUISICION: " +comp);
 
-            console.log(comp);
             var html = "";
             html+= '<div class="info-box" id="consultarReq" data-toggle="modal" data-target="#consultarRequisicion">' +
                    '<span class="info-box-icon bg-info"><i class="far fa-list-alt"></i></span>' +
@@ -197,26 +251,36 @@ $(document).ready(function(){
 
             var info = "";
             info+= '<div class="card">' +
-            '<img src="http://localhost/seguimiento21/public/imagen/requisicion.jpg" class="card-img-top" alt="...">' +
+            '<img src="../imagen/requisicion.jpg" class="card-img-top" alt="...">' +
             '<div class="card-body">' +
             '<p class="card-text">' +
-            '<b>Código: </b>' + comp[0].requisicion_codigo +  '<br>' +
-            '<b>Obra: </b>' + comp[0].obra +  '<br>' +
-            '<b>Fecha inicio: </b>' + comp[0].requisicion_fecha +  '<br>' +
-            '<b>Fecha final: </b>' + comp[0].requisicion_fechae +  '<br>' +
-            '<b>Estado: </b>' + comp[0].requisicion_estado +  '<br>' +
-            '<b>Motivo: </b>' + comp[0].requisicion_motivo +  '<br>' +
-            '<b>Tipo de requisición: </b>' + comp[0].requisicion_tipo +  '<br>' +
-            '<b>Creado por: </b>' + comp[0].usuario_nombre +  '<br>' +
+            '<b>Código: </b>' + comp[0][0].requisicion_codigo +  '<br>' +
+            '<b>Obra: </b>' + comp[0][0].obra +  '<br>' +
+            '<b>Fecha inicio: </b>' + comp[0][0].requisicion_fecha +  '<br>' +
+            '<b>Fecha final: </b>' + comp[0][0].requisicion_fechae +  '<br>' +
+            '<b>Estado: </b>' + comp[0][0].requisicion_estado +  '<br>' +
+            '<b>Motivo: </b>' + comp[0][0].requisicion_motivo +  '<br>' +
+            '<b>Tipo de requisición: </b>' + comp[0][0].requisicion_tipo +  '<br>' +
+            '<b>Creado por: </b>' + comp[0][0].usuario_nombre +  '<br>' +
             '</p>' +
             '</div>' +
             '</div>';
 
+
+            var lista = '';
+            for (let e = 0; e < comp[1].length; e++) {
+
+                lista+= '<tr><td>' + comp[1][e].sd_cantidad + '</td><td>' + comp[1][e].material_nombre + '</td><td>' + comp[1][e].sd_caracteristicas + '</td></tr>';
+
+            }
+
+
+            $('#tableDesplegable > tbody').html( lista );
             $('#infoRequisicion').html( info );
 
         })
         .fail( function(){
-            console.log("fallo el ajax en el modulo de carga de datos de la obra");
+            console.log("fallo el ajax en el modulo de la requisicion");
         })
 
 
@@ -232,7 +296,7 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            console.log(comp);
+
             var html = "";
             html+= '<div class="info-box" id="consultarO" data-toggle="modal" data-target="#consultarProveedor">' +
                    '<span class="info-box-icon bg-info"><i class="fas fa-tools"></i></span>' +
@@ -246,7 +310,7 @@ $(document).ready(function(){
 
             var info = "";
             info+= '<div class="card">' +
-            '<img src="http://localhost/seguimiento21/public/imagen/proveedor.jpg" class="card-img-top" alt="...">' +
+            '<img src="../imagen/proveedor.jpg" class="card-img-top" alt="...">' +
             '<div class="card-body">' +
             '<p class="card-text">' +
             '<b>Código: </b>' + comp[0].proveedor_codigo +  '<br>' +
@@ -278,7 +342,7 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            console.log(comp);
+
             var html = "";
             html+= '<div class="info-box" id="consultarO" data-toggle="modal" data-target="#consultarObra">' +
                    '<span class="info-box-icon bg-info"><i class="far fa-building"></i></span>' +
@@ -293,7 +357,7 @@ $(document).ready(function(){
             var info = "";
 
             info+= '<div class="card">' +
-            '<img src="http://localhost/seguimiento21/public/imagen/solicitud.jpg" class="card-img-top" alt="...">' +
+            '<img src="../imagen/solicitud.jpg" class="card-img-top" alt="...">' +
             '<div class="card-body">' +
             '<p class="card-text">' +
             '<b>Código: </b>' + comp[0].obra_codigo +  '<br>' +
@@ -326,7 +390,7 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            console.log(valor);
+
             $('#requisicion').empty();
 
             var listaReq = '<option value="">Seleccione...</option>';
@@ -338,14 +402,69 @@ $(document).ready(function(){
             $('#requisicion').attr('disabled', false);
 
 
+
+        })
+        .fail( function(){
+            console.log("fallo el ajax en el modulo de lista de requisicion");
+        })
+
+    }
+
+    $('#agregar132').click(function(){
+
+        $('#opciones').attr('disabled', true);
+        $('#agregar132').attr('disabled', true);
+
+        $.ajax({
+            url: 'cargar-nombre-concepto',
+            type: 'POST',
+            dataType: 'json',
+            data: { concepto: $('#conceptoSelect').val(), opcion: $('#opciones').val() },
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        })
+        .done(function(comp) {
+            consultarListaSol( $('#opciones').val() );
+
+            if ($('#opciones').val() == 1) {
+                $('#tableListado > tbody').append(
+                    '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.material_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + '</td></tr>'
+                );
+            } else {
+                if ($('#opciones').val() == 2) {
+                    $('#tableListado > tbody').append(
+                        '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.servicio_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + '</td></tr>'
+                    );
+                } else {
+                    if ($('#opciones').val() == 3) {
+                        $('#tableListado > tbody').append(
+                            '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.viatico_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + '</td></tr>'
+                        );
+                    } else {
+                        $('#tableListado > tbody').append(
+                            '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.nomina_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + '</td></tr>'
+                        );
+                    }
+                }
+            }
+
+            $('#cant1').append('<input type="hidden" name="cantidadHide[]" value="' + $('#cantidadSelect').val() + '">');
+            $('#concep1').append('<input type="hidden" name="conceptoHide[]" value="' + $('#conceptoSelect').val() + '">');
+            $('#prec1').append('<input type="hidden" name="montoHide[]" value="' + $('#precioUnitarioSelect').val() + '">');
+            $('#agregar132').attr('disabled', true);
+            $('#cargarLaSolicitud').attr('disabled', false);
+
+            $('#cantidadSelect').val("");
+
+            $('#precioUnitarioSelect').val("");
+            $('#agregar132').attr('disabled', false);
+
+
         })
         .fail( function(){
             console.log("fallo el ajax en el modulo de carga de datos de la obra");
         })
 
-    }
-
-
+    });
 
 
 
