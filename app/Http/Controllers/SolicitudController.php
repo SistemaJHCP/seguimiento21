@@ -54,7 +54,7 @@ class SolicitudController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->solicitud != 1 && $permisoUsuario[0]->crear_solicitud != 1){
+        if($permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->crear_solicitud != 1){
             return redirect()->route("home");
         }
         //Solicitamos la lista de obra
@@ -78,7 +78,97 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->crear_solicitud != 1){
+            return redirect()->route("home");
+        }
+
+        //Validamos que el formulario tenga la informacion correcta
+        $request->validate([
+            'pagos' => 'required|max:10',
+            'obra' => 'required|max:12',
+            'opcion' => 'required|max:12',
+            'forma_pago' => 'required|max:12',
+            'numero_cuenta' => 'required|max:12',
+            'iva' => 'required|max:12',
+            'requisicion' => 'max:12',
+            'motivo' => 'required|max:250',
+            'observacion' => 'max:250'
+        ]);
+
+        //Solicitamos el ultimo codigo en el sistema
+        $cdSol = Solicitud::select("solicitud_numerocontrol")->orderBy("id", "desc")->limit(1)->get();
+        //Definimos para el codigo de control, la letra que acompaara al codigo dependiendo de la opcion seleccionada
+        switch ($request->opcion) {
+            case '1':
+            $tipo = "M"; //material
+            break;
+
+            case '2':
+            $tipo = "S"; //Servicio
+            break;
+
+
+            case '3':
+            $tipo = "V"; //Viatico
+            break;
+
+
+            case '4':
+            $tipo = "C"; //Caja chica la cual aun no esta habilitada
+            break;
+
+
+            case '5':
+            $tipo = "N"; //Nomina
+            break;
+
+        }
+
+        //Creamos el codigo unico que se guardara en la base de datos
+        if(count($cdSol) < 1){
+            //Si es menor a 1
+            $codSolicitud = "SOL" . $tipo . "-1";
+        } else {
+            //Se extrae el numero y se le agrega un valor mas (xx + 1)
+            preg_match_all('!\d+!', $cdSol[0]->solicitud_numerocontrol, $cod);
+            $cod = $cod[0][0] + 1;
+            $codSolicitud = "SOL" . $tipo . "-".$cod;
+        }
+
+        //Instanciamos la solicitud
+        $solicitud = new Solicitud();
+        //Colocamos la informacion capturada en el request en cada uno de los campos a guardar en la BD
+        $solicitud->solicitud_fecha = date('Y-m-d');
+        $solicitud->solicitud_numerocontrol = $codSolicitud;
+        $solicitud->solicitud_tipo = $request->opcion;
+        $solicitud->solicitud_tiposolicitud = $request->pagos;
+        $solicitud->solicitud_iva = $request->iva;
+        $solicitud->solicitud_observaciones = $request->observacion;
+        $solicitud->solicitud_formapago = $request->forma_pago;
+        $solicitud->solicitud_motivo = $request->motivo;
+        $solicitud->usuario_id = \Auth::user()->id ;
+        $solicitud->obra_id = $request->obra;
+        $solicitud->proveedor_id = $request->proveedor;
+        $solicitud->banco_proveedor_id = $request->numero_cuenta;
+        $solicitud->requisicion_id = $request->requisicion;
+        //Guardamos la informacion de todo lo capturado
+        $resultado = $solicitud->save();
+
+        if (!$resultado) {
+            return Redirect::back()->withErrors(['msg' => 'El formulario no ha sido cargado correctamente']);
+        }
+
+
+
+
+
+
+        //retorna la respuesta en una vista
+        return redirect()->route('solicitud.index')->with('resp', $resp);
+
     }
 
     /**
@@ -315,6 +405,8 @@ class SolicitudController extends Controller
             $mat = Servicio::select()->orderBy('id', 'DESC')->get();
         } elseif($id == 3) {
             $mat = Viatico::select()->orderBy('id', 'DESC')->get();
+        } elseif ($id == 5) {
+            $mat = Nomina::select()->orderBy('id', 'DESC')->get();
         }
 
         return response()->json( $mat );
@@ -357,13 +449,6 @@ class SolicitudController extends Controller
         // $mat = Material::find($request->concepto);
         return response()->json($mat);
     }
-
-    public function cargarSolicitud(Request $request)
-    {
-        dd($request->all());
-    }
-
-
 
 
 

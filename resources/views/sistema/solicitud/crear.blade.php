@@ -12,19 +12,28 @@
 @section('contenedor')
 <div class="row">
     <div class="col-md-12">
-        <form action="{{ route('solicitud.cargarSolicitud') }}" method="post">
+    <form action="{{ route('solicitud.cargarSolicitud') }}" method="post">
         @csrf
         <div class="card card-info card-outline">
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-7"><h3 class="card-title"><label for="">Seleccione las opciones pertinentes</label></h3></div>
                     <div class="col-md-5">
-                        <select name="tipoSolicitud" id="opciones" class="form-control">
+                        <select name="tipoSolicitud" id="opciones" class="form-control" required>
                             <option value="">Seleccione el tipo de solicitud</option>
-                            <option value="5">Nómina</option>
-                            <option value="1">Materiales</option>
-                            <option value="2">Servicios</option>
-                            <option value="3">Viáticos</option>
+                            @if ($permisoUsuario->nomina_solicitud_opcion == 1)
+                                <option value="5">Nómina</option>
+                            @endif
+                            @if ($permisoUsuario->material_solicitud_opcion == 1)
+                                <option value="1">Materiales</option>
+                            @endif
+                            @if ($permisoUsuario->servicio_solicitud_opcion == 1)
+                                <option value="2">Servicios</option>
+                            @endif
+                            @if ($permisoUsuario->viatico_solicitud_opcion == 1)
+                                <option value="3">Viáticos</option>
+                            @endif
+
                             {{-- <option value="4">Caja chica</option> --}}
                         </select>
                     </div>
@@ -33,25 +42,17 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        {{-- <div class="row">
-                            <div class="col-12">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input bg-info" id="customSwitch1" name="dolar">
-                                    <label class="custom-control-label float-right" for="customSwitch1">Monto en Bolivares</label><br><br>
-                                </div>
-                            </div>
-                        </div> --}}
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Fecha de Solicitud *</label>
-                                    <input type="text" name="fecha" id="fecha" value="{{ date('Y-m-d') }}" class="form-control" disabled>
+                                    <input type="text" name="fecha" id="fecha" value="{{ date('Y-m-d') }}" class="form-control" disabled  required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Pagos Especiales *</label>
-                                    <select name="pagos" id="pagos" class="form-control">
+                                    <select name="pagos" id="pagos" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         <option value="1">Emergencia</option>
                                         <option value="2">Viernes</option>
@@ -61,7 +62,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Obra Relacionada *</label>
-                                    <select name="obra" id="obra" class="form-control">
+                                    <select name="obra" id="obra" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($obra as $o)
                                             <option value="{{ $o->id }}">{{ $o->obra_codigo }} - {{ $o->obra_nombre }}</option>
@@ -72,12 +73,13 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Proveedor *</label>
-                                    <select name="proveedor" id="proveedor" class="form-control">
+                                    <select name="proveedor" id="proveedor" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($proveedor as $p)
                                             <option value="{{ $p->id }}">{{ $p->proveedor_nombre }}</option>
                                         @endforeach
                                     </select>
+                                    <div id="opcion21"></div>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +87,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Forma de Pago *</label>
-                                    <select name="forma_pago" id="forma_pago" class="form-control">
+                                    <select name="forma_pago" id="forma_pago" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         <option value="1">Transferencia</option>
                                         <option value="2">Depósito</option>
@@ -97,7 +99,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Número de Cuenta</label>
-                                    <select name="numero_cuenta" id="numero_cuenta" class="form-control" disabled>
+                                    <select name="numero_cuenta" id="numero_cuenta" class="form-control" disabled required>
                                         <option value="">Seleccione...</option>
                                     </select>
                                 </div>
@@ -105,7 +107,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>¿Monto incluye IVA? *</label>
-                                    <select name="iva" id="iva" class="form-control">
+                                    <select name="iva" id="iva" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         <option value="1">No</option>
                                         <option value="2">Si</option>
@@ -153,7 +155,7 @@
                       <h5 class="card-title">Motivo</h5>
                     </div>
                     <div class="card-body">
-                        <textarea name="motivo" id="motivo" class="form-control"></textarea>
+                        <textarea name="motivo" id="motivo" class="form-control" maxlength="250" required></textarea>
                     </div>
                 </div>
 
@@ -162,7 +164,7 @@
                       <h5 class="card-title">Observaciones</h5>
                     </div>
                     <div class="card-body">
-                        <textarea name="observacion" id="observacion" class="form-control"></textarea>
+                        <textarea name="observacion" id="observacion" maxlength="250" class="form-control"></textarea>
                     </div>
                 </div>
             </div>
@@ -212,13 +214,13 @@
 
                 <div class="form-group">
                     <label for="">Cantidad</label>
-                    <input type="text" name="cantidad" id="cantidadSelect" class="form-control"autocomplete="off" placeholder="Ingrese la cantidad">
+                    <input type="text" name="cantidad" id="cantidadSelect"  maxlength="12" class="form-control"autocomplete="off" placeholder="Ingrese la cantidad">
                     <label for="">Concepto</label>
                     <select name="concepto" id="conceptoSelect" class="form-control">
                         <option value="">Seleccione...</option>
                     </select>
                     <label for="">Precio unitario</label>
-                    <input type="text" name="precioUnitario" id="precioUnitarioSelect" class="form-control"autocomplete="off" placeholder="Ingrese en monto">
+                    <input type="text" name="precioUnitario" maxlength="12" id="precioUnitarioSelect" class="form-control"autocomplete="off" placeholder="Ingrese en monto">
                 </div>
 
             </div>
@@ -331,6 +333,9 @@
 <script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/solicitud/crear.js") }}"></script>
+@if($errors->any())
+<h4>{{$errors->first()}}</h4>
+@endif
 @endsection
 @section('css')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

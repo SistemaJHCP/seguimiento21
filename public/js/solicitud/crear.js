@@ -18,7 +18,7 @@ $(document).ready(function(){
 
     $('#precioUnitarioSelect').numeric('.');
 
-    $('#requisicion').select2({
+    $('#requisicion2').select2({
         theme: 'bootstrap4'
     });
 
@@ -95,7 +95,7 @@ $(document).ready(function(){
 
 
     $('#opciones').change(function(){
-
+        $('#opcion21').empty();
         if( this.value === "" ) {
             $('#botonRequisicion').empty();
             $('#requisicion').attr('disabled', true);
@@ -103,6 +103,8 @@ $(document).ready(function(){
             $('#requisicion').empty();
             $('#requisicion').html('<option value="">Seleccione...</option>');
             $('#btn-agregar').attr('disabled', true);
+            $('#requisicion').attr('required', false);
+            $('#opcion').empty();
             return false;
         }
 
@@ -112,6 +114,7 @@ $(document).ready(function(){
             $('#requisicion').attr('required', false);
             $('#requisicion').empty();
             $('#requisicion').html('<option value="">Seleccione...</option>');
+            $('#opcion21').append('<input type="hidden" name="opcion" value="5">');
 
             $('#btn-agregar').attr('disabled', true);
 
@@ -122,7 +125,7 @@ $(document).ready(function(){
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
             })
             .done(function(comp) {
-                console.log(comp);
+                $('#requisicion').attr('required', false);
                 $('#conceptoSelect').empty();
 
                 var listaConcepto = '<option value="">Seleccione...</option>';
@@ -140,7 +143,8 @@ $(document).ready(function(){
 
             return false;
         } else {
-
+            $('#requisicion').attr('required', true);
+            $('#opcion21').append('<input type="hidden" name="opcion" value="' + $('#opciones').val() + '">');
             consultarListaSol(this.value);
 
         }
@@ -179,8 +183,14 @@ $(document).ready(function(){
                             listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].servicio_codigo + ' | ' + comp[i].servicio_nombre + '</option>';
                         }
                     } else {
-                        for (let i = 0; i < comp.length; i++) {
-                            listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].viatico_codigo + ' | ' + comp[i].viatico_nombre + '</option>';
+                        if ( $('#opciones').val() == 5) {
+                            for (let i = 0; i < comp.length; i++) {
+                                listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].nomina_codigo + ' | ' + comp[i].nomina_nombre + '</option>';
+                            }
+                        } else {
+                            for (let i = 0; i < comp.length; i++) {
+                                listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].viatico_codigo + ' | ' + comp[i].viatico_nombre + '</option>';
+                            }
                         }
                     }
                 }
@@ -412,6 +422,10 @@ $(document).ready(function(){
 
     $('#agregar132').click(function(){
 
+        if ( $('#cantidadSelect').val().length > 1 ||  $('#conceptoSelect').val() == "" ||  $('#cantidadSelect').val().length > 1  ) {
+            alert('El campo no puede estar vacio');
+            return false;
+        }
         $('#opciones').attr('disabled', true);
         $('#agregar132').attr('disabled', true);
 
@@ -465,6 +479,10 @@ $(document).ready(function(){
         })
 
     });
+
+
+
+
 
 
 
