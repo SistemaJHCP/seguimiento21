@@ -15,7 +15,7 @@ class SolicitudDetalle extends Migration
     {
         Schema::create('solicitud_detalle', function (Blueprint $table) {
             $table->id();
-            $table->decimal('sd_cantidad', $precision = 10, $scale = 2);
+            $table->decimal('sd_cantidad', $precision = 20, $scale = 2);
             $table->decimal('sd_preciounitario', $precision = 20, $scale = 2)->nullable()->default(NULL);
             $table->string('sd_caracteristicas', 200)->nullable()->default(NULL);
             $table->integer('solicitud_id')->nullable()->default(NULL);

@@ -137,7 +137,7 @@ class SolicitudController extends Controller
             $cod = $cod[0][0] + 1;
             $codSolicitud = "SOL" . $tipo . "-".$cod;
         }
-
+        // dd($request->all());
         //Instanciamos la solicitud
         $solicitud = new Solicitud();
         //Colocamos la informacion capturada en el request en cada uno de los campos a guardar en la BD
@@ -156,9 +156,40 @@ class SolicitudController extends Controller
         $solicitud->requisicion_id = $request->requisicion;
         //Guardamos la informacion de todo lo capturado
         $resultado = $solicitud->save();
-
+        //De no hacer el proceso anterior, envia un mensaje de error
         if (!$resultado) {
             return Redirect::back()->withErrors(['msg' => 'El formulario no ha sido cargado correctamente']);
+        } else {
+            //En caso contrario, has un bucle cargando la informacion de los costos en base a los materiales
+            //existentes en el formulario
+            foreach (array_keys( $request->cantidadHide ) as $key) {
+                //Instanciamos en donde guardaremos los precios
+                $soldet = new Solicitud_detalle();
+                //agregamos en su contenedor la cantidad
+                $soldet->sd_cantidad = $request->cantidadHide[$key];
+                //Agregamos el ID de la solicitud
+                $soldet->solicitud_id = $solicitud->id;
+
+                //Segun lo seleccionado, guardamos en el campo indicado.
+                if ($request->opcion == "1") {       //materiales
+                    $soldet->material_id = $request->conceptoHide[$key];
+                } elseif ($request->opcion == "2") { // servicios
+                    $soldet->servicio_id = $request->conceptoHide[$key];
+                } elseif ($request->opcion == "3") { //  viaticos
+                    $soldet->viatico_id = $request->conceptoHide[$key];
+                } elseif ($request->opcion == "5") { //    nomina
+                    $soldet->nomina_id = $request->conceptoHide[$key];
+                }
+
+                $soldet->sd_preciounitario = $request->montoHide[$key];
+                $soldet->save();
+            }
+
+            if ($soldet) {
+                return redirect()->route('solicitud.index')->with('resp', 1);
+            } else {
+                return redirect()->route('solicitud.index')->with('resp', 0);
+            }
         }
 
 
@@ -179,7 +210,100 @@ class SolicitudController extends Controller
      */
     public function show($id)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->ver_botones_solicitud != 1){
+            return redirect()->route("home");
+        }
+
+        $solicitud = Solicitud::select(
+            'solicitud.id AS id',
+            'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+            'solicitud.solicitud_fecha AS solicitud_fecha',
+            'solicitud.solicitud_motivo AS solicitud_motivo',
+            'solicitud.solicitud_observaciones AS solicitud_observaciones',
+            'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
+            'solicitud.solicitud_tipo AS solicitud_tipo',
+            'solicitud.solicitud_formapago AS solicitud_formapago',
+            'solicitud.solicitud_iva AS solicitud_iva',
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_fechainicio AS obra_fechainicio',
+            'obra.obra_fechafin AS obra_fechafin',
+            'proveedor.proveedor_codigo AS proveedor_codigo',
+            'proveedor.proveedor_tipo AS proveedor_tipo',
+            'proveedor.proveedor_rif AS proveedor_rif',
+            'proveedor.proveedor_nombre AS proveedor_nombre',
+            'proveedor.proveedor_telefono AS proveedor_telefono',
+            'proveedor.proveedor_direccion AS proveedor_direccion',
+            'proveedor.proveedor_correo AS proveedor_correo',
+            'requisicion.requisicion_codigo AS requisicion_codigo',
+            'requisicion.requisicion_tipo AS requisicion_tipo',
+            'requisicion.requisicion_fecha AS requisicion_fecha',
+            'requisicion.requisicion_fechae AS requisicion_fechae',
+            'requisicion.requisicion_motivo AS requisicion_motivo',
+            'requisicion.requisicion_direccion AS requisicion_direccion',
+            'requisicion.requisicion_estado AS requisicion_estado'
+        )
+        ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+        ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
+        ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
+        ->where('solicitud.id', $id)
+        ->first();
+
+
+        if ($solicitud->solicitud_tipo == "1") {       //materiales
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'material.material_nombre AS material_nombre'
+                )
+                ->leftJoin('material', 'material.id', '=', 'solicitud.material_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "2") { // servicios
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'servicio.servicio_nombre AS servicio_nombre'
+                )
+                ->leftJoin('servicio', 'servicio.id', '=', 'solicitud.servicio_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "3") { //  viaticos
+
+
+
+        } elseif ($solicitud->solicitud_tipo == "5") { //    nomina
+
+
+
+        }
+
+
+
+
+
+        dump( $solicitud );
+        dump( $costo );
+        return view('sistema.solicitud.consultar')->with(
+            [
+                'permisoUsuario' => $permisoUsuario[0],
+                'solicitud' => $solicitud,
+                'costo' => $costo
+            ]
+        );
+
+
+
+
+
+
     }
 
     /**

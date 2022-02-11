@@ -159,6 +159,9 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::get("lista-de-materiales/{id}",[App\Http\Controllers\SolicitudController::class, 'consultarListaMateriales']);
     Route::post("cargar-nombre-concepto",[App\Http\Controllers\SolicitudController::class, 'cargarNombreConcepto']);
     Route::post("cargar-solicitud-completa",[App\Http\Controllers\SolicitudController::class, 'store'])->name('solicitud.cargarSolicitud');
+
+    Route::get("consultar/98uyuijdhy8987dy9ojidu8998d76tyuihdhvgt5dr{id}tygtwr4e3wertygsft65rdty7udh",[App\Http\Controllers\SolicitudController::class, 'show'])->name('solicitud.consultar');
+
 });
 
 Auth::routes();

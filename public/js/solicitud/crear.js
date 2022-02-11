@@ -18,9 +18,18 @@ $(document).ready(function(){
 
     $('#precioUnitarioSelect').numeric('.');
 
-    $('#requisicion2').select2({
+    $('#requisicion').select2({
         theme: 'bootstrap4'
     });
+
+    $("#cargarLaSolicitud").click(function(){
+        $("form").on("submit", function () {
+            $("#cargarLaSolicitud").attr("value", "Guardando, espere...");
+            $("#cargarLaSolicitud").prop("disabled", true);
+        });
+    });
+
+
 
     $('#obra').change(function(){
 
@@ -422,7 +431,7 @@ $(document).ready(function(){
 
     $('#agregar132').click(function(){
 
-        if ( $('#cantidadSelect').val().length > 1 ||  $('#conceptoSelect').val() == "" ||  $('#cantidadSelect').val().length > 1  ) {
+        if ( $('#cantidadSelect').val().length < 1 ||  $('#conceptoSelect').val() == "" ||  $('#cantidadSelect').val().length < 1  ) {
             alert('El campo no puede estar vacio');
             return false;
         }
