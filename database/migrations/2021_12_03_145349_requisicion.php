@@ -23,7 +23,7 @@ class Requisicion extends Migration
             $table->longText('requisicion_direccion');
             $table->longText('requisicion_observaciones')->nullable()->default(NULL);
             $table->string('requisicion_estado', 25)->default("No Vista");
-            $table->bigInteger('requisicion_comentario')->nullable()->default(NULL);
+            $table->text('requisicion_comentario')->nullable()->default(NULL);
             $table->bigInteger('requisicion_solicitud')->nullable()->default(NULL);
             $table->unsignedBigInteger('usuario_id');
             $table->bigInteger('usuario_view_id')->nullable()->default(NULL);

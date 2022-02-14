@@ -17,7 +17,7 @@ class SolicitudDetalle extends Migration
             $table->id();
             $table->decimal('sd_cantidad', $precision = 20, $scale = 2);
             $table->decimal('sd_preciounitario', $precision = 20, $scale = 2)->nullable()->default(NULL);
-            $table->string('sd_caracteristicas', 200)->nullable()->default(NULL);
+            $table->text('sd_caracteristicas')->nullable()->default(NULL);
             $table->integer('solicitud_id')->nullable()->default(NULL);
             $table->integer('requisicion_id')->nullable()->default(NULL);
             $table->integer('caja_id')->nullable()->default(NULL);
@@ -25,6 +25,7 @@ class SolicitudDetalle extends Migration
             $table->integer('material_id')->nullable()->default(NULL);
             $table->integer('servicio_id')->nullable()->default(NULL);
             $table->integer('viatico_id')->nullable()->default(NULL);
+            $table->enum('moneda', ['Bs', '$'])->default('Bs');
 
             $table->timestamps();
         });

@@ -259,9 +259,9 @@ class SolicitudController extends Controller
                 'solicitud_detalle.id AS id',
                 'solicitud_detalle.sd_cantidad AS sd_cantidad',
                 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
-                'material.material_nombre AS material_nombre'
+                'material.material_nombre AS nombre'
                 )
-                ->leftJoin('material', 'material.id', '=', 'solicitud.material_id')
+                ->leftJoin('material', 'material.id', '=', 'solicitud_detalle.material_id')
                 ->where('solicitud_id', $solicitud->id)->get();
 
         } elseif ($solicitud->solicitud_tipo == "2") { // servicios
@@ -270,18 +270,43 @@ class SolicitudController extends Controller
                 'solicitud_detalle.id AS id',
                 'solicitud_detalle.sd_cantidad AS sd_cantidad',
                 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
-                'servicio.servicio_nombre AS servicio_nombre'
+                'servicio.servicio_nombre AS nombre'
                 )
-                ->leftJoin('servicio', 'servicio.id', '=', 'solicitud.servicio_id')
+                ->leftJoin('servicio', 'servicio.id', '=', 'solicitud_detalle.servicio_id')
                 ->where('solicitud_id', $solicitud->id)->get();
 
         } elseif ($solicitud->solicitud_tipo == "3") { //  viaticos
 
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'viatico.viatico_nombre AS nombre'
+                )
+                ->leftJoin('viatico', 'viatico.id', '=', 'solicitud_detalle.viatico_id')
+                ->where('solicitud_id', $solicitud->id)->get();
 
+        } elseif ($solicitud->solicitud_tipo == "4") { //    Caja Chica
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'caja.caja_nombre AS nombre'
+                )
+                ->leftJoin('caja', 'caja.id', '=', 'solicitud_detalle.caja_id')
+                ->where('solicitud_id', $solicitud->id)->get();
 
         } elseif ($solicitud->solicitud_tipo == "5") { //    nomina
 
-
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'nomina.nomina_nombre AS nombre'
+                )
+                ->leftJoin('nomina', 'nomina.id', '=', 'solicitud_detalle.nomina_id')
+                ->where('solicitud_id', $solicitud->id)->get();
 
         }
 

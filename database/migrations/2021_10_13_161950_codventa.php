@@ -20,7 +20,7 @@ class Codventa extends Migration
             $table->string('codventa_codigo2', 25);
             $table->string('codventa_telefono', 50)->nullable();
             $table->string('codventa_direccion', 250);
-            $table->string('codventa_correo', 100);
+            $table->string('codventa_correo', 100)->nullable();
             $table->tinyInteger('codventa_estado');
             $table->timestamps();
         });
