@@ -78,6 +78,7 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
+        dd( $request->all() );
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -231,6 +232,7 @@ class SolicitudController extends Controller
             'obra.obra_nombre AS obra_nombre',
             'obra.obra_fechainicio AS obra_fechainicio',
             'obra.obra_fechafin AS obra_fechafin',
+            'obra.obra_observaciones AS obra_observaciones',
             'proveedor.proveedor_codigo AS proveedor_codigo',
             'proveedor.proveedor_tipo AS proveedor_tipo',
             'proveedor.proveedor_rif AS proveedor_rif',
@@ -310,12 +312,8 @@ class SolicitudController extends Controller
 
         }
 
-
-
-
-
         dump( $solicitud );
-        dump( $costo );
+        // dump( $costo );
         return view('sistema.solicitud.consultar')->with(
             [
                 'permisoUsuario' => $permisoUsuario[0],
@@ -362,7 +360,21 @@ class SolicitudController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->anular_solicitud != 1 ){
+            return redirect()->route("home");
+        }
+
+        //Campturamos el ID dela solicitud a anular
+        $anular = Solicitud::find($id);
+        //Cambiamos el estado a anulado
+        $anular->solicitud_aprobacion = "Anulada";
+        //Guardamos en la base de datos esta modificacion de estado
+        $resp = $anular->save();
+        //Retornamos la respuesta a la vista por medio de json
+        return response()->json($resp);
     }
 
     public function jq_lista(){
@@ -384,7 +396,8 @@ class SolicitudController extends Controller
             'users.user_name AS nombre'
         )
         ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
-        ->orderBy('id', 'DESC')->limit(3000)
+        ->orderBy('id', 'DESC')
+        ->limit(5000)
         ->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
@@ -490,7 +503,7 @@ class SolicitudController extends Controller
     }
 
 
-    public function consultarRequisicion($id)
+    public function consultarRequisicion($id, $valor)
     {
         $requisicion = Requisicion::select(
             'requisicion.id AS id',
@@ -509,15 +522,65 @@ class SolicitudController extends Controller
         ->limit(1)
         ->get();
 
-        $materiales = Solicitud_detalle::select(
-            'solicitud_detalle.id AS id',
-            'solicitud_detalle.sd_cantidad AS sd_cantidad',
-            'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
-            'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
-            'material.material_nombre AS material_nombre'
-            )
-            ->leftJoin('material', 'material.id', '=', 'solicitud_detalle.material_id')
-            ->where('requisicion_id', $requisicion[0]->id)->get();
+        if ( $valor == 1 ) {
+            $materiales = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                // 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+                'material.material_nombre AS nombre'
+                )
+                ->leftJoin('material', 'material.id', '=', 'solicitud_detalle.material_id')
+                ->where('requisicion_id', $requisicion[0]->id)->get();
+        } elseif( $valor == 2 ) {
+            $materiales = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                // 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+                'servicio.servicio_nombre AS nombre'
+                )
+                ->leftJoin('servicio', 'servicio.id', '=', 'solicitud_detalle.servicio_id')
+                ->where('requisicion_id', $requisicion[0]->id)->get();
+        }  elseif( $valor == 3 ) {
+            $materiales = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                // 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+                'viatico.viatico_nombre AS nombre'
+                )
+                ->leftJoin('viatico', 'viatico.id', '=', 'solicitud_detalle.viatico_id')
+                ->where('requisicion_id', $requisicion[0]->id)->get();
+        }  elseif( $valor == 4 ) {
+            $materiales = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                // 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+                'caja.caja_nombre AS nombre'
+                )
+                ->leftJoin('caja', 'caja.id', '=', 'solicitud_detalle.caja_id')
+                ->where('requisicion_id', $requisicion[0]->id)->get();
+        }  elseif( $valor == 5 ) {
+            $materiales = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                // 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.sd_caracteristicas AS sd_caracteristicas',
+                'nomina.nomina_nombre AS nombre'
+                )
+                ->leftJoin('nomina', 'nomina.id', '=', 'solicitud_detalle.nomina_id')
+                ->where('requisicion_id', $requisicion[0]->id)->get();
+        }
+
+
+
+
+
+
+
+
 
         return response()->json([$requisicion, $materiales]);
     }

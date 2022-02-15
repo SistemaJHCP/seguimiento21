@@ -130,6 +130,7 @@ $("#fechaE").datepicker({
 //--------------------------------------------------------------------------------------------
     $('#proveedorRec').change(function(){
         if ( $('#proveedorRec').val() == "") {
+            $('#proovedorRelacionado').html("");
             return false;
         }
 
@@ -168,6 +169,7 @@ $("#fechaE").datepicker({
 
     $('#obraRel927y2').change(function(){
         if ( $('#obraRel927y2').val() == "") {
+            $('#obraRelacionada').html("");
             return false;
         }
 

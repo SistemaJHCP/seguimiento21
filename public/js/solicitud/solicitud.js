@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-
-
     $('#listaSolicitud').DataTable({
         serverSide: false,
         processing: true,
@@ -41,7 +39,52 @@ $(document).ready(function(){
     });
 
 
+    $(document).on('click', '#desactivar', function(){
+        Swal.fire({
+            title: '¿Esta seguro',
+            text: "de anular esta solicitud?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, anular!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
 
+                $.ajax({
+                    url: 'solicitud/anulacion-solicitud/' + this.value ,
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+                })
+                .done(function(comp) {
+                    $('#listaSolicitud').DataTable().ajax.reload()
+                    if (comp == true) {
+                        Swal.fire(
+                            'Anulado',
+                            'Se ha realizado la anulación satisfactoriamente.',
+                            'success'
+                        );
+                    } else {
+                        Swal.fire(
+                            'Error',
+                            'Hubo un error al procesar la solicitud.',
+                            'error'
+                        );
+                    }
+
+
+
+                })
+                .fail( function(){
+                    console.log("fallo el ajax en el modulo de anulacion de solicitud");
+                })
+
+
+            }
+          })
+    });
 
 
 

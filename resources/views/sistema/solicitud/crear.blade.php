@@ -41,6 +41,15 @@
             </div>
             <div class="card-body">
                 <div class="row">
+                    <div class="col-12">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" name="dolares" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">Solicitud en dolares</label>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-3">
@@ -135,15 +144,7 @@
                     </div>
                     <div class="col-md-4">
                         <div id="botonRequisicion"></div>
-                        {{-- <div class="info-box" id="consultarReq" data-toggle="modal" data-target="#consultarRequisicion">
-                            <span class="info-box-icon bg-info"><i class="far fa-list-alt"></i></span>
 
-                            <div class="info-box-content" >
-                                <span class="info-box-text">Consultar</span>
-                                <span class="info-box-number">REQUISICION</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -178,7 +179,7 @@
                             <thead >
                                 <tr>
                                   <th>Cantidad</th>
-                                  <th>Concepto</th>
+                                  <th>Concepto o descripción</th>
                                   <th>Precio Unitario</th>
                                 </tr>
                             </thead>
@@ -215,7 +216,7 @@
                 <div class="form-group">
                     <label for="">Cantidad</label>
                     <input type="text" name="cantidad" id="cantidadSelect"  maxlength="12" class="form-control"autocomplete="off" placeholder="Ingrese la cantidad">
-                    <label for="">Concepto</label>
+                    <label for="">Concepto o descripción</label>
                     <select name="concepto" id="conceptoSelect" class="form-control">
                         <option value="">Seleccione...</option>
                     </select>
@@ -297,7 +298,7 @@
                                 <thead >
                                     <tr>
                                       <th>Cantidad</th>
-                                      <th>Concepto</th>
+                                      <th>Concepto o descripción</th>
                                       <th>Especificación</th>
                                     </tr>
                                 </thead>

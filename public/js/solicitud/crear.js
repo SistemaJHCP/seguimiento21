@@ -249,7 +249,7 @@ $(document).ready(function(){
     $('#requisicion').change(function(){
 
         $.ajax({
-            url: 'consultar-requisicion/' + this.value,
+            url: 'consultar-requisicion/' + this.value + '/' + $("#opciones").val(),
             type: 'GET',
             dataType: 'json',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -285,11 +285,11 @@ $(document).ready(function(){
             '</div>' +
             '</div>';
 
-
+            console.log( comp[1] );
             var lista = '';
             for (let e = 0; e < comp[1].length; e++) {
 
-                lista+= '<tr><td>' + comp[1][e].sd_cantidad + '</td><td>' + comp[1][e].material_nombre + '</td><td>' + comp[1][e].sd_caracteristicas + '</td></tr>';
+                lista+= '<tr><td>' + comp[1][e].sd_cantidad + '</td><td>' + comp[1][e].nombre + '</td><td>' + comp[1][e].sd_caracteristicas + '</td></tr>';
 
             }
 

@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Fecha de Emisión</label>
+                                <label for="">Fecha de emisión</label>
                                 <input type="text" name="fechaI" id="fechaI" value="{!! date('Y-m-d'); !!}" class="form-control" disabled>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Proveedor Recomendado</label>
+                                <label for="">Proveedor recomendado</label>
                                 <select name="proveedorRec" id="proveedorRec" class="form-control select2" style="width: 100%;" required>
                                     <option value="">Seleccione...</option>
                                     @foreach ($proveedor as $p)
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Obra Relacionada</label>
+                                <label for="">Obra relacionada</label>
                                 <select name="obra" id="obraRel927y2" class="form-control select3" required>
                                     <option value="">Seleccione...</option>
                                     @foreach ($obra as $o)
