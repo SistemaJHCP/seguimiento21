@@ -43,6 +43,11 @@ $("#fechaE").datepicker({
             $('#selectRequis8ty').attr('disabled', true);
             return false;
         }
+
+        $('#cantidad').attr('disabled', true);
+        $('.select4').attr('disabled', true);
+        $('#especificaciones').attr('disabled', true);
+
         $.ajax({
             url: "tipo-solicitud/"+ valor +"/987yuisjihu8u7t6rstfyuiijshugytfrs5t6",
             type: 'GET',
@@ -73,6 +78,10 @@ $("#fechaE").datepicker({
 
             $('.select4').html(html);
             $('#selectRequis8ty').attr('disabled', false);
+            $('#cantidad').attr('disabled', false);
+            $('.select4').attr('disabled', false);
+            $('#especificaciones').attr('disabled', false);
+            $('#agregar').attr('disabled', false);
 
         })
         .fail( function(){
@@ -254,6 +263,7 @@ $("#fechaE").datepicker({
         let especificaciones = $('#especificaciones').val();
         let tipo = $('#tipo').val();
         $('#tipo').attr('disabled', true);
+        $('#agregar').attr('disabled', true);
         $.ajax({
             url: 'consultar-nombre-concepto/x33ddwqfvhbjihugvcdcdf5678t7stc' + concepto +'/'+ tipo,
             type: 'GET',

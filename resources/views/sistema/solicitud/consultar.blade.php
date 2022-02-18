@@ -127,11 +127,11 @@
                                         <tr>
                                             <td>{{ $c->sd_cantidad }}</td>
                                             <td>{{ $c->nombre }}</td>
-                                            <td>{{ $c->sd_preciounitario }}</td>
+                                            <td>{{ $c->sd_preciounitario }} {{ $c->moneda }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
-                                  </table>
+                                </table>
                             </div>
                         </div>
 

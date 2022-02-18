@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('titulo')
-    <h1 class="m-0"> Solicitud <small>de pago</small></h1>
+    <h1 class="m-0"> Solicitud <small>de pago Nro. {{ $solicitud->solicitud_numerocontrol }}</small></h1>
 @endsection
 @section('navegador')
     {{-- <li class="breadcrumb-item">Home</li> --}}
-    <li class="breadcrumb-item">Crear solicitud</li>
+    <li class="breadcrumb-item">Modificar solicitud</li>
     <li class="breadcrumb-item active">Inicio</li>
 @endsection
 
 @section('contenedor')
-<form action="{{ route('solicitud.cargarSolicitud') }}" method="post">
+<form action="{{ route('solicitud.modificarSolicitud', $id) }}" method="post">
 @csrf
 <div class="row">
     <div class="col-md-12">
@@ -22,19 +22,35 @@
                         <select name="tipoSolicitud" id="opciones" class="form-control" required>
                             <option value="">Seleccione el tipo de solicitud</option>
                             @if ($permisoUsuario->nomina_solicitud_opcion == 1)
-                                <option value="5">Nómina</option>
+                                @if ($solicitud->solicitud_tipo === 5)
+                                    <option value="5" selected>Nómina</option>
+                                @else
+                                    <option value="5" >Nómina</option>
+                                @endif
                             @endif
                             @if ($permisoUsuario->material_solicitud_opcion == 1)
-                                <option value="1">Materiales</option>
+                                @if ($solicitud->solicitud_tipo === 1)
+                                    <option value="1" selected>Materiales</option>
+                                @else
+                                    <option value="1" >Materiales</option>
+                                @endif
                             @endif
                             @if ($permisoUsuario->servicio_solicitud_opcion == 1)
-                                <option value="2">Servicios</option>
+                                @if ($solicitud->solicitud_tipo === 2)
+                                    <option value="2" selected>Servicios</option>
+                                @else
+                                    <option value="2" >Servicios</option>
+                                @endif
                             @endif
                             @if ($permisoUsuario->viatico_solicitud_opcion == 1)
-                                <option value="3">Viáticos</option>
+                                @if ($solicitud->solicitud_tipo === 3)
+                                    <option value="3" selected>Viáticos</option>
+                                @else
+                                    <option value="3" >Viáticos</option>
+                                @endif
                             @endif
 
-                            {{-- <option value="4">Caja chica</option> --}}
+                            {{-- <option value="4" >Caja chica</option> --}}
                         </select>
                     </div>
                 </div>
@@ -42,8 +58,13 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
+                        @if ($solicitud->moneda == "$")
+                            <?php $checkMoneda = "checked"; ?>
+                        @else
+                            <?php $checkMoneda = ""; ?>
+                        @endif
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="dolares" id="tramiteDolar" autocomplete="off">
+                            <input type="checkbox" class="custom-control-input"  name="dolares" id="tramiteDolar" autocomplete="off" {{$checkMoneda}}>
                             <label class="custom-control-label" for="tramiteDolar" id="mensajeMoneda"></label>
                             <br><br>
                         </div>
@@ -55,7 +76,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Fecha de Solicitud *</label>
-                                    <input type="text" name="fecha" id="fecha" value="{{ date('Y-m-d') }}" class="form-control" disabled  required>
+                                    <input type="text" name="fecha" id="fecha"  class="form-control" value="{{ $solicitud->solicitud_fecha }}" disabled  required>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -63,8 +84,8 @@
                                     <label>Pagos Especiales *</label>
                                     <select name="pagos" id="pagos" class="form-control" required>
                                         <option value="">Seleccione...</option>
-                                        <option value="1">Emergencia</option>
-                                        <option value="2">Viernes</option>
+                                        <option value="1" {!! ($solicitud->solicitud_tiposolicitud === 1) ?  "selected" : ""; !!}>Emergencia</option>
+                                        <option value="2" {!! ($solicitud->solicitud_tiposolicitud === 2) ?  "selected" : ""; !!}>Viernes</option>
                                     </select>
                                 </div>
                             </div>
@@ -74,7 +95,7 @@
                                     <select name="obra" id="obra" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($obra as $o)
-                                            <option value="{{ $o->id }}">{{ $o->obra_codigo }} - {{ $o->obra_nombre }}</option>
+                                            <option value="{{ $o->id }}" {!! ($solicitud->obra_id === $o->id) ?  "selected" : ""; !!}>{{ $o->obra_codigo }} - {{ $o->obra_nombre }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -334,10 +355,14 @@
 <script src="{{ asset("plugins/plugins/jquery-ui/jquery-ui.js") }}"></script>
 <script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
-<script src="{{ asset("js/solicitud/crear.js") }}"></script>
+<script src="{{ asset("js/solicitud/modificar.js") }}"></script>
 @if($errors->any())
 <h4>{{$errors->first()}}</h4>
 @endif
+<script>
+    primeraCarga({{$id}});
+</script>
+
 @endsection
 @section('css')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

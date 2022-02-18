@@ -78,7 +78,7 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-        dd( $request->all() );
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -138,7 +138,7 @@ class SolicitudController extends Controller
             $cod = $cod[0][0] + 1;
             $codSolicitud = "SOL" . $tipo . "-".$cod;
         }
-        // dd($request->all());
+
         //Instanciamos la solicitud
         $solicitud = new Solicitud();
         //Colocamos la informacion capturada en el request en cada uno de los campos a guardar en la BD
@@ -150,6 +150,7 @@ class SolicitudController extends Controller
         $solicitud->solicitud_observaciones = $request->observacion;
         $solicitud->solicitud_formapago = $request->forma_pago;
         $solicitud->solicitud_motivo = $request->motivo;
+        $solicitud->moneda = $request->tipoMoneda;
         $solicitud->usuario_id = \Auth::user()->id ;
         $solicitud->obra_id = $request->obra;
         $solicitud->proveedor_id = $request->proveedor;
@@ -181,11 +182,13 @@ class SolicitudController extends Controller
                 } elseif ($request->opcion == "5") { //    nomina
                     $soldet->nomina_id = $request->conceptoHide[$key];
                 }
-
+                //Agregamos el precio unitario de la solicitud
                 $soldet->sd_preciounitario = $request->montoHide[$key];
+                //Agregamos el tipo de moneda a usar
+                $soldet->moneda = $request->dolarHide[$key];
                 $soldet->save();
             }
-
+        //
             if ($soldet) {
                 return redirect()->route('solicitud.index')->with('resp', 1);
             } else {
@@ -261,6 +264,7 @@ class SolicitudController extends Controller
                 'solicitud_detalle.id AS id',
                 'solicitud_detalle.sd_cantidad AS sd_cantidad',
                 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
                 'material.material_nombre AS nombre'
                 )
                 ->leftJoin('material', 'material.id', '=', 'solicitud_detalle.material_id')
@@ -272,6 +276,7 @@ class SolicitudController extends Controller
                 'solicitud_detalle.id AS id',
                 'solicitud_detalle.sd_cantidad AS sd_cantidad',
                 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
                 'servicio.servicio_nombre AS nombre'
                 )
                 ->leftJoin('servicio', 'servicio.id', '=', 'solicitud_detalle.servicio_id')
@@ -283,6 +288,7 @@ class SolicitudController extends Controller
                 'solicitud_detalle.id AS id',
                 'solicitud_detalle.sd_cantidad AS sd_cantidad',
                 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
                 'viatico.viatico_nombre AS nombre'
                 )
                 ->leftJoin('viatico', 'viatico.id', '=', 'solicitud_detalle.viatico_id')
@@ -294,6 +300,7 @@ class SolicitudController extends Controller
                 'solicitud_detalle.id AS id',
                 'solicitud_detalle.sd_cantidad AS sd_cantidad',
                 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
                 'caja.caja_nombre AS nombre'
                 )
                 ->leftJoin('caja', 'caja.id', '=', 'solicitud_detalle.caja_id')
@@ -305,6 +312,7 @@ class SolicitudController extends Controller
                 'solicitud_detalle.id AS id',
                 'solicitud_detalle.sd_cantidad AS sd_cantidad',
                 'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
                 'nomina.nomina_nombre AS nombre'
                 )
                 ->leftJoin('nomina', 'nomina.id', '=', 'solicitud_detalle.nomina_id')
@@ -337,7 +345,33 @@ class SolicitudController extends Controller
      */
     public function edit($id)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->modificar_solicitud != 1 ){
+            return redirect()->route("home");
+        }
+        //Solicitamos la informacion de la solicitud
+        $solicitud = Solicitud::find( $id );
+        //Solicitamos la lista de obra
+        $obra = Obra::select('id', 'obra_codigo', 'obra_nombre')->orderBy('id', 'DESC')->get();
+
+        //Solicitamos la lista de proveedores
+        $proveedor = Proveedor::select('id', 'proveedor_codigo', 'proveedor_nombre')->get();
+        dump( $solicitud );
+        //retornamos a la vista para crear solicitudes
+        return view('sistema.solicitud.modificar')
+        ->with('permisoUsuario', $permisoUsuario[0])
+        ->with('solicitud', $solicitud)
+        ->with('obra', $obra)
+        ->with('id', $id)
+        ->with('proveedor', $proveedor);
+
+
+
+
+
+
     }
 
     /**
@@ -349,7 +383,7 @@ class SolicitudController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd("Paralizado");
     }
 
     /**
@@ -660,6 +694,11 @@ class SolicitudController extends Controller
 
         // $mat = Material::find($request->concepto);
         return response()->json($mat);
+    }
+
+    public function cargaInicial(Request $request){
+        $solicitud = Solicitud::find( $request->dato );
+        return response()->json( $solicitud );
     }
 
 

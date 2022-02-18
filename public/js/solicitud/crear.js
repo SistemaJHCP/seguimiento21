@@ -206,15 +206,30 @@ $(document).ready(function(){
 
                 $('#conceptoSelect').html(listaConcepto);
                 // $('#opciones').attr('disabled', true);
+                $('#agregar132').attr('disabled', false);
             })
 
     }
 
+    $('#tramiteDolar').on('change', function(){
+        validarMoneda();
+    });
 
-
-
+    function validarMoneda(){
+        if( $( '#tramiteDolar').prop("checked") == true ){
+            $('#precioUnitarioSelect').attr('placeholder', 'Ingrese el monto en divisas');
+            $('#mensajeMoneda').empty();
+            $('#mensajeMoneda').append("Solicitud en Dolares");
+         }else{
+            $('#precioUnitarioSelect').attr('placeholder', 'Ingrese el monto en Bolivares');
+            $('#mensajeMoneda').empty();
+            $('#mensajeMoneda').append("Solicitud en Bolivares");
+         }
+    }
 
     function limpiar(){
+        $('#tramiteDolar').attr("checked", false);
+        validarMoneda();
         $('#opciones').val("");
         $('#pagos').val("");
         $('#obra').val("");
@@ -236,8 +251,14 @@ $(document).ready(function(){
 
     $('#limpiador').click(function(){
         $('#cant1').empty();
+        $('#tramiteDolar').prop("checked", "");
+        $('#precioUnitarioSelect').attr('placeholder', 'Ingrese el monto en Bolivares');
+        $('#mensajeMoneda').empty();
+        $('#mensajeMoneda').append("Solicitud en Bolivares");
+        $('#tramiteDolar').attr("disabled", false);
         $('#concep1').empty();
         $('#prec1').empty();
+        $('#coin1').empty();
         $('#tableListado > tbody').empty();
         $('#cargarLaSolicitud').attr('disabled', true);
         $('#opciones').val("");
@@ -432,11 +453,23 @@ $(document).ready(function(){
     $('#agregar132').click(function(){
 
         if ( $('#cantidadSelect').val().length < 1 ||  $('#conceptoSelect').val() == "" ||  $('#cantidadSelect').val().length < 1  ) {
-            alert('El campo no puede estar vacio');
+            alert('El/los campo(s) no puede(n) estar vacio');
             return false;
         }
         $('#opciones').attr('disabled', true);
         $('#agregar132').attr('disabled', true);
+        $('#tramiteDolar').attr('disabled', true);
+
+        var moneda = "";
+
+        if( $( '#tramiteDolar').prop("checked") == true ){
+            moneda = "$";
+            $('#monedaTipo21').append('<input type="hidden" name="tipoMoneda" value="$">');
+         }else{
+            moneda = "Bs";
+            $('#monedaTipo21').append('<input type="hidden" name="tipoMoneda" value="Bs">');
+         }
+
 
         $.ajax({
             url: 'cargar-nombre-concepto',
@@ -450,21 +483,21 @@ $(document).ready(function(){
 
             if ($('#opciones').val() == 1) {
                 $('#tableListado > tbody').append(
-                    '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.material_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + '</td></tr>'
+                    '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.material_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + moneda + '</td></tr>'
                 );
             } else {
                 if ($('#opciones').val() == 2) {
                     $('#tableListado > tbody').append(
-                        '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.servicio_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + '</td></tr>'
+                        '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.servicio_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + moneda + '</td></tr>'
                     );
                 } else {
                     if ($('#opciones').val() == 3) {
                         $('#tableListado > tbody').append(
-                            '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.viatico_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + '</td></tr>'
+                            '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.viatico_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + moneda + '</td></tr>'
                         );
                     } else {
                         $('#tableListado > tbody').append(
-                            '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.nomina_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + '</td></tr>'
+                            '<tr><td>' + $('#cantidadSelect').val() + '</td><td>' + comp.nomina_nombre + '</td><td>' + $('#precioUnitarioSelect').val() + moneda + '</td></tr>'
                         );
                     }
                 }
@@ -473,13 +506,15 @@ $(document).ready(function(){
             $('#cant1').append('<input type="hidden" name="cantidadHide[]" value="' + $('#cantidadSelect').val() + '">');
             $('#concep1').append('<input type="hidden" name="conceptoHide[]" value="' + $('#conceptoSelect').val() + '">');
             $('#prec1').append('<input type="hidden" name="montoHide[]" value="' + $('#precioUnitarioSelect').val() + '">');
+            $('#coin1').append('<input type="hidden" name="dolarHide[]" value="' + moneda + '">');
+
             $('#agregar132').attr('disabled', true);
             $('#cargarLaSolicitud').attr('disabled', false);
 
             $('#cantidadSelect').val("");
 
             $('#precioUnitarioSelect').val("");
-            $('#agregar132').attr('disabled', false);
+
 
 
         })

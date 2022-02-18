@@ -104,6 +104,12 @@ function listaMaterial( valor ){
 
 
 function cargarProveedor( valorPro ){
+
+    if (valorPro == "") {
+        $('#proovedorRelacionado').empty();
+        return false;
+    }
+
     $('#proovedorRelacionado').val("");
     $.ajax({
         url: '../consultar-proveedor/987yuiokkjhgy8u9i9876edght' + valorPro,
@@ -138,6 +144,13 @@ function cargarProveedor( valorPro ){
 }
 
 $('#obraRel927y2').change(function(){
+
+    if ($('#obraRel927y2').val() == "") {
+        $('#obraRelacionada').empty();
+        return false;
+    }
+
+
     consultarObra( $('#obraRel927y2').val() );
 });
 

@@ -161,7 +161,9 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::post("cargar-solicitud-completa",[App\Http\Controllers\SolicitudController::class, 'store'])->name('solicitud.cargarSolicitud');
     Route::get("anulacion-solicitud/{id}",[App\Http\Controllers\SolicitudController::class, 'destroy']);
     Route::get("consultar/98uyuijdhy8987dy9ojidu8998d76tyuihdhvgt5dr{id}tygtwr4e3wertygsft65rdty7udh",[App\Http\Controllers\SolicitudController::class, 'show'])->name('solicitud.consultar');
-
+    Route::get("modificar/987yuiijnhghui98u7ytfr{id}tdgu8",[App\Http\Controllers\SolicitudController::class, 'edit'])->name('solicitud.modificar');
+    Route::get("modificar-el-dato/987yuii34rewsdefr3ewerffcdsjnhghui98u7ytfr{id}tdgu8",[App\Http\Controllers\SolicitudController::class, 'update'])->name('solicitud.modificarSolicitud');
+    Route::post("primeraCarga/87yushdyu87dyghunjdhu8d7",[App\Http\Controllers\SolicitudController::class, 'cargaInicial']);
 });
 
 Auth::routes();
