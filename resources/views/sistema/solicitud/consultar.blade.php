@@ -40,7 +40,7 @@
                                     @if ($solicitud->solicitud_tipo == 1)
                                         <dd>Materiales</dd>
                                     @elseif($solicitud->solicitud_tipo == 2)
-                                        <dd>Selvicios</dd>
+                                        <dd>Servicios</dd>
                                     @elseif($solicitud->solicitud_tipo == 3)
                                         <dd>Viáticos</dd>
                                     @elseif($solicitud->solicitud_tipo == 4)

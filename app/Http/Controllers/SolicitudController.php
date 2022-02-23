@@ -257,7 +257,6 @@ class SolicitudController extends Controller
         ->where('solicitud.id', $id)
         ->first();
 
-
         if ($solicitud->solicitud_tipo == "1") {       //materiales
 
             $costo = Solicitud_detalle::select(
@@ -320,8 +319,6 @@ class SolicitudController extends Controller
 
         }
 
-        dump( $solicitud );
-        // dump( $costo );
         return view('sistema.solicitud.consultar')->with(
             [
                 'permisoUsuario' => $permisoUsuario[0],
@@ -329,11 +326,6 @@ class SolicitudController extends Controller
                 'costo' => $costo
             ]
         );
-
-
-
-
-
 
     }
 
@@ -367,11 +359,6 @@ class SolicitudController extends Controller
         ->with('id', $id)
         ->with('proveedor', $proveedor);
 
-
-
-
-
-
     }
 
     /**
@@ -383,7 +370,31 @@ class SolicitudController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd("Paralizado");
+        dd( $request->all() );
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->modificar_solicitud != 1 ){
+            return redirect()->route("home");
+        }
+
+        //buscamos la solicitud asociada a su id
+        $solicitud = Solicitud::find( $id );
+        //realizamos la sustitucion de la informacion
+        $solicitud->solicitud_fecha = date('Y-m-d');
+        $solicitud->solicitud_tiposolicitud = $request->pagos;
+        $solicitud->solicitud_iva = $request->iva;
+        $solicitud->solicitud_observaciones = $request->observacion;
+        $solicitud->solicitud_formapago = $request->forma_pago;
+        $solicitud->solicitud_motivo = $request->motivo;
+        $solicitud->usuario_id = \Auth::user()->id ;
+        $solicitud->obra_id = $request->obra;
+        $solicitud->proveedor_id = $request->proveedor;
+        $solicitud->banco_proveedor_id = $request->numero_cuenta;
+        $solicitud->requisicion_id = $request->requisicion;
+
+
+
     }
 
     /**
@@ -607,15 +618,6 @@ class SolicitudController extends Controller
                 ->leftJoin('nomina', 'nomina.id', '=', 'solicitud_detalle.nomina_id')
                 ->where('requisicion_id', $requisicion[0]->id)->get();
         }
-
-
-
-
-
-
-
-
-
         return response()->json([$requisicion, $materiales]);
     }
 
@@ -696,11 +698,85 @@ class SolicitudController extends Controller
         return response()->json($mat);
     }
 
-    public function cargaInicial(Request $request){
-        $solicitud = Solicitud::find( $request->dato );
-        return response()->json( $solicitud );
+    public function cargaInicial(Request $request){  //Rosman
+
+        $solicitud = Solicitud::find( $request->id );
+        return response()->json( [$solicitud] );
+
     }
 
+    public function consultarListaReq($tipo, $valor)
+    {
+
+        if ($tipo == "1") {       //materiales
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'material.material_nombre AS nombre'
+                )
+                ->leftJoin('material', 'material.id', '=', 'solicitud_detalle.material_id')
+                ->where('solicitud_id', $valor)->get();
+
+        } elseif ($tipo == "2") { // servicios
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'servicio.servicio_nombre AS nombre'
+                )
+                ->leftJoin('servicio', 'servicio.id', '=', 'solicitud_detalle.servicio_id')
+                ->where('solicitud_id', $valor)->get();
+
+        } elseif ($tipo == "3") { //  viaticos
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'viatico.viatico_nombre AS nombre'
+                )
+                ->leftJoin('viatico', 'viatico.id', '=', 'solicitud_detalle.viatico_id')
+                ->where('solicitud_id', $valor)->get();
+
+        } elseif ($tipo == "4") { //    Caja Chica
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'caja.caja_nombre AS nombre'
+                )
+                ->leftJoin('caja', 'caja.id', '=', 'solicitud_detalle.caja_id')
+                ->where('solicitud_id', $valor)->get();
+
+        } elseif ($tipo == "5") { //    nomina
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'nomina.nomina_nombre AS nombre'
+                )
+                ->leftJoin('nomina', 'nomina.id', '=', 'solicitud_detalle.nomina_id')
+                ->where('solicitud_id', $valor)->get();
+
+        }
+
+        return response()->json($costo);
+    }
+
+    public function agregarMaterialExtra(Request $request)
+    {
+        dd( $request->all() );
+    }
 
 
 }
