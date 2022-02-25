@@ -92,7 +92,6 @@ class SolicitudController extends Controller
             'obra' => 'required|max:12',
             'opcion' => 'required|max:12',
             'forma_pago' => 'required|max:12',
-            'numero_cuenta' => 'required|max:12',
             'iva' => 'required|max:12',
             'requisicion' => 'max:12',
             'motivo' => 'required|max:250',
@@ -422,6 +421,22 @@ class SolicitudController extends Controller
         return response()->json($resp);
     }
 
+
+    public function eliminarSolicitudDetalle(Request $request)
+    {
+
+        //Queda pendiente por crear una validacion para la eliminacion de la solicitud de los materiales
+
+        //Buscas el ID seleccionado
+        $elim = Solicitud_detalle::find( $request->id );
+
+        //Borrar todo lo referente a ese ID eliminado
+        $resp = $elim->delete();
+        //Retorna la respuesta por json
+        return response()->json($resp);
+    }
+
+
     public function jq_lista(){
 
         //Validamos los permisos
@@ -501,7 +516,7 @@ class SolicitudController extends Controller
         )
         ->join("suministro", "suministro.id", "=", "proveedor.suministro_id")
         ->where('proveedor.id', $id)
-        ->get();
+        ->limit(1)->first();
 
         return response()->json($pro);
     }
@@ -775,7 +790,45 @@ class SolicitudController extends Controller
 
     public function agregarMaterialExtra(Request $request)
     {
-        dd( $request->all() );
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->crear_solicitud != 1){
+            return redirect()->route("home");
+        }
+
+        //Instanciamos en donde guardaremos los precios
+        $mat = new Solicitud_detalle();
+        //agregamos en su contenedor la cantidad
+        $mat->sd_cantidad = $request->cantidad;
+        //Agregamos el ID de la solicitud
+        $mat->solicitud_id = $request->id;
+
+        //Segun lo seleccionado, guardamos en el campo indicado.
+        if ($request->opcion == "1") {       //    materiales
+            $mat->material_id = $request->concepto;
+        } elseif ($request->opcion == "2") { //    servicios
+            $mat->servicio_id = $request->concepto;
+        } elseif ($request->opcion == "3") { //    viaticos
+            $mat->viatico_id = $request->concepto;
+        } elseif ($request->opcion == "4") { //    caja chica
+            $mat->caja_id = $request->concepto;
+        } elseif ($request->opcion == "5") { //    nomina
+            $mat->nomina_id = $request->concepto;
+        }
+        //Agregamos el precio unitario de la solicitud
+        $mat->sd_preciounitario = $request->precio;
+        //Agregamos el tipo de moneda a usar
+        $mat->moneda = $request->moneda;
+        //Resguardamos en la base de datos
+        $resp = $mat->save();
+        //Retornamos a la vista el ID mediante el json (en caso que la respuesta sea afirmativa)
+        if($resp){
+            return response()->json($mat->id);
+        } else {
+            return response()->json(false);
+        }
+
     }
 
 

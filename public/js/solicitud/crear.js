@@ -103,6 +103,18 @@ $(document).ready(function(){
     });
 
 
+    $('#forma_pago').change(function(){
+
+        if( $('#forma_pago').val() == 1 || $('#forma_pago').val() == 2 ){
+            $('#numero_cuenta').attr('disabled', false);
+        } else {
+            $('#numero_cuenta').attr('disabled', true);
+        }
+
+    });
+
+
+
     $('#opciones').change(function(){
         $('#opcion21').empty();
         if( this.value === "" ) {
@@ -276,7 +288,7 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            console.log("REQUISICION: " +comp);
+
 
             var html = "";
             html+= '<div class="info-box" id="consultarReq" data-toggle="modal" data-target="#consultarRequisicion">' +
@@ -353,12 +365,12 @@ $(document).ready(function(){
             '<img src="../imagen/proveedor.jpg" class="card-img-top" alt="...">' +
             '<div class="card-body">' +
             '<p class="card-text">' +
-            '<b>Código: </b>' + comp[0].proveedor_codigo +  '<br>' +
-            '<b>Nombre: </b>' + comp[0].proveedor_nombre +  '<br>' +
-            '<b>Dirección: </b>' + comp[0].proveedor_direccion +  '<br>' +
-            '<b>Número ID: </b>' + comp[0].proveedor_rif +  '<br>' +
-            '<b>Telefono: </b>' + comp[0].proveedor_telefono +  '<br>' +
-            '<b>Correo: </b>' + comp[0].proveedor_correo +  '<br>' +
+            '<b>Código: </b>' + comp.proveedor_codigo +  '<br>' +
+            '<b>Nombre: </b>' + comp.proveedor_nombre +  '<br>' +
+            '<b>Dirección: </b>' + comp.proveedor_direccion +  '<br>' +
+            '<b>Número ID: </b>' + comp.proveedor_rif +  '<br>' +
+            '<b>Telefono: </b>' + comp.proveedor_telefono +  '<br>' +
+            '<b>Correo: </b>' + comp.proveedor_correo +  '<br>' +
             '</p>' +
             '</div>' +
             '</div>';

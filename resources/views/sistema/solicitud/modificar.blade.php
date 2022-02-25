@@ -10,6 +10,7 @@
 @endsection
 
 @section('contenedor')
+<div id="loader" class="switch"></div>
 <form action="{{ route('solicitud.modificarSolicitud', $id) }}" method="post">
 @csrf
 <input type="hidden" name="" id="dato" value="{{ $id }}">
@@ -64,7 +65,7 @@
                         @else
                             <b>Pago en Bolivares</b>
                         @endif
-
+                        <input type="hidden" name="moneda" id="moneda" value="{{ $solicitud->moneda }}">
                         <br><br>
                     </div>
                 </div>
@@ -93,7 +94,7 @@
                                     <select name="obra" id="obra" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($obra as $o)
-                                            <option value="{{ $o->id }}">{{ $o->obra_codigo }} - {{ $o->obra_nombre }}</option>
+                                            <option value="{{ $o->id }}" {!! ($o->id == $solicitud->obra_id ? 'selected' : '') !!}>{{ $o->obra_codigo }} - {{ $o->obra_nombre }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -104,7 +105,7 @@
                                     <select name="proveedor" id="proveedor" class="form-control" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($proveedor as $p)
-                                            <option value="{{ $p->id }}">{{ $p->proveedor_nombre }}</option>
+                                            <option value="{{ $p->id }}" {!! ($p->id == $solicitud->proveedor_id ? 'selected' : '') !!}>{{ $p->proveedor_nombre }}</option>
                                         @endforeach
                                     </select>
                                     <div id="opcion21"></div>
@@ -128,7 +129,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Número de Cuenta</label>
-                                    <select name="numero_cuenta" id="numero_cuenta" class="form-control" disabled required>
+
+                                    <select name="numero_cuenta" id="numero_cuenta" class="form-control" disabled>
                                         <option value="">Seleccione...</option>
                                     </select>
                                 </div>
@@ -192,7 +194,7 @@
             <div class="col-md-8">
                 <div class="card card-info card-outline">
                     <div class="card-header">
-                      <h5 class="card-title">Cargar la solicitud</h5><button type="button" id="btn-agregar" class="btn btn-info float-right"  data-toggle="modal" data-target="#agregarListaSolicitud" disabled>Agregar lista de solicitud</button>
+                      <h5 class="card-title">Cargar la solicitud</h5><button type="button" id="btn-agregar" class="btn btn-info float-right"  data-toggle="modal" data-target="#agregarListaSolicitud">Agregar lista de solicitud</button>
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table" id="tableListado">
@@ -201,6 +203,7 @@
                                   <th>Cantidad</th>
                                   <th>Concepto o descripción</th>
                                   <th>Precio Unitario</th>
+                                  <th>Borrar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -214,8 +217,8 @@
                     <div id="prec1"></div>
                     <div id="coin1"></div>
                     <div class="card-footer">
-                        <div id="limpiador" class="float-left" style="color: #6b1022; border:3px solid #6b1022; padding-left:7px; padding-right:7px; font-size:22px; border-radius:130px;"><i class="fas fa-trash" style="color: #6b1022"></i></div>
-                        <input type="submit" value="Cargar solicitud" class="btn btn-info float-right" id="cargarLaSolicitud" disabled>
+
+                        <input type="submit" value="Modificar solicitud" class="btn btn-info float-right" id="cargarLaSolicitud">
                     </div>
                 </div>
             </div>

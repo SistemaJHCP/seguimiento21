@@ -412,49 +412,7 @@ $(document).ready(function(){
     }
 
 
-    function consultarListaSol( valor ){
 
-        //Esto es lo que buscaria de ser material, viatico o servicio
-        $.ajax({
-            url: '../lista-de-materiales/' + valor,
-            type: 'GET',
-            dataType: 'json',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-        })
-        .done(function(comp) {
-
-            $('#conceptoSelect').empty();
-
-            var listaConcepto = '<option value="">Seleccione...</option>';
-
-            if ( $('#opciones').val() == 1 ) {
-                for (let i = 0; i < comp.length; i++) {
-                    listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].material_codigo + ' | ' + comp[i].material_nombre + '</option>';
-                }
-            } else {
-                if ( $('#opciones').val() == 2 ) {
-                    for (let i = 0; i < comp.length; i++) {
-                        listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].servicio_codigo + ' | ' + comp[i].servicio_nombre + '</option>';
-                    }
-                } else {
-                    if ( $('#opciones').val() == 5) {
-                        for (let i = 0; i < comp.length; i++) {
-                            listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].nomina_codigo + ' | ' + comp[i].nomina_nombre + '</option>';
-                        }
-                    } else {
-                        for (let i = 0; i < comp.length; i++) {
-                            listaConcepto+= '<option value="' + comp[i].id + '">' + comp[i].viatico_codigo + ' | ' + comp[i].viatico_nombre + '</option>';
-                        }
-                    }
-                }
-            }
-
-            $('#conceptoSelect').html(listaConcepto);
-            // $('#opciones').attr('disabled', true);
-            $('#agregar132').attr('disabled', false);
-        })
-
-    }
 
 
     function consultarObra( valor ) {

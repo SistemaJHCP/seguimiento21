@@ -166,6 +166,8 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::post("primeraCarga/87yushdyu87dyghunjdhu8d7",[App\Http\Controllers\SolicitudController::class, 'cargaInicial']);
     Route::get("listar-requisicionsegun-requerimiento/{tipo}/{valor}",[App\Http\Controllers\SolicitudController::class, 'consultarListaReq']);
     Route::post("agregar-material-extra",[App\Http\Controllers\SolicitudController::class, 'agregarMaterialExtra']);
+    Route::post("eliminar-una-solicitud",[App\Http\Controllers\SolicitudController::class, 'eliminarSolicitudDetalle']);
 });
+
 
 Auth::routes();

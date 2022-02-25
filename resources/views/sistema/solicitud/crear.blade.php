@@ -109,7 +109,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Número de Cuenta</label>
-                                    <select name="numero_cuenta" id="numero_cuenta" class="form-control" disabled required>
+                                    <select name="numero_cuenta" id="numero_cuenta" class="form-control" disabled>
                                         <option value="">Seleccione...</option>
                                     </select>
                                 </div>
