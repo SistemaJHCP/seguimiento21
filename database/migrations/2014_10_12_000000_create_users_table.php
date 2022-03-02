@@ -97,6 +97,9 @@ class CreateUsersTable extends Migration
             $table->boolean('materiales_solicitud')->default(1);
             $table->boolean('servicio_solicitud')->default(1);
             $table->boolean('viatico_solicitud')->default(1);
+            $table->boolean('solicitud_pago')->default(1);//inicia la consulta de presidencia
+            $table->boolean('ver_solicitud_pago')->default(1);
+            $table->boolean('aprobacion_solicitud_pago')->default(1);
             $table->boolean('servicio')->default(1);
             $table->boolean('crear_servicio')->default(1);
             $table->boolean('modificar_servicio')->default(1);

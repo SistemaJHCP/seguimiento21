@@ -167,6 +167,10 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::get("listar-requisicionsegun-requerimiento/{tipo}/{valor}",[App\Http\Controllers\SolicitudController::class, 'consultarListaReq']);
     Route::post("agregar-material-extra",[App\Http\Controllers\SolicitudController::class, 'agregarMaterialExtra']);
     Route::post("eliminar-una-solicitud",[App\Http\Controllers\SolicitudController::class, 'eliminarSolicitudDetalle']);
+
+    Route::get("solicitud-de-pago/",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoIndex'])->name('sPagoIndex.index');
+    Route::get("solicitud-de-pago/lista-solicitud/",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoLista']);
+    Route::get("solicitud-de-pago/consultar/validar/87tyuhhgvxugfsft6787t6s6t7y8u9sxihugyxsf7t{id}8yxst7s",[App\Http\Controllers\SolicitudController::class, 'consultarAprobacion'])->name('sPagoIndex.consultarAprobacion');
 });
 
 

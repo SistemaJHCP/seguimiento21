@@ -76,9 +76,38 @@
         )
     </script>
     @endif
-
 @endif
 
+@if (Session::has('mod'))
+{{ Session::has('mod') }}
+    @if (Session::has('mod') == 1)
+    <script>
+        Swal.fire(
+        'Modificación procesada!',
+        'La información fue modificada exitosamente!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'Hubo un error al modificar los datos',
+        'error'
+        )
+    </script>
+    @endif
+@endif
+
+@if (Session::has('edit'))
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'Usted no creó esta solicitud',
+        'error'
+        )
+    </script>
+@endif
 
 @if (count($errors) > 0)
 {{-- Este es el mensaje de error desde la validacion --}}

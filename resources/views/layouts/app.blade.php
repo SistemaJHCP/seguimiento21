@@ -133,16 +133,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
             ?>
             <?php
             if ($permisoUsuario->solicitud == 1){
-                ?>
+            ?>
+                <li class="nav-item">
                     <li class="nav-item">
-                        <li class="nav-item">
-                            <a id="dropdownSubMenu1" href="{{ route('solicitud.index') }}" class="nav-link">Solicitud</a>
-                        </li>
+                        <a id="dropdownSubMenu1" href="{{ route('solicitud.index') }}" class="nav-link">Solicitud</a>
                     </li>
-                <?php
-                }
-                ?>
+                </li>
+            <?php
+            }
+            ?>
 
+            <?php
+            if ($permisoUsuario->solicitud_pago == 1){
+            ?>
+                <li class="nav-item">
+                    <li class="nav-item">
+                        <a id="dropdownSubMenu1" href="{{ route('sPagoIndex.index') }}" class="nav-link">Solicitudes de pago</a>
+                    </li>
+                </li>
+            <?php
+            }
+            ?>
 
 
           {{-- <li class="nav-item dropdown">

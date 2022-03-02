@@ -345,11 +345,11 @@ class SolicitudController extends Controller
         //Solicitamos la informacion de la solicitud
         $solicitud = Solicitud::find( $id );
         //Solicitamos la lista de obra
-        $obra = Obra::select('id', 'obra_codigo', 'obra_nombre')->orderBy('id', 'DESC')->get();
+        $obra = Obra::select('id', 'obra_codigo', 'obra_nombre')->orderBy('id', 'DESC')->where('obra_estado', 1)->get();
 
         //Solicitamos la lista de proveedores
-        $proveedor = Proveedor::select('id', 'proveedor_codigo', 'proveedor_nombre')->get();
-        dump( $solicitud );
+        $proveedor = Proveedor::select('id', 'proveedor_codigo', 'proveedor_nombre')->where('proveedor_estado', 1)->get();
+        // dump( $solicitud );
         //retornamos a la vista para crear solicitudes
         return view('sistema.solicitud.modificar')
         ->with('permisoUsuario', $permisoUsuario[0])
@@ -369,7 +369,7 @@ class SolicitudController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd( $request->all() );
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -379,10 +379,15 @@ class SolicitudController extends Controller
 
         //buscamos la solicitud asociada a su id
         $solicitud = Solicitud::find( $id );
+
+        //Validamos que sea la misma persona que creo la solicitud, quien modifique los datos
+        if(\Auth::user()->id != $solicitud->usuario_id){
+            return redirect()->route("solicitud.index")->with('edit', "No puede");
+        }
+
         //realizamos la sustitucion de la informacion
-        $solicitud->solicitud_fecha = date('Y-m-d');
-        $solicitud->solicitud_tiposolicitud = $request->pagos;
         $solicitud->solicitud_iva = $request->iva;
+        $solicitud->solicitud_tiposolicitud = $request->pagos;
         $solicitud->solicitud_observaciones = $request->observacion;
         $solicitud->solicitud_formapago = $request->forma_pago;
         $solicitud->solicitud_motivo = $request->motivo;
@@ -391,7 +396,10 @@ class SolicitudController extends Controller
         $solicitud->proveedor_id = $request->proveedor;
         $solicitud->banco_proveedor_id = $request->numero_cuenta;
         $solicitud->requisicion_id = $request->requisicion;
-
+        //Guardamos las modificaciones
+        $resp = $solicitud->save();
+        //Retornamos a la vista
+        return redirect()->route('solicitud.index')->with('mod', $resp);
 
 
     }
@@ -830,6 +838,199 @@ class SolicitudController extends Controller
         }
 
     }
+
+
+    //---------------------- Solicitudes de pago --------------------------------
+
+    public function solicitudesPagoIndex()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->solicitud != 1 ){
+            return redirect()->route("home");
+        }
+
+        return view('sistema.solicitud.aprobacion.index')->with([
+            'permisoUsuario' => $permisoUsuario[0]
+        ]);
+    }
+
+    public function solicitudesPagoLista()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud_pago != 1 ){
+            return redirect()->route("home");
+        }
+
+        //Realizamos la consulta a la base de datos
+        $query = Solicitud::select(
+            'solicitud.id AS id',
+            'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+            'solicitud.solicitud_fecha AS fecha',
+            'solicitud.solicitud_motivo AS solicitud_motivo',
+            'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
+            'users.user_name AS nombre'
+        )
+        ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+        ->orderBy('id', 'DESC')
+        ->limit(5000)
+        ->get();
+
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->solicitud_pago == 1 && $permisoUsuario[0]->ver_solicitud_pago == 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.solicitud.aprobacion.btnConsultarAprobacion')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        }
+    }
+
+
+    public function consultarAprobacion($id)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud_pago != 1 || $permisoUsuario[0]->ver_solicitud_pago != 1){
+            return redirect()->route("home");
+        }
+
+        $solicitud = Solicitud::select(
+            'solicitud.id AS id',
+            'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+            'solicitud.solicitud_fecha AS solicitud_fecha',
+            'solicitud.solicitud_motivo AS solicitud_motivo',
+            'solicitud.solicitud_observaciones AS solicitud_observaciones',
+            'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
+            'solicitud.solicitud_tipo AS solicitud_tipo',
+            'solicitud.solicitud_formapago AS solicitud_formapago',
+            'solicitud.solicitud_iva AS solicitud_iva',
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_fechainicio AS obra_fechainicio',
+            'obra.obra_fechafin AS obra_fechafin',
+            'obra.obra_observaciones AS obra_observaciones',
+            'proveedor.proveedor_codigo AS proveedor_codigo',
+            'proveedor.proveedor_tipo AS proveedor_tipo',
+            'proveedor.proveedor_rif AS proveedor_rif',
+            'proveedor.proveedor_nombre AS proveedor_nombre',
+            'proveedor.proveedor_telefono AS proveedor_telefono',
+            'proveedor.proveedor_direccion AS proveedor_direccion',
+            'proveedor.proveedor_correo AS proveedor_correo',
+            'requisicion.requisicion_codigo AS requisicion_codigo',
+            'requisicion.requisicion_tipo AS requisicion_tipo',
+            'requisicion.requisicion_fecha AS requisicion_fecha',
+            'requisicion.requisicion_fechae AS requisicion_fechae',
+            'requisicion.requisicion_motivo AS requisicion_motivo',
+            'requisicion.requisicion_direccion AS requisicion_direccion',
+            'requisicion.requisicion_estado AS requisicion_estado'
+        )
+        ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+        ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
+        ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
+        ->where('solicitud.id', $id)
+        ->first();
+
+        if ($solicitud->solicitud_tipo == "1") {       //materiales
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'material.material_nombre AS nombre'
+                )
+                ->leftJoin('material', 'material.id', '=', 'solicitud_detalle.material_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "2") { // servicios
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'servicio.servicio_nombre AS nombre'
+                )
+                ->leftJoin('servicio', 'servicio.id', '=', 'solicitud_detalle.servicio_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "3") { //  viaticos
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'viatico.viatico_nombre AS nombre'
+                )
+                ->leftJoin('viatico', 'viatico.id', '=', 'solicitud_detalle.viatico_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "4") { //    Caja Chica
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'caja.caja_nombre AS nombre'
+                )
+                ->leftJoin('caja', 'caja.id', '=', 'solicitud_detalle.caja_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "5") { //    nomina
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'nomina.nomina_nombre AS nombre'
+                )
+                ->leftJoin('nomina', 'nomina.id', '=', 'solicitud_detalle.nomina_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        }
+
+        return view('sistema.solicitud.aprobacion.consultar')->with(
+            [
+                'permisoUsuario' => $permisoUsuario[0],
+                'solicitud' => $solicitud,
+                'costo' => $costo
+            ]
+        );
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

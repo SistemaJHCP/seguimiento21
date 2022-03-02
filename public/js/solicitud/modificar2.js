@@ -26,6 +26,14 @@ $(document).ready(function(){
 
     $('#precioUnitarioSelect').numeric('.');
 
+    $("#cargarLaSolicitud").click(function(){
+        $("form").on("submit", function () {
+            $("#cargarLaSolicitud").attr("value", "Guardando, espere...");
+            $("#cargarLaSolicitud").prop("disabled", true);
+        });
+    });
+
+
     function cargaInicial(a){
 
         $.ajax({
@@ -36,9 +44,10 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            var solicitud = comp[0];
 
-            $('#pagos').val( solicitud.solicitud_tipo );
+            var solicitud = comp[0];
+            console.log(solicitud);
+            $('#pagos').val( solicitud.solicitud_tiposolicitud );
             $('#obra').val( solicitud.obra_id );
             $('#proveedor').val( solicitud.proveedor_id );
             $('#forma_pago').val( solicitud.solicitud_formapago );
@@ -52,7 +61,7 @@ $(document).ready(function(){
             // cargarCuentaBancaria( $('#proveedor').val() );
 
             if( $('#forma_pago').val() == 1 || $('#forma_pago').val() == 2 ){
-                cargarCuentaBancaria( $('#proveedor').val(), solicitud.banco_proveedor_id );
+                cargarCuentaBancaria( $('#proveedor').val() );
             } else {
                 $('#numero_cuenta').attr('disabled', true);
                 $('#numero_cuenta').attr('required', false);
@@ -88,7 +97,7 @@ $(document).ready(function(){
     $('#forma_pago').change(function(){
 
         if( $('#forma_pago').val() == 1 || $('#forma_pago').val() == 2 ){
-            cargarCuentaBancaria( $('#proveedor').val(), solicitud.banco_proveedor_id );
+            cargarCuentaBancaria( $('#proveedor').val() );
             $('#numero_cuenta').attr('disabled', false);
         } else {
             $('#numero_cuenta').attr('disabled', true);
@@ -106,7 +115,7 @@ $(document).ready(function(){
         }
         $('#botonProveedor').empty();
         consultarProveedor( $('#proveedor').val() );
-        cargarCuentaBancaria( $('#proveedor').val(), solicitud.banco_proveedor_id );
+        cargarCuentaBancaria( $('#proveedor').val() );
 
     });
 
@@ -316,7 +325,7 @@ $(document).ready(function(){
 
     }
 
-    function cargarCuentaBancaria(a, b){
+    function cargarCuentaBancaria(a){
 
         $.ajax({
             url: '../numero-de-cuenta/' + a,
@@ -342,9 +351,9 @@ $(document).ready(function(){
                         }
                     }
 
-                    if (comp[i].id === b) {
-                        sel = "selected";
-                    }
+                    // if (comp[i].id === b) {
+                    //     sel = "selected";
+                    // }
 
                     ban+=   '<div class="info-box mb-3 bg-info">' +
                                 '<span class="info-box-icon"><i class="fas fa-money-bill"></i></span>' +
