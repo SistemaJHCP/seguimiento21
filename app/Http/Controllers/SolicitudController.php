@@ -58,10 +58,10 @@ class SolicitudController extends Controller
             return redirect()->route("home");
         }
         //Solicitamos la lista de obra
-        $obra = Obra::select('id', 'obra_codigo', 'obra_nombre')->orderBy('id', 'DESC')->get();
+        $obra = Obra::select('id', 'obra_codigo', 'obra_nombre')->where('obra_estado', 1)->orderBy('id', 'DESC')->get();
 
         //Solicitamos la lista de proveedores
-        $proveedor = Proveedor::select('id', 'proveedor_codigo', 'proveedor_nombre')->get();
+        $proveedor = Proveedor::select('id', 'proveedor_codigo', 'proveedor_nombre')->where('proveedor_estado', 1)->get();
 
         //retornamos a la vista para crear solicitudes
         return view('sistema.solicitud.crear')
@@ -421,6 +421,14 @@ class SolicitudController extends Controller
 
         //Campturamos el ID dela solicitud a anular
         $anular = Solicitud::find($id);
+
+
+        //Validamos que sea la misma persona que creo la solicitud, quien modifique los datos
+        if(\Auth::user()->id != $anular->usuario_id){
+            return response()->json("negativo");
+        }
+
+
         //Cambiamos el estado a anulado
         $anular->solicitud_aprobacion = "Anulada";
         //Guardamos en la base de datos esta modificacion de estado
@@ -894,6 +902,7 @@ class SolicitudController extends Controller
 
     public function consultarAprobacion($id)
     {
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -936,6 +945,7 @@ class SolicitudController extends Controller
         ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
         ->where('solicitud.id', $id)
         ->first();
+
 
         if ($solicitud->solicitud_tipo == "1") {       //materiales
 
@@ -1010,7 +1020,47 @@ class SolicitudController extends Controller
     }
 
 
+    public function solicitudesPagoRespuestaAprobada(Request $request)
+    {
 
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud_pago != 1 || $permisoUsuario[0]->aprobacion_solicitud_pago != 1){
+            return redirect()->route("home");
+        }
+
+        //Buscamos la informacion asociado a esta solicitud
+        $solicitud = Solicitud::find( $request->dato );
+
+        //Cambiamos el estado a aprobado
+        $solicitud->solicitud_aprobacion = "Aprobada";
+        //guardamos en la BD
+        $resp = $solicitud->save();
+        //Retornamos a la vista
+        return redirect()->route('sPagoIndex.index')->with('respApro', $resp);
+
+    }
+
+    public function solicitudesPagoRespuestaNegada(Request $request)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud_pago != 1 || $permisoUsuario[0]->aprobacion_solicitud_pago != 1){
+            return redirect()->route("home");
+        }
+
+        //Buscamos la informacion asociado a esta solicitud
+        $solicitud = Solicitud::find( $request->dato );
+
+        //Cambiamos el estado a aprobado
+        $solicitud->solicitud_aprobacion = "Rechazada";
+        //guardamos en la BD
+        $resp = $solicitud->save();
+        //Retornamos a la vista
+        return redirect()->route('sPagoIndex.index')->with('respNega', $resp);
+    }
 
 
 

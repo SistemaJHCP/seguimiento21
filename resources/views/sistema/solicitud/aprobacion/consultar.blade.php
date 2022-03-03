@@ -26,7 +26,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                              <dl><a href="{{ route('solicitud.index') }}"><button class="btn btn-info float-right">Regresar</button></a>
+                              <dl><a href="{{ route('sPagoIndex.index') }}"><button class="btn btn-info float-right">Regresar</button></a>
                                 <dt>Fecha de solicitud:</dt>
                                 <dd>{{ $solicitud->solicitud_fecha }}</dd>
                                 <dt>Motivo</dt>
@@ -72,9 +72,27 @@
                             <!-- /.card-body -->
                           </div>
                           <!-- /.card -->
-                        <div>
-                            botones de aprobacion o negacion
+                    @if ($solicitud->solicitud_aprobacion == "Sin Respuesta")
+                    <div class="row">
+                        <div class="col-6" id="validacion">
+                            <form action="{{ route('sPagoIndex.respuesta1') }}"  name="enviarFormulario" method="post">
+                                @csrf
+                                <input type="hidden" value="{{$solicitud->id}}" name="dato">
+                                <input type="hidden" value="Aprobada" name="respuesta1">
+                                <input type="submit" id="aprobarSolicitud" class="btn btn-info btn-lg btn-block" value="Aprobar">
+                            </form>
                         </div>
+                        <div class="col-6">
+                            <form action="{{ route('sPagoIndex.respuesta2') }}" name="negarFormulario" id="nega" method="post">
+                                @csrf
+                                <input type="hidden" value="{{$solicitud->id}}" name="dato">
+                                <input type="hidden" value="Rechazada" name="respuesta2">
+                                <input type="submit" id="negarSolicitud" class="btn btn-danger btn-lg btn-block" value="Rechazar">
+                            </form>
+                        </div>
+                    </div>
+                    <br>
+                    @endif
                     </div>
                     <div class="col-md-6">
                         <div class="row">
@@ -259,7 +277,7 @@
   </div>
 @endsection
 @section('js')
-
+<script src="{{ asset("js/solicitud/consulta.js") }}"></script>
 @endsection
 @section('css')
 

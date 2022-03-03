@@ -59,6 +59,7 @@ $(document).ready(function(){
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
                 })
                 .done(function(comp) {
+
                     $('#listaSolicitud').DataTable().ajax.reload()
                     if (comp == true) {
                         Swal.fire(

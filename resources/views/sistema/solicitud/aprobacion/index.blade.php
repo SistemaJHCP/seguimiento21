@@ -57,6 +57,48 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("js/solicitud/aprobacion.js") }}"></script>
+
+@if (Session::has('respApro'))
+    @if (Session::has('respApro'))
+    <script>
+        Swal.fire(
+        'Sulicitud procesada!',
+        'Se ha aprobado la solicitud!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+@endif
+
+@if (Session::has('respNega'))
+    @if (Session::has('respNega'))
+    <script>
+        Swal.fire(
+        'Sulicitud procesada!',
+        'Se ha rechazado la solicitud de manera exitosa!',
+        'warning'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+@endif
+
+
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}">

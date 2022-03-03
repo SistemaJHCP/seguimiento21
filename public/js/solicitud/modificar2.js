@@ -46,7 +46,7 @@ $(document).ready(function(){
         .done(function(comp) {
 
             var solicitud = comp[0];
-            console.log(solicitud);
+
             $('#pagos').val( solicitud.solicitud_tiposolicitud );
             $('#obra').val( solicitud.obra_id );
             $('#proveedor').val( solicitud.proveedor_id );
@@ -68,7 +68,7 @@ $(document).ready(function(){
             }
 
             consultarRequisicion( solicitud.solicitud_tipo, solicitud.requisicion_id );
-            consultarDatoEspecificoRequisicion(solicitud.requisicion_id, solicitud.solicitud_tipo);
+            consultarDatoEspecificoRequisicion( solicitud.requisicion_id, solicitud.solicitud_tipo );
 
             caragarListaSolicitud( $('#opciones').val() , $('#dato').val() )
 
@@ -101,6 +101,7 @@ $(document).ready(function(){
             $('#numero_cuenta').attr('disabled', false);
         } else {
             $('#numero_cuenta').attr('disabled', true);
+            $('#numero_cuenta').val("");
         }
 
     });
@@ -126,7 +127,7 @@ $(document).ready(function(){
             return false;
         }
         $('#botonRequisicion').empty();
-        consultarDatoEspecificoRequisicion( $('#requisicion').val(), $('#opciones').val());
+        consultarDatoEspecificoRequisicion( $('#requisicion').val(), $('#opciones').val() );
 
     });
 

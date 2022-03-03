@@ -109,6 +109,7 @@ $(document).ready(function(){
             $('#numero_cuenta').attr('disabled', false);
         } else {
             $('#numero_cuenta').attr('disabled', true);
+            $('#numero_cuenta').val("");
         }
 
     });
@@ -276,6 +277,8 @@ $(document).ready(function(){
         $('#opciones').val("");
         $('#opciones').attr('disabled', false);
         $('#btn-agregar').attr('disabled', true);
+        $('#requisicion').empty();
+        $('#requisicion').attr('disabled', true);
     });
 
 

@@ -74,6 +74,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 ?>
 
                 <?php
+                    if ($permisoUsuario->servicio == 1){
+                ?>
+                    <li><a href="{{ route("servicio.index") }}" class="dropdown-item">Servicio</a></li>
+                <?php
+                    }
+                ?>
+
+                <?php
                     if ($permisoUsuario->usuario == 1){
                 ?>
                     <li><a href="{{ route('usuario.index') }}" class="dropdown-item">Usuarios </a></li>

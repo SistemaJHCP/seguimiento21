@@ -171,7 +171,14 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::get("solicitud-de-pago/",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoIndex'])->name('sPagoIndex.index');
     Route::get("solicitud-de-pago/lista-solicitud/",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoLista']);
     Route::get("solicitud-de-pago/consultar/validar/87tyuhhgvxugfsft6787t6s6t7y8u9sxihugyxsf7t{id}8yxst7s",[App\Http\Controllers\SolicitudController::class, 'consultarAprobacion'])->name('sPagoIndex.consultarAprobacion');
+    Route::post("solicitud-de-pago/respuesta1",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoRespuestaAprobada'])->name('sPagoIndex.respuesta1');
+    Route::post("solicitud-de-pago/respuesta2",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoRespuestaNegada'])->name('sPagoIndex.respuesta2');
 });
 
+Route::middleware('auth')->prefix('servicio')->group(function () {
+    Route::get("/",[App\Http\Controllers\ServicioController::class, 'index'])->name('servicio.index');
+    Route::get("lista-servicios",[App\Http\Controllers\ServicioController::class, 'jq_lista']);
+    Route::post("cargar-servicio",[App\Http\Controllers\ServicioController::class, 'store'])->name('servicio.guardar');
+});
 
 Auth::routes();
