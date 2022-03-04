@@ -2,17 +2,17 @@ $(document).ready(function(){
 
     $("#cargar").attr("disabled", true);
 
-    $('#listaServicio').DataTable({
+    $('#listaViaticos1').DataTable({
         serverSide:false,
         processing: true,
-        ajax: "servicio/lista-servicios",
+        ajax: "viatico/lista-viaticos",
         columns: [
-            {data: 'servicio_codigo'},
-            {data: 'servicio_nombre'},
+            {data: 'viatico_codigo'},
+            {data: 'viatico_nombre'},
             {data: 'btn'}
         ],
         order: [
-            [0, "ASC"]
+            [0, "desc"]
           ],
         bLengthChange: false,
         searching: true,
@@ -34,13 +34,13 @@ $(document).ready(function(){
         },
     });
 
-    $('#servicio').keyup(function(){
-        if($("#servicio").val().length < 3)
+    $('#viatico').keyup(function(){
+        if($("#viatico").val().length < 3)
         {
-            $("#servicio").css({"border": "1px solid red"});
+            $("#viatico").css({"border": "1px solid red"});
             $("#cargar").attr("disabled", true);
         } else {
-            $("#servicio").css({"border": "1px solid #eaecef"});
+            $("#viatico").css({"border": "1px solid #eaecef"});
             $("#cargar").attr("disabled", false);
         }
     });
@@ -52,48 +52,55 @@ $(document).ready(function(){
         });
     });
 
-    $(document).on('click', '#deshabilitar', function(){
+
+    $(document).on('click', '#deshabilitarVia', function(){
 
         Swal.fire({
-            title: '¿Desea deshabilitar',
-            text: "esta solicitud?",
+            title: '¿Esta seguro',
+            text: "de querer deshabilitar este viático?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, deshabilítar',
+            confirmButtonText: 'Si, deshabilitar!',
             cancelButtonText: 'Cancelar!'
           }).then((result) => {
             if (result.isConfirmed) {
 
+
                 $.ajax({
-                    url: 'servicio/eliminar-servicio',
+                    url: 'viatico/deshabilitar-viatico',
                     type: 'POST',
                     dataType: 'json',
                     data: {id: this.value},
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
                 })
                 .done(function(comp) {
-                    $('#listaServicio').DataTable().ajax.reload();
+                    $('#listaViaticos1').DataTable().ajax.reload();
                     if (comp) {
                         Swal.fire(
-                            'Desactivado!',
-                            'Se ha desactivado este material.',
+                            'Solicitud procesada!',
+                            'Se ha desactivado este viático.',
                             'success'
                           )
                     }
 
                 })
                 .fail( function(){
-                    console.log("hay un error en la carga de solicitud de nombre de concepto")
+                    console.log("hay un error en la carga de solicitud de anulacion de viático")
                 });
+
+
+
+
+
+
 
 
             }
           })
 
-    })
-
+    });
 
 
 });

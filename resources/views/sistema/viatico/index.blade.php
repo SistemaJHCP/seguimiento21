@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('titulo')
-    <h1 class="m-0"> Servicio <small></small></h1>
+    <h1 class="m-0"> Viáticos <small></small></h1>
 @endsection
 @section('navegador')
     {{-- <li class="breadcrumb-item">Home</li>
@@ -14,16 +14,16 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Datos de los servicios</h3>
+              <h3 class="card-title">Datos de los viáticos</h3>
             </div>
             <!-- /.card-header -->
               <div class="card-body">
-                  <table id="listaServicio" class="table table-bordered table-hover">
+                  <table id="listaViaticos1" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                      <th>Código</th>
-                      <th>Nombre</th>
-                      <th style="width: 140px">Acción</th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th style="width: 40px">Acción</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -42,12 +42,12 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="info-box" data-toggle="modal" data-target="#mostrarServicio">
-            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-laptop-house"></i></span>
+        <div class="info-box" data-toggle="modal" data-target="#mostrarViatico">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-taxi"></i></span>
             <div class="info-box-content" style="color:black;">
                 <span class="info-box-text">CARGAR UN</span>
                 <span class="info-box-number">
-                SERVICIO
+                VIATICO
                 <small></small>
                 </span>
             </div>
@@ -56,26 +56,26 @@
     </div>
 </div>
 
-<div class="modal fade" id="mostrarServicio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="mostrarServicioLabel" aria-hidden="true">
+<div class="modal fade" id="mostrarViatico" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="mostrarViaticoLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="mostrarServicioLabel">Cargar un nuevo servicio</h5>
+          <h5 class="modal-title" id="mostrarViaticoLabel">Cargar un nuevo viático</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-        <form action="{{ route('servicio.guardar') }}" method="post">
+        <form action="{{ route('viatico.guardar') }}" method="post">
             @csrf
             <div class="form-group">
-                <label for="">Servicio</label>
-                <input type="text" name="servicio" id="servicio" class="form-control" maxlength="90" placeholder="Ingrese el nombre del servicio" minlength="3" autocomplete="off">
+                <label for="">Viático</label>
+                <input type="text" name="viatico" id="viatico" class="form-control" maxlength="90" placeholder="Ingrese el nombre del viatico" minlength="3" autocomplete="off">
             </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrar">Cerrar</button>
-          <input type="submit" class="btn btn-primary" value="Cargar Servicio" id="cargar" disabled>
+          <input type="submit" class="btn btn-primary" value="Cargar viatico" id="cargar" disabled>
         </div>
         </form>
       </div>
@@ -118,7 +118,7 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
-<script src="{{ asset("js/servicio/servicio.js") }}"></script>
+<script src="{{ asset('js/viatico/viatico.js') }}"></script>
 @if (Session::has('resp'))
 {{ Session::has('resp') }}
     @if (Session::has('resp') == true)

@@ -27,7 +27,7 @@ class ServicioController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->solicitud != 1){
+        if($permisoUsuario[0]->servicio != 1){
             return redirect()->route("home");
         }
 
@@ -54,7 +54,40 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-        dd( $request->all() );
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->servicio != 1 || $permisoUsuario[0]->crear_servicio != 1 ){
+            return redirect()->route("home");
+        }
+
+        //Se realiza el calculo para crear e codigo
+        $codigo = Servicio::select("servicio_codigo")->orderBy("id", "desc")->limit(1)->get();
+        //Si la variable codigo es mayor o igual a 1, ejecuta el conteo
+        if(count($codigo) < 1){
+            //Si es menor a 1
+            $codigoSER = "SER-1";
+        } else {
+            //Se extrae el numero y se le agrega un valor mas (xx + 1)
+            preg_match_all('!\d+!', $codigo[0]->servicio_codigo, $cod);
+            $cod = $cod[0][0] + 1;
+            $codigoSER = "SER-".$cod;
+        }
+
+        //Se instancia el modelo servicio
+        $servicio = new Servicio();
+        //se agregan los valores en los campos
+        $servicio->servicio_codigo = $codigoSER;
+        $servicio->servicio_nombre = $request->servicio;
+        //Guardamos los datos en la BD
+        $resp = $servicio->save();
+        //Retornamos a la vista la respuesta del guardar la informacion
+        return redirect()->route('servicio.index')->with('resp', $resp);
+
+
+
+
+
     }
 
     /**
@@ -97,16 +130,31 @@ class ServicioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->servicio != 1 || $permisoUsuario[0]->desactivar_servicio != 1 ){
+            return redirect()->route("home");
+        }
+        //Buscamos el ID seleccionado por el usuario
+        $servicio = Servicio::find( $request->id );
+        //Cambiamos su estado a deshabilitado
+        $servicio->servicio_estado = 0;
+        //Guardamos este cambio en la base de datos
+        $resp = $servicio->save();
+        //Retornamos la respuesta a la vista
+        return response()->json($resp);
+
+
     }
 
     public function jq_lista()
     {
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
-        $query = Servicio::select()->where("servicio_estado", 1)->get();
+        $query = Servicio::select()->where("servicio_estado", 1)->orderBy('servicio_codigo', 'DESC')->get();
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->servicio == 1 || $permisoUsuario[0]->ver_botones_servicio == 1) {
             return datatables()->of($query)

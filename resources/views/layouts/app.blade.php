@@ -82,6 +82,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 ?>
 
                 <?php
+                    if ($permisoUsuario->viatico == 1){
+                ?>
+                    <li><a href="{{ route("viatico.index") }}" class="dropdown-item">Viático</a></li>
+                <?php
+                    }
+                ?>
+
+                <?php
                     if ($permisoUsuario->usuario == 1){
                 ?>
                     <li><a href="{{ route('usuario.index') }}" class="dropdown-item">Usuarios </a></li>

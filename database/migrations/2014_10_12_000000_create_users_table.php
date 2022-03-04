@@ -112,6 +112,18 @@ class CreateUsersTable extends Migration
             $table->boolean('ver_botones_viatico')->default(1);
             $table->boolean('desactivar_viatico')->default(1);
             $table->boolean('reactivar_viatico')->default(1);
+            $table->boolean('compra_cuentas_x_pagar')->default(1);
+            $table->boolean('crear_compra_cuentas_x_pagar')->default(1);
+            $table->boolean('modificar_compra_cuentas_x_pagar')->default(1);
+            $table->boolean('ver_botones_compra_cuentas_x_pagar')->default(1);
+            $table->boolean('desactivar_compra_cuentas_x_pagar')->default(1);
+            $table->boolean('reactivar_compra_cuentas_x_pagar')->default(1);
+            $table->boolean('conciliacion')->default(1);
+            $table->boolean('crear_conciliacion')->default(1);
+            $table->boolean('modificar_conciliacion')->default(1);
+            $table->boolean('ver_botones_conciliacion')->default(1);
+            $table->boolean('desactivar_conciliacion')->default(1);
+            $table->boolean('reactivar_conciliacion')->default(1);
             $table->timestamps();
         });
 

@@ -179,6 +179,15 @@ Route::middleware('auth')->prefix('servicio')->group(function () {
     Route::get("/",[App\Http\Controllers\ServicioController::class, 'index'])->name('servicio.index');
     Route::get("lista-servicios",[App\Http\Controllers\ServicioController::class, 'jq_lista']);
     Route::post("cargar-servicio",[App\Http\Controllers\ServicioController::class, 'store'])->name('servicio.guardar');
+    Route::post("eliminar-servicio",[App\Http\Controllers\ServicioController::class, 'destroy']);
 });
+
+Route::middleware('auth')->prefix('viatico')->group(function () {
+    Route::get("/",[App\Http\Controllers\ViaticoController::class, 'index'])->name('viatico.index');
+    Route::post("cargar-viatico",[App\Http\Controllers\ViaticoController::class, 'store'])->name('viatico.guardar');
+    Route::get("lista-viaticos",[App\Http\Controllers\ViaticoController::class, 'jq_lista']);
+    Route::post("deshabilitar-viatico",[App\Http\Controllers\ViaticoController::class, 'destroy']);
+});
+
 
 Auth::routes();
