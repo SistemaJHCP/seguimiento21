@@ -189,5 +189,12 @@ Route::middleware('auth')->prefix('viatico')->group(function () {
     Route::post("deshabilitar-viatico",[App\Http\Controllers\ViaticoController::class, 'destroy']);
 });
 
+Route::middleware('auth')->prefix('solicitud/cuentas')->group(function () {
+    Route::get("/",[App\Http\Controllers\SolicitudController::class, 'indexCuenta'])->name('cuentas.index');
+    Route::get("solicitud-de-pago/{id}",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoCuenta']);
+    Route::get("consultar/76yuijshy787sysj{id}iusy8s9uygshji7s",[App\Http\Controllers\SolicitudController::class, 'showCuenta'])->name('cuentas.consultar');
+});
+
+
 
 Auth::routes();

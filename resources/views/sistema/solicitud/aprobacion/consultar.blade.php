@@ -33,40 +33,54 @@
                                 <dd>{{ $solicitud->solicitud_motivo }}</dd>
                                 <dt>Observaciones</dt>
                                 <dd>{{ $solicitud->solicitud_observaciones }}</dd>
-                                <dt>Estado de la solicitud</dt>
-                                <dd>{{ $solicitud->solicitud_aprobacion }}</dd>
-                                <dt>Tipo de la solicitud</dt>
 
-                                    @if ($solicitud->solicitud_tipo == 1)
-                                        <dd>Materiales</dd>
-                                    @elseif($solicitud->solicitud_tipo == 2)
-                                        <dd>Servicios</dd>
-                                    @elseif($solicitud->solicitud_tipo == 3)
-                                        <dd>Viáticos</dd>
-                                    @elseif($solicitud->solicitud_tipo == 4)
-                                        <dd>Caja chica</dd>
-                                    @elseif($solicitud->solicitud_tipo == 5)
-                                        <dd>Nómina</dd>
-                                    @endif
 
-                                <dt>Forma de pago</dt>
-                                    @if ($solicitud->solicitud_formapago == 1)
-                                        <dd>Transferencia</dd>
-                                    @elseif($solicitud->solicitud_formapago == 2)
-                                        <dd>Cheque</dd>
-                                    @elseif($solicitud->solicitud_formapago == 3)
-                                        <dd>Viáticos</dd>
-                                    @elseif($solicitud->solicitud_formapago == 4)
-                                        <dd>Efectivo</dd>
-                                    @endif
+                                <div class="row">
+                                    <div class="col-6">
+                                        <dt>Estado de la solicitud</dt>
+                                        <dd>{{ $solicitud->solicitud_aprobacion }}</dd>
+                                    </div>
+                                    <div class="col-6">
+                                        <dt>Tipo de la solicitud</dt>
 
-                                <dt>¿La solicitud incluye IVA?</dt>
-                                @if ($solicitud->solicitud_iva == 1)
-                                    <dd>No incluye IVA</dd>
-                                @else
-                                    <dd>Si incluye IVA</dd>
-                                @endif
-
+                                        @if ($solicitud->solicitud_tipo == 1)
+                                            <dd>Materiales</dd>
+                                        @elseif($solicitud->solicitud_tipo == 2)
+                                            <dd>Servicios</dd>
+                                        @elseif($solicitud->solicitud_tipo == 3)
+                                            <dd>Viáticos</dd>
+                                        @elseif($solicitud->solicitud_tipo == 4)
+                                            <dd>Caja chica</dd>
+                                        @elseif($solicitud->solicitud_tipo == 5)
+                                            <dd>Nómina</dd>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <dt>Forma de pago</dt>
+                                        @if ($solicitud->solicitud_formapago == 1)
+                                            <dd>Transferencia</dd>
+                                        @elseif($solicitud->solicitud_formapago == 2)
+                                            <dd>Cheque</dd>
+                                        @elseif($solicitud->solicitud_formapago == 3)
+                                            <dd>Viáticos</dd>
+                                        @elseif($solicitud->solicitud_formapago == 4)
+                                            <dd>Efectivo</dd>
+                                        @endif
+                                    </div>
+                                    <div class="col-6">
+                                        <dt>¿La solicitud incluye IVA?</dt>
+                                        @if ($solicitud->solicitud_iva == 1)
+                                            <dd>No incluye IVA</dd>
+                                        @else
+                                            <dd>Si incluye IVA</dd>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row">
+     
+                                </div>
                               </dl>
                             </div>
                             <!-- /.card-body -->
@@ -74,6 +88,11 @@
                           <!-- /.card -->
                     @if ($solicitud->solicitud_aprobacion == "Sin Respuesta")
                     <div class="row">
+                        <div class="col-12">
+                            <dt>Ingrese su comentario</dt>
+                            <textarea name="" id="" class="form-control" placeholder="Agre"></textarea>
+                            <br>gue un comentario
+                        </div>
                         <div class="col-6" id="validacion">
                             <form action="{{ route('sPagoIndex.respuesta1') }}"  name="enviarFormulario" method="post">
                                 @csrf

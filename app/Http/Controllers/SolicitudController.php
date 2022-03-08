@@ -1063,14 +1063,227 @@ class SolicitudController extends Controller
     }
 
 
+// ---------------------------  Solicitud cuentas por pagar  -------------------------------
+
+    public function indexCuenta()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 ){
+            return redirect()->route("home");
+        }
+
+        return view('sistema.solicitud.cuentas.index')->with([
+            'permisoUsuario' => $permisoUsuario[0]
+        ]);
+    }
+
+    public function solicitudesPagoCuenta($id)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->solicitud_pago != 1 ){
+            return redirect()->route("home");
+        }
+
+        if($id == 1){
+
+            //Realizamos la consulta a la base de datos
+            $query = Solicitud::select(
+                'solicitud.id AS id',
+                'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+                'solicitud.solicitud_fecha AS fecha',
+                'obra.obra_nombre AS obra_nombre',
+                'solicitud.solicitud_motivo AS solicitud_motivo',
+                'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
+                'solicitud.solicitud_estadopago AS pago',
+                'users.user_name AS nombre'
+                
+            )
+            ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+            ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+            // ->where('solicitud.solicitud_tipo', $id)
+            ->orderBy('id', 'DESC')
+            ->limit(5000)
+            ->get();
+
+        } else {
+
+            switch ($id) {
+                case 2:
+                    $valor = "Sin Respuesta";
+                    $estadoPago = 1;
+                    break;
+                case 3:
+                    $valor = "Aprobada";
+                    $estadoPago = 1;
+                    break;
+                case 4:
+                    $valor = "Aprobada";
+                    $estadoPago = 0;
+                    break;
+                case 5:
+                    $valor = "Rechazada";
+                    $estadoPago = 1;
+                    break;
+            }
 
 
+            //Realizamos la consulta a la base de datos
+            $query = Solicitud::select(
+                'solicitud.id AS id',
+                'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+                'solicitud.solicitud_fecha AS fecha',
+                'solicitud.solicitud_motivo AS solicitud_motivo',
+                'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
+                'solicitud.solicitud_estadopago AS pago',
+                'users.user_name AS nombre',
+                'obra.obra_nombre AS obra_nombre'
+            )
+            ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+            ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+            ->where('solicitud.solicitud_aprobacion', $valor)
+            ->where('solicitud.solicitud_estadopago', $estadoPago)
+            ->orderBy('id', 'DESC')
+            ->limit(5000)
+            ->get();
 
 
+        }
+
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->solicitud_pago == 1 && $permisoUsuario[0]->ver_solicitud_pago == 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.solicitud.cuentas.btnCuenta')
+            ->addColumn('pago','sistema.solicitud.cuentas.btnPago')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->addColumn('pago','sistema.solicitud.cuentas.btnPago')
+            ->rawColumns(['btn'])->toJson();
+        }
+    }
 
 
+    public function showCuenta($id)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->ver_botones_solicitud != 1){
+            return redirect()->route("home");
+        }
 
+        $solicitud = Solicitud::select(
+            'solicitud.id AS id',
+            'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+            'solicitud.solicitud_fecha AS solicitud_fecha',
+            'solicitud.solicitud_motivo AS solicitud_motivo',
+            'solicitud.solicitud_observaciones AS solicitud_observaciones',
+            'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
+            'solicitud.solicitud_tipo AS solicitud_tipo',
+            'solicitud.solicitud_formapago AS solicitud_formapago',
+            'solicitud.solicitud_iva AS solicitud_iva',
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_fechainicio AS obra_fechainicio',
+            'obra.obra_fechafin AS obra_fechafin',
+            'obra.obra_observaciones AS obra_observaciones',
+            'proveedor.proveedor_codigo AS proveedor_codigo',
+            'proveedor.proveedor_tipo AS proveedor_tipo',
+            'proveedor.proveedor_rif AS proveedor_rif',
+            'proveedor.proveedor_nombre AS proveedor_nombre',
+            'proveedor.proveedor_telefono AS proveedor_telefono',
+            'proveedor.proveedor_direccion AS proveedor_direccion',
+            'proveedor.proveedor_correo AS proveedor_correo',
+            'requisicion.requisicion_codigo AS requisicion_codigo',
+            'requisicion.requisicion_tipo AS requisicion_tipo',
+            'requisicion.requisicion_fecha AS requisicion_fecha',
+            'requisicion.requisicion_fechae AS requisicion_fechae',
+            'requisicion.requisicion_motivo AS requisicion_motivo',
+            'requisicion.requisicion_direccion AS requisicion_direccion',
+            'requisicion.requisicion_estado AS requisicion_estado'
+        )
+        ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+        ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
+        ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
+        ->where('solicitud.id', $id)
+        ->first();
+
+        if ($solicitud->solicitud_tipo == "1") {       //materiales
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'material.material_nombre AS nombre'
+                )
+                ->leftJoin('material', 'material.id', '=', 'solicitud_detalle.material_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "2") { // servicios
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'servicio.servicio_nombre AS nombre'
+                )
+                ->leftJoin('servicio', 'servicio.id', '=', 'solicitud_detalle.servicio_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "3") { //  viaticos
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'viatico.viatico_nombre AS nombre'
+                )
+                ->leftJoin('viatico', 'viatico.id', '=', 'solicitud_detalle.viatico_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "4") { //    Caja Chica
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'caja.caja_nombre AS nombre'
+                )
+                ->leftJoin('caja', 'caja.id', '=', 'solicitud_detalle.caja_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        } elseif ($solicitud->solicitud_tipo == "5") { //    nomina
+
+            $costo = Solicitud_detalle::select(
+                'solicitud_detalle.id AS id',
+                'solicitud_detalle.sd_cantidad AS sd_cantidad',
+                'solicitud_detalle.sd_preciounitario AS sd_preciounitario',
+                'solicitud_detalle.moneda AS moneda',
+                'nomina.nomina_nombre AS nombre'
+                )
+                ->leftJoin('nomina', 'nomina.id', '=', 'solicitud_detalle.nomina_id')
+                ->where('solicitud_id', $solicitud->id)->get();
+
+        }
+
+        return view('sistema.solicitud.cuentas.consultar')->with(
+            [
+                'permisoUsuario' => $permisoUsuario[0],
+                'solicitud' => $solicitud,
+                'costo' => $costo
+            ]
+        );
+
+    }
 
 
 
