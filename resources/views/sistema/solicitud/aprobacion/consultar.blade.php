@@ -5,7 +5,7 @@
 @endsection
 @section('navegador')
     {{-- <li class="breadcrumb-item">Home</li> --}}
-    <li class="breadcrumb-item">Listado</li>
+    <li class="breadcrumb-item">Solicitudes de pago</li>
     <li class="breadcrumb-item active">Inicio</li>
 @endsection
 
@@ -56,6 +56,20 @@
                                         @endif
                                     </div>
                                 </div>
+
+                                @if ( $solicitud->solicitud_comentario != "Sin Comentarios" && $solicitud->solicitud_comentario != NULL )
+                                    <div class="row" style="background:#17a2b8;color:white;">
+                                        <div class="col-6">
+                                            <dt>Comentario de presidencia</dt>
+                                            <dd>{{ $solicitud->solicitud_comentario }}</dd>
+                                        </div>
+                                        <div class="col-6">
+                                            <dt>Respuesta de:</dt>
+                                            <dd>{{ $solicitud->nombre_aprobador }}</dd>
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="row">
                                     <div class="col-6">
                                         <dt>Forma de pago</dt>
@@ -79,7 +93,18 @@
                                     </div>
                                 </div>
                                 <div class="row">
-     
+                                    @if ( $solicitud->nombre_aprobador )
+                                        <div class="col-6">
+                                            <dt>Respuesta de:</dt>
+                                            <dd>{{ $solicitud->nombre_aprobador }}</dd>
+                                        </div>
+                                    @endif
+                                    @if ($usuario)
+                                        <div class="col-6">
+                                            <dt>Solicitante:</dt>
+                                            <dd>{{ $usuario->user_name }}</dd>
+                                        </div>
+                                    @endif
                                 </div>
                               </dl>
                             </div>
@@ -87,30 +112,15 @@
                           </div>
                           <!-- /.card -->
                     @if ($solicitud->solicitud_aprobacion == "Sin Respuesta")
-                    <div class="row">
-                        <div class="col-12">
-                            <dt>Ingrese su comentario</dt>
-                            <textarea name="" id="" class="form-control" placeholder="Agre"></textarea>
-                            <br>gue un comentario
+                        <div class="row">
+                            <div class="col-6" id="validacion">
+                                <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#aprobarSolicitud">Aprobar</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#negarSolicitud">Rechazar</button>
+                            </div>
                         </div>
-                        <div class="col-6" id="validacion">
-                            <form action="{{ route('sPagoIndex.respuesta1') }}"  name="enviarFormulario" method="post">
-                                @csrf
-                                <input type="hidden" value="{{$solicitud->id}}" name="dato">
-                                <input type="hidden" value="Aprobada" name="respuesta1">
-                                <input type="submit" id="aprobarSolicitud" class="btn btn-info btn-lg btn-block" value="Aprobar">
-                            </form>
-                        </div>
-                        <div class="col-6">
-                            <form action="{{ route('sPagoIndex.respuesta2') }}" name="negarFormulario" id="nega" method="post">
-                                @csrf
-                                <input type="hidden" value="{{$solicitud->id}}" name="dato">
-                                <input type="hidden" value="Rechazada" name="respuesta2">
-                                <input type="submit" id="negarSolicitud" class="btn btn-danger btn-lg btn-block" value="Rechazar">
-                            </form>
-                        </div>
-                    </div>
-                    <br>
+                        <br>
                     @endif
                     </div>
                     <div class="col-md-6">
@@ -181,6 +191,67 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="aprobarSolicitud" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="aprobarSolicitudLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="aprobarSolicitudLabel">¿Aprueba la solicitud?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <form action="{{ route('sPagoIndex.respuesta1') }}" method="post">
+        @csrf
+          <div class="row">
+              <div class="col-4"><center><i class="far fa-thumbs-up" style="text-align:center; font-size:80px;color:rgb(7, 182, 7)"></i></center></div>
+              <div class="col-8">
+                    <input type="hidden" value="{{$solicitud->id}}" name="dato">
+                    <input type="hidden" value="Aprobada" name="respuesta1">
+                    <textarea name="comentario" class="form-control" placeholder="Agregue un comentario" maxlength="240"></textarea>
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <input type="submit" value="Aprobar solicitud" class="btn btn-info">
+        </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="negarSolicitud" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="aprobarSolicitudLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="aprobarSolicitudLabel">¿Rechazar la solicitud?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="{{ route('sPagoIndex.respuesta2') }}" method="post">
+            @csrf
+            <div class="row">
+                <div class="col-4"><center> <i class="fas fa-ban" style="text-align:center; font-size:80px;color:rgb(175, 45, 36)"></i></center></div>
+                <div class="col-8">
+                    <input type="hidden" value="{{$solicitud->id}}" name="dato">
+                    <input type="hidden" value="Rechazada" name="respuesta1">
+                    <textarea name="comentario" class="form-control" placeholder="Agregue un comentario" maxlength="240"></textarea>
+                </div>
+            </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <input type="submit" value="Rechazar solicitud" class="btn btn-danger">
+            </div>
+            </form>
+      </div>
+    </div>
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="consultaObraModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="consultaObraModalLabel" aria-hidden="true">

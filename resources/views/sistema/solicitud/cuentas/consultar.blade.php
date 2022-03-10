@@ -4,8 +4,8 @@
     <h1 class="m-0"> Consultar <small>solicitud Nro. {{ $solicitud->solicitud_numerocontrol }}</small></h1>
 @endsection
 @section('navegador')
-    {{-- <li class="breadcrumb-item">Home</li> --}}
-    <li class="breadcrumb-item">Listado</li>
+    <li class="breadcrumb-item">Solicitud de cuentas</li>
+    <li class="breadcrumb-item">Cuentas por pagar</li>
     <li class="breadcrumb-item active">Inicio</li>
 @endsection
 
@@ -54,6 +54,14 @@
                                         @endif
                                     </div>
                                 </div>
+                                @if ( $solicitud->solicitud_comentario != "Sin Comentarios" && $solicitud->solicitud_comentario != NULL )
+                                    <div class="row" style="background:#17a2b8;color:white;">
+                                        <div class="col-12">
+                                            <dt>Comentario de presidencia</dt>
+                                            <dd>{{ $solicitud->solicitud_comentario }}</dd>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="row">
                                     <div class="col-6">
                                         <dt>Forma de pago</dt>
@@ -77,7 +85,20 @@
                                     </div>
                                 </div>
 
-
+                                <div class="row">
+                                    @if ( $solicitud->nombre_aprobador )
+                                        <div class="col-6">
+                                            <dt>Respuesta de:</dt>
+                                            <dd>{{ $solicitud->nombre_aprobador }}</dd>
+                                        </div>
+                                    @endif
+                                    @if ($usuario)
+                                        <div class="col-6">
+                                            <dt>Solicitante:</dt>
+                                            <dd>{{ $usuario->user_name }}</dd>
+                                        </div>
+                                    @endif
+                                </div>
 
                               </dl>
                             </div>
@@ -142,6 +163,12 @@
                                             <td>{{ $c->sd_preciounitario }} {{ $c->moneda }}</td>
                                         </tr>
                                     @endforeach
+                                    @if ($total)
+                                    <tr>
+                                        <th colspan="2"><b>Monto total:</b></th>
+                                        <th>{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
+                                    </tr>
+                                    @endif
                                     </tbody>
                                 </table>
                             </div>

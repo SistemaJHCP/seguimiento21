@@ -15,6 +15,7 @@ use App\Models\Viatico;
 use App\Models\Banco;
 use App\Models\Banco_proveedor;
 use App\Models\Solicitud_detalle;
+use App\Models\User;
 
 
 class SolicitudController extends Controller
@@ -230,6 +231,9 @@ class SolicitudController extends Controller
             'solicitud.solicitud_tipo AS solicitud_tipo',
             'solicitud.solicitud_formapago AS solicitud_formapago',
             'solicitud.solicitud_iva AS solicitud_iva',
+            'solicitud.solicitud_comentario AS solicitud_comentario',
+            'users.user_name AS nombre_aprobador',
+            'solicitud.usuario_id AS usuario_id',
             'obra.obra_codigo AS obra_codigo',
             'obra.obra_nombre AS obra_nombre',
             'obra.obra_fechainicio AS obra_fechainicio',
@@ -253,8 +257,14 @@ class SolicitudController extends Controller
         ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
         ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
         ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
+        ->leftJoin('users', 'users.id', '=', 'solicitud.aprobador_id')
         ->where('solicitud.id', $id)
+        ->where('solicitud.usuario_id', \Auth::user()->id)
         ->first();
+
+        //En base a la consulta se busca el nombre de quien creó la solicitud
+        $usuario = User::select('user_name')->where('id', $solicitud->usuario_id )->first();
+
 
         if ($solicitud->solicitud_tipo == "1") {       //materiales
 
@@ -317,12 +327,13 @@ class SolicitudController extends Controller
                 ->where('solicitud_id', $solicitud->id)->get();
 
         }
-
+        // dd( $solicitud );
         return view('sistema.solicitud.consultar')->with(
             [
                 'permisoUsuario' => $permisoUsuario[0],
                 'solicitud' => $solicitud,
-                'costo' => $costo
+                'costo' => $costo,
+                'usuario' => $usuario
             ]
         );
 
@@ -472,6 +483,7 @@ class SolicitudController extends Controller
             'users.user_name AS nombre'
         )
         ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+        ->where('solicitud.usuario_id', \Auth::user()->id) //habilita el solo mostrar informacion de quien crea la solicitud
         ->orderBy('id', 'DESC')
         ->limit(5000)
         ->get();
@@ -920,6 +932,9 @@ class SolicitudController extends Controller
             'solicitud.solicitud_tipo AS solicitud_tipo',
             'solicitud.solicitud_formapago AS solicitud_formapago',
             'solicitud.solicitud_iva AS solicitud_iva',
+            'solicitud.solicitud_comentario AS solicitud_comentario',
+            'users.user_name AS nombre_aprobador',
+            'solicitud.usuario_id AS usuario_id',
             'obra.obra_codigo AS obra_codigo',
             'obra.obra_nombre AS obra_nombre',
             'obra.obra_fechainicio AS obra_fechainicio',
@@ -943,9 +958,12 @@ class SolicitudController extends Controller
         ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
         ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
         ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
+        ->leftJoin('users', 'users.id', '=', 'solicitud.aprobador_id')
         ->where('solicitud.id', $id)
         ->first();
 
+        //En base a la consulta se busca el nombre de quien creó la solicitud
+        $usuario = User::select('user_name')->where('id', $solicitud->usuario_id )->first();
 
         if ($solicitud->solicitud_tipo == "1") {       //materiales
 
@@ -1013,7 +1031,8 @@ class SolicitudController extends Controller
             [
                 'permisoUsuario' => $permisoUsuario[0],
                 'solicitud' => $solicitud,
-                'costo' => $costo
+                'costo' => $costo,
+                'usuario' => $usuario
             ]
         );
 
@@ -1035,6 +1054,10 @@ class SolicitudController extends Controller
 
         //Cambiamos el estado a aprobado
         $solicitud->solicitud_aprobacion = "Aprobada";
+        //Guardamos el comentario del aprobador
+        $solicitud->solicitud_comentario = $request->comentario;
+        //Aprobado por
+        $solicitud->aprobador_id = \Auth::user()->id;
         //guardamos en la BD
         $resp = $solicitud->save();
         //Retornamos a la vista
@@ -1044,6 +1067,7 @@ class SolicitudController extends Controller
 
     public function solicitudesPagoRespuestaNegada(Request $request)
     {
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -1056,6 +1080,10 @@ class SolicitudController extends Controller
 
         //Cambiamos el estado a aprobado
         $solicitud->solicitud_aprobacion = "Rechazada";
+        //Guardamos el comentario del aprobador
+        $solicitud->solicitud_comentario = $request->comentario;
+        //Aprobado por
+        $solicitud->aprobador_id = \Auth::user()->id;
         //guardamos en la BD
         $resp = $solicitud->save();
         //Retornamos a la vista
@@ -1100,7 +1128,7 @@ class SolicitudController extends Controller
                 'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
                 'solicitud.solicitud_estadopago AS pago',
                 'users.user_name AS nombre'
-                
+
             )
             ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
             ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
@@ -1128,6 +1156,10 @@ class SolicitudController extends Controller
                     $valor = "Rechazada";
                     $estadoPago = 1;
                     break;
+                case 6:
+                    $valor = "Anulada";
+                    $estadoPago = 1;
+                    break;
             }
 
 
@@ -1149,7 +1181,6 @@ class SolicitudController extends Controller
             ->orderBy('id', 'DESC')
             ->limit(5000)
             ->get();
-
 
         }
 
@@ -1176,7 +1207,7 @@ class SolicitudController extends Controller
         if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->ver_botones_solicitud != 1){
             return redirect()->route("home");
         }
-
+        //Se realiza la consulta
         $solicitud = Solicitud::select(
             'solicitud.id AS id',
             'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
@@ -1187,6 +1218,10 @@ class SolicitudController extends Controller
             'solicitud.solicitud_tipo AS solicitud_tipo',
             'solicitud.solicitud_formapago AS solicitud_formapago',
             'solicitud.solicitud_iva AS solicitud_iva',
+            'solicitud.solicitud_comentario AS solicitud_comentario',
+            'users.user_name AS nombre_aprobador',
+            'solicitud.usuario_id AS usuario_id',
+            // 'users.user_name AS nombre_usuario',//A001
             'obra.obra_codigo AS obra_codigo',
             'obra.obra_nombre AS obra_nombre',
             'obra.obra_fechainicio AS obra_fechainicio',
@@ -1210,8 +1245,18 @@ class SolicitudController extends Controller
         ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
         ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
         ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
+        // ->leftJoin('users', 'users.id', '=', 'solicitud.aprobador_id')
+        ->leftJoin('users', function ($join) {
+            $join->on('users.id', '=', 'solicitud.aprobador_id');
+            // ->orOn('users.id', '=', 'solicitud.usuario_id');
+        })
+
         ->where('solicitud.id', $id)
         ->first();
+
+        //En base a la consulta se busca el nombre de quien creó la solicitud
+        $usuario = User::select('user_name')->where('id', $solicitud->usuario_id )->first();
+
 
         if ($solicitud->solicitud_tipo == "1") {       //materiales
 
@@ -1274,14 +1319,38 @@ class SolicitudController extends Controller
                 ->where('solicitud_id', $solicitud->id)->get();
 
         }
+        //Si existe un costo ejecuta enviando el calculo
+        if ($costo) {
 
-        return view('sistema.solicitud.cuentas.consultar')->with(
-            [
-                'permisoUsuario' => $permisoUsuario[0],
-                'solicitud' => $solicitud,
-                'costo' => $costo
-            ]
-        );
+            for ($i=0; $i < count( $costo ); $i++) {
+                $num[] = $costo[$i]->sd_preciounitario;
+            }
+
+            $total = array_sum($num);
+
+            return view('sistema.solicitud.cuentas.consultar')->with(
+                [
+                    'permisoUsuario' => $permisoUsuario[0],
+                    'solicitud' => $solicitud,
+                    'costo' => $costo,
+                    'usuario' => $usuario,
+                    'total' => $total
+                ]
+            );
+
+        } else { //Su no envia todo el costo en null
+
+            return view('sistema.solicitud.cuentas.consultar')->with(
+                [
+                    'permisoUsuario' => $permisoUsuario[0],
+                    'solicitud' => $solicitud,
+                    'costo' => array(),
+                    'usuario' => $usuario,
+                    'total' => array()
+                ]
+            );
+        }
+
 
     }
 

@@ -52,33 +52,35 @@ $(document).ready(function(){
 
     $(document).on('change', '.menu', function(){
 
+        $('#listaCuenta > tbody').empty();
+
         if (this.value == 1) {
-            $('#listaCuenta > tbody').empty();
             url = "cuentas/solicitud-de-pago/" + 1;
             cargarListado(url);
         }
 
         if (this.value == 2) {
-            $('#listaCuenta > tbody').empty();
             url = "cuentas/solicitud-de-pago/" + 2;
             cargarListado(url);
         }
 
         if (this.value == 3) {
-            $('#listaCuenta > tbody').empty();
             url = "cuentas/solicitud-de-pago/" + 3;
             cargarListado(url);
         }
 
         if (this.value == 4) {
-            $('#listaCuenta > tbody').empty();
             url = "cuentas/solicitud-de-pago/" + 4;
             cargarListado(url);
         }
 
         if (this.value == 5) {
-            $('#listaCuenta > tbody').empty();
             url = "cuentas/solicitud-de-pago/" + 5;
+            cargarListado(url);
+        }
+
+        if (this.value == 6) {
+            url = "cuentas/solicitud-de-pago/" + 6;
             cargarListado(url);
         }
 
@@ -113,6 +115,12 @@ $(document).ready(function(){
         if (this.value == 5) {
             $('#listaCuenta > tbody').empty();
             url = "cuentas/solicitud-de-pago/" + 5;
+            cargarListado(url);
+        }
+
+        if (this.value == 6) {
+            $('#listaCuenta > tbody').empty();
+            url = "cuentas/solicitud-de-pago/" + 6;
             cargarListado(url);
         }
 

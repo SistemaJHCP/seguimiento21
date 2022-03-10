@@ -5,7 +5,7 @@
 @endsection
 @section('navegador')
     {{-- <li class="breadcrumb-item">Home</li> --}}
-    <li class="breadcrumb-item">Listado</li>
+    <li class="breadcrumb-item">Solicitud</li>
     <li class="breadcrumb-item active">Inicio</li>
 @endsection
 
@@ -31,8 +31,12 @@
                                 <dd>{{ $solicitud->solicitud_fecha }}</dd>
                                 <dt>Motivo</dt>
                                 <dd>{{ $solicitud->solicitud_motivo }}</dd>
+
+                                @if ( $solicitud->solicitud_observaciones )
                                 <dt>Observaciones</dt>
                                 <dd>{{ $solicitud->solicitud_observaciones }}</dd>
+                                @endif
+
                                 <div class="row">
                                     <div class="col-6">
                                         <dt>Estado de la solicitud</dt>
@@ -54,6 +58,16 @@
                                         @endif
                                     </div>
                                 </div>
+
+                                @if ( $solicitud->solicitud_comentario != "Sin Comentarios" && $solicitud->solicitud_comentario != NULL )
+                                    <div class="row" style="background:#17a2b8;color:white;">
+                                        <div class="col-12">
+                                            <dt>Comentario de presidencia</dt>
+                                            <dd>{{ $solicitud->solicitud_comentario }}</dd>
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="row">
                                     <div class="col-6">
                                         <dt>Forma de pago</dt>
@@ -75,6 +89,20 @@
                                             <dd>Si incluye IVA</dd>
                                         @endif
                                     </div>
+                                </div>
+                                <div class="row">
+                                    @if ( $solicitud->nombre_aprobador )
+                                        <div class="col-6">
+                                            <dt>Respuesta de:</dt>
+                                            <dd>{{ $solicitud->nombre_aprobador }}</dd>
+                                        </div>
+                                    @endif
+                                    @if ($usuario)
+                                        <div class="col-6">
+                                            <dt>Solicitante:</dt>
+                                            <dd>{{ $usuario->user_name }}</dd>
+                                        </div>
+                                    @endif
                                 </div>
 
 

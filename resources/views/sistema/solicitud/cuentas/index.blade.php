@@ -4,8 +4,8 @@
     <h1 class="m-0"> Solicitud  <small>de cuentas</small></h1>
 @endsection
 @section('navegador')
-    {{-- <li class="breadcrumb-item">Home</li>
-    <li class="breadcrumb-item">Layout</li> --}}
+    {{-- <li class="breadcrumb-item">Home</li> --}}
+    <li class="breadcrumb-item">Cuentas por pagar</li>
     <li class="breadcrumb-item active">Inicio</li>
 @endsection
 
@@ -15,6 +15,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
+                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="1">Todas las solicitudes</button></div>
+                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="2">Sin respuesta </button></div>
+                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="3">Solicitud por pagar </button></div>
+                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="4">Solicitudes pagadas </button></div>
+                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="5">Rechazadas </button></div>
                     <div class="col-md-2">
                         <select class="d-block d-sm-block d-md-none menu float-right form-control">
                             <option value="">Seleccione...</option>
@@ -23,13 +28,10 @@
                             <option value="3">Solicitud por pagar</option>
                             <option value="4">Solicitudes pagadas</option>
                             <option value="5">Solicitudes rechazadas</option>
+                            <option value="6">Solicitudes anuladas</option>
                         </select>
+                        <button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="6">Anuladas </button>
                     </div>
-                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="1">Todas las solicitudes</button></div>
-                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="2">Sin respuesta </button></div>
-                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="3">Solicitud por pagar </button></div>
-                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="4">Solicitudes pagadas </button></div>
-                    <div class="col-md-2"><button class="btn btn-info btn-block d-none d-sm-none d-md-block menu2" value="5">Rechazadas </button></div>
                 </div>
             </div>
             <div class="card-body">
