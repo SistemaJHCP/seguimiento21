@@ -99,12 +99,78 @@
                                         </div>
                                     @endif
                                 </div>
-
                               </dl>
                             </div>
                             <!-- /.card-body -->
                           </div>
                           <!-- /.card -->
+                        @if ($solicitud->solicitud_aprobacion ==  "Aprobada" || $solicitud->solicitud_estadopago)
+                            <button type="button" data-toggle="modal" data-target="#staticBackdrop" class="btn btn-info  btn-lg btn-block"><i class="fas fa-money-bill-wave"></i> Realizar pago</button>
+
+                            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog  modal-lg">
+                                  <div class="modal-content">
+                                    <div class="modal-header bg-info">
+                                      <h5 class="modal-title" id="staticBackdropLabel">Realizar pago</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            @if ($total)
+                                            <h1 style="margin-top:20px;"><center><b>{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</b></center></h1>
+                                            <br>
+                                            <h3><center>fecha: {{ $solicitud->solicitud_fecha }}</center></h3><br>
+                                            @endif
+
+                                        </div>
+                                        <div class="col-md-7">
+                                        <form action="{{ route('cuentas.crear') }}" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label>Forma de pago</label>
+                                                <select name="forma_pago" id="forma_pago" class="form-control" required>
+                                                    <option value="">Seleccione...</option>
+                                                    <option value="Transferencia">Transferencia</option>
+                                                    <option value="Deposito">Depósito</option>
+                                                    <option value="Cheque">Cheque</option>
+                                                    <option value="Efectivo">Efectivo</option>
+                                                </select>
+                                                <label>Cuentas de JHCP</label>
+                                                <select name="cuentaJHCP" id="cuentaJHCP" class="form-control" required>
+                                                    <option value="">Seleccione...</option>
+                                                    @foreach ($cuenta as $cuentas)
+                                                    <option value="{{ $cuentas->cuenta_numero }}">{{ $cuentas->cuenta_numero }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <label>Comprobante</label>
+                                                <input type="text" name="comprobante" id="comprobante" class="form-control" autocomplete="off" maxlength="20" placeholder="Agregue el numero de referencia.">
+                                                <label>Cheque</label>
+                                                <select name="cheque" id="cheque" class="form-control" disabled>
+                                                    <option value="">Seleccione...</option>
+                                                </select>
+                                                <label>Comentarios</label>
+                                                <textarea name="comentario" id="comentario" maxlength="240" placeholder="Agregue un comentario" class="form-control"></textarea>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <input type="hidden" name="solicitud" value="{{ $solicitud->solicitud_numerocontrol }}">
+                                    <input type="hidden" name="montoTotal" value="{{ number_format( $total, 2 ) }}">
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
+                                      <input type="submit" value="Realizar pago" class="btn btn-info">
+                                    </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+
+                         @endif
+                        <br>
                     </div>
                     <div class="col-md-6">
                         <div class="row">
@@ -236,20 +302,49 @@
         </div>
         <div class="modal-body">
             <dl>
-                <dt>Código de proveedor</dt>
-                <dd>{{ $solicitud->proveedor_codigo }}</dd>
-                <dt>Tipo de proveedor</dt>
-                <dd>{{ $solicitud->proveedor_tipo }}</dd>
-                <dt>Rif / Cédula</dt>
-                <dd>{{ $solicitud->proveedor_rif }}</dd>
-                <dt>Nombre de proveedor</dt>
-                <dd>{{ $solicitud->proveedor_nombre }}</dd>
-                <dt>Nro. de teléfono</dt>
-                <dd>{{ $solicitud->proveedor_telefono }}</dd>
-                <dt>Dirección</dt>
-                <dd>{{ $solicitud->proveedor_direccion }}</dd>
-                <dt>Correo</dt>
-                <dd>{{ $solicitud->proveedor_correo }}</dd>
+                <div class="row">
+                    <div class="col-6">
+                        <dt>Código de proveedor</dt>
+                        <dd>{{ $solicitud->proveedor_codigo }}</dd>
+                        <dt>Tipo de proveedor</dt>
+                        <dd>{{ $solicitud->proveedor_tipo }}</dd>
+                        <dt>Rif / Cédula</dt>
+                        <dd>{{ $solicitud->proveedor_rif }}</dd>
+                        <dt>Nombre de proveedor</dt>
+                        <dd>{{ $solicitud->proveedor_nombre }}</dd>
+                    </div>
+                    <div class="col-6">
+
+                        <dt>Nro. de teléfono</dt>
+                        <dd>{{ $solicitud->proveedor_telefono }}</dd>
+                        <dt>Dirección</dt>
+                        <dd>{{ $solicitud->proveedor_direccion }}</dd>
+                        <dt>Correo</dt>
+                        <dd>{{ $solicitud->proveedor_correo }}</dd>
+                    </div>
+                </div>
+                @if ( $solicitud->numero )
+                <div class="row">
+                    <div class="col-12">
+                        <div class="info-box mb-3 bg-info">
+                            <span class="info-box-icon"><i class="fas fa-money-bill"></i></span>
+                        <div class="info-box-content">
+                            <span class="">Nro. {{ $solicitud->numero }}</span>
+                            <span class="">Cuenta:
+                                @if ($solicitud->tipodecuenta == 1)
+                                    Corriente
+                                @elseif ($solicitud->tipodecuenta == 2)
+                                    Ahorro
+                                @else
+                                    Tarjeta
+                                @endif
+                            </span>
+                            <span class="info-box-number"><b>Banco: </b>{{ $solicitud->banco_nombre }}</span>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </dl>
         </div>
         <div class="modal-footer">
@@ -295,7 +390,8 @@
   </div>
 @endsection
 @section('js')
-
+<script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
+<script src="{{ asset("js/solicitud/cuenta/realizarPago.js") }}"></script>
 @endsection
 @section('css')
 

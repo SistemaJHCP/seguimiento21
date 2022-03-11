@@ -237,20 +237,49 @@
         </div>
         <div class="modal-body">
             <dl>
-                <dt>Código de proveedor</dt>
-                <dd>{{ $solicitud->proveedor_codigo }}</dd>
-                <dt>Tipo de proveedor</dt>
-                <dd>{{ $solicitud->proveedor_tipo }}</dd>
-                <dt>Rif / Cédula</dt>
-                <dd>{{ $solicitud->proveedor_rif }}</dd>
-                <dt>Nombre de proveedor</dt>
-                <dd>{{ $solicitud->proveedor_nombre }}</dd>
-                <dt>Nro. de teléfono</dt>
-                <dd>{{ $solicitud->proveedor_telefono }}</dd>
-                <dt>Dirección</dt>
-                <dd>{{ $solicitud->proveedor_direccion }}</dd>
-                <dt>Correo</dt>
-                <dd>{{ $solicitud->proveedor_correo }}</dd>
+                <div class="row">
+                    <div class="col-6">
+                        <dt>Código de proveedor</dt>
+                        <dd>{{ $solicitud->proveedor_codigo }}</dd>
+                        <dt>Tipo de proveedor</dt>
+                        <dd>{{ $solicitud->proveedor_tipo }}</dd>
+                        <dt>Rif / Cédula</dt>
+                        <dd>{{ $solicitud->proveedor_rif }}</dd>
+                        <dt>Nombre de proveedor</dt>
+                        <dd>{{ $solicitud->proveedor_nombre }}</dd>
+                    </div>
+                    <div class="col-6">
+
+                        <dt>Nro. de teléfono</dt>
+                        <dd>{{ $solicitud->proveedor_telefono }}</dd>
+                        <dt>Dirección</dt>
+                        <dd>{{ $solicitud->proveedor_direccion }}</dd>
+                        <dt>Correo</dt>
+                        <dd>{{ $solicitud->proveedor_correo }}</dd>
+                    </div>
+                </div>
+                @if ( $solicitud->numero )
+                <div class="row">
+                    <div class="col-12">
+                        <div class="info-box mb-3 bg-info">
+                            <span class="info-box-icon"><i class="fas fa-money-bill"></i></span>
+                        <div class="info-box-content">
+                            <span class="">Nro. {{ $solicitud->numero }}</span>
+                            <span class="">Cuenta:
+                                @if ($solicitud->tipodecuenta == 1)
+                                    Corriente
+                                @elseif ($solicitud->tipodecuenta == 2)
+                                    Ahorro
+                                @else
+                                    Tarjeta
+                                @endif
+                            </span>
+                            <span class="info-box-number"><b>Banco: </b>{{ $solicitud->banco_nombre }}</span>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </dl>
         </div>
         <div class="modal-footer">
@@ -272,20 +301,28 @@
         </div>
         <div class="modal-body">
           <dl>
-              <dt>Código de requisición</dt>
-              <dd>{{ $solicitud->requisicion_codigo }}</dd>
-              <dt>Tipo de requisicón</dt>
-              <dd>{{ $solicitud->requisicion_tipo }}</dd>
-              <dt>Fecha de Emisión</dt>
-              <dd>{{ $solicitud->requisicion_fecha }}</dd>
-              <dt>Fecha de Entrega</dt>
-              <dd>{{ $solicitud->requisicion_fechae }}</dd>
+              <div class="row">
+                  <div class="col-6">
+                    <dt>Código de requisición</dt>
+                    <dd>{{ $solicitud->requisicion_codigo }}</dd>
+                    <dt>Tipo de requisicón</dt>
+                    <dd>{{ $solicitud->requisicion_tipo }}</dd>
+                    <dt>Fecha de Emisión</dt>
+                    <dd>{{ $solicitud->requisicion_fecha }}</dd>
+                  </div>
+                  <div class="col-6">
+                    <dt>Dirección</dt>
+                    <dd>{{ $solicitud->requisicion_direccion }}</dd>
+                    <dt>Estado</dt>
+                    <dd>{{ $solicitud->requisicion_estado }}</dd>
+                    <dt>Fecha de Entrega</dt>
+                    <dd>{{ $solicitud->requisicion_fechae }}</dd>
+                  </div>
+              </div>
+
               <dt>Motivo</dt>
               <dd>{{ $solicitud->requisicion_motivo }}</dd>
-              <dt>Dirección</dt>
-              <dd>{{ $solicitud->requisicion_direccion }}</dd>
-              <dt>Estado</dt>
-              <dd>{{ $solicitud->requisicion_estado }}</dd>
+
           </dl>
         </div>
         <div class="modal-footer">

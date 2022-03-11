@@ -16,6 +16,7 @@ use App\Models\Banco;
 use App\Models\Banco_proveedor;
 use App\Models\Solicitud_detalle;
 use App\Models\User;
+use App\Models\Cuenta;
 
 
 class SolicitudController extends Controller
@@ -232,8 +233,12 @@ class SolicitudController extends Controller
             'solicitud.solicitud_formapago AS solicitud_formapago',
             'solicitud.solicitud_iva AS solicitud_iva',
             'solicitud.solicitud_comentario AS solicitud_comentario',
+            'solicitud.solicitud_estadopago AS solicitud_estadopago',
             'users.user_name AS nombre_aprobador',
             'solicitud.usuario_id AS usuario_id',
+            'banco_proveedor.numero AS numero',
+            'banco.banco_nombre AS banco_nombre',
+            'banco_proveedor.tipodecuenta AS tipodecuenta',
             'obra.obra_codigo AS obra_codigo',
             'obra.obra_nombre AS obra_nombre',
             'obra.obra_fechainicio AS obra_fechainicio',
@@ -258,6 +263,8 @@ class SolicitudController extends Controller
         ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
         ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
         ->leftJoin('users', 'users.id', '=', 'solicitud.aprobador_id')
+        ->leftJoin('banco_proveedor', 'banco_proveedor.id', '=', 'solicitud.banco_proveedor_id')
+        ->leftJoin('banco', 'banco.id', '=', 'banco_proveedor.banco_id')
         ->where('solicitud.id', $id)
         ->where('solicitud.usuario_id', \Auth::user()->id)
         ->first();
@@ -327,7 +334,7 @@ class SolicitudController extends Controller
                 ->where('solicitud_id', $solicitud->id)->get();
 
         }
-        // dd( $solicitud );
+
         return view('sistema.solicitud.consultar')->with(
             [
                 'permisoUsuario' => $permisoUsuario[0],
@@ -933,8 +940,12 @@ class SolicitudController extends Controller
             'solicitud.solicitud_formapago AS solicitud_formapago',
             'solicitud.solicitud_iva AS solicitud_iva',
             'solicitud.solicitud_comentario AS solicitud_comentario',
+            'solicitud.solicitud_estadopago AS solicitud_estadopago',
             'users.user_name AS nombre_aprobador',
-            'solicitud.usuario_id AS usuario_id',
+            'solicitud.usuario_id AS usuario_id', //00001
+            'banco_proveedor.numero AS numero',
+            'banco.banco_nombre AS banco_nombre',
+            'banco_proveedor.tipodecuenta AS tipodecuenta',
             'obra.obra_codigo AS obra_codigo',
             'obra.obra_nombre AS obra_nombre',
             'obra.obra_fechainicio AS obra_fechainicio',
@@ -959,6 +970,8 @@ class SolicitudController extends Controller
         ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
         ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
         ->leftJoin('users', 'users.id', '=', 'solicitud.aprobador_id')
+        ->leftJoin('banco_proveedor', 'banco_proveedor.id', '=', 'solicitud.banco_proveedor_id')
+        ->leftJoin('banco', 'banco.id', '=', 'banco_proveedor.banco_id')
         ->where('solicitud.id', $id)
         ->first();
 
@@ -1025,6 +1038,40 @@ class SolicitudController extends Controller
                 ->leftJoin('nomina', 'nomina.id', '=', 'solicitud_detalle.nomina_id')
                 ->where('solicitud_id', $solicitud->id)->get();
 
+        }
+        //Dependiendo si extiste o no costo, retornara la informacion a la vista
+        dump($solicitud);
+        if ($costo) {
+
+            for ($i=0; $i < count( $costo ); $i++) {
+                $num[] = $costo[$i]->sd_preciounitario;
+            }
+
+            $total = array_sum($num);
+
+            return view('sistema.solicitud.aprobacion.consultar')->with(
+                [
+                    'permisoUsuario' => $permisoUsuario[0],
+                    'solicitud' => $solicitud,
+                    'costo' => $costo,
+                    'usuario' => $usuario,
+                    'total' => $total
+                ]
+
+            );
+
+        } else {
+
+            return view('sistema.solicitud.aprobacion.consultar')->with(
+                [
+                    'permisoUsuario' => $permisoUsuario[0],
+                    'solicitud' => $solicitud,
+                    'costo' => array(),
+                    'usuario' => $usuario,
+                    'total' => array()
+                ]
+
+            );
         }
 
         return view('sistema.solicitud.aprobacion.consultar')->with(
@@ -1204,7 +1251,7 @@ class SolicitudController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->ver_botones_solicitud != 1){
+        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->ver_compra_cuentas_x_pagar != 1 ){
             return redirect()->route("home");
         }
         //Se realiza la consulta
@@ -1218,10 +1265,13 @@ class SolicitudController extends Controller
             'solicitud.solicitud_tipo AS solicitud_tipo',
             'solicitud.solicitud_formapago AS solicitud_formapago',
             'solicitud.solicitud_iva AS solicitud_iva',
+            'solicitud.solicitud_estadopago AS solicitud_estadopago',
             'solicitud.solicitud_comentario AS solicitud_comentario',
             'users.user_name AS nombre_aprobador',
             'solicitud.usuario_id AS usuario_id',
-            // 'users.user_name AS nombre_usuario',//A001
+            'banco_proveedor.numero AS numero', //00001
+            'banco.banco_nombre AS banco_nombre',
+            'banco_proveedor.tipodecuenta AS tipodecuenta',
             'obra.obra_codigo AS obra_codigo',
             'obra.obra_nombre AS obra_nombre',
             'obra.obra_fechainicio AS obra_fechainicio',
@@ -1245,6 +1295,8 @@ class SolicitudController extends Controller
         ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
         ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
         ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
+        ->leftJoin('banco_proveedor', 'banco_proveedor.id', '=', 'solicitud.banco_proveedor_id')
+        ->leftJoin('banco', 'banco.id', '=', 'banco_proveedor.banco_id')
         // ->leftJoin('users', 'users.id', '=', 'solicitud.aprobador_id')
         ->leftJoin('users', function ($join) {
             $join->on('users.id', '=', 'solicitud.aprobador_id');
@@ -1320,6 +1372,10 @@ class SolicitudController extends Controller
 
         }
         //Si existe un costo ejecuta enviando el calculo
+        dump($solicitud);
+
+        $cuenta = Cuenta::select()->get();
+
         if ($costo) {
 
             for ($i=0; $i < count( $costo ); $i++) {
@@ -1334,7 +1390,8 @@ class SolicitudController extends Controller
                     'solicitud' => $solicitud,
                     'costo' => $costo,
                     'usuario' => $usuario,
-                    'total' => $total
+                    'total' => $total,
+                    'cuenta' => $cuenta
                 ]
             );
 
@@ -1346,7 +1403,8 @@ class SolicitudController extends Controller
                     'solicitud' => $solicitud,
                     'costo' => array(),
                     'usuario' => $usuario,
-                    'total' => array()
+                    'total' => array(),
+                    'cuenta' => $cuenta
                 ]
             );
         }
@@ -1355,7 +1413,22 @@ class SolicitudController extends Controller
     }
 
 
+    public function createCuenta(Request $request)
+    {
 
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->crear_compra_cuentas_x_pagar != 1 ){
+            return redirect()->route("home");
+        }
+
+        dd( $request->all() );
+
+
+
+
+    }
 
 
 
