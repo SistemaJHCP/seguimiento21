@@ -16,7 +16,7 @@ $(document).ready(function(){
 
     $('#cantidadSelect').numeric('.');
 
-    $('#precioUnitarioSelect').numeric('.');
+    $('#precioUnitarioSelect').numeric('-').numeric('.');
 
     $('#requisicion').select2({
         theme: 'bootstrap4'

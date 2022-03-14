@@ -31,8 +31,10 @@
                                 <dd>{{ $solicitud->solicitud_fecha }}</dd>
                                 <dt>Motivo</dt>
                                 <dd>{{ $solicitud->solicitud_motivo }}</dd>
-                                <dt>Observaciones</dt>
-                                <dd>{{ $solicitud->solicitud_observaciones }}</dd>
+                                @if (  $solicitud->solicitud_observaciones  )
+                                    <dt>Observaciones</dt>
+                                    <dd>{{ $solicitud->solicitud_observaciones }}</dd>
+                                @endif
                                 <div class="row">
                                     <div class="col-6">
                                         <dt>Estado de la solicitud</dt>
@@ -104,9 +106,19 @@
                             <!-- /.card-body -->
                           </div>
                           <!-- /.card -->
-                        @if ($solicitud->solicitud_aprobacion ==  "Aprobada" || $solicitud->solicitud_estadopago)
-                            <button type="button" data-toggle="modal" data-target="#staticBackdrop" class="btn btn-info  btn-lg btn-block"><i class="fas fa-money-bill-wave"></i> Realizar pago</button>
-
+                        @if ($solicitud->solicitud_aprobacion ==  "Aprobada" && $solicitud->solicitud_estadopago == 1)
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="button" data-toggle="modal" data-target="#staticBackdrop" class="btn btn-info  btn-lg btn-block"><i class="fas fa-money-bill-wave"></i> Realizar pago</button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-danger  btn-lg btn-block" id="question"><i class="fas fa-ban"></i> Anular solicitud</button>
+                                    <form action="{{ route('cuentas.anularCuenta') }}" method="post" name="anular">
+                                        @csrf
+                                        <input type="hidden" name="dato" value="{{ $id }}">
+                                    </form>
+                                </div>
+                            </div>
                             <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog  modal-lg">
                                   <div class="modal-content">
@@ -120,14 +132,15 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             @if ($total)
-                                            <h1 style="margin-top:20px;"><center><b>{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</b></center></h1>
+                                            <h1 style="margin-top:20px;" id="juegoColor"><center><b>{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</b></center></h1>
+
                                             <br>
                                             <h3><center>fecha: {{ $solicitud->solicitud_fecha }}</center></h3><br>
                                             @endif
 
                                         </div>
                                         <div class="col-md-7">
-                                        <form action="{{ route('cuentas.crear') }}" method="post">
+                                        <form action="{{ route('cuentas.crear') }}" method="post" name="pago">
                                             @csrf
                                             <div class="form-group">
                                                 <label>Forma de pago</label>
@@ -152,6 +165,7 @@
                                                     <option value="">Seleccione...</option>
                                                 </select>
                                                 <label>Comentarios</label>
+
                                                 <textarea name="comentario" id="comentario" maxlength="240" placeholder="Agregue un comentario" class="form-control"></textarea>
                                             </div>
 
@@ -232,7 +246,7 @@
                                     @if ($total)
                                     <tr>
                                         <th colspan="2"><b>Monto total:</b></th>
-                                        <th>{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
+                                        <th id="paralax">{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
                                     </tr>
                                     @endif
                                     </tbody>
@@ -392,6 +406,12 @@
 @section('js')
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/solicitud/cuenta/realizarPago.js") }}"></script>
+<script>
+    if ({{ number_format( $total, 2 ) }} < 0 ) {
+    $('#juegoColor').css({'color': '#dc3545'});
+    $('#paralax').css({'color': '#dc3545'});
+}
+</script>
 @endsection
 @section('css')
 

@@ -492,7 +492,7 @@ class SolicitudController extends Controller
         ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
         ->where('solicitud.usuario_id', \Auth::user()->id) //habilita el solo mostrar informacion de quien crea la solicitud
         ->orderBy('id', 'DESC')
-        ->limit(5000)
+        ->limit(10)
         ->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
@@ -1372,7 +1372,7 @@ class SolicitudController extends Controller
 
         }
         //Si existe un costo ejecuta enviando el calculo
-        dump($solicitud);
+
 
         $cuenta = Cuenta::select()->get();
 
@@ -1382,7 +1382,15 @@ class SolicitudController extends Controller
                 $num[] = $costo[$i]->sd_preciounitario;
             }
 
-            $total = array_sum($num);
+            if(isset($num)){
+                $total = array_sum($num);
+            } else {
+                $total = array();
+            }
+
+
+
+
 
             return view('sistema.solicitud.cuentas.consultar')->with(
                 [
@@ -1391,7 +1399,8 @@ class SolicitudController extends Controller
                     'costo' => $costo,
                     'usuario' => $usuario,
                     'total' => $total,
-                    'cuenta' => $cuenta
+                    'cuenta' => $cuenta,
+                    'id' => $id
                 ]
             );
 
@@ -1404,7 +1413,8 @@ class SolicitudController extends Controller
                     'costo' => array(),
                     'usuario' => $usuario,
                     'total' => array(),
-                    'cuenta' => $cuenta
+                    'cuenta' => $cuenta,
+                    'id' => $id
                 ]
             );
         }
@@ -1430,7 +1440,24 @@ class SolicitudController extends Controller
 
     }
 
+    public function anularCuenta(Request $request)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->anular_compra_cuentas_x_pagar != 1 ){
+            return redirect()->route("home");
+        }
+        //Buscamos el id asociado a la solicitud
+        $anular = Solicitud::find( $request->dato );
+        //cambiamos el estado a anulada
+        $anular->solicitud_aprobacion = "Anulada";
+        //Guardamos el cambio en la BD
+        $resp = $anular->save();
+
+        return redirect()->route('cuentas.index')->with('resp', $resp);
+
+    }
 
 
 

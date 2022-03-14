@@ -183,8 +183,9 @@
                                     @if ($total)
                                     <tr>
                                         <th colspan="2"><b>Monto total:</b></th>
-                                        <th>{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
+                                        <th id="colorTotal">{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
                                     </tr>
+
                                     @endif
                                     </tbody>
                                 </table>
@@ -403,6 +404,13 @@
 @endsection
 @section('js')
 <script src="{{ asset("js/solicitud/consulta.js") }}"></script>
+<script>
+
+if ({{ number_format( $total, 2 ) }} < 0 ) {
+    $('#colorTotal').css({'color': '#dc3545'});
+}
+
+</script>
 @endsection
 @section('css')
 

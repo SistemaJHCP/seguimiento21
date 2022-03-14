@@ -19,7 +19,6 @@ class Pago extends Migration
             $table->string('pago_formapago', 25);
             $table->string('pago_numerocomprobante', 25)->nullable()->default(NULL);
             $table->decimal('pago_monto', $precision = 20, $scale = 2)->nullable();
-            // $table->string('pago_descripcion', 25);
             $table->text('pago_descripcion');
             $table->boolean('pago_estado')->default(1);
             $table->biginteger('orden_compra_id')->nullable();

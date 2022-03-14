@@ -116,7 +116,7 @@ class CreateUsersTable extends Migration
             $table->boolean('crear_compra_cuentas_x_pagar')->default(1);
             $table->boolean('ver_compra_cuentas_x_pagar')->default(1);
             $table->boolean('ver_botones_compra_cuentas_x_pagar')->default(1);
-            $table->boolean('desactivar_compra_cuentas_x_pagar')->default(1);
+            $table->boolean('anular_compra_cuentas_x_pagar')->default(1);
             $table->boolean('reactivar_compra_cuentas_x_pagar')->default(1);
             $table->boolean('conciliacion')->default(1);
             $table->boolean('crear_conciliacion')->default(1);
