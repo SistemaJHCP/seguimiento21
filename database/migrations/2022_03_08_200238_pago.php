@@ -25,6 +25,7 @@ class Pago extends Migration
             $table->biginteger('solicitud_id');
             $table->biginteger('cuenta_id')->nullable();
             $table->biginteger('cheque_id')->nullable();
+            $table->timestamps();
         });
     }
 

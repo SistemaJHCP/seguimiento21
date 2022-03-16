@@ -106,6 +106,70 @@
                             <!-- /.card-body -->
                           </div>
                           <!-- /.card -->
+                        @if($solicitud->solicitud_estadopago == 0)
+                        <button type="button" data-toggle="modal" data-target="#pagoMuestra" class="btn btn-info  btn-lg btn-block"><i class="fas fa-money-bill-wave"></i> Consultar el pago</button>
+
+                        <div class="modal fade" id="pagoMuestra" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="pagoMuestraLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header bg-info">
+                                  <h5 class="modal-title" id="pagoMuestraLabel">Consulta del pago</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <dt>Fecha de pago:</dt>
+                                            <dd>{{ $solicitud->pago_fecha }}</dd>
+                                            <dt>Forma de pago:</dt>
+                                            <dd>{{ $solicitud->pago_formapago }}</dd>
+                                            @if ( $solicitud->pago_numerocomprobante )
+                                            <dt>Número de comprobante:</dt>
+                                            <dd>{{ $solicitud->pago_numerocomprobante }}</dd>
+                                            @endif
+                                            @if ( $solicitud->pago_descripcion )
+                                            <dt>Descripcion:</dt>
+                                            <dd>{{ $solicitud->pago_descripcion }}</dd>
+                                            @endif
+                                        </div>
+                                        <div class="col-6">
+                                            <dt style="margin-top:26%;">Monto de pago:</dt>
+                                            <dd style="font-size: 28px">{{ number_format( $solicitud->pago_monto, 2 ) }} {{ $costo[0]->moneda }}</dd>
+                                        </div>
+                                    </div>
+                                    @if ($cuenta)
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="info-box mb-12 bg-info">
+                                                <span class="info-box-icon"><i class="fas fa-money-bill-wave"></i></span>
+
+                                                <div class="info-box-content">
+                                                    <div class="info-box-content">
+                                                        <span class="">Nro. {{ $cuenta->cuenta_numero }}</span>
+                                                        <span class="">Cuenta:
+                                                            {{ $cuenta->cuenta_tipo }}
+                                                        </span>
+                                                        <span class="info-box-number"><b>Banco: </b>{{ $cuenta->banco_nombre }}</span>
+                                                    </div>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                              </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+
+
+                        @endif
+
                         @if ($solicitud->solicitud_aprobacion ==  "Aprobada" && $solicitud->solicitud_estadopago == 1)
                             <div class="row">
                                 <div class="col-6">
@@ -152,10 +216,10 @@
                                                     <option value="Efectivo">Efectivo</option>
                                                 </select>
                                                 <label>Cuentas de JHCP</label>
-                                                <select name="cuentaJHCP" id="cuentaJHCP" class="form-control" required>
+                                                <select name="cuentaJHCP" id="cuentaJHCP" class="form-control" disabled>
                                                     <option value="">Seleccione...</option>
-                                                    @foreach ($cuenta as $cuentas)
-                                                    <option value="{{ $cuentas->cuenta_numero }}">{{ $cuentas->cuenta_numero }}</option>
+                                                    @foreach ($cuentaJHCP as $cu)
+                                                    <option value="{{$cu->id }}">{{$cu->cuenta_numero }}</option>
                                                     @endforeach
                                                 </select>
                                                 <label>Comprobante</label>
@@ -165,18 +229,18 @@
                                                     <option value="">Seleccione...</option>
                                                 </select>
                                                 <label>Comentarios</label>
-
                                                 <textarea name="comentario" id="comentario" maxlength="240" placeholder="Agregue un comentario" class="form-control"></textarea>
                                             </div>
 
                                         </div>
                                     </div>
                                     </div>
+                                    <input type="hidden" name="dato" value="{{ $solicitud->id }}">
                                     <input type="hidden" name="solicitud" value="{{ $solicitud->solicitud_numerocontrol }}">
-                                    <input type="hidden" name="montoTotal" value="{{ number_format( $total, 2 ) }}">
+                                    <input type="hidden" name="montoTotal" value="{{  $total }}">
                                     <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
-                                      <input type="submit" value="Realizar pago" class="btn btn-info">
+                                      <input type="submit" value="Realizar pago" id="procesarPago" class="btn btn-info">
                                     </div>
                                     </form>
                                   </div>
@@ -226,12 +290,13 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered table-responsive">
                                     <thead>
                                       <tr>
                                         <th class="bg-info">Cantidad</th>
                                         <th class="bg-info">Nombre</th>
-                                        <th class="bg-info">Precio</th>
+                                        <th class="bg-info">Precio unitario</th>
+                                        <th class="bg-info">Monto total</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -240,13 +305,15 @@
                                         <tr>
                                             <td>{{ $c->sd_cantidad }}</td>
                                             <td>{{ $c->nombre }}</td>
-                                            <td>{{ $c->sd_preciounitario }} {{ $c->moneda }}</td>
+                                            <td style="text-align:right;">{{ $c->sd_preciounitario }} {{ $c->moneda }}</td>
+                                            <?php $to = $c->sd_preciounitario * $c->sd_cantidad;  ?>
+                                            <td style="text-align:right;">{{ $to }} {{ $c->moneda }}</td>
                                         </tr>
                                     @endforeach
                                     @if ($total)
                                     <tr>
-                                        <th colspan="2"><b>Monto total:</b></th>
-                                        <th id="paralax">{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
+                                        <th colspan="3"><b>Monto total:</b></th>
+                                        <th id="paralax" style="text-align:right;">{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
                                     </tr>
                                     @endif
                                     </tbody>
@@ -406,12 +473,14 @@
 @section('js')
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/solicitud/cuenta/realizarPago.js") }}"></script>
+@if ($total)
 <script>
     if ({{ number_format( $total, 2 ) }} < 0 ) {
     $('#juegoColor').css({'color': '#dc3545'});
     $('#paralax').css({'color': '#dc3545'});
 }
 </script>
+@endif
 @endsection
 @section('css')
 

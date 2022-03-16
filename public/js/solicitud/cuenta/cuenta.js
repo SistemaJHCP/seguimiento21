@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    cargarListado("cuentas/solicitud-de-pago/" + 1);
+    cargarListado("cuentas/solicitud-de-pago/" + 3);
 
 
     function cargarListado(url){
@@ -8,6 +8,7 @@ $(document).ready(function(){
         $('#listaCuenta').DataTable({
             serverSide: false,
             processing: true,
+            deferRender: true,
             ajax: url,
             columns: [
                 {data: 'solicitud_numerocontrol'},

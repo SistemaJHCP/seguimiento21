@@ -9,9 +9,10 @@ $(document).ready(function(){
         $('#comprobante').val("");
         $('#cheque').val("");
         $('#comentario').val("");
+        $('#cuentaJHCP').attr('disabled', true);
     }
 
-    $('.close, #cerrar').on('click', function(){
+    $('.close').on('click', function(){
         limpiar();
     });
 
@@ -33,6 +34,25 @@ $(document).ready(function(){
 
             }
           })
+    });
+
+
+    $("#procesarPago").click(function(){
+        $("form").on("submit", function () {
+            $("#procesarPago").attr("value", "Guardando, espere...");
+            $("#procesarPago").prop("disabled", true);
+        });
+    });
+
+    $('#forma_pago').on('change', function(){
+        if($('#forma_pago').val() == "Transferencia" || $('#forma_pago').val() == "Deposito"){
+            $('#cuentaJHCP').attr('disabled', false);
+            $('#cuentaJHCP').attr('required', true);
+        } else {
+            $('#cuentaJHCP').attr('disabled', true);
+            $('#cuentaJHCP').attr('required', false);
+            $('#cuentaJHCP').val('');
+        }
     });
 
 

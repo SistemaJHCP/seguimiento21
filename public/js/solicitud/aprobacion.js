@@ -8,7 +8,7 @@ $(document).ready(function(){
             {data: 'solicitud_numerocontrol'},
             {data: 'fecha'},
             {data: 'solicitud_motivo'},
-            {data: 'solicitud_aprobacion'},
+            {data: 'aproRepro'},
             {data: 'nombre'},
             {data: 'btn'}
         ],
@@ -34,7 +34,8 @@ $(document).ready(function(){
             "processing" : "procesando."
         },
         "columnDefs": [
-            { "width": "7%", "targets": 5 }
+            { "width": "7%", "targets": 5 },
+            { "width": "10%", "targets": 3 }
           ],
     });
 

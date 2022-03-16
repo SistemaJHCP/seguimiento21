@@ -195,10 +195,10 @@ Route::middleware('auth')->prefix('solicitud/cuentas')->group(function () {
     Route::get("consultar/76yuijshy787sysj{id}iusy8s9uygshji7s",[App\Http\Controllers\SolicitudController::class, 'showCuenta'])->name('cuentas.consultar');
     Route::post("guardar-cuenta",[App\Http\Controllers\SolicitudController::class, 'createCuenta'])->name('cuentas.crear');
     Route::post("anular-cuenta",[App\Http\Controllers\SolicitudController::class, 'anularCuenta'])->name('cuentas.anularCuenta');
-
-
 });
 
-
+Route::middleware('auth')->prefix('conciliacion')->group(function () {
+    Route::get("/",[App\Http\Controllers\ConciliacionController::class, 'index'])->name('conciliacion.index');
+});
 
 Auth::routes();

@@ -104,7 +104,7 @@
     @if (Session::has('respNega'))
     <script>
         Swal.fire(
-        'Sulicitud procesada!',
+        'Solicitud procesada!',
         'Se ha rechazado la solicitud de manera exitosa!',
         'warning'
         )
@@ -120,7 +120,36 @@
     @endif
 @endif
 
-
+@if (Session::has('respPago'))
+    @if (Session::has('respPago'))
+        <script>
+            Swal.fire(
+            'Solicitud procesada!',
+            'Se ha registrado el pago de esta solicitud!',
+            'success'
+            )
+        </script>
+    @else
+        <script>
+            Swal.fire(
+            'Hubo un error!',
+            'no se pudo registrar el pago de esta solicitud!',
+            'error'
+            )
+        </script>
+    @endif
+@endif
+@if (Session::has('respPagoAnulado'))
+    @if (Session::has('respPagoAnulado'))
+    <script>
+        Swal.fire(
+        'Solicitud procesada!',
+        'Se ha anulado la solicitud',
+        'warning'
+        )
+    </script>
+    @endif
+@endif
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}">

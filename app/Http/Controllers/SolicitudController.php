@@ -13,6 +13,7 @@ use App\Models\Servicio;
 use App\Models\Nomina;
 use App\Models\Viatico;
 use App\Models\Banco;
+use App\Models\Pago;
 use App\Models\Banco_proveedor;
 use App\Models\Solicitud_detalle;
 use App\Models\User;
@@ -492,7 +493,7 @@ class SolicitudController extends Controller
         ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
         ->where('solicitud.usuario_id', \Auth::user()->id) //habilita el solo mostrar informacion de quien crea la solicitud
         ->orderBy('id', 'DESC')
-        ->limit(10)
+        ->limit(5000)
         ->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
@@ -903,17 +904,19 @@ class SolicitudController extends Controller
         )
         ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
         ->orderBy('id', 'DESC')
-        ->limit(5000)
+        ->limit(1000)
         ->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->solicitud_pago == 1 && $permisoUsuario[0]->ver_solicitud_pago == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.solicitud.aprobacion.btnConsultarAprobacion')
-            ->rawColumns(['btn'])->toJson();
+            ->addColumn('aproRepro','sistema.solicitud.aprobacion.btnAproRepro')
+            ->rawColumns(['btn', 'aproRepro'])->toJson();
         } else {
             return datatables()->of($query)
             ->addColumn('btn','sistema.btnNull')
+            ->addColumn('aproRepro','sistema.solicitud.aprobacion.btnAproRepro')
             ->rawColumns(['btn'])->toJson();
         }
     }
@@ -1040,15 +1043,15 @@ class SolicitudController extends Controller
 
         }
         //Dependiendo si extiste o no costo, retornara la informacion a la vista
-        dump($solicitud);
+
         if ($costo) {
-
+            //Sumamos los costos
             for ($i=0; $i < count( $costo ); $i++) {
-                $num[] = $costo[$i]->sd_preciounitario;
+                $num[] = $costo[$i]->sd_preciounitario * $costo[$i]->sd_cantidad;
             }
-
+            //Suma los montos dentro de un array
             $total = array_sum($num);
-
+            //enviamos toda la informacion a la vista
             return view('sistema.solicitud.aprobacion.consultar')->with(
                 [
                     'permisoUsuario' => $permisoUsuario[0],
@@ -1181,7 +1184,7 @@ class SolicitudController extends Controller
             ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
             // ->where('solicitud.solicitud_tipo', $id)
             ->orderBy('id', 'DESC')
-            ->limit(5000)
+            // ->limit(5000) //Sin limites, es decir, podra ver absolutamente todas las solicitudes
             ->get();
 
         } else {
@@ -1226,7 +1229,7 @@ class SolicitudController extends Controller
             ->where('solicitud.solicitud_aprobacion', $valor)
             ->where('solicitud.solicitud_estadopago', $estadoPago)
             ->orderBy('id', 'DESC')
-            ->limit(5000)
+            ->limit(1000)
             ->get();
 
         }
@@ -1269,7 +1272,7 @@ class SolicitudController extends Controller
             'solicitud.solicitud_comentario AS solicitud_comentario',
             'users.user_name AS nombre_aprobador',
             'solicitud.usuario_id AS usuario_id',
-            'banco_proveedor.numero AS numero', //00001
+            'banco_proveedor.numero AS numero',
             'banco.banco_nombre AS banco_nombre',
             'banco_proveedor.tipodecuenta AS tipodecuenta',
             'obra.obra_codigo AS obra_codigo',
@@ -1290,13 +1293,20 @@ class SolicitudController extends Controller
             'requisicion.requisicion_fechae AS requisicion_fechae',
             'requisicion.requisicion_motivo AS requisicion_motivo',
             'requisicion.requisicion_direccion AS requisicion_direccion',
-            'requisicion.requisicion_estado AS requisicion_estado'
+            'requisicion.requisicion_estado AS requisicion_estado',
+            'pago.pago_fecha AS pago_fecha',
+            'pago.pago_formapago AS pago_formapago',
+            'pago.pago_numerocomprobante AS pago_numerocomprobante',
+            'pago.pago_monto AS pago_monto',
+            'pago.pago_descripcion AS pago_descripcion',
+            'pago.cuenta_id AS cuenta_id'
         )
         ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
         ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
         ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
         ->leftJoin('banco_proveedor', 'banco_proveedor.id', '=', 'solicitud.banco_proveedor_id')
         ->leftJoin('banco', 'banco.id', '=', 'banco_proveedor.banco_id')
+        ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
         // ->leftJoin('users', 'users.id', '=', 'solicitud.aprobador_id')
         ->leftJoin('users', function ($join) {
             $join->on('users.id', '=', 'solicitud.aprobador_id');
@@ -1373,13 +1383,21 @@ class SolicitudController extends Controller
         }
         //Si existe un costo ejecuta enviando el calculo
 
+        $cuentaJHCP = Cuenta::select()->get();
 
-        $cuenta = Cuenta::select()->get();
+        $cuenta = Cuenta::select(
+            'cuenta.cuenta_tipo AS cuenta_tipo',
+            'cuenta.cuenta_numero AS cuenta_numero',
+            'banco.banco_nombre AS banco_nombre'
+        )
+        ->leftJoin('banco', 'banco.id', '=', 'cuenta.banco_id')
+        ->where('cuenta.id', $solicitud->cuenta_id)
+        ->first();
 
         if ($costo) {
 
             for ($i=0; $i < count( $costo ); $i++) {
-                $num[] = $costo[$i]->sd_preciounitario;
+                $num[] = $costo[$i]->sd_preciounitario * $costo[$i]->sd_cantidad;
             }
 
             if(isset($num)){
@@ -1388,9 +1406,9 @@ class SolicitudController extends Controller
                 $total = array();
             }
 
-
-
-
+        // if($cuentaJHCP == NULL){
+        //     $cuentaJHCP = array();
+        // }
 
             return view('sistema.solicitud.cuentas.consultar')->with(
                 [
@@ -1400,6 +1418,7 @@ class SolicitudController extends Controller
                     'usuario' => $usuario,
                     'total' => $total,
                     'cuenta' => $cuenta,
+                    'cuentaJHCP' => $cuentaJHCP,
                     'id' => $id
                 ]
             );
@@ -1413,7 +1432,8 @@ class SolicitudController extends Controller
                     'costo' => array(),
                     'usuario' => $usuario,
                     'total' => array(),
-                    'cuenta' => $cuenta,
+                    'cuenta' => array(),
+                    'cuentaJHCP' => $cuentaJHCP,
                     'id' => $id
                 ]
             );
@@ -1433,10 +1453,35 @@ class SolicitudController extends Controller
             return redirect()->route("home");
         }
 
-        dd( $request->all() );
+        //Instanciamos la clase de Pago
+        $pago = new Pago();
+        //Agregamos los valores en los campos instanciados
+        $pago->pago_fecha  = date('Y-m-d');
+        $pago->pago_formapago  = $request->forma_pago;
+        $pago->pago_numerocomprobante = $request->comprobante;
+        $pago->pago_monto = $request->montoTotal;
+        $pago->pago_descripcion = $request->comentario;
+        $pago->orden_compra_id = null;
+        $pago->solicitud_id = $request->dato;
+        $pago->cuenta_id = $request->cuentaJHCP;
+        $pago->cheque_id = null;
+        //Guardamos esta informacion en la BD
+        $resp1 = $pago->save();
+        //Si se guarda, realiza la modificacion de "No pagado" a "Pagado"
+        if($resp1){
+            //Buscamos el ID de la solicitud para cambiar el estado
+            $solicitud = Solicitud::find( $request->dato );
+            //Realizamos el cambio de no pagado a pagado
+            $solicitud->solicitud_estadopago = 0;
+            //Guardamos este cambio
+            $resp = $solicitud->save();
 
-
-
+            //Retornamos a la vista principal
+            return redirect()->route('cuentas.index')->with('respPago', $resp);
+        } else {
+            //Solo retornar a la vista con el mensaje del error
+            return redirect()->route('cuentas.index')->with('respPago', $resp1);
+        }
 
     }
 
