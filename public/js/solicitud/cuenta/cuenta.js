@@ -15,7 +15,7 @@ $(document).ready(function(){
                 {data: 'fecha'},
                 {data: 'obra_nombre'},
                 {data: 'solicitud_motivo'},
-                {data: 'solicitud_aprobacion'},
+                {data: 'apro'},
                 {data: 'pago'},
                 {data: 'nombre'},
                 {data: 'btn'}
@@ -45,7 +45,9 @@ $(document).ready(function(){
                 "processing" : "procesando."
             },
             "columnDefs": [
-                { "width": "6%", "targets": 7 }
+                { "width": "6%", "targets": 7 },
+                { "width": "10%", "targets": 4 },
+                { "width": "8%", "targets": 5 }
               ],
         });
 

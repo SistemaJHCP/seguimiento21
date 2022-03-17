@@ -122,7 +122,7 @@ class CreateUsersTable extends Migration
             $table->boolean('crear_conciliacion')->default(1);
             $table->boolean('modificar_conciliacion')->default(1);
             $table->boolean('ver_botones_conciliacion')->default(1);
-            $table->boolean('desactivar_conciliacion')->default(1);
+            $table->boolean('imprimir_conciliacion')->default(1);
             $table->boolean('reactivar_conciliacion')->default(1);
             $table->timestamps();
         });

@@ -187,7 +187,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <?php
         if ($permisoUsuario->conciliacion == 1){
     ?>
-        <li><a href="#" class="dropdown-item">Conciliación</a></li>
+        <li><a href="{{ route('conciliacion.index') }}" class="dropdown-item">Conciliación</a></li>
     <?php
         }
     ?>

@@ -12,7 +12,7 @@ use App\Models\Material;
 use App\Models\Servicio;
 use App\Models\Nomina;
 use App\Models\Viatico;
-use App\Models\Banco;
+// use App\Models\Banco;
 use App\Models\Pago;
 use App\Models\Banco_proveedor;
 use App\Models\Solicitud_detalle;
@@ -1237,14 +1237,16 @@ class SolicitudController extends Controller
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->solicitud_pago == 1 && $permisoUsuario[0]->ver_solicitud_pago == 1) {
             return datatables()->of($query)
+            ->addColumn('apro','sistema.solicitud.cuentas.btnAproRepro')
             ->addColumn('btn','sistema.solicitud.cuentas.btnCuenta')
             ->addColumn('pago','sistema.solicitud.cuentas.btnPago')
-            ->rawColumns(['btn'])->toJson();
+            ->rawColumns(['btn','apro','pago'])->toJson();
         } else {
             return datatables()->of($query)
             ->addColumn('btn','sistema.btnNull')
+            ->addColumn('apro','sistema.solicitud.cuentas.btnAproRepro')
             ->addColumn('pago','sistema.solicitud.cuentas.btnPago')
-            ->rawColumns(['btn'])->toJson();
+            ->rawColumns(['btn','apro','pago'])->toJson();
         }
     }
 
@@ -1503,7 +1505,6 @@ class SolicitudController extends Controller
         return redirect()->route('cuentas.index')->with('resp', $resp);
 
     }
-
 
 
 

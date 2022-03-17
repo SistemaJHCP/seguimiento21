@@ -199,6 +199,10 @@ Route::middleware('auth')->prefix('solicitud/cuentas')->group(function () {
 
 Route::middleware('auth')->prefix('conciliacion')->group(function () {
     Route::get("/",[App\Http\Controllers\ConciliacionController::class, 'index'])->name('conciliacion.index');
+    Route::get("imprimir-conciliacion",[App\Http\Controllers\ConciliacionController::class, 'imprimirConciliacion'])->name('conciliacion.imprimir');
 });
 
+
+
 Auth::routes();
+
