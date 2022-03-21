@@ -15,7 +15,7 @@
         <div class="card card-info card-outline">
 
             <div class="card-body">
-                <form action="" method="post">
+                <form action="{{ route('conciliacion.imprimir') }}" method="post">
                 @csrf
                     <div class="form-group">
                         {{-- <label>Filtrado fecha por intervalo *</label>
@@ -26,14 +26,14 @@
                         </select> --}}
                         <label>Fecha inicial</label>
                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" id="inicial" data-target="#reservationdate"/>
+                            <input type="text" name="inicial" class="form-control datetimepicker-input" placeholder="Ingrese la fecha inicial" id="inicial" data-target="#reservationdate" readonly/>
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
                         </div>
                         <label>Fecha final</label>
                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" id="final" data-target="#reservationdate"/>
+                            <input type="text" name="final" class="form-control datetimepicker-input" placeholder="Ingrese la fecha final" id="final" data-target="#reservationdate" readonly/>
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -60,7 +60,9 @@
         </div>
     </div>
     <div class="col-md-8">
-
+        <div class="img-fluid">
+            <img src="{{ url('imagen/foto1.jpg') }}" class="img-fluid">
+        </div>
     </div>
 </div>
 {{-- <a href="{{ route('conciliacion.imprimir') }}">Imprimir XLSX</a> --}}

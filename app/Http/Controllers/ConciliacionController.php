@@ -124,9 +124,9 @@ class ConciliacionController extends Controller
         //
     }
 
-    public function imprimirConciliacion()
+    public function imprimirConciliacion(Request $request)
     {
-        return Excel::download(new ConciliacionExport, 'nombe-de-excel.xlsx');
+        return Excel::download(new ConciliacionExport( $request ), 'nombre-de-excel.xlsx');
     }
 
 
