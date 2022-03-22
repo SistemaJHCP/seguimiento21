@@ -26,14 +26,14 @@
                         </select> --}}
                         <label>Fecha inicial</label>
                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" name="inicial" class="form-control datetimepicker-input" placeholder="Ingrese la fecha inicial" id="inicial" data-target="#reservationdate"/>
+                            <input type="text" name="inicial" class="form-control datetimepicker-input" placeholder="Ingrese la fecha inicial" id="inicial" data-target="#reservationdate1"/>
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
                         </div>
                         <label>Fecha final</label>
                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" name="final" class="form-control datetimepicker-input" placeholder="Ingrese la fecha final" id="final" data-target="#reservationdate"/>
+                            <input type="text" name="final" class="form-control datetimepicker-input" placeholder="Ingrese la fecha final" id="final" data-target="#reservationdate2"/>
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>

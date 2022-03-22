@@ -18,7 +18,7 @@
         <tr>
             <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Código de solicitud</th>
             <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Fecha</th>
-            <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Motivo</th>
+            <th style="background: #1798ac; color:white;text-align:center;width:60px;border: 1px solid white">Motivo</th>
             <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Obra relacionada</th>
             <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Cantidad</th>
             <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Precio unitario</th>
@@ -31,7 +31,7 @@
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Tipo de transacción</th>
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Nro de comprobante</th>
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Banco</th>
-            <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Descripción</th>
+            <th style="background: #0a6574; color:white;text-align:center;width:40px;border: 1px solid white">Descripción</th>
         </tr>
     </thead>
     <tbody>

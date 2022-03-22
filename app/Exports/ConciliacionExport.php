@@ -7,7 +7,7 @@ namespace App\Exports;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -27,7 +27,7 @@ use App\Models\Solicitud_detalle;
 use App\Models\User;
 use App\Models\Cuenta;
 
-class ConciliacionExport implements  FromView
+class ConciliacionExport implements  FromView, WithTitle
 // class ConciliacionExport implements FromQuery
 {
 
@@ -41,7 +41,10 @@ class ConciliacionExport implements  FromView
 
     }
 
-
+    public function title(): string
+    {
+        return 'Control de gasto';
+    }
 
 
     public function view(): View

@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    limpiar();
+
     $("#inicial").datepicker({
         dateFormat: "yy-mm-dd",
         closeText: 'Cerrar',
@@ -32,6 +34,12 @@ $(document).ready(function(){
         theme: 'bootstrap4'
     });
 
-
+    function limpiar(){
+        $('#filtrado').val("");
+        $('#inicial').val("");
+        $('#final').val("");
+        $('#obra').val("");
+        $('#estado').val("");
+    }
 
 });
