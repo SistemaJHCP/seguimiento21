@@ -26,20 +26,20 @@
                         </select> --}}
                         <label>Fecha inicial</label>
                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" name="inicial" class="form-control datetimepicker-input" placeholder="Ingrese la fecha inicial" id="inicial" data-target="#reservationdate" readonly/>
+                            <input type="text" name="inicial" class="form-control datetimepicker-input" placeholder="Ingrese la fecha inicial" id="inicial" data-target="#reservationdate"/>
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
                         </div>
                         <label>Fecha final</label>
                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" name="final" class="form-control datetimepicker-input" placeholder="Ingrese la fecha final" id="final" data-target="#reservationdate" readonly/>
+                            <input type="text" name="final" class="form-control datetimepicker-input" placeholder="Ingrese la fecha final" id="final" data-target="#reservationdate"/>
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
                         </div>
                         <label>Obra</label>
-                        <select name="obra" id="obra" class="form-control" required>
+                        <select name="obra" id="obra" class="form-control">
                             <option value="">Seleccione</option>
                             @foreach ($obra as $o)
                             <option value="{{ $o->id }}">{{ $o->obra_codigo }} | {{ $o->obra_nombre }}</option>
@@ -48,8 +48,8 @@
                         <label>Estado de la solicitud</label>
                         <select name="estado" id="estado" class="form-control" required>
                             <option value="">Seleccione</option>
-                            <option value="pagada">Pagada</option>
-                            <option value="no pagada">No pagada</option>
+                            <option value="0">Pagada</option>
+                            <option value="1">No pagada</option>
                         </select>
                     </div>
                     <div class="form-group">

@@ -16,7 +16,7 @@ class Solicitud extends Migration
         Schema::create('solicitud', function (Blueprint $table) {
             $table->id();
             $table->string('solicitud_numerocontrol', 25)->nullable()->default(NULL);
-            $table->date('solicitud_fecha');
+            $table->string('solicitud_fecha', 30);
             $table->integer('solicitud_tipo');
             $table->integer('solicitud_tiposolicitud');
             $table->integer('solicitud_iva');
