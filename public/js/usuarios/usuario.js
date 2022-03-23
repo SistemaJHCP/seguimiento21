@@ -152,6 +152,7 @@ $(document).ready(function(){
         $("#nameUser2").val("");
         $("#complete_name2").val("");
         $("#email2").val("");
+        $("#sexo2").val("");
         $("#password22").val("");
         $("#levelAccess2").val("").attr("selected", "selected");
 
@@ -171,6 +172,7 @@ $(document).ready(function(){
             $("#guia").val(comp[0].id);
             $("#nameUser2").val(comp[0].user_login);
             $("#complete_name2").val(comp[0].user_name);
+            $("#sexo2").val(comp[0].sexo);
             $("#email2").val(comp[0].email);
             $("#password22").val("");
             $("#levelAccess2").val(comp[0].permiso_id).attr("selected", "selected");

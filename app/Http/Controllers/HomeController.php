@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Permiso;
+use App\Models\Solicitud;
 
 class HomeController extends Controller
 {
@@ -33,8 +34,21 @@ class HomeController extends Controller
      */
     public function index()
     {
+        //Consultamos las ultimas 15 solicitudes activas
+        $solicitud = Solicitud::select(
+            "solicitud.solicitud_numerocontrol AS numerocontrol",
+            "solicitud.solicitud_aprobacion AS aprobacion",
+            "solicitud.solicitud_fecha AS fecha",
+            "requisicion.requisicion_codigo"
+        )
+        ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
+        ->limit(15)
+        ->orderBy('solicitud_fecha', 'DESC')
+        ->get();
+        //validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
-        return view('sistema.home')->with('permisoUsuario', $permisoUsuario[0]);
+        //Retrnamos a la vista toda la informacion
+        return view('sistema.home')->with('permisoUsuario', $permisoUsuario[0])->with('solicitud', $solicitud);
     }
 
 

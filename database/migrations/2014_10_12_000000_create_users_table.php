@@ -135,6 +135,7 @@ class CreateUsersTable extends Migration
             $table->string('user_login', 60);
             $table->string('user_name', 60);
             $table->string('email', 100)->unique();
+            $table->enum('sexo', ['m', 'f'])->default('m');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 70);
             $table->unsignedBigInteger('permiso_id')->nullable();

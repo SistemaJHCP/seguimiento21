@@ -62,6 +62,7 @@ class UsuarioController extends Controller
             'nameUser' => 'required|max:50',
             'complete_name' => 'required|max:50',
             'email' => 'required|email|max:50|unique:users',
+            'sexo' => 'required',
             'password' => 'required|max:50',
             'levelAccess' => 'required'
         ]);
@@ -73,6 +74,7 @@ class UsuarioController extends Controller
         $user->user_login = strtolower($request['nameUser']);
         $user->user_name = strtolower($request['complete_name']);
         $user->email = strtolower($request['email']);
+        $user->sexo = strtolower($request['sexo']);
         $user->password = bcrypt($request['password']);
         $user->permiso_id = $request['levelAccess'];
 
@@ -111,6 +113,7 @@ class UsuarioController extends Controller
             'nameUser' => 'required|max:50',
             'complete_name' => 'required|max:50',
             'password' => 'required|max:50',
+            'sexo' => 'required',
             'levelAccess' => 'required'
         ]);
 
@@ -121,6 +124,7 @@ class UsuarioController extends Controller
         $user->user_login = strtolower($request['nameUser']);
         $user->user_name = strtolower($request['complete_name']);
         $user->password = bcrypt($request['password']);
+        $user->sexo = strtolower($request['sexo']);
         $user->permiso_id = $request['levelAccess'];
 
         //Se guardan

@@ -94,6 +94,13 @@
                       <label for="">Ingrese su correo empresarial</label>
                       <input type="text" name="email" id="email" class="form-control" placeholder="minimo 6 caracteres, máximo 50" maxlength="50"  autocomplete="off" required>
 
+                      <label for="">Ingrese su género</label>
+                      <select name="sexo" id="sexo" class="form-control" required>
+                          <option value="">Seleccione...</option>
+                          <option value="m">Masculino</option>
+                          <option value="f">Femenino</option>
+                      </select>
+
                       <label for="">Ingrese su contraseña</label>
                       <input type="password" name="password" id="password" class="form-control" placeholder="minimo 6 caracteres, máximo 50" maxlength="30"  autocomplete="off" required>
 
@@ -140,6 +147,13 @@
 
                       <label for="">Ingrese su correo empresarial</label>
                       <input type="text" name="email" id="email2" class="form-control" disabled placeholder="minimo 6 caracteres, máximo 50" maxlength="50"  autocomplete="off" required>
+
+                      <label for="">Ingrese su género</label>
+                      <select name="sexo" id="sexo2" class="form-control" required>
+                          <option value="">Seleccione...</option>
+                          <option value="m">Masculino</option>
+                          <option value="f">Femenino</option>
+                      </select>
 
                       <label for="">Ingrese su contraseña</label>
                       <input type="password" name="password" id="password22" class="form-control" placeholder="minimo 6 caracteres, máximo 50" maxlength="30"  autocomplete="off" required>
@@ -224,7 +238,7 @@
             )
         </script>
     @endif
-    
+
 @endsection
 
 
