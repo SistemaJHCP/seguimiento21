@@ -66,7 +66,7 @@
 
 @endsection
 @if (Session::has('cliente'))
-{{ Session::has('cliente') }}
+
     @if (Session::has('cliente') == 1)
     <script>
         Swal.fire(

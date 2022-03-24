@@ -250,5 +250,9 @@ class ClienteController extends Controller
         return response()->json($cliente);
     }
 
+    public function reactivar()
+    {
+        return "Ya esta";
+    }
 
 }

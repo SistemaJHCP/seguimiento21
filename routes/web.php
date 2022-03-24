@@ -43,6 +43,7 @@ Route::middleware('auth')->prefix('cliente')->group(function () {
     Route::get("modificar/09786tyfhghi897t6r75e64srtdtyguipoknjbyuftdyrserz34xcuy4gh{id}o8i", [App\Http\Controllers\ClienteController::class, 'edit'])->name("cliente.modificar");
     Route::post("modificar-cliente/h8csscuhc89dct79guyscbjocsbictf67asce4axe543dcdracgvawd89awdtg789aw{id}dvyawd", [App\Http\Controllers\ClienteController::class, 'update'])->name("cliente.modificando");
     Route::post("deshabilitando/{id}", [App\Http\Controllers\ClienteController::class, 'jq_deshabilitar']);
+    Route::get("", [App\Http\Controllers\ClienteController::class, 'reactivar'])->name('cliente.reactivar');
     //Route::post("", [App\Http\Controllers\CodventasController::class, 'js_listaClientes'])->name();
 });
 

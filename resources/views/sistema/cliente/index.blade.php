@@ -26,7 +26,7 @@
     <!-- /.info-box-content -->
     </div>
 
-    <a href="#2">
+    <a href="{{ route('') }}">
         <div class="info-box">
             <span class="info-box-icon bg-info elevation-1"><i class="far fa-check-circle"></i></span>
 
