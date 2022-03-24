@@ -50,8 +50,8 @@
                         <input type="text" name="correo" value="{{ $cliente->cliente_correo }}" id="correo" class="form-control" onkeyup="key();" minlength="7" maxlength="40" placeholder="Correo para contactar al cliente" required autocomplete="off">
                     </div>
                     <div class="form-group">
-                      <input type="submit" value="Modificar" id="modificandoCli" class="btn btn-info float-right">
-                      <a  class="btn btn-info" href="{{ route('cliente.index') }}">Regresar</a>
+                      <button type="submit"  id="modificandoCli" class="btn btn-info float-right"><i class="fas fa-edit"></i> Modificar</button>
+                      <a  class="btn btn-info" href="{{ route('cliente.index') }}"><i class="fas fa-arrow-left"></i> Regresar</a>
                     </div>
                 </div>
           </div>

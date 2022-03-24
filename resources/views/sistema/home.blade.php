@@ -18,16 +18,18 @@
             <div class="row no-gutters">
               <div class="col-md-4">
                 @if (\Auth::user()->sexo == 'm')
+                    <?php !$mensaje = "o";?>
                     <center><img src="{{ url('imagen/users.png') }}" class="img-responsive" width="170" height="156" style="padding: 10px; text-align:center;" ></center>
                 @else
+                    <?php !$mensaje = "a";?>
                     <center><img src="{{ url('imagen/users2.png') }}" class="img-responsive" width="170" height="156" style="padding: 10px; text-align:center;" ></center>
                 @endif
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title"><b>Bienvenido {{ \Auth::user()->user_name }}</b></h5>
+                  <h5 class="card-title"><b>Bienvenid{{ $mensaje }} {{ \Auth::user()->user_name }}</b></h5>
                   <p class="card-text">{{ \Auth::user()->email }}</p>
-                  <p class="card-text"><small class="text-muted">Nivel de acceso: {{ $permisoUsuario->nombre_permiso }}</small></p>
+                  <p class="card-text"><small class="text-muted"><b>Nivel de acceso: </b>{{ $permisoUsuario->nombre_permiso }}</small></p>
                   <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-key"></i> Cambiar su contraseña</button>
                 </div>
               </div>
@@ -113,7 +115,22 @@
           </button>
         </div>
         <div class="modal-body">
-          ...
+        <div class="row">
+            <div class="col-8">
+                <form action="" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label>Ingrese su contraseña</label>
+                        <input type="text" name="clave" id="clave" placeholder="Ingrese su contraseña" class="form-control" maxlength="60">
+                        <label>Repita su contraseña</label>
+                        <input type="text" id="clave2" placeholder="Repita la contraseña" class="form-control" maxlength="60">
+                    </div>
+                </form>
+            </div>
+            <div class="col-4">
+                <i class="fas fa-unlock" style="font-size: 100px; padding:20px;color:#17a2b8;"></i>
+            </div>
+        </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -124,4 +141,38 @@
   </div>
 
 
+@endsection
+@section('js')
+@if (Session::has('resp'))
+
+    @if (Session::has('resp') == true)
+    <script>
+        Swal.fire(
+        'Solicitud procesada!',
+        'Se ha modificado su contraseña!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+@endif
+
+@if (Session::has('no'))
+    <script>
+        alert("Usted no tiene acceso");
+        var nombre = {{ \Auth::user()->user_name }}
+        Swal.fire(
+        nombre,
+        'Se ha modificado su contraseña!',
+        'error'
+        )
+    </script>
+@endif
 @endsection

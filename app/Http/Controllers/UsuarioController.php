@@ -186,7 +186,7 @@ class UsuarioController extends Controller
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
         $query = User::where("status", 1)->get();
 
-        if ( $permisoUsuario[0]->usuario == 1 && $permisoUsuario[0]->ver_botones_usuario == 1) {
+        if ( $permisoUsuario[0]->usuario == 1 || $permisoUsuario[0]->ver_botones_usuario == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.usuarios.btnModificarUsuario')
             ->rawColumns(['btn'])->toJson();
@@ -213,7 +213,7 @@ class UsuarioController extends Controller
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
         $query = User::where("status", 0)->get();
 
-        if ( $permisoUsuario[0]->usuario == 1 && $permisoUsuario[0]->reactivar_usuario == 1) {
+        if ( $permisoUsuario[0]->usuario == 1 || $permisoUsuario[0]->reactivar_usuario == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.usuarios.btnInhabilitado')
             ->rawColumns(['btn'])->toJson();
@@ -246,6 +246,22 @@ class UsuarioController extends Controller
 
         return response()->json($user);
 
+    }
+
+    public function cambiarClave(Request $request)
+    {
+        // Validamos que se cumpla las normas del formulario
+        $request->validate([
+            'clave' => 'required|max:60'
+        ]);
+        // buscamos al usuario
+        $user = User::find( \Auth::user()->id );
+        // sustituimos el valor por la nueva clave
+        $user->password = $request->clave;
+        // Guardamos la informacion en la BD
+        $resp = $user->save();
+        // Retornamos a la vista con la respuesta
+        return redirect()->route('home')->with('resp', $resp);
     }
 
 }

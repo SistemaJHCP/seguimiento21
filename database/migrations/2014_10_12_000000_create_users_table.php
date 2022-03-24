@@ -124,6 +124,7 @@ class CreateUsersTable extends Migration
             $table->boolean('ver_botones_conciliacion')->default(1);
             $table->boolean('imprimir_conciliacion')->default(1);
             $table->boolean('reactivar_conciliacion')->default(1);
+            $table->boolean('configuracion')->default(1);
             $table->timestamps();
         });
 

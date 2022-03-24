@@ -47,7 +47,7 @@ class HomeController extends Controller
         ->get();
         //validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
-        //Retrnamos a la vista toda la informacion
+        //Retornamos a la vista toda la informacion
         return view('sistema.home')->with('permisoUsuario', $permisoUsuario[0])->with('solicitud', $solicitud);
     }
 

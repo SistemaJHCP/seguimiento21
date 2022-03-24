@@ -32,6 +32,7 @@ Route::middleware('auth')->prefix('usuario')->group(function () {
     Route::get("inhabilitados", [App\Http\Controllers\UsuarioController::class, 'inhabilitado'])->name('usuario.inhabilitados');
     Route::get("lista-inhabilitados", [App\Http\Controllers\UsuarioController::class, 'jq_listaInhabilitado']);
     Route::post("reactivar/8y8gstudigf6r5drt8{id}2820u9hid", [App\Http\Controllers\UsuarioController::class, 'jq_reactivar']);
+    Route::post("cambiar-contrasena", [App\Http\Controllers\UsuarioController::class, 'cambiarClave'])->name('usuario.cambiarClave');
 });
 
 Route::middleware('auth')->prefix('cliente')->group(function () {

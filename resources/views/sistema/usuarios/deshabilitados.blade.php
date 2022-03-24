@@ -16,6 +16,7 @@
             <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Usuarios desactivados</h3>
+                  <a href="{{ route('usuario.index') }}"><button type="button" class="btn btn-info float-right"> <i class="fas fa-arrow-left"></i> Regresar</button></a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

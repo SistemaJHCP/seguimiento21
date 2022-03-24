@@ -27,7 +27,7 @@
                   <p class="card-text"><b>Correo: </b>{{ $cliente->cliente_correo }}</p>
                   <hr>
                   <p class="card-text"><b></b>{{ $cliente->cliente_direccion }}</p>
-                  <p class="card-text"><small class="text-muted">Fecha de creación: {{ $cliente->created_at }}</small> <a href="{{ route('cliente.index') }}" class="btn btn-primary float-right">Regresar</a> </p>
+                  <p class="card-text"><small class="text-muted">Fecha de creación: {{ $cliente->created_at }}</small> <a href="{{ route('cliente.index') }}" class="btn btn-primary float-right"><i class="fas fa-arrow-left"></i> Regresar</a> </p>
                 </div>
               </div>
             </div>
