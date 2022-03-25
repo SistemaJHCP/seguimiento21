@@ -12,18 +12,36 @@
 @section('contenedor')
 <div class="row">
     <div class="col-md-4">
-        <div class="info-box" data-toggle="modal" data-target="#crearPTC">
-            <span class="info-box-icon bg-info elevation-1"><i class="far fa-address-book"></i></span>
-            <div class="info-box-content" style="color:black;">
-                <span class="info-box-text">CARGAR UNA</span>
-                <span class="info-box-number">
-                PTC
-                <small></small>
-                </span>
+        @if ($permisoUsuario->crear_ptc == 1)
+            <div class="info-box" data-toggle="modal" data-target="#crearPTC">
+                <span class="info-box-icon bg-info elevation-1"><i class="far fa-address-book"></i></span>
+                <div class="info-box-content" style="color:black;">
+                    <span class="info-box-text">CARGAR UNA</span>
+                    <span class="info-box-number">
+                    PTC
+                    <small></small>
+                    </span>
+                </div>
+            <!-- /.info-box-content -->
             </div>
-        <!-- /.info-box-content -->
-        </div>
+        @endif
+        @if ($permisoUsuario->crear_ptc == 1)
+            <a href="{{ route('maestro.reactivar') }}">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-undo"></i></span>
+                    <div class="info-box-content" style="color:black;">
+                        <span class="info-box-text">REACTIVAR</span>
+                        <span class="info-box-number">
+                        PTC
+                        <small></small>
+                        </span>
+                    </div>
+                <!-- /.info-box-content -->
+                </div>
+            </a>
+        @endif
     </div>
+
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">

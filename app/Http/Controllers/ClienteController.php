@@ -227,6 +227,24 @@ class ClienteController extends Controller
 
     }
 
+    public function js_deshabilitados()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        $query = Cliente::select()->where("cliente_estado", 0)->get();
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->cliente == 1 && $permisoUsuario[0]->ver_botones_cliente == 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.cliente.btnRehabilitar')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        }
+
+    }
+
     public function jq_deshabilitar($id)
     {
         //Validamos los permisos, si no funciona simplemente no hara el proceso y arrojara error
@@ -252,7 +270,47 @@ class ClienteController extends Controller
 
     public function reactivar()
     {
-        return "Ya esta";
+
+        //Validamos los permisos, si no funciona simplemente no hara el proceso y arrojara error
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->cliente != 1 || $permisoUsuario[0]->reactivar_cliente != 1){
+            return redirect()->route("home");
+        }
+
+        return view('sistema.cliente.deshabilitado')->with('permisoUsuario', $permisoUsuario[0]);
     }
+
+    public function js_rehabilitar(Request $request)
+    {
+        //Validamos los permisos, si no funciona simplemente no hara el proceso y arrojara error
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->cliente != 1 || $permisoUsuario[0]->reactivar_cliente != 1){
+            return redirect()->route("home");
+        }
+
+        //Realizamos la validacion de que todos los pasos solicitados sean correctos
+        $request->validate(['dato' => 'required']);
+        //Se busca los datos relacionados con el id
+        $cliente = Cliente::find( $request->dato );
+        //cambio el estado a habilitado
+        $cliente->cliente_estado = 1;
+        //Guardo la modificacion
+        $resp = $cliente->save();
+        //retorna el resultado
+        if ($resp) {
+            return response()->json($resp);
+        } else {
+            dd("ojalaaaaaa..... me lleve.... er diablo!!");
+        }
+
+
+    }
+
+
+
+
+
 
 }

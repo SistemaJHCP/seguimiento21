@@ -38,23 +38,28 @@ Route::middleware('auth')->prefix('usuario')->group(function () {
 Route::middleware('auth')->prefix('cliente')->group(function () {
     Route::get('/', [App\Http\Controllers\ClienteController::class, 'index'])->name('cliente.index');
     Route::get("lista-de-clientes", [App\Http\Controllers\ClienteController::class, 'js_listaClientes']);
+    Route::post("rehabilitar/ihuu9jjpou0y9tt", [App\Http\Controllers\ClienteController::class, 'js_rehabilitar']);
+    Route::get("lista-deshabilitado", [App\Http\Controllers\ClienteController::class, 'js_deshabilitados']);
     Route::post("cargar-cliente", [App\Http\Controllers\ClienteController::class, 'store'])->name("cliente.crear");
     Route::get("consultar-cliente/pcs9pjsaklsa9s0uo08s97c8675s44sartfsu{id}giyu9as087tc6r5as4ctrfsgvhjcasoci", [App\Http\Controllers\ClienteController::class, 'show'])->name("cliente.consultar");
     Route::get("modificar/09786tyfhghi897t6r75e64srtdtyguipoknjbyuftdyrserz34xcuy4gh{id}o8i", [App\Http\Controllers\ClienteController::class, 'edit'])->name("cliente.modificar");
     Route::post("modificar-cliente/h8csscuhc89dct79guyscbjocsbictf67asce4axe543dcdracgvawd89awdtg789aw{id}dvyawd", [App\Http\Controllers\ClienteController::class, 'update'])->name("cliente.modificando");
     Route::post("deshabilitando/{id}", [App\Http\Controllers\ClienteController::class, 'jq_deshabilitar']);
-    Route::get("", [App\Http\Controllers\ClienteController::class, 'reactivar'])->name('cliente.reactivar');
+    Route::get("reactivar-cliente", [App\Http\Controllers\ClienteController::class, 'reactivar'])->name('cliente.reactivar');
     //Route::post("", [App\Http\Controllers\CodventasController::class, 'js_listaClientes'])->name();
 });
 
 Route::middleware('auth')->prefix('maestroPTC')->group(function () {
     Route::get("/", [App\Http\Controllers\CodventasController::class, 'index'])->name("maestro.index");
     Route::get("lista-ptc", [App\Http\Controllers\CodventasController::class, 'jq_listaPTC']);
+    Route::get("lista-ptc-a-deshabilitar", [App\Http\Controllers\CodventasController::class, 'jq_listaPTCRehabilitar']);
     Route::post("cargarPTC", [App\Http\Controllers\CodventasController::class, 'store'])->name("maestro.crear");
     Route::get("consulta-de-ptc/98yutguio{id}231df98e7tefohfe97tef", [App\Http\Controllers\CodventasController::class, 'show'])->name("maestro.consultar");
     Route::get("modificar-de-ptc/97yu33d{id}09u8uyghedvfted7yuehdjediuy7tyegd", [App\Http\Controllers\CodventasController::class, 'edit'])->name("maestro.modificar");
     Route::post("modificando-ptc/97yu33d09u8uyghedvfted7yuehdjediuy{id}7tyegd", [App\Http\Controllers\CodventasController::class, 'update'])->name("maestro.modificando");
     Route::post("eliminar-ptc/8yg28yb2728{id}282", [App\Http\Controllers\CodventasController::class, 'jq_desactivar']);
+    Route::get("reactivar-ptc", [App\Http\Controllers\CodventasController::class, 'reactivar'])->name("maestro.reactivar");
+    Route::post("rehabilitar/987yguhsjyt7y8ud90", [App\Http\Controllers\CodventasController::class, 'reactivando']);
 });
 
 Route::middleware('auth')->prefix('tipo')->group(function () {

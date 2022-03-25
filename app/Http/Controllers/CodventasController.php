@@ -249,4 +249,59 @@ class CodventasController extends Controller
     }
 
 
+    public function reactivar()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->ptc != 1 || $permisoUsuario[0]->reactivar_ptc != 1){
+            return redirect()->route("home");
+        }
+        //Retornamos a la vista
+        return view("sistema.maestroPTC.reactivarPTC")->with("permisoUsuario", $permisoUsuario[0]);
+    }
+
+    public function jq_listaPTCRehabilitar()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        $query = Codventas::select()->where("codventa_estado", 0)->get();
+
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->ptc == 1 && $permisoUsuario[0]->reactivar_ptc == 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.maestroPTC.btnRehabilitar')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        }
+    }
+
+    public function reactivando(Request $request)
+    {
+        //Validamos los permisos, si no funciona simplemente no hara el proceso y arrojara error
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->ptc != 1 || $permisoUsuario[0]->reactivar_ptc != 1){
+            return redirect()->route("home");
+        }
+
+        //Realizamos la validacion de que todos los pasos solicitados sean correctos
+        $request->validate(['dato' => 'required']);
+        //Se busca los datos relacionados con el id
+        $ptc = Codventas::find( $request->dato );
+        //cambio el estado a habilitado
+        $ptc->codventa_estado = 1;
+        //Guardo la modificacion
+        $resp = $ptc->save();
+        //retorna el resultado
+        if ($resp) {
+            return response()->json($resp);
+        } else {
+            dd("ojalaaaaaa..... me lleve.... er diablo!!");
+        }
+    }
+
 }

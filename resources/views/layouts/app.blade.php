@@ -60,7 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?php
                     if ($permisoUsuario->cliente == 1){
                 ?>
-                    <li><a href="{{ route('cliente.index') }}" class="dropdown-item">Clientes </a></li>
+                    <li><a href="{{ route("cliente.index") }}" class="dropdown-item">Clientes </a></li>
                 <?php
                     }
                 ?>

@@ -12,21 +12,22 @@
 @section('contenedor')
 <div class="row">
 <div class="col-md-4">
+    @if ($permisoUsuario->crear_cliente == 1)
+        <div class="info-box"  data-toggle="modal" data-target="#crearCliente">
+            <span class="info-box-icon bg-info elevation-1"><i class="far fa-user-circle"></i></span>
 
-    <div class="info-box"  data-toggle="modal" data-target="#crearCliente">
-        <span class="info-box-icon bg-info elevation-1"><i class="far fa-user-circle"></i></span>
-
-        <div class="info-box-content" style="color:black;">
-            <span class="info-box-text">CARGAR DATOS</span>
-            <span class="info-box-number">
-            DE UN CLIENTE
-            <small></small>
-            </span>
+            <div class="info-box-content" style="color:black;">
+                <span class="info-box-text">CARGAR DATOS</span>
+                <span class="info-box-number">
+                DE UN CLIENTE
+                <small></small>
+                </span>
+            </div>
+        <!-- /.info-box-content -->
         </div>
-    <!-- /.info-box-content -->
-    </div>
-
-    <a href="{{ route('') }}">
+    @endif
+    @if ($permisoUsuario->reactivar_cliente == 1)
+    <a href="{{ route('cliente.reactivar') }}">
         <div class="info-box">
             <span class="info-box-icon bg-info elevation-1"><i class="far fa-check-circle"></i></span>
 
@@ -40,8 +41,10 @@
         <!-- /.info-box-content -->
         </div>
     </a>
+    @endif
+
 </div>
-<div class="col-md-8 col-sm-12">
+<div class="col-md-8">
     <div class="card">
         <div class="card-header">
           <h3 class="card-title">Datos de clientes</h3>

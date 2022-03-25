@@ -1,11 +1,5 @@
 $("#cantidad").numeric();
 
-// cargarProveedor( $('#proveedorRec').val() );
-// cargarObra( $('#obraRel927y2').val() );
-
-// $('#proveedorRec').change(function(){
-//     cargarProveedor( $('#proveedorRec').val() );
-// });
 
 
     //Initialize Select2 Elements
