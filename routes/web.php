@@ -121,6 +121,9 @@ Route::middleware('auth')->prefix('proveedores')->group(function () {
     Route::get("cuenta-bancaria/5678uhgbjdiuyt567du{id}agdb4hj23md7h", [App\Http\Controllers\BancoController::class, 'consultar'])->name('proveedor.cuenta');
     Route::post("guardar-cuenta", [App\Http\Controllers\BancoController::class, 'store'])->name('proveedor.guardarCuenta');
     Route::post("desactivar-cuenta/tgyu89876tty789oiuhgfdrftgyhuji9u8ygtfcdxedrfty7ytrfdfgyuiokjhgf",[App\Http\Controllers\BancoController::class, 'jq_desactivar']);
+    Route::get("deshabilitadas",[App\Http\Controllers\ProveedoresController::class, 'deshabilitadas'])->name('proveedor.deshabilitada');
+    Route::get("lista-proveedores-deshabilitadas",[App\Http\Controllers\ProveedoresController::class, 'jq_listaDeshabilitada']);
+    Route::post("reactivar-proveedor/poiuy7t6fyguiuo",[App\Http\Controllers\ProveedoresController::class, 'reactivarProveedor']);
 });
 
 Route::middleware('auth')->prefix('materiales')->group(function () {

@@ -136,13 +136,17 @@ $(document).ready(function(){
                     }else{
                         Swal.fire(
                             'Hubo un error',
-                            'No se pudo desactivar el suministro suministro.',
-                            'success'
+                            'No se pudo desactivar el suministro.',
+                            'error'
                         )
                     }
                 })
                 .fail( function(){
-                    console.log("Hubo un error en el ajax de mostra el suministro para deshabilitarlo");
+                    Swal.fire(
+                        'Hubo un error',
+                        'No se pudo desactivar el suministro solicitado.',
+                        'error'
+                    )
                 });
 
             }

@@ -13,6 +13,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-4">
+        @if ( $permisoUsuario->crear_suministros )
             <div class="info-box" data-toggle="modal" data-target="#crearSuministro">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cogs"></i></span>
 
@@ -25,6 +26,8 @@
                 </div>
             <!-- /.info-box-content -->
             </div>
+        @endif
+        @if ( $permisoUsuario->reactivar_suministros )
             <a href="{{ route("suministros.deshabilitados") }}">
                 <div class="info-box">
                     <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-cog"></i></span>
@@ -39,6 +42,7 @@
                 <!-- /.info-box-content -->
                 </div>
             </a>
+        @endif
         </div>
         <div class="col-sm-12 col-md-8">
             <div class="card">

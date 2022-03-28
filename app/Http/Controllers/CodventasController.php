@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Codventas;
 use Illuminate\Http\Request;
 use App\Models\Permiso;
-use Codventa;
+// use Codventa;
 
 class CodventasController extends Controller
 {
@@ -216,7 +216,7 @@ class CodventasController extends Controller
         $query = Codventas::select()->where("codventa_estado", 1)->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        if ( $permisoUsuario[0]->ptc == 1 && $permisoUsuario[0]->ver_botones_ptc == 1) {
+        if ( $permisoUsuario[0]->ptc == 1 || $permisoUsuario[0]->ver_botones_ptc == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.maestroPTC.btnPTC')
             ->rawColumns(['btn'])->toJson();

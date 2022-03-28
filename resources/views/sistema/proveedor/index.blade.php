@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Proveedores de la empresa</h3><a href="#"><button style="margin-left:10px;" class="btn btn-info float-right">Deshabilitadas</button></a> <a href="#"><button style="margin-left:10px;"  data-target="#nuevoProveedor" data-toggle="modal" class="btn btn-info float-right">Nuevo</button></a>
+              <h3 class="card-title">Proveedores de la empresa</h3><a href="{{ route('proveedor.deshabilitada') }}"><button style="margin-left:10px;" class="btn btn-info float-right">Deshabilitadas</button></a><button style="margin-left:10px;"  data-target="#nuevoProveedor" data-toggle="modal" class="btn btn-info float-right">Nuevo</button>
             </div>
             <!-- /.card-header -->
               <div class="card-body">
@@ -29,7 +29,7 @@
                       <th>Correo</th>
                       <th>Contacto</th>
                       <th>Suministro</th>
-                      <th style="width: 180px">Acción</th>
+                      <th>Acción</th>
                   </tr>
                   </thead>
                   <tbody>

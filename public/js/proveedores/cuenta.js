@@ -22,14 +22,56 @@ $(document).ready(function(){
         limpiar();
     });
 
-    $(document).on("click", "#deshabilitarCuenta", function(){
-        alert( this.value );
+    $(document).on('click', "#deshabilitarCuenta",function(){
+        var dato = this.attributes.value.textContent;
+
+        Swal.fire({
+            title: 'Eliminar datos bancarios',
+            text: "¿Esta usted seguro?, esta acción no se puede reversar",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "../desactivar-cuenta/tgyu89876tty789oiuhgfdrftgyhuji9u8ygtfcdxedrfty7ytrfdfgyuiokjhgf",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {id: dato},
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+                })
+                .done(function(comp) {
+
+                    if (comp) {
+                        location.reload()
+                    } else {
+                    Swal.fire(
+                        'Hubo un error!',
+                        'al deshabilitar esta cuenta!',
+                        'error'
+                      )
+                    return false;
+                    }
+
+                })
+
+              Swal.fire(
+                'Solicitud procesada!',
+                'Se ha eliminado su númerobde cuenta.',
+                'success'
+              )
+            }
+          })
     });
 
     $("#nroCuenta").numeric();
 
     $("#nroCuenta").keyup(function(){
-        if ( $("#nroCuenta").val().length < 20 ) {
+        if ( $("#nroCuenta").val().length < 16 ) {
             $("#nroCuenta").css({"border": "1px solid red"});
             $("#agregar").attr("disabled", true);
             activar();
@@ -41,7 +83,7 @@ $(document).ready(function(){
 
     function activar()
     {
-        if( $("#banco").val() >= 1 && $("#nroCuenta").val().length > 19 && $("#tipo").val().length  >= 1  ){
+        if( $("#banco").val() >= 1 && $("#nroCuenta").val().length > 9 && $("#tipo").val().length  >= 1  ){
             $("#agregar").attr("disabled", false);
         } else {
             $("#agregar").attr("disabled", true);
@@ -55,6 +97,16 @@ $(document).ready(function(){
         $("#tipo").val("");
         $("#agregar").attr("disabled", true);
     }
+
+    $("#agregar").click(function(){
+        $("form").on("submit", function () {
+            $("#agregar").attr("value", "Guardando, espere...");
+            $("#agregar").prop("disabled", true);
+        });
+    });
+
+
+
 
     // $(document).on("click", "#deshabilitarCuenta", function(){
     //     console.log( "No toma el valor: " +  );

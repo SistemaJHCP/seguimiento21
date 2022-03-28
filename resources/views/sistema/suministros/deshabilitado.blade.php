@@ -14,7 +14,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Suministros deshabilitados</h3><a href="{{ route("suministro.index") }}"><button class="btn btn-info float-right">Regresar</button></a>
+                  <h3 class="card-title">Suministros deshabilitados</h3><a href="{{ route("suministro.index") }}"><button class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a>
                 </div>
                 <!-- /.card-header -->
                   <div class="card-body">

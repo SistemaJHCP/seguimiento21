@@ -44,7 +44,7 @@
           </div>
           <div class="card">
             <div class="card-body">
-                <a href="{{ route('proveedor.index') }}"><button class="btn btn-info">Regresar</button></a>
+                <a href="{{ route('proveedor.index') }}"><button class="btn btn-info"><i class="fas fa-arrow-left"></i> Regresar</button></a>
                 <button class="btn btn-info float-right" data-toggle="modal" data-target="#agregarCuenta">Agregar cuenta</button>
             </div>
           </div>
@@ -60,8 +60,10 @@
                         <p><b>Cuenta: </b>{{ $b->numero }}</p>
                         @if($b->tipodecuenta == 1)
                             Ahorro
-                        @else
+                        @elseif($b->tipodecuenta == 2)
                             Corriente
+                        @elseif($b->tipodecuenta == 3)
+                            Tarjeta
                         @endif
                     </div>
                 @endforeach
@@ -101,6 +103,7 @@
                     <option value="">Seleccione...</option>
                     <option value="1">Ahorro</option>
                     <option value="2">Corriente</option>
+                    <option value="3">Tarjeta</option>
                 </select>
             </div>
             </div>

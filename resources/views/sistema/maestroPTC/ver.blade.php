@@ -33,10 +33,10 @@
                   @if ($ptc->codventa_estado == 1)
                     <p class="card-text"><div style="background:green; color:white; text-align: center;">Activo</div></p>
                   @else
-                  <p class="card-text"><div style="background:rgb(185, 14, 14); color:white; text-align: center;">Activo</div></p>
+                  <p class="card-text"><div style="background:rgb(185, 14, 14); color:white; text-align: center;">Inactivo</div></p>
                   @endif
                   <p class="card-text"><small class="text-muted"><b>Fecha de creación: {{ $ptc->created_at }}</b></small></p>
-                  <p><a href="{{ route('maestro.index') }}"><button type="button" class="btn btn-info float-right">Regresar</button></a></p>
+                  <p><a href="{{ route('maestro.index') }}"><button type="button" class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a></p>
                 </div>
               </div>
             </div>

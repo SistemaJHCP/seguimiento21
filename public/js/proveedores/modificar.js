@@ -71,6 +71,11 @@ $(document).ready( function(){
         }
     }
 
-
+    $("#modificar").click(function(){
+        $("form").on("submit", function () {
+            $("#modificar").attr("value", "Guardando, espere...");
+            $("#modificar").prop("disabled", true);
+        });
+    });
 
 });

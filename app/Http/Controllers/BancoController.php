@@ -131,7 +131,7 @@ class BancoController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if( $permisoUsuario[0]->banco != 1 || $permisoUsuario[0]->ver_botones_banco != 1 ){
+        if( $permisoUsuario[0]->banco != 1 || $permisoUsuario[0]->crear_banco != 1 ){
             return redirect()->route("home");
         }
 
@@ -151,6 +151,7 @@ class BancoController extends Controller
         )
         ->leftJoin('banco_proveedor', 'banco_proveedor.banco_id', '=', 'banco.id')
         ->where('banco_proveedor.proveedor_id', $id)
+        ->where('estado', 1)
         ->get();
 
         //Se agrega la informacion capturada previamente a la vista
@@ -160,7 +161,6 @@ class BancoController extends Controller
 
     public function jq_desactivar(Request $request)
     {
-        dd($request->all());
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -169,7 +169,13 @@ class BancoController extends Controller
         }
 
         //Buscamos el numero de cuenta por ID
-        $cuenta = Banco::find($request->id);
+        $cuenta = Banco_proveedor::find($request->id);
+        //Cambamos el estado de la cuenta a inactivo
+        $cuenta->estado = 0;
+        //Guardamos el cambio
+        $resp = $cuenta->save();
+        //Retornamos la respuesta a la vista
+        return response()->json($cuenta);
 
 
 

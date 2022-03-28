@@ -1,33 +1,33 @@
 $(document).ready(function(){
 
-    $('#listaObras').DataTable({
+    $('#listaProveedores').DataTable({
         serverSide:false,
         processing: true,
-        ajax: "requisicion/lista-de-requisicion",
+        ajax: "../proveedores/lista-proveedores-deshabilitadas",
         columns: [
-            {data: 'requisicion_codigo'},
-            {data: 'requisicion_tipo'},
-            {data: 'requisicion_fecha'},
-            {data: 'requisicion_fechae'},
-            {data: 'obra'},
-            {data: 'requisicion_motivo'},
-            {data: 'requisicion_estado'},
-            {data: 'usuario_nombre'},
+            {data: 'codigo'},
+            {data: 'tipo'},
+            {data: 'rif'},
+            {data: 'nombre'},
+            {data: 'tlf'},
+            {data: 'correo'},
+            {data: 'contacto'},
+            {data: 'suministro'},
             {data: 'btn'}
         ],
         order: [
-            [0, "desc"]
+            [8, "DESC"]
           ],
         bLengthChange: false,
         searching: true,
-        order: [[ 2, "desc" ]],
+        // "order": [[ 0, "desc" ]],
         responsive: true,
         autoWidth: false,
         info: false,
-        language: {
+        "language": {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",
-            "zeroRecords": "Ninguna requisición cargada por usted",
+            "zeroRecords": "Lo que busca no esta en el registro",
             "info": "Mostrando la página _PAGE_ of _PAGES_",
             "infoEmpty": "No records available",
             "infoFiltered": "(Filtrado de _MAX_ registros totales)",
@@ -37,55 +37,61 @@ $(document).ready(function(){
             },
             "processing" : "procesando."
         },
+        columnDefs: [
+            { "width": "5%", "targets": 8 }
+          ],
     });
 
-    $(document).on("click", '#desactivar', function(){
+
+    $(document).on("click", "#rehabilitar", function(){
         Swal.fire({
-            title: '¿Desea anular',
-            text: "esta requisicion?",
+            title: '¿Seguro desea rehabilitar',
+            text: "a este proveedor en el sistema?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, anular!',
+            confirmButtonText: 'Si, rehabilitar',
             cancelButtonText: 'Cancelar'
           }).then((result) => {
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: "requisicion/anular-requisicion/metodo-app/huijbvcfghji66789ijdvgyu8d7yt",
-                    type: 'post',
+                    url: "reactivar-proveedor/poiuy7t6fyguiuo",
+                    type: 'POST',
                     dataType: 'json',
-                    data:{dato: this.value},
+                    data: {id: this.value},
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
                 })
                 .done(function(comp) {
-
+                    $('#listaProveedores').DataTable().ajax.reload();
                     if (comp) {
-
-                        $('#listaObras').DataTable().ajax.reload();
-
+                        
                         Swal.fire(
-                            'Anulado!',
-                            'La requisicion ha sido anulada.',
+                            'Solicitud procesada!',
+                            'Se ha rehabilitado a este proveedor',
                             'success'
                           )
+                    } else {
+                    Swal.fire(
+                        'Hubo un error!',
+                        'al reabilitar al proveedor!',
+                        'error'
+                      )
                     }
-
 
                 })
                 .fail( function(){
                     Swal.fire(
                         'Hubo un error!',
-                        'no pudo anular la requisición.',
+                        'al momento de realizar esta accion!',
                         'error'
                       )
                 })
 
             }
-          })
+        })
     });
-
 
 
 });

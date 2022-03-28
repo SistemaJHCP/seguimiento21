@@ -25,7 +25,7 @@
             <!-- /.info-box-content -->
             </div>
         @endif
-        @if ($permisoUsuario->crear_ptc == 1)
+        @if ($permisoUsuario->reactivar_ptc == 1)
             <a href="{{ route('maestro.reactivar') }}">
                 <div class="info-box">
                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-undo"></i></span>

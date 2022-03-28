@@ -73,10 +73,10 @@ class CreateUsersTable extends Migration
             $table->boolean('reactivar_suministros')->default(1);
             $table->boolean('banco')->default(1);
             $table->boolean('crear_banco')->default(1);
-            $table->boolean('modificar_banco')->default(1);
-            $table->boolean('ver_botones_banco')->default(1);
+            $table->boolean('modificar_banco')->default(0);
+            $table->boolean('ver_botones_banco')->default(0);
             $table->boolean('desactivar_banco')->default(1);
-            $table->boolean('reactivar_banco')->default(1);
+            $table->boolean('reactivar_banco')->default(0);
             $table->boolean('requisicion')->default(1);
             $table->boolean('crear_requisicion')->default(1);
             $table->boolean('modificar_requisicion')->default(1);

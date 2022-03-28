@@ -5,7 +5,7 @@ $(document).ready(function(){
     $("#telefono").numeric(false);
 
     $('#listaProveedores').DataTable({
-        serverSide:true,
+        serverSide:false,
         processing: true,
         ajax: "proveedores/lista-proveedores",
         columns: [
@@ -20,11 +20,11 @@ $(document).ready(function(){
             {data: 'btn'}
         ],
         order: [
-            [0, "desc"]
+            [8, "DESC"]
           ],
         bLengthChange: false,
         searching: true,
-        "order": [[ 0, "desc" ]],
+        // "order": [[ 0, "desc" ]],
         responsive: true,
         autoWidth: false,
         info: false,
@@ -41,6 +41,9 @@ $(document).ready(function(){
             },
             "processing" : "procesando."
         },
+        columnDefs: [
+            { "width": "16%", "targets": 8 }
+          ],
     });
 
     $("#cedula").on("keyup", function(){

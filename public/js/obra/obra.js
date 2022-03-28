@@ -20,11 +20,10 @@ $(document).ready(function(){
           ],
         bLengthChange: false,
         searching: true,
-        "order": [[ 0, "desc" ]],
         responsive: true,
         autoWidth: false,
         info: false,
-        "language": {
+        language: {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",
             "zeroRecords": "Lo que busca no esta en el registro",

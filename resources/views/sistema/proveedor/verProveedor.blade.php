@@ -49,7 +49,7 @@
                   @if ( $proveedor->created_at)
                   <p class="card-text"><small class="text-muted">creado el: {{ $proveedor->created_at }}</small></p>
                   @endif
-                  <p><a href="{{ route('proveedor.index') }}" class="btn btn-info float-right">Regresar</a></p>
+                  <p><a href="{{ route('proveedor.index') }}" class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</a></p>
                 </div>
               </div>
             </div>

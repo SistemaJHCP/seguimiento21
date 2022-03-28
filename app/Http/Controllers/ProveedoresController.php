@@ -37,16 +37,6 @@ class ProveedoresController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -54,6 +44,12 @@ class ProveedoresController extends Controller
      */
     public function store(Request $request)
     {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->crear_proveedores != 1){
+            return redirect()->route("home");
+        }
 
         //validamos que request cumpla con las normas
         $request->validate([
@@ -151,7 +147,7 @@ class ProveedoresController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->ver_botones_proveedores != 1){
+        if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->modificar_proveedores != 1){
             return redirect()->route("home");
         }
         //Ver suminsitro
@@ -279,9 +275,10 @@ class ProveedoresController extends Controller
         )
         ->leftJoin("suministro","suministro.id", "=", "proveedor.suministro_id")
         ->where("proveedor.proveedor_estado", 1)
+        ->orderBy("proveedor.id", "DESC")
         ->get();
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        if ( $permisoUsuario[0]->cliente == 1 && $permisoUsuario[0]->ver_botones_cliente == 1) {
+        if ( $permisoUsuario[0]->proveedores == 1 && $permisoUsuario[0]->ver_botones_proveedores == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.proveedor.btnProveedores')
             ->rawColumns(['btn'])->toJson();
@@ -293,11 +290,73 @@ class ProveedoresController extends Controller
     }
 
 
+    public function deshabilitadas()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->desactivar_proveedores != 1){
+            return redirect()->route("home");
+        }
+        //Retornamos a la vista
+        return view('sistema.proveedor.deshabilitadas')->with('permisoUsuario', $permisoUsuario[0]);
+    }
 
 
 
+    public function jq_listaDeshabilitada()
+    {
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        //Realizamos la consulta
+        $query = Proveedor::select(
+            'proveedor.id AS id',
+            'proveedor.proveedor_codigo AS codigo',
+            'proveedor.proveedor_tipo AS tipo',
+            'proveedor.proveedor_rif AS rif',
+            'proveedor.proveedor_nombre AS nombre',
+            'proveedor.proveedor_telefono AS tlf',
+            'proveedor.proveedor_correo AS correo',
+            'proveedor.proveedor_contacto AS contacto',
+            'suministro.suministro_nombre AS suministro'
+        )
+        ->leftJoin("suministro","suministro.id", "=", "proveedor.suministro_id")
+        ->where("proveedor.proveedor_estado", 0)
+        ->orderBy("proveedor.id", "DESC")
+        ->get();
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->proveedores == 1 && $permisoUsuario[0]->ver_botones_proveedores == 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.proveedor.btnDeshabilitados')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        }
+    }
 
 
+    public function reactivarProveedor(Request $request)
+    {
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->proveedores != 1 || $permisoUsuario[0]->reactivar_proveedores != 1){
+            return redirect()->route("home");
+        }
+        //Buscamos al proveedor
+        $proveedor = Proveedor::find( $request->id );
+        //realizamos el cambio de estado
+        $proveedor->proveedor_estado = 1;
+        //Guardamos el cambio en la BD
+        $resp = $proveedor->save();
+        //Retornamos a la vista
+        return response()->json($resp);
+
+    }
 
 
 }
