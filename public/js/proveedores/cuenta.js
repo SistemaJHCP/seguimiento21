@@ -47,7 +47,14 @@ $(document).ready(function(){
                 .done(function(comp) {
 
                     if (comp) {
-                        location.reload()
+                        Swal.fire(
+                            'Solicitud procesada!',
+                            'Se ha eliminado su númerobde cuenta.',
+                            'success'
+                        )
+                        setTimeout(function(){
+                            location.reload()
+                         }, 2000);
                     } else {
                     Swal.fire(
                         'Hubo un error!',
@@ -56,14 +63,7 @@ $(document).ready(function(){
                       )
                     return false;
                     }
-
                 })
-
-              Swal.fire(
-                'Solicitud procesada!',
-                'Se ha eliminado su númerobde cuenta.',
-                'success'
-              )
             }
           })
     });

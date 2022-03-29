@@ -28,7 +28,7 @@ class ViaticoController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->servicio != 1){
+        if($permisoUsuario[0]->viatico != 1){
             return redirect()->route("home");
         }
 
@@ -151,9 +151,10 @@ class ViaticoController extends Controller
     {
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
         $query = Viatico::select()->where("viatico_estado", 1)->orderBy('viatico_codigo', 'DESC')->get();
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        if ( $permisoUsuario[0]->viatico == 1 || $permisoUsuario[0]->ver_botones_viatico == 1) {
+        if ( $permisoUsuario[0]->viatico == 1 AND $permisoUsuario[0]->ver_botones_viatico == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.viatico.btnViatico')
             ->rawColumns(['btn'])->toJson();

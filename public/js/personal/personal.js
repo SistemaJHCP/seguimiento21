@@ -3,7 +3,7 @@ $(document).ready(function(){
     limpiar();
 
     $('#listaPersonal').DataTable({
-        serverSide:true,
+        serverSide:false,
         processing: true,
         ajax: "personal/lista-de-personal",
         columns: [
@@ -33,6 +33,10 @@ $(document).ready(function(){
             },
             "processing" : "procesando."
         },
+        columnDefs: [
+            { "width": "20%", "targets": 3 }
+          ],
+
     });
 
     $("#personal").keyup(function(){

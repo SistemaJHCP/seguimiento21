@@ -109,7 +109,7 @@
                 </div>
                 <div class="form-group">
                     <label>Persona de Contacto</label>
-                    <input type="text" name="contacto" id="contacto" class="form-control" maxlength="200" placeholder="Ingrese la dirección del proveedor" autocomplete="off">
+                    <input type="text" name="contacto" id="contacto" class="form-control" maxlength="200" placeholder="Ingrese el nombre del contacto" autocomplete="off">
                 </div>
             </div>
         </div>

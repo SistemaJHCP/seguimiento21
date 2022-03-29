@@ -228,6 +228,60 @@ class PersonalController extends Controller
         return response()->json($resp);
     }
 
+    public function jq_listaRehabilitar()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        //Realizamos la consulta a la base de datos
+        $query = Personal::select()->where('personal_estado', 0)->get();
+
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->personal == 1 && $permisoUsuario[0]->ver_botones_personal == 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.personal.btnReactivar')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        }
+    }
+
+    public function reactivarPersonal()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->personal != 1 || $permisoUsuario[0]->reactivar_personal != 1){
+            return redirect()->route("home");
+        }
+
+        return view('sistema.personal.reactivar')->with('permisoUsuario', $permisoUsuario[0]);
+    }
+
+    public function reactivando(Request $request)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->personal != 1 || $permisoUsuario[0]->reactivar_personal != 1){
+            return response()->json(false);
+        }
+
+        //Buscamos el id a reactivar
+        $re = Personal::find($request->id);
+        //Cambiamos el estado del personal a activo
+        $re->personal_estado = 1;
+        //Guardamos este cambio en la BD
+        $resp = $re->save();
+
+        if($resp){
+            return response()->json(true);
+        } else {
+            return response()->json(false);
+        }
+
+    }
 
 
 }

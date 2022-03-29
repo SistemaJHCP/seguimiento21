@@ -43,10 +43,10 @@ class CreateUsersTable extends Migration
             $table->boolean('reactivar_obra')->default(1);
             $table->boolean('materiales')->default(1);
             $table->boolean('crear_materiales')->default(1);
-            $table->boolean('modificar_materiales')->default(1);
+            $table->boolean('modificar_materiales')->default(0);//No es necesario al parecer
             $table->boolean('ver_botones_materiales')->default(1);
             $table->boolean('desactivar_materiales')->default(1);
-            $table->boolean('reactivar_materiales')->default(1);
+            $table->boolean('reactivar_materiales')->default(1);//No es necesario al parecer
             $table->boolean('proveedores')->default(1);
             $table->boolean('crear_proveedores')->default(1);
             $table->boolean('modificar_proveedores')->default(1);
@@ -73,10 +73,10 @@ class CreateUsersTable extends Migration
             $table->boolean('reactivar_suministros')->default(1);
             $table->boolean('banco')->default(1);
             $table->boolean('crear_banco')->default(1);
-            $table->boolean('modificar_banco')->default(0);
-            $table->boolean('ver_botones_banco')->default(0);
+            $table->boolean('modificar_banco')->default(0);//No es necesario al parecer
+            $table->boolean('ver_botones_banco')->default(0);//No es necesario al parecer
             $table->boolean('desactivar_banco')->default(1);
-            $table->boolean('reactivar_banco')->default(0);
+            $table->boolean('reactivar_banco')->default(0);//No es necesario al parecer
             $table->boolean('requisicion')->default(1);
             $table->boolean('crear_requisicion')->default(1);
             $table->boolean('modificar_requisicion')->default(1);
@@ -102,16 +102,16 @@ class CreateUsersTable extends Migration
             $table->boolean('aprobacion_solicitud_pago')->default(1);
             $table->boolean('servicio')->default(1);
             $table->boolean('crear_servicio')->default(1);
-            $table->boolean('modificar_servicio')->default(1);
+            $table->boolean('modificar_servicio')->default(0);//No es necesario al parecer
             $table->boolean('ver_botones_servicio')->default(1);
             $table->boolean('desactivar_servicio')->default(1);
-            $table->boolean('reactivar_servicio')->default(1);
+            $table->boolean('reactivar_servicio')->default(0);//No es necesario al parecer
             $table->boolean('viatico')->default(1);
             $table->boolean('crear_viatico')->default(1);
-            $table->boolean('modificar_viatico')->default(1);
+            $table->boolean('modificar_viatico')->default(0);//No es necesario al parecer
             $table->boolean('ver_botones_viatico')->default(1);
             $table->boolean('desactivar_viatico')->default(1);
-            $table->boolean('reactivar_viatico')->default(1);
+            $table->boolean('reactivar_viatico')->default(0);//No es necesario al parecer
             $table->boolean('compra_cuentas_x_pagar')->default(1);
             $table->boolean('crear_compra_cuentas_x_pagar')->default(1);
             $table->boolean('ver_compra_cuentas_x_pagar')->default(1);

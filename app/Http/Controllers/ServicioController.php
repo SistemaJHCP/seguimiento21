@@ -30,7 +30,7 @@ class ServicioController extends Controller
         if($permisoUsuario[0]->servicio != 1){
             return redirect()->route("home");
         }
-
+        //Retornamos a la vista principal
         return view('sistema.servicio.index')->with([
             'permisoUsuario' => $permisoUsuario[0]
         ]);
@@ -156,7 +156,7 @@ class ServicioController extends Controller
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
         $query = Servicio::select()->where("servicio_estado", 1)->orderBy('servicio_codigo', 'DESC')->get();
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        if ( $permisoUsuario[0]->servicio == 1 || $permisoUsuario[0]->ver_botones_servicio == 1) {
+        if ( $permisoUsuario[0]->servicio == 1 && $permisoUsuario[0]->ver_botones_servicio == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.servicio.btnServicio')
             ->rawColumns(['btn'])->toJson();

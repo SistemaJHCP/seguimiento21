@@ -12,14 +12,14 @@ $(document).ready(function(){
             {data: 'btn'}
         ],
         order: [
-            [0, "desc"]
+            [2, "desc"]
           ],
         bLengthChange: false,
         searching: true,
         responsive: true,
         autoWidth: false,
         info: false,
-        "language": {
+        language: {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",
             "zeroRecords": "Lo que busca no esta en el registro",
@@ -87,7 +87,11 @@ $(document).ready(function(){
 
                 })
                 .fail( function(){
-                    console.log("hay un error en la carga de solicitud de anulacion de viático")
+                    Swal.fire(
+                        'Hubo un error',
+                        'No se pudo eliminar este Viático',
+                        'error'
+                      )
                 });
 
 

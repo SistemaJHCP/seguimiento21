@@ -165,7 +165,7 @@ class BancoController extends Controller
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
         if( $permisoUsuario[0]->banco != 1 || $permisoUsuario[0]->desactivar_banco != 1 ){
-            return redirect()->route("home");
+            return response()->json(false);
         }
 
         //Buscamos el numero de cuenta por ID

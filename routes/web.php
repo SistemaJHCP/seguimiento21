@@ -79,6 +79,9 @@ Route::middleware('auth')->prefix('personal')->group(function () {
     Route::post("modificar-personal",[App\Http\Controllers\PersonalController::class, 'update'])->name('personal.modificar');
     Route::get("modificar/y89onjhehy89{id}",[App\Http\Controllers\PersonalController::class, 'jq_traerDatos']);
     Route::post("eliminar-personal/{id}",[App\Http\Controllers\PersonalController::class, 'jq_deshabilitar']);
+    Route::get("reactivar-personal",[App\Http\Controllers\PersonalController::class, 'reactivarPersonal'])->name('personal.reactivar');
+    Route::get("lista-de-personal-a-rehabilitar",[App\Http\Controllers\PersonalController::class, 'jq_listaRehabilitar']);
+    Route::post("habilitando-personal/ou9hugyhi99dhuyg78d9i0",[App\Http\Controllers\PersonalController::class, 'reactivando']);
 });
 
 Route::middleware('auth')->prefix('control-de-obras')->group(function () {

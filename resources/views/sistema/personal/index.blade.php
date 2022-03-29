@@ -23,11 +23,24 @@
                 </div>
             <!-- /.info-box-content -->
             </div>
+            <a href="{{ route('personal.reactivar') }}">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+                    <div class="info-box-content" style="color:black;">
+                        <span class="info-box-text">REACTIVAR </span>
+                        <span class="info-box-number">
+                        PERSONAL
+                        <small></small>
+                        </span>
+                    </div>
+                <!-- /.info-box-content -->
+                </div>
+            </a>
         </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Datos del tipo de obra</h3>
+                  <h3 class="card-title">Datos del personal</h3>
                 </div>
                 <!-- /.card-header -->
                   <div class="card-body">

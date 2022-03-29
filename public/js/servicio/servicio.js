@@ -11,15 +11,13 @@ $(document).ready(function(){
             {data: 'servicio_nombre'},
             {data: 'btn'}
         ],
-        order: [
-            [0, "ASC"]
-          ],
         bLengthChange: false,
         searching: true,
         responsive: true,
         autoWidth: false,
+        order: [[ 2, "desc" ]],
         info: false,
-        "language": {
+        language: {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",
             "zeroRecords": "Lo que busca no esta en el registro",
@@ -85,7 +83,11 @@ $(document).ready(function(){
 
                 })
                 .fail( function(){
-                    console.log("hay un error en la carga de solicitud de nombre de concepto")
+                    Swal.fire(
+                        'Hubo un error',
+                        'no pudo eliminarse el servicio.',
+                        'error'
+                      )
                 });
 
 

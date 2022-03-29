@@ -3,7 +3,7 @@ $(document).ready(function(){
     limpiar();
 
     $('#listaMaterial').DataTable({
-        serverSide:true,
+        serverSide:false,
         processing: true,
         ajax: "materiales/lista-materiales",
         columns: [
