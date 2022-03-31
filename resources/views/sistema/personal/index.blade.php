@@ -12,6 +12,7 @@
 @section('contenedor')
     <div class="row">
         <div class="col-md-4">
+            @if ( $permisoUsuario->crear_personal == 1 )
             <div class="info-box" data-toggle="modal" data-target="#cargarPersonal">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user-plus"></i></span>
                 <div class="info-box-content" style="color:black;">
@@ -23,6 +24,8 @@
                 </div>
             <!-- /.info-box-content -->
             </div>
+            @endif
+            @if ( $permisoUsuario->reactivar_personal == 1 )
             <a href="{{ route('personal.reactivar') }}">
                 <div class="info-box">
                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
@@ -36,6 +39,7 @@
                 <!-- /.info-box-content -->
                 </div>
             </a>
+            @endif
         </div>
         <div class="col-md-8">
             <div class="card">

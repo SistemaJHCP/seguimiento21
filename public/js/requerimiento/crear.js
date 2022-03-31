@@ -317,6 +317,11 @@ $("#fechaE").datepicker({
         $("#selectRequis8ty").attr('disabled', true);
         $('#borrarHidden').empty();
         $("#cargarRequisicion").attr('disabled', true);
+        $("#table > tbody").empty();
+        $("#ctipo234").empty();
+        $("#cantidad234").empty();
+        $("#concrip234").empty();
+        $("#especificaciones234").empty();
     });
 
 

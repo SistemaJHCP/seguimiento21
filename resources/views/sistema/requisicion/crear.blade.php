@@ -15,7 +15,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('requisicion.index') }}" class="float-right btn btn-info">Regresar</a>
+                    <a href="{{ route('requisicion.index') }}" class="float-right btn btn-info"><i class="fas fa-arrow-left"></i> Regresar</a>
                 </div>
                 <div class="card-body">
                     <div class="row">

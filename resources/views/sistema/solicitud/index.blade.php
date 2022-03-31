@@ -14,7 +14,10 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Solicitudes</h3> <a href="{{ route('solicitud.crear') }}"><button style="margin-left:10px;" class="btn btn-info float-right">Nueva solicitud</button></a>
+                <h3 class="card-title">Solicitudes</h3>
+                @if ($permisoUsuario->crear_solicitud == 1)
+                <a href="{{ route('solicitud.crear') }}"><button style="margin-left:10px;" class="btn btn-info float-right">Nueva solicitud</button></a>
+                @endif
             </div>
             <div class="card-body">
                 <table id="listaSolicitud" class="table table-bordered table-hover" style="font-size: 12px">

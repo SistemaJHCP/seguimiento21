@@ -174,15 +174,15 @@ class PersonalController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->personal != 1 || $permisoUsuario[0]->reactivar_personal != 1){
-            return redirect()->route("home");
-        }
+        // if($permisoUsuario[0]->personal != 1 || $permisoUsuario[0]->reactivar_personal != 1){
+        //     return redirect()->route("home");
+        // }
 
         //Realizamos la consulta a la base de datos
         $query = Personal::select()->where('personal_estado', 1)->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        if ( $permisoUsuario[0]->personal == 1 && $permisoUsuario[0]->ver_botones_personal == 1) {
+        if ( $permisoUsuario[0]->personal == 1 && $permisoUsuario[0]->ver_botones_personal == 1 ) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.personal.btnPersonal')
             ->rawColumns(['btn'])->toJson();
@@ -236,7 +236,7 @@ class PersonalController extends Controller
         $query = Personal::select()->where('personal_estado', 0)->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        if ( $permisoUsuario[0]->personal == 1 && $permisoUsuario[0]->ver_botones_personal == 1) {
+        if ( $permisoUsuario[0]->personal == 1 && $permisoUsuario[0]->reactivar_personal == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.personal.btnReactivar')
             ->rawColumns(['btn'])->toJson();

@@ -19,7 +19,7 @@
               </h3>
             </div>
             <!-- /.card-header -->
-            <div class="card-body"> <a href="{{ route('requisicion.index') }}"><button class="float-right btn btn-info">Regresar</button></a>
+            <div class="card-body"> <a href="{{ route('requisicion.index') }}"><button class="float-right btn btn-info"><i class="fas fa-arrow-left"></i> Regresar</button></a>
                 <dt>Tipo de requisición:</dt>
                 <dd>{{ $requisicion->requisicion_tipo }}</dd>
                 <dt>Fecha de inicio:</dt>

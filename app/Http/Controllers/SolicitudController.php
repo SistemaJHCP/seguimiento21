@@ -164,6 +164,21 @@ class SolicitudController extends Controller
         if (!$resultado) {
             return Redirect::back()->withErrors(['msg' => 'El formulario no ha sido cargado correctamente']);
         } else {
+            //Busca las caracteristicas de la requisicion
+            $req = Requisicion::find( $request->requisicion );
+            //Si existe la requisicion
+            if($req){
+                //Si el estado esta en vista o no vista, cambia su estado en "En proceso"
+                if($req->requisicion_estado == "No Vista" OR $req->requisicion_estado == "Vista"){
+                    $req->requisicion_estado = "En Proceso";
+                    $req->save();
+                }   
+            }
+
+
+
+
+
             //En caso contrario, has un bucle cargando la informacion de los costos en base a los materiales
             //existentes en el formulario
             foreach (array_keys( $request->cantidadHide ) as $key) {
@@ -875,7 +890,7 @@ class SolicitudController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->solicitud != 1 ){
+        if($permisoUsuario[0]->solicitud_pago != 1 ){
             return redirect()->route("home");
         }
 
@@ -917,7 +932,7 @@ class SolicitudController extends Controller
             return datatables()->of($query)
             ->addColumn('btn','sistema.btnNull')
             ->addColumn('aproRepro','sistema.solicitud.aprobacion.btnAproRepro')
-            ->rawColumns(['btn'])->toJson();
+            ->rawColumns(['btn', 'aproRepro'])->toJson();
         }
     }
 
@@ -945,7 +960,7 @@ class SolicitudController extends Controller
             'solicitud.solicitud_comentario AS solicitud_comentario',
             'solicitud.solicitud_estadopago AS solicitud_estadopago',
             'users.user_name AS nombre_aprobador',
-            'solicitud.usuario_id AS usuario_id', //00001
+            'solicitud.usuario_id AS usuario_id', 
             'banco_proveedor.numero AS numero',
             'banco.banco_nombre AS banco_nombre',
             'banco_proveedor.tipodecuenta AS tipodecuenta',
@@ -961,22 +976,34 @@ class SolicitudController extends Controller
             'proveedor.proveedor_telefono AS proveedor_telefono',
             'proveedor.proveedor_direccion AS proveedor_direccion',
             'proveedor.proveedor_correo AS proveedor_correo',
+            'requisicion.id AS id_requisicion',
             'requisicion.requisicion_codigo AS requisicion_codigo',
             'requisicion.requisicion_tipo AS requisicion_tipo',
             'requisicion.requisicion_fecha AS requisicion_fecha',
             'requisicion.requisicion_fechae AS requisicion_fechae',
             'requisicion.requisicion_motivo AS requisicion_motivo',
             'requisicion.requisicion_direccion AS requisicion_direccion',
-            'requisicion.requisicion_estado AS requisicion_estado'
+            'requisicion.requisicion_estado AS requisicion_estado',
+            'requisicion.usuario_id AS usuario_id',
         )
         ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
         ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
         ->leftJoin('requisicion', 'requisicion.id', '=', 'solicitud.requisicion_id')
-        ->leftJoin('users', 'users.id', '=', 'solicitud.aprobador_id')
+        ->leftJoin('users', function ($join) {
+            $join->on('users.id', '=', 'solicitud.aprobador_id');
+            // ->orOn('users.id', '=', 'requisicion.usuario_id');
+        })
         ->leftJoin('banco_proveedor', 'banco_proveedor.id', '=', 'solicitud.banco_proveedor_id')
         ->leftJoin('banco', 'banco.id', '=', 'banco_proveedor.banco_id')
         ->where('solicitud.id', $id)
         ->first();
+        
+        //Si existe el id de la requisicion, que me de el nombre de quien la realizo
+        if($solicitud->id_requisicion){
+            $nombre = User::select('user_name')->where('id',  $solicitud->usuario_id)->first();
+        } else {
+            $nombre = false;
+        }
 
         //En base a la consulta se busca el nombre de quien creó la solicitud
         $usuario = User::select('user_name')->where('id', $solicitud->usuario_id )->first();
@@ -1043,25 +1070,30 @@ class SolicitudController extends Controller
 
         }
         //Dependiendo si extiste o no costo, retornara la informacion a la vista
-
+    dump("Hay que realizar correcciones aqui, ya que hay cosas que ");
         if ($costo) {
             //Sumamos los costos
             for ($i=0; $i < count( $costo ); $i++) {
                 $num[] = $costo[$i]->sd_preciounitario * $costo[$i]->sd_cantidad;
             }
-            //Suma los montos dentro de un array
-            $total = array_sum($num);
-            //enviamos toda la informacion a la vista
-            return view('sistema.solicitud.aprobacion.consultar')->with(
-                [
-                    'permisoUsuario' => $permisoUsuario[0],
-                    'solicitud' => $solicitud,
-                    'costo' => $costo,
-                    'usuario' => $usuario,
-                    'total' => $total
-                ]
+            //Si num existe (para nomina no deberia de existir) 
+            dd($num);
+            if($num){
+                //Suma los montos dentro de un array
+                $total = array_sum($num);
+                //enviamos toda la informacion a la vista
+                return view('sistema.solicitud.aprobacion.consultar')->with(
+                    [
+                        'permisoUsuario' => $permisoUsuario[0],
+                        'solicitud' => $solicitud,
+                        'costo' => $costo,
+                        'usuario' => $usuario,
+                        'total' => $total,
+                        'nombre' => $nombre
+                    ]
 
-            );
+                );
+            }
 
         } else {
 
@@ -1071,7 +1103,8 @@ class SolicitudController extends Controller
                     'solicitud' => $solicitud,
                     'costo' => array(),
                     'usuario' => $usuario,
-                    'total' => array()
+                    'total' => array(),
+                    'nombre' => $nombre
                 ]
 
             );
@@ -1082,7 +1115,9 @@ class SolicitudController extends Controller
                 'permisoUsuario' => $permisoUsuario[0],
                 'solicitud' => $solicitud,
                 'costo' => $costo,
-                'usuario' => $usuario
+                'usuario' => $usuario,
+                'total' => array(),
+                'nombre' => $nombre
             ]
         );
 
@@ -1159,6 +1194,7 @@ class SolicitudController extends Controller
 
     public function solicitudesPagoCuenta($id)
     {
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -1253,6 +1289,7 @@ class SolicitudController extends Controller
 
     public function showCuenta($id)
     {
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 

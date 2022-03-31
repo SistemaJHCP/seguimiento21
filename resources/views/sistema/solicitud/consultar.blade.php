@@ -26,7 +26,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                              <dl><a href="{{ route('solicitud.index') }}"><button class="btn btn-info float-right">Regresar</button></a>
+                              <dl><a href="{{ route('solicitud.index') }}"><button class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a>
                                 <dt>Fecha de solicitud:</dt>
                                 <dd>{{ $solicitud->solicitud_fecha }}</dd>
                                 <dt>Motivo</dt>

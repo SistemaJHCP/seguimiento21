@@ -58,7 +58,7 @@ class CreateUsersTable extends Migration
             $table->boolean('modificar_tipo')->default(1);
             $table->boolean('ver_botones_tipo')->default(1);
             $table->boolean('desactivar_tipo')->default(1);
-            $table->boolean('reactivar_tipo')->default(1);
+            $table->boolean('reactivar_tipo')->default(0);//No es necesario al parecer
             $table->boolean('personal')->default(1);
             $table->boolean('crear_personal')->default(1);
             $table->boolean('modificar_personal')->default(1);
@@ -92,7 +92,8 @@ class CreateUsersTable extends Migration
             $table->boolean('material_solicitud_opcion')->default(1);
             $table->boolean('servicio_solicitud_opcion')->default(1);
             $table->boolean('viatico_solicitud_opcion')->default(1);
-            $table->boolean('caja_chica_solicitud')->default(1);
+            $table->boolean('caja_chica_solicitud_opcion')->default(0);//No es necesario al parecer
+            $table->boolean('caja_chica_solicitud')->default(0);//No es necesario al parecer
             $table->boolean('nomina_solicitud')->default(1);
             $table->boolean('materiales_solicitud')->default(1);
             $table->boolean('servicio_solicitud')->default(1);
@@ -118,6 +119,11 @@ class CreateUsersTable extends Migration
             $table->boolean('ver_botones_compra_cuentas_x_pagar')->default(1);
             $table->boolean('anular_compra_cuentas_x_pagar')->default(1);
             $table->boolean('reactivar_compra_cuentas_x_pagar')->default(1);
+            //Pierre y Hector (se cmenta porque esta funcion la realiza solicitud_pago)
+            // $table->boolean('aprobacion')->default(1);
+            // $table->boolean('aprobacion_ver_boton')->default(1);
+            // $table->boolean('aprobacion_responder')->default(1);
+            //----------------//
             $table->boolean('conciliacion')->default(1);
             $table->boolean('crear_conciliacion')->default(1);
             $table->boolean('modificar_conciliacion')->default(1);

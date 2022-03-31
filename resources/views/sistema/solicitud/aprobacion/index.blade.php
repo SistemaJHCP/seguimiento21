@@ -62,7 +62,7 @@
     @if (Session::has('respApro'))
     <script>
         Swal.fire(
-        'Sulicitud procesada!',
+        'Solicitud procesada!',
         'Se ha aprobado la solicitud!',
         'success'
         )
@@ -82,7 +82,7 @@
     @if (Session::has('respNega'))
     <script>
         Swal.fire(
-        'Sulicitud procesada!',
+        'Solicitud procesada!',
         'Se ha rechazado la solicitud de manera exitosa!',
         'warning'
         )

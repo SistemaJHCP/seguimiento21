@@ -27,7 +27,7 @@ class TipoController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->requisicion != 1){
+        if($permisoUsuario[0]->tipo != 1){
             return redirect()->route("home");
         }
 

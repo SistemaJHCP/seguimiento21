@@ -10,6 +10,7 @@
 @endsection
 
 @section('contenedor')
+
 <div class="row">
     <div class="col-md-12">
         <div class="card card-info card-outline">
@@ -26,7 +27,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                              <dl><a href="{{ route('sPagoIndex.index') }}"><button class="btn btn-info float-right">Regresar</button></a>
+                              <dl><a href="{{ route('sPagoIndex.index') }}"><button class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a>
                                 <dt>Fecha de solicitud:</dt>
                                 <dd>{{ $solicitud->solicitud_fecha }}</dd>
                                 <dt>Motivo</dt>
@@ -56,20 +57,6 @@
                                         @endif
                                     </div>
                                 </div>
-
-                                @if ( $solicitud->solicitud_comentario != "Sin Comentarios" && $solicitud->solicitud_comentario != NULL )
-                                    <div class="row" style="background:#17a2b8;color:white;">
-                                        <div class="col-6">
-                                            <dt>Comentario de presidencia</dt>
-                                            <dd>{{ $solicitud->solicitud_comentario }}</dd>
-                                        </div>
-                                        <div class="col-6">
-                                            <dt>Respuesta de:</dt>
-                                            <dd>{{ $solicitud->nombre_aprobador }}</dd>
-                                        </div>
-                                    </div>
-                                @endif
-
                                 <div class="row">
                                     <div class="col-6">
                                         <dt>Forma de pago</dt>
@@ -106,12 +93,20 @@
                                         </div>
                                     @endif
                                 </div>
+                                @if ( $solicitud->solicitud_comentario != "Sin Comentarios" && $solicitud->solicitud_comentario != NULL )
+                                    <div class="row" style="background:#17a2b8;color:white;">
+                                        <div class="col-12">
+                                            <dt>Comentario de presidencia</dt>
+                                            <dd>{{ $solicitud->solicitud_comentario }}</dd>
+                                        </div>
+                                    </div>
+                                @endif
                               </dl>
                             </div>
                             <!-- /.card-body -->
                           </div>
                           <!-- /.card -->
-                    @if ($solicitud->solicitud_aprobacion == "Sin Respuesta")
+                    @if ($solicitud->solicitud_aprobacion == "Sin Respuesta" && $permisoUsuario->aprobacion_solicitud_pago == 1)
                         <div class="row">
                             <div class="col-6" id="validacion">
                                 <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#aprobarSolicitud">Aprobar</button>
@@ -168,22 +163,24 @@
                                       <tr>
                                         <th class="bg-info">Cantidad</th>
                                         <th class="bg-info">Nombre</th>
-                                        <th class="bg-info">Precio</th>
+                                        <th class="bg-info">Precio unitario</th>
+                                        <th class="bg-info">Precio total</th>
                                       </tr>
                                     </thead>
                                     <tbody>
 
                                     @foreach ( $costo as $c)
                                         <tr>
-                                            <td>{{ $c->sd_cantidad }}</td>
-                                            <td>{{ $c->nombre }}</td>
-                                            <td>{{ $c->sd_preciounitario }} {{ $c->moneda }}</td>
+                                            <td align="right">{{ $c->sd_cantidad }}</td>
+                                            <td align="right">{{ $c->nombre }}</td>
+                                            <td align="right">{{ $c->sd_preciounitario }} {{ $c->moneda }}</td>
+                                            <td align="right">{{ $c->sd_cantidad * $c->sd_preciounitario }}  {{ $c->moneda }}</td>
                                         </tr>
                                     @endforeach
                                     @if ($total)
                                     <tr>
-                                        <th colspan="2"><b>Monto total:</b></th>
-                                        <th id="colorTotal">{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
+                                        <th colspan="3"><b>Monto total:</b></th>
+                                        <th style="text-align:right;">{{ number_format( $total, 2 ) }}{{ $costo[0]->moneda }}</th>
                                     </tr>
 
                                     @endif
@@ -222,7 +219,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <input type="submit" value="Aprobar solicitud" class="btn btn-info">
+          <input type="submit" id="apro" value="Aprobar solicitud" class="btn btn-info">
         </div>
         </form>
       </div>
@@ -252,7 +249,7 @@
         </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <input type="submit" value="Rechazar solicitud" class="btn btn-danger">
+                <input type="submit" id="recha" value="Rechazar solicitud" class="btn btn-danger">
             </div>
             </form>
       </div>
@@ -391,8 +388,10 @@
               <dd>{{ $solicitud->requisicion_motivo }}</dd>
               <dt>Dirección</dt>
               <dd>{{ $solicitud->requisicion_direccion }}</dd>
-              <dt>Estado</dt>
-              <dd>{{ $solicitud->requisicion_estado }}</dd>
+              @if ($nombre != NULL)
+              <dt>Solicitante</dt>
+              <dd>{{ $nombre->user_name }}</dd>
+              @endif
           </dl>
         </div>
         <div class="modal-footer">

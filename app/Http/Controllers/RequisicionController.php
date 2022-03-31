@@ -51,6 +51,10 @@ class RequisicionController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        if($permisoUsuario[0]->requisicion != 1 || $permisoUsuario[0]->crear_requisicion != 1 ){
+            return redirect()->route("home");
+        }
+
         $proveedor = Proveedor::select("id", "proveedor_nombre")->orderBy("proveedor_nombre", "ASC")->get();
         $obra = Obra::select("id", "obra_codigo", "obra_nombre")->orderBy("id", "DESC")->get();
 
@@ -160,7 +164,6 @@ class RequisicionController extends Controller
         }
 
         //Realizo la consulta
-
         $requisicion = Requisicion::select(
             'requisicion.id AS id',
             'requisicion.requisicion_codigo',
@@ -171,6 +174,8 @@ class RequisicionController extends Controller
             'requisicion.requisicion_direccion AS requisicion_direccion',
             'requisicion.requisicion_observaciones AS requisicion_observaciones',
             'requisicion.requisicion_estado AS requisicion_estado',
+            'requisicion.usuario_id AS usuario_id',
+            'requisicion.usuario_view_id AS usuario_view_id',
             'obra.id AS obra_id',
             'obra.obra_codigo AS obra_codigo',
             'obra.obra_nombre AS obra_nombre',
@@ -195,6 +200,16 @@ class RequisicionController extends Controller
         ->where('requisicion.id', $id)
         ->limit(1)->get();
 
+        // validamos si es la misma persona, de nos er y de poder crear solicitudes, se cambiara
+        // el estado a Visto
+        if(  $requisicion[0]->requisicion_estado == "No Vista" AND $requisicion[0]->usuario_id != \Auth::user()->id AND $permisoUsuario[0]->crear_solicitud == 1 ){
+            // $cambio = Requisicion::find( $requisicion[0]->id );
+            $requisicion[0]->requisicion_estado = "Vista";
+            $requisicion[0]->usuario_view_id = \Auth::user()->id;
+            $requisicion[0]->save();
+        }
+
+        //Consulta de materiales
         $sol_det = Solicitud_detalle::select(
             'solicitud_detalle.id AS id',
             'solicitud_detalle.sd_cantidad AS sd_cantidad',
@@ -357,6 +372,7 @@ class RequisicionController extends Controller
             'requisicion.requisicion_tipo AS requisicion_tipo',
             'requisicion.requisicion_fecha AS requisicion_fecha',
             'requisicion.requisicion_fechae AS requisicion_fechae',
+            'requisicion.usuario_id AS usuario_id',
             'obra.obra_nombre AS obra',
             'requisicion.requisicion_motivo AS requisicion_motivo',
             'requisicion.requisicion_estado AS requisicion_estado',
@@ -364,8 +380,9 @@ class RequisicionController extends Controller
         )
         ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
         ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
+        ->orderBy('requisicion_fecha', 'DESC')
+        ->limit(2000)
         ->get();
-
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->obra == 1 && $permisoUsuario[0]->ver_botones_requisicion == 1) {
@@ -614,7 +631,7 @@ class RequisicionController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if( $permisoUsuario[0]->requisicion != 1 && $permisoUsuario[0]->anular_requisicion != 1 ){
+        if( $permisoUsuario[0]->requisicion != 1 || $permisoUsuario[0]->anular_requisicion != 1 ){
             return redirect()->route("home");
         }
 

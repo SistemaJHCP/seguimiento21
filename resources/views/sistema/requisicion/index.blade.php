@@ -14,7 +14,10 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Todas las requisiciones</h3> <a href="{{ route('requisicion.crear') }}"><button style="margin-left:10px;" class="btn btn-info float-right">Nueva requisición</button></a>
+                <h3 class="card-title">Todas las requisiciones</h3>
+                @if ($permisoUsuario->crear_requisicion == 1)
+                <a href="{{ route('requisicion.crear') }}"><button style="margin-left:10px;" class="btn btn-info float-right">Nueva requisición</button></a>
+                @endif
             </div>
             <div class="card-body">
                 <table id="listaObras" class="table table-bordered table-hover" style="font-size: 12px">

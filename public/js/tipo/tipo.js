@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     $('#listaTipo').DataTable({
-        serverSide:true,
+        serverSide: false,
         processing: true,
         ajax: "tipo/lista-de-tipos-de-obras",
         columns: [

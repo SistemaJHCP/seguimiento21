@@ -12,6 +12,7 @@
 @section('contenedor')
 <div class="row">
     <div class="col-md-4">
+        @if ( $permisoUsuario->crear_tipo == 1 )
         <div class="info-box" data-toggle="modal" data-target="#staticBackdrop">
             <span class="info-box-icon bg-info elevation-1"><i class="fas fa-building"></i></span>
             <div class="info-box-content" style="color:black;">
@@ -23,6 +24,7 @@
             </div>
         <!-- /.info-box-content -->
         </div>
+        @endif
     </div>
     <div class="col-md-8">
         <div class="card">

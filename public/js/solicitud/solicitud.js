@@ -79,7 +79,11 @@ $(document).ready(function(){
 
                 })
                 .fail( function(){
-                    console.log("fallo el ajax en el modulo de anulacion de solicitud");
+                    Swal.fire(
+                        'Error',
+                        'No tiene autorizado realizar esta acción.',
+                        'error'
+                    );
                 })
 
 
