@@ -403,13 +403,6 @@
 @endsection
 @section('js')
 <script src="{{ asset("js/solicitud/consulta.js") }}"></script>
-<script>
-
-if ({{ number_format( $total, 2 ) }} < 0 ) {
-    $('#colorTotal').css({'color': '#dc3545'});
-}
-
-</script>
 @endsection
 @section('css')
 

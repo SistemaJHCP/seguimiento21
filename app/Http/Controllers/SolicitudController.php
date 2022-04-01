@@ -172,7 +172,7 @@ class SolicitudController extends Controller
                 if($req->requisicion_estado == "No Vista" OR $req->requisicion_estado == "Vista"){
                     $req->requisicion_estado = "En Proceso";
                     $req->save();
-                }   
+                }
             }
 
 
@@ -515,11 +515,12 @@ class SolicitudController extends Controller
         if ( $permisoUsuario[0]->solicitud == 1 && $permisoUsuario[0]->ver_botones_solicitud == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.solicitud.btnSolicitud')
-            ->rawColumns(['btn'])->toJson();
+            ->addColumn('btn2','sistema.solicitud.aprobacion.btnAproRepro')
+            ->rawColumns(['btn','btn2'])->toJson();
         } else {
             return datatables()->of($query)
             ->addColumn('btn','sistema.btnNull')
-            ->rawColumns(['btn'])->toJson();
+            ->rawColumns(['btn','btn2'])->toJson();
         }
 
     }
@@ -960,7 +961,7 @@ class SolicitudController extends Controller
             'solicitud.solicitud_comentario AS solicitud_comentario',
             'solicitud.solicitud_estadopago AS solicitud_estadopago',
             'users.user_name AS nombre_aprobador',
-            'solicitud.usuario_id AS usuario_id', 
+            'solicitud.usuario_id AS usuario_id',
             'banco_proveedor.numero AS numero',
             'banco.banco_nombre AS banco_nombre',
             'banco_proveedor.tipodecuenta AS tipodecuenta',
@@ -997,7 +998,7 @@ class SolicitudController extends Controller
         ->leftJoin('banco', 'banco.id', '=', 'banco_proveedor.banco_id')
         ->where('solicitud.id', $id)
         ->first();
-        
+
         //Si existe el id de la requisicion, que me de el nombre de quien la realizo
         if($solicitud->id_requisicion){
             $nombre = User::select('user_name')->where('id',  $solicitud->usuario_id)->first();
@@ -1070,14 +1071,14 @@ class SolicitudController extends Controller
 
         }
         //Dependiendo si extiste o no costo, retornara la informacion a la vista
-    dump("Hay que realizar correcciones aqui, ya que hay cosas que ");
-        if ($costo) {
+
+        if (count( $costo ) >= 1) {
             //Sumamos los costos
             for ($i=0; $i < count( $costo ); $i++) {
                 $num[] = $costo[$i]->sd_preciounitario * $costo[$i]->sd_cantidad;
             }
-            //Si num existe (para nomina no deberia de existir) 
-            dd($num);
+            //Si num existe (para nomina no deberia de existir)
+            // dd(  );
             if($num){
                 //Suma los montos dentro de un array
                 $total = array_sum($num);
@@ -1271,7 +1272,7 @@ class SolicitudController extends Controller
         }
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        if ( $permisoUsuario[0]->solicitud_pago == 1 && $permisoUsuario[0]->ver_solicitud_pago == 1) {
+        if ( $permisoUsuario[0]->compra_cuentas_x_pagar == 1 && $permisoUsuario[0]->ver_botones_compra_cuentas_x_pagar == 1) {
             return datatables()->of($query)
             ->addColumn('apro','sistema.solicitud.cuentas.btnAproRepro')
             ->addColumn('btn','sistema.solicitud.cuentas.btnCuenta')
@@ -1293,7 +1294,7 @@ class SolicitudController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->ver_compra_cuentas_x_pagar != 1 ){
+        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->aproRepro_compra_cuentas_x_pagar != 1 ){
             return redirect()->route("home");
         }
         //Se realiza la consulta
@@ -1351,7 +1352,6 @@ class SolicitudController extends Controller
             $join->on('users.id', '=', 'solicitud.aprobador_id');
             // ->orOn('users.id', '=', 'solicitud.usuario_id');
         })
-
         ->where('solicitud.id', $id)
         ->first();
 
@@ -1488,7 +1488,7 @@ class SolicitudController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->crear_compra_cuentas_x_pagar != 1 ){
+        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->aproRepro_compra_cuentas_x_pagar != 1 ){
             return redirect()->route("home");
         }
 

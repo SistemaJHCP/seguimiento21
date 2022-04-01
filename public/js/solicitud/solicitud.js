@@ -8,12 +8,12 @@ $(document).ready(function(){
             {data: 'solicitud_numerocontrol'},
             {data: 'fecha'},
             {data: 'solicitud_motivo'},
-            {data: 'solicitud_aprobacion'},
+            {data: 'btn2'},
             {data: 'nombre'},
             {data: 'btn'}
         ],
         order: [
-            [1, "desc"]
+            [5, "desc"]
           ],
         bLengthChange: false,
         searching: true,
@@ -34,7 +34,7 @@ $(document).ready(function(){
             "processing" : "procesando."
         },
         "columnDefs": [
-            { "width": "16%", "targets": 5 }
+            { "width": "15%", "targets": 5 }
           ],
     });
 

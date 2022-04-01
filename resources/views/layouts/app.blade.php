@@ -170,31 +170,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <?php
             }
             ?>
-
-
-
-
-<li class="nav-item dropdown">
-    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Cuentas por pagar</a>
-    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-    <?php
-        if ($permisoUsuario->compra_cuentas_x_pagar  == 1){
-    ?>
-        <li><a href="{{ route('cuentas.index') }}" class="dropdown-item">Solicitud de cuentas </a></li>
-    <?php
-        }
-    ?>
-    <?php
-        if ($permisoUsuario->conciliacion == 1){
-    ?>
-        <li><a href="{{ route('conciliacion.index') }}" class="dropdown-item">Conciliación</a></li>
-    <?php
-        }
-    ?>
-    </ul>
-</li>
-
-
+    @if ($permisoUsuario->cuentas_por_pagar_btn == 1)
+        <li class="nav-item dropdown">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Cuentas por pagar</a>
+            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+            <?php
+                if ($permisoUsuario->compra_cuentas_x_pagar  == 1){
+            ?>
+                <li><a href="{{ route('cuentas.index') }}" class="dropdown-item">Solicitud de cuentas </a></li>
+            <?php
+                }
+            ?>
+            <?php
+                if ($permisoUsuario->conciliacion == 1){
+            ?>
+                <li><a href="{{ route('conciliacion.index') }}" class="dropdown-item">Conciliación</a></li>
+            <?php
+                }
+            ?>
+            </ul>
+        </li>
+    @endif
 
 
 

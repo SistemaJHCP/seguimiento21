@@ -290,7 +290,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <table class="table table-bordered table-responsive">
+                                <table class="table table-responsive table-bordered">
                                     <thead>
                                       <tr>
                                         <th class="bg-info">Cantidad</th>
@@ -300,22 +300,20 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-
-                                    @foreach ( $costo as $c)
+                                        @foreach ( $costo as $c)
+                                            <tr>
+                                                <td>{{ $c->sd_cantidad }}</td>
+                                                <td>{{ $c->nombre }}</td>
+                                                <td style="text-align:right;">{{ $c->sd_preciounitario }} {{ $c->moneda }}</td>
+                                                <td style="text-align:right;">{{ $c->sd_preciounitario * $c->sd_cantidad }} {{ $c->moneda }}</td>
+                                            </tr>
+                                        @endforeach
+                                        @if ($total)
                                         <tr>
-                                            <td>{{ $c->sd_cantidad }}</td>
-                                            <td>{{ $c->nombre }}</td>
-                                            <td style="text-align:right;">{{ $c->sd_preciounitario }} {{ $c->moneda }}</td>
-                                            <?php $to = $c->sd_preciounitario * $c->sd_cantidad;  ?>
-                                            <td style="text-align:right;">{{ $to }} {{ $c->moneda }}</td>
+                                            <th colspan="3"><b>Monto total:</b></th>
+                                            <th id="paralax" style="text-align:right;">{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
                                         </tr>
-                                    @endforeach
-                                    @if ($total)
-                                    <tr>
-                                        <th colspan="3"><b>Monto total:</b></th>
-                                        <th id="paralax" style="text-align:right;">{{ number_format( $total, 2 ) }} {{ $costo[0]->moneda }}</th>
-                                    </tr>
-                                    @endif
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

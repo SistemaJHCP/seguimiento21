@@ -32,25 +32,20 @@ class ConciliacionController extends Controller
         return $permiso;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
 
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if($permisoUsuario[0]->solicitud != 1){
+        if($permisoUsuario[0]->conciliacion != 1){
             return redirect()->route("home");
         }
 
         //Solicitamos la lista de obra
         $obra = Obra::select('id', 'obra_codigo', 'obra_nombre')->where('obra_estado', 1)->orderBy('id', 'DESC')->get();
 
-
+        //Retornamos a la vista junto con las obras
         return view('sistema.conciliacion.index')->with([
             'permisoUsuario' => $permisoUsuario[0],
             'obra' => $obra
@@ -58,75 +53,19 @@ class ConciliacionController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
     public function imprimirConciliacion(Request $request)
     {
-        return Excel::download(new ConciliacionExport( $request ), 'nombre-de-excel.xlsx');
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->conciliacion != 1 || $permisoUsuario[0]->crear_conciliacion != 1){
+            return redirect()->route("home");
+        }
+        //Crea un numero dandom
+        $random = rand(0,100);
+        //Este es el comando para imprimir en XLSX la informacion suministrada
+        return Excel::download(new ConciliacionExport( $request ), 'JHCP_OBR-'.$request->obra.'_'.$request->inicial.'_'.$request->final.'_'. $random .'.xlsx');
     }
 
 

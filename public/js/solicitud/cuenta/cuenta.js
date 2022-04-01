@@ -31,20 +31,20 @@ $(document).ready(function(){
             destroy: true,
             paging: true,
             searching: true,
-            "language": {
-                "search": "Buscar: ",
-                "lengthMenu": "Display _MENU_ records per page",
-                "zeroRecords": "Lo que busca no esta en el registro",
-                "info": "Mostrando la página _PAGE_ of _PAGES_",
-                "infoEmpty": "No records available",
-                "infoFiltered": "(Filtrado de _MAX_ registros totales)",
-                'paginate':{
-                    'next': 'Siguiente',
-                    'previous': 'Anteror'
+            language: {
+                search: "Buscar: ",
+                lengthMenu: "Display _MENU_ records per page",
+                zeroRecords: "Lo que busca no esta en el registro",
+                info: "Mostrando la página _PAGE_ of _PAGES_",
+                infoEmpty: "No records available",
+                infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                paginate:{
+                    next: 'Siguiente',
+                    previous: 'Anteror'
                 },
-                "processing" : "procesando."
+                processing : "procesando."
             },
-            "columnDefs": [
+            columnDefs: [
                 { "width": "6%", "targets": 7 },
                 { "width": "10%", "targets": 4 },
                 { "width": "8%", "targets": 5 }
