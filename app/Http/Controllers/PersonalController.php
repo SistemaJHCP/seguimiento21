@@ -170,7 +170,7 @@ class PersonalController extends Controller
 
     public function jq_listaPersonal()
     {
-
+        
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 

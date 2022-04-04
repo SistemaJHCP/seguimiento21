@@ -107,36 +107,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 ?>
                 </ul>
             </li>
-          <li class="nav-item">
-            <li class="nav-item dropdown">
-                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Control de obras</a>
-                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                <?php
-                    if ($permisoUsuario->usuario == 1){
-                ?>
-                    <li><a href="{{ route('obra.index') }}" class="dropdown-item">Obras </a></li>
-                <?php
-                    }
-                ?>
-                <?php
-                    if ($permisoUsuario->tipo == 1){
-                ?>
-                    <li><a href="{{ route('tipo.index') }}" class="dropdown-item">Tipo de obra</a></li>
-                <?php
-                    }
-                ?>
-                <?php
-                    if ($permisoUsuario->personal == 1){
-                ?>
-                    <li><a href="{{ route('personal.index') }}" class="dropdown-item">Personal  </a></li>
-                <?php
-                    }
-                ?>
-
-
-                </ul>
+            <?php
+            if ($permisoUsuario->control_de_obras_btn == 1) {
+            ?>
+            <li class="nav-item">
+                <li class="nav-item dropdown">
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Control de obras</a>
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                    <?php
+                        if ($permisoUsuario->obra == 1){
+                    ?>
+                        <li><a href="{{ route('obra.index') }}" class="dropdown-item">Obras </a></li>
+                    <?php
+                        }
+                    ?>
+                    <?php
+                        if ($permisoUsuario->tipo == 1){
+                    ?>
+                        <li><a href="{{ route('tipo.index') }}" class="dropdown-item">Tipo de obra</a></li>
+                    <?php
+                        }
+                    ?>
+                    <?php
+                        if ($permisoUsuario->personal == 1){
+                    ?>
+                        <li><a href="{{ route('personal.index') }}" class="dropdown-item">Personal  </a></li>
+                    <?php
+                        }
+                    ?>
+                    </ul>
+                </li>
             </li>
-          </li>
+            <?php
+            }
+            ?>
             <?php
             if ($permisoUsuario->requisicion == 1){
             ?>
