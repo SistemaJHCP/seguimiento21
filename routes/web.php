@@ -20,6 +20,7 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::post('/cambiar-password', [App\Http\Controllers\HomeController::class, 'cambiarClave'])->name('home.clave');
 });
 
 Route::middleware('auth')->prefix('usuario')->group(function () {

@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        <link rel="shortcut icon" href="{{ asset('imagen/micro-logo.png') }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Bienvenido al Sistema JHCP | ver. 2.0</title>

@@ -7,6 +7,7 @@
     {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
     <li class="breadcrumb-item active">Inicio</li>
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -36,17 +37,41 @@
             </div>
           </div>
 
-      <div class="card card-primary card-outline">
-        <div class="card-header">
-          <h5 class="card-title m-0">Featured</h5>
-        </div>
-        <div class="card-body">
-          <h6 class="card-title">Special title treatment</h6>
+          <div class="row">
+              <div class="col-1"></div>
+              <div class="col-10">
+                <div class="info-box mb-3 bg-info">
+                    <span class="info-box-icon"><i class="far fa-check-circle"></i></span>
 
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
+                    <div class="info-box-content">
+                      <span class="info-box-number">Obras realizadas</span>
+                      <span class="info-box-text"> <b>Total:</b> {{ $totalObras }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+
+                  <div class="info-box mb-3 bg-info">
+                    <span class="info-box-icon"><i class="far fa-calendar-alt"></i></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-number">Para el dia {{ date('Y-m-d') }}, se han realizado</span>
+                      <span class="info-box-text">{{ $totalSolicitudesGeneral }}  solicitudes</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+
+                  <div class="info-box mb-3 bg-info">
+                    <span class="info-box-icon"><i class="far fa-comment"></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-number">Se han aprobado un total de</span>
+                      <span class="info-box-text">{{ $totalSolicitudes }} solicitudes</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+              </div>
+              <div class="col-1"></div>
+          </div>
     </div>
     <!-- /.col-md-6 -->
 
@@ -117,15 +142,15 @@
         <div class="modal-body">
         <div class="row">
             <div class="col-8">
-                <form action="" method="post">
+            <form action="{{ route('home.clave') }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label>Ingrese su contraseña</label>
-                        <input type="text" name="clave" id="clave" placeholder="Ingrese su contraseña" class="form-control" maxlength="60">
+                        <input type="password" name="clave" id="clave" placeholder="Ingrese su contraseña" class="form-control" maxlength="60">
                         <label>Repita su contraseña</label>
-                        <input type="text" id="clave2" placeholder="Repita la contraseña" class="form-control" maxlength="60">
+                        <input type="password" id="clave2" placeholder="Repita la contraseña" class="form-control" maxlength="60">
                     </div>
-                </form>
+
             </div>
             <div class="col-4">
                 <i class="fas fa-unlock" style="font-size: 100px; padding:20px;color:#17a2b8;"></i>
@@ -134,8 +159,9 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-info">Cambiar contraseña</button>
+          <button type="submit" class="btn btn-info" id="cambiar" disabled>Cambiar contraseña</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
@@ -143,6 +169,7 @@
 
 @endsection
 @section('js')
+<script src="{{ asset("js/base.js") }}"></script>
 @if (Session::has('resp'))
 
     @if (Session::has('resp') == true)

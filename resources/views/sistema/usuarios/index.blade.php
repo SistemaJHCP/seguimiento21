@@ -5,6 +5,7 @@
 @endsection
 @section('navegador')
     <li class="breadcrumb-item active">Usuarios</li>
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')

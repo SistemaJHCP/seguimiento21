@@ -6,6 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <html lang="es">
 <head>
+  <link rel="shortcut icon" href="{{ asset('imagen/micro-logo.png') }}" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
