@@ -377,15 +377,19 @@ class RequisicionController extends Controller
             'requisicion.requisicion_motivo AS requisicion_motivo',
             'requisicion.requisicion_estado AS requisicion_estado',
             'users.user_name AS usuario_nombre',
+            'permisos.modificar_requisicion AS modificar_requisicion',
+            'permisos.ver_botones_requisicion AS ver_botones_requisicion',
+            'permisos.anular_requisicion AS anular_requisicion'
         )
         ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
         ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
+        ->leftJoin('permisos','permisos.id', '=', 'users.permiso_id')
         ->orderBy('requisicion_fecha', 'DESC')
         ->limit(2000)
         ->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        if ( $permisoUsuario[0]->obra == 1 && $permisoUsuario[0]->ver_botones_requisicion == 1) {
+        if ( $permisoUsuario[0]->requisicion == 1 && $permisoUsuario[0]->ver_botones_requisicion == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.requisicion.btnRequisicion')
             ->rawColumns(['btn'])->toJson();

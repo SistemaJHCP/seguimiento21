@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Permiso;
 use App\Models\Solicitud;
@@ -910,30 +911,54 @@ class SolicitudController extends Controller
         }
 
         //Realizamos la consulta a la base de datos
-        $query = Solicitud::select(
-            'solicitud.id AS id',
-            'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
-            'solicitud.solicitud_fecha AS fecha',
-            'solicitud.solicitud_motivo AS solicitud_motivo',
-            'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
-            'users.user_name AS nombre'
-        )
-        ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
-        ->orderBy('id', 'DESC')
-        ->limit(1000)
-        ->get();
+
+
+        $query = DB::select('select
+        `solicitud`.`id` as `id`,
+        `solicitud`.`solicitud_numerocontrol` as `solicitud_numerocontrol`,
+        `solicitud`.`solicitud_fecha` as `fecha`,
+        `solicitud`.`solicitud_estadopago` as `pago`,
+        (select SUM(solicitud_detalle.sd_cantidad * solicitud_detalle.sd_preciounitario) from solicitud_detalle WHERE solicitud.id = solicitud_detalle.solicitud_id) as `suma`,
+        `solicitud`.`moneda` as `moneda`,
+        `obra`.`obra_nombre` as `obra_nombre`,
+        `solicitud`.`solicitud_motivo` as `solicitud_motivo`,
+        `solicitud`.`solicitud_aprobacion` as `solicitud_aprobacion`,
+        `users`.`user_name` as `nombre`
+
+        from `solicitud`
+        left join `users` on `users`.`id` = `solicitud`.`usuario_id`
+        left join `obra` on `obra`.`id` = `solicitud`.`obra_id`
+        order by `id` desc limit 1000');
+
+        // $query = Solicitud::select(
+        //     'solicitud.id AS id',
+        //     'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+        //     'solicitud.solicitud_fecha AS fecha',
+        //     'solicitud.solicitud_motivo AS solicitud_motivo',
+        //     'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
+        //     'obra.obra_nombre AS obra_nombre',
+        //     'users.user_name AS nombre'
+        // )
+        // ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+        // ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+        // ->orderBy('id', 'DESC')
+        // ->limit(1000)
+        // ->toSql();
+
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->solicitud_pago == 1 && $permisoUsuario[0]->ver_solicitud_pago == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.solicitud.aprobacion.btnConsultarAprobacion')
             ->addColumn('aproRepro','sistema.solicitud.aprobacion.btnAproRepro')
-            ->rawColumns(['btn', 'aproRepro'])->toJson();
+            ->addColumn('btn2','sistema.solicitud.aprobacion.btnPago')
+            ->rawColumns(['btn', 'aproRepro', 'btn2'])->toJson();
         } else {
             return datatables()->of($query)
             ->addColumn('btn','sistema.btnNull')
             ->addColumn('aproRepro','sistema.solicitud.aprobacion.btnAproRepro')
-            ->rawColumns(['btn', 'aproRepro'])->toJson();
+            ->addColumn('btn2','sistema.solicitud.aprobacion.btnPago')
+            ->rawColumns(['btn', 'aproRepro', 'btn2'])->toJson();
         }
     }
 

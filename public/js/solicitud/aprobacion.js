@@ -6,10 +6,13 @@ $(document).ready(function(){
         ajax: "solicitud-de-pago/lista-solicitud",
         columns: [
             {data: 'solicitud_numerocontrol'},
+            {data: 'obra_nombre'},
             {data: 'fecha'},
             {data: 'solicitud_motivo'},
             {data: 'aproRepro'},
+            {data: 'btn2'},
             {data: 'nombre'},
+            {data: 'suma',render: $.fn.dataTable.render.number( ',', '.', 2)},
             {data: 'btn'}
         ],
         order: [
@@ -34,8 +37,11 @@ $(document).ready(function(){
             "processing" : "procesando."
         },
         "columnDefs": [
-            { "width": "7%", "targets": 5 },
-            { "width": "10%", "targets": 3 }
+            { "width": "7%", "targets": 1 },
+            { "width": "10%", "targets": 2 },
+            { "width": "40%", "targets": 3 },
+            { "width": "10%", "targets": 4 },
+            { "width": "10%", "targets": 5 }
           ],
     });
 

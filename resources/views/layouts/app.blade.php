@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Sistema JHCP | Ver. 2.0</title>
+  <title>Sistema JHCP | Ver. 1.0</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -41,72 +41,79 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <!-- Left navbar links -->
         <ul class="navbar-nav ml-auto">
+            <?php
+            if( $permisoUsuario->maestro_btn == 1 ){
+            ?>
             <li class="nav-item dropdown">
-                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Maestros</a>
-                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                <?php
-                    if ($permisoUsuario->suministros == 1){
-                ?>
-                    <li><a href="{{ route('suministro.index') }}" class="dropdown-item">Suministros </a></li>
-                <?php
-                    }
-                ?>
-                <?php
-                    if ($permisoUsuario->proveedores == 1){
-                ?>
-                    <li><a href="{{ route("proveedor.index") }}" class="dropdown-item">Proveedores </a></li>
-                <?php
-                    }
-                ?>
-                <?php
-                    if ($permisoUsuario->cliente == 1){
-                ?>
-                    <li><a href="{{ route("cliente.index") }}" class="dropdown-item">Clientes </a></li>
-                <?php
-                    }
-                ?>
+              <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Maestros</a>
+              <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+              <?php
+                  if ($permisoUsuario->suministros == 1){
+              ?>
+                  <li><a href="{{ route('suministro.index') }}" class="dropdown-item">Suministros </a></li>
+              <?php
+                  }
+              ?>
+              <?php
+                  if ($permisoUsuario->proveedores == 1){
+              ?>
+                  <li><a href="{{ route("proveedor.index") }}" class="dropdown-item">Proveedores </a></li>
+              <?php
+                  }
+              ?>
+              <?php
+                  if ($permisoUsuario->cliente == 1){
+              ?>
+                  <li><a href="{{ route("cliente.index") }}" class="dropdown-item">Clientes </a></li>
+              <?php
+                  }
+              ?>
 
-                <?php
-                    if ($permisoUsuario->materiales == 1){
-                ?>
-                    <li><a href="{{ route('materiales.index') }}" class="dropdown-item">Materiales </a></li>
-                <?php
-                    }
-                ?>
+              <?php
+                  if ($permisoUsuario->materiales == 1){
+              ?>
+                  <li><a href="{{ route('materiales.index') }}" class="dropdown-item">Materiales </a></li>
+              <?php
+                  }
+              ?>
 
-                <?php
-                    if ($permisoUsuario->servicio == 1){
-                ?>
-                    <li><a href="{{ route("servicio.index") }}" class="dropdown-item">Servicio</a></li>
-                <?php
-                    }
-                ?>
+              <?php
+                  if ($permisoUsuario->servicio == 1){
+              ?>
+                  <li><a href="{{ route("servicio.index") }}" class="dropdown-item">Servicio</a></li>
+              <?php
+                  }
+              ?>
 
-                <?php
-                    if ($permisoUsuario->viatico == 1){
-                ?>
-                    <li><a href="{{ route("viatico.index") }}" class="dropdown-item">Viático</a></li>
-                <?php
-                    }
-                ?>
+              <?php
+                  if ($permisoUsuario->viatico == 1){
+              ?>
+                  <li><a href="{{ route("viatico.index") }}" class="dropdown-item">Viático</a></li>
+              <?php
+                  }
+              ?>
 
-                <?php
-                    if ($permisoUsuario->usuario == 1){
-                ?>
-                    <li><a href="{{ route('usuario.index') }}" class="dropdown-item">Usuarios </a></li>
-                <?php
-                    }
-                ?>
+              <?php
+                  if ($permisoUsuario->usuario == 1){
+              ?>
+                  <li><a href="{{ route('usuario.index') }}" class="dropdown-item">Usuarios </a></li>
+              <?php
+                  }
+              ?>
 
-                <?php
-                    if ($permisoUsuario->ptc == 1){
-                ?>
-                    <li><a href="{{ route("maestro.index") }}" class="dropdown-item">Maestro PTC</a></li>
-                <?php
-                    }
-                ?>
-                </ul>
-            </li>
+              <?php
+                  if ($permisoUsuario->ptc == 1){
+              ?>
+                  <li><a href="{{ route("maestro.index") }}" class="dropdown-item">Maestro PTC</a></li>
+              <?php
+                  }
+              ?>
+              </ul>
+          </li>
+            <?php
+            }
+            ?>
+
             <?php
             if ($permisoUsuario->control_de_obras_btn == 1) {
             ?>
@@ -355,7 +362,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background: #bfbcc7"> {{-- Rosman --}}
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">
@@ -394,7 +401,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-        Sistema en desarrollo
+        Ver. 1.0
     </div>
     <!-- Default to the left -->
     Sistema JHCP. <strong>Copyright &copy; 2014-{{ date('Y') }} </strong> Todos los derechos reservados

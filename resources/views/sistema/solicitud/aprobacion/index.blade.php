@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item">Home</li>
     <li class="breadcrumb-item">Layout</li> --}}
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -23,10 +23,13 @@
                 <tr>
 
                   <th>Código</th>
+                  <th>Obra</th>
                   <th>Fecha</th>
-                  <th>motivo</th>
-                  <th>estado</th>
+                  <th>Motivo</th>
+                  <th>Estado</th>
+                  <th>Pago</th>
                   <th>Solicitante</th>
+                  <th class="float-right">Monto</th>
                   <th>Acción</th>
                 </tr>
                 </thead>
@@ -37,10 +40,13 @@
                 <tr>
 
                   <th>Código</th>
+                  <th>Obra</th>
                   <th>fecha</th>
-                  <th>motivo</th>
-                  <th>estado</th>
+                  <th>Motivo</th>
+                  <th>Estado</th>
+                  <th>Pago</th>
                   <th>Solicitante</th>
+                  <th>Monto</th>
                   <th>Acción</th>
                 </tr>
                 </tfoot>

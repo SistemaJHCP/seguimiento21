@@ -10,8 +10,9 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset("plugins/bootstrap/css/bootstrap.css") }}">
+        <script src="{{ asset("plugins/plugins/jquery/jquery.min.js") }}"></script>
         <script src="{{ asset("plugins/bootstrap/js/bootstrap.js") }}"></script>
-        <script src="{{ asset("plugins/jquery/jquery.js") }}"></script>
+
         <!-- Styles -->
 
 
@@ -67,11 +68,12 @@
                     <div style="margin: 40px"></div>
                 </form>
               </div>
-              <div class="col-md-7 col-12"style="border: 1px solid black;background-image: url('{{asset('imagen/img-inicial-1.jpg')}}');">
+              <div class="col-md-7 col-12" class="img img-responsive" style="border: 1px solid black;background-image: url('{{asset('imagen/panama.jpg')}}');background-repeat:no-repeat;background-size: 100% 100%;">
                 {{-- <img src="imagen/img-inicial-1.jpg" class = "img-responsive"> --}}
 
               </div>
             </div>
           </div>
     </body>
+
 </html>

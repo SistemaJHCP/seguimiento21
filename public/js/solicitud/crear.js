@@ -121,11 +121,11 @@ $(document).ready(function(){
         if( this.value === "" ) {
             $('#botonRequisicion').empty();
             $('#requisicion').attr('disabled', true);
-            $('#requisicion').attr('required', false);
+
             $('#requisicion').empty();
             $('#requisicion').html('<option value="">Seleccione...</option>');
             $('#btn-agregar').attr('disabled', true);
-            $('#requisicion').attr('required', false);
+
             $('#opcion').empty();
             return false;
         }
@@ -133,7 +133,7 @@ $(document).ready(function(){
         if( this.value == 5 ) {
             $('#botonRequisicion').empty();
             $('#requisicion').attr('disabled', true);
-            $('#requisicion').attr('required', false);
+
             $('#requisicion').empty();
             $('#requisicion').html('<option value="">Seleccione...</option>');
             $('#opcion21').append('<input type="hidden" name="opcion" value="5">');
@@ -147,7 +147,7 @@ $(document).ready(function(){
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
             })
             .done(function(comp) {
-                $('#requisicion').attr('required', false);
+
                 $('#conceptoSelect').empty();
 
                 var listaConcepto = '<option value="">Seleccione...</option>';
@@ -165,7 +165,7 @@ $(document).ready(function(){
 
             return false;
         } else {
-            $('#requisicion').attr('required', true);
+
             $('#opcion21').append('<input type="hidden" name="opcion" value="' + $('#opciones').val() + '">');
             consultarListaSol(this.value);
 
@@ -173,7 +173,7 @@ $(document).ready(function(){
 
         consultarRequisicion( this.value );
         $('#requisicion').attr('disabled', true);
-        $('#requisicion').attr('required', true);
+
         $('#btn-agregar').attr('disabled', false);
         $('#botonRequisicion').empty();
 
