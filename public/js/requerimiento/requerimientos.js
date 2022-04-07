@@ -20,7 +20,6 @@ $(document).ready(function(){
           ],
         bLengthChange: false,
         searching: true,
-        order: [[ 2, "desc" ]],
         responsive: true,
         autoWidth: false,
         info: false,
@@ -33,7 +32,7 @@ $(document).ready(function(){
             "infoFiltered": "(Filtrado de _MAX_ registros totales)",
             'paginate':{
                 'next': 'Siguiente',
-                'previous': 'Anteror'
+                'previous': 'Anterior'
             },
             "processing" : "procesando."
         },

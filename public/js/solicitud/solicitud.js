@@ -13,7 +13,7 @@ $(document).ready(function(){
             {data: 'btn'}
         ],
         order: [
-            [5, "desc"]
+            [5, "DESC"]
           ],
         bLengthChange: false,
         searching: true,
@@ -29,7 +29,7 @@ $(document).ready(function(){
             "infoFiltered": "(Filtrado de _MAX_ registros totales)",
             'paginate':{
                 'next': 'Siguiente',
-                'previous': 'Anteror'
+                'previous': 'Anterior'
             },
             "processing" : "procesando."
         },

@@ -624,13 +624,16 @@ class SolicitudController extends Controller
             'requisicion.requisicion_tipo AS requisicion_tipo',
             'requisicion.requisicion_fecha AS requisicion_fecha',
             'requisicion.requisicion_fechae AS requisicion_fechae',
+            'requisicion.requisicion_observaciones AS requisicion_observaciones',
             'obra.obra_nombre AS obra',
             'requisicion.requisicion_motivo AS requisicion_motivo',
             'requisicion.requisicion_estado AS requisicion_estado',
             'users.user_name AS usuario_nombre',
+            'proveedor.proveedor_nombre AS proveedor_nombre'
         )
         ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
         ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
+        ->leftJoin('proveedor','proveedor.id', '=', 'requisicion.proveedor_id')
         ->where('requisicion.id', $id)
         ->limit(1)
         ->get();
@@ -950,7 +953,7 @@ class SolicitudController extends Controller
         if ( $permisoUsuario[0]->solicitud_pago == 1 && $permisoUsuario[0]->ver_solicitud_pago == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.solicitud.aprobacion.btnConsultarAprobacion')
-            ->addColumn('aproRepro','sistema.solicitud.aprobacion.btnAproRepro')
+            ->addColumn('aproRepro', 'sistema.solicitud.aprobacion.btnAproRepro')
             ->addColumn('btn2','sistema.solicitud.aprobacion.btnPago')
             ->rawColumns(['btn', 'aproRepro', 'btn2'])->toJson();
         } else {

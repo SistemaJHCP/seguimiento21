@@ -127,7 +127,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Requisicion *</label>
+                                    <label>Requisicion</label>
                                     <select name="requisicion" id="requisicion" class="form-control" disabled>
                                         <option value="">Seleccione...</option>
                                     </select>

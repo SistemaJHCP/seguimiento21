@@ -243,7 +243,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li> --}}
           <li class="user-footer">
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="cerrar sesión" class="btn btn-default" style="color:rgb(136, 25, 25)"><i class="fas fa-power-off"></i></a>
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="cerrar sesión" class="btn btn-default" style="color:rgb(136, 25, 25)">Cerrar sesión</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                     </form>

@@ -55,8 +55,8 @@ class RequisicionController extends Controller
             return redirect()->route("home");
         }
 
-        $proveedor = Proveedor::select("id", "proveedor_nombre")->orderBy("proveedor_nombre", "ASC")->get();
-        $obra = Obra::select("id", "obra_codigo", "obra_nombre")->orderBy("id", "DESC")->get();
+        $proveedor = Proveedor::select("id", "proveedor_nombre")->where('proveedor_estado', 1)->orderBy("proveedor_nombre", "ASC")->get();
+        $obra = Obra::select("id", "obra_codigo", "obra_nombre")->where('obra_estado', 1)->orderBy("id", "DESC")->get();
 
         if($permisoUsuario[0]->requisicion != 1){
             return redirect()->route("home");

@@ -304,6 +304,7 @@ $(document).ready(function(){
 
             $('#botonRequisicion').html( html );
 
+
             var info = "";
             info+= '<div class="card">' +
             '<img src="../imagen/requisicion.jpg" class="card-img-top" alt="...">' +
@@ -316,6 +317,8 @@ $(document).ready(function(){
             '<b>Estado: </b>' + comp[0][0].requisicion_estado +  '<br>' +
             '<b>Motivo: </b>' + comp[0][0].requisicion_motivo +  '<br>' +
             '<b>Tipo de requisición: </b>' + comp[0][0].requisicion_tipo +  '<br>' +
+            '<b>Proveedor : </b>' + comp[0][0].proveedor_nombre +  '<br>' +
+            '<b>Observación: </b>' + comp[0][0].requisicion_observaciones +  '<br>' +
             '<b>Creado por: </b>' + comp[0][0].usuario_nombre +  '<br>' +
             '</p>' +
             '</div>' +
