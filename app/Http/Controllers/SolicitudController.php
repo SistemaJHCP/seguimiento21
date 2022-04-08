@@ -931,7 +931,7 @@ class SolicitudController extends Controller
         from `solicitud`
         left join `users` on `users`.`id` = `solicitud`.`usuario_id`
         left join `obra` on `obra`.`id` = `solicitud`.`obra_id`
-        order by `id` desc limit 1000');
+        order by `id` desc limit 500');
 
         // $query = Solicitud::select(
         //     'solicitud.id AS id',
@@ -1227,7 +1227,7 @@ class SolicitudController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if( $permisoUsuario[0]->solicitud_pago != 1 ){
+        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 ){
             return redirect()->route("home");
         }
 
@@ -1557,7 +1557,7 @@ class SolicitudController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->anular_compra_cuentas_x_pagar != 1 ){
+        if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->aproRepro_compra_cuentas_x_pagar != 1 ){
             return redirect()->route("home");
         }
         //Buscamos el id asociado a la solicitud

@@ -284,6 +284,11 @@ $(document).ready(function(){
 
     $('#requisicion').change(function(){
 
+        if( this.value === "" ) {
+            $('#botonRequisicion').empty();
+            return false;
+        }
+
         $.ajax({
             url: 'consultar-requisicion/' + this.value + '/' + $("#opciones").val(),
             type: 'GET',

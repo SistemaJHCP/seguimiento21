@@ -71,7 +71,7 @@
     @if (Session::has('resp') == true)
     <script>
         Swal.fire(
-        'Sulicitud procesada!',
+        'Solicitud procesada!',
         'La información fue cargada exitosamente!',
         'success'
         )
