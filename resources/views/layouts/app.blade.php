@@ -100,6 +100,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <?php
                   }
               ?>
+              <?php
+                  if ($permisoUsuario->permisos_btn == 1){
+              ?>
+                  <li><a href="{{ route('permisos.index') }}" class="dropdown-item">Permisos </a></li>
+              <?php
+                  }
+              ?>
 
               <?php
                   if ($permisoUsuario->ptc == 1){
@@ -242,8 +249,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- End Level two -->
             </ul>
           </li> --}}
-          <li class="user-footer">
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="cerrar sesión" class="btn btn-default" style="color:rgb(136, 25, 25)">Cerrar sesión</a>
+          <li class="user-footer" style="margin-top:8px;">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="cerrar sesión" style="color:rgb(136, 25, 25);">Cerrar sesión</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                     </form>

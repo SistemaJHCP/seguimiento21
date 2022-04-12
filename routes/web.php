@@ -216,7 +216,12 @@ Route::middleware('auth')->prefix('conciliacion')->group(function () {
     Route::post("imprimir-conciliacion",[App\Http\Controllers\ConciliacionController::class, 'imprimirConciliacion'])->name('conciliacion.imprimir');
 });
 
-
+Route::middleware('auth')->prefix('permisos')->group(function () {
+    Route::get("/", [App\Http\Controllers\PermisosController::class, 'index'])->name('permisos.index');
+    Route::get("lista-permisos", [App\Http\Controllers\PermisosController::class, 'jq_lista']);
+    Route::get("crear-permisos", [App\Http\Controllers\PermisosController::class, 'create'])->name('permisos.crear');
+    Route::post("cargar-permisos", [App\Http\Controllers\PermisosController::class, 'store'])->name('permisos.cargar');
+});
 
 Auth::routes();
 

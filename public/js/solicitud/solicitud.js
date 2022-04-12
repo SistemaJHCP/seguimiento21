@@ -10,10 +10,11 @@ $(document).ready(function(){
             {data: 'solicitud_motivo'},
             {data: 'btn2'},
             {data: 'nombre'},
+            {data: 'suma', render: $.fn.dataTable.render.number( ',', '.', 2)},
             {data: 'btn'}
         ],
         order: [
-            [5, "DESC"]
+            [6, "DESC"]
           ],
         bLengthChange: false,
         searching: true,
@@ -34,7 +35,7 @@ $(document).ready(function(){
             "processing" : "procesando."
         },
         "columnDefs": [
-            { "width": "15%", "targets": 5 }
+            { "width": "20%", "targets": 6 }
           ],
     });
 

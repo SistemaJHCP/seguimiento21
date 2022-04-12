@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('titulo')
-    <h1 class="m-0"> Solicitud  <small>de cuentas</small></h1>
+    <h1 class="m-0"> Solicitud <small>de cuentas</small></h1>
 @endsection
 @section('navegador')
     {{-- <li class="breadcrumb-item">Home</li> --}}
@@ -46,6 +46,7 @@
                   <th>Motivo de solicitud</th>
                   <th>Estado</th>
                   <th>Pago</th>
+                  <th>Monto</th>
                   <th>Solicitante</th>
                   <th>Acción</th>
                 </tr>
@@ -62,6 +63,7 @@
                   <th>Motivo de solicitud</th>
                   <th>Estado</th>
                   <th>Pago</th>
+                  <th>Monto</th>
                   <th>Solicitante</th>
                   <th>Acción</th>
                 </tr>

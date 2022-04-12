@@ -30,6 +30,7 @@
                   <th>motivo</th>
                   <th>estado</th>
                   <th>Solicitante</th>
+                  <th>Monto</th>
                   <th>Acción</th>
                 </tr>
                 </thead>
@@ -44,6 +45,7 @@
                   <th>motivo</th>
                   <th>estado</th>
                   <th>Solicitante</th>
+                  <th>Monto</th>
                   <th>Acción</th>
                 </tr>
                 </tfoot>

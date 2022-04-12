@@ -5,6 +5,8 @@ $(document).ready(function(){
 
     function cargarListado(url){
 
+        $('#listaCuenta > tbody').empty();
+
         $('#listaCuenta').DataTable({
             serverSide: false,
             processing: true,
@@ -17,11 +19,12 @@ $(document).ready(function(){
                 {data: 'solicitud_motivo'},
                 {data: 'apro'},
                 {data: 'pago'},
+                {data: 'suma',render: $.fn.dataTable.render.number( ',', '.', 2)},
                 {data: 'nombre'},
                 {data: 'btn'}
             ],
             order: [
-                [1, "desc"]
+                [8, "desc"]
               ],
             bLengthChange: false,
             searching: true,

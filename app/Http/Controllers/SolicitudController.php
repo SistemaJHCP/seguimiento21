@@ -501,6 +501,7 @@ class SolicitudController extends Controller
         $query = Solicitud::select(
             'solicitud.id AS id',
             'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+            DB::raw('(select SUM(solicitud_detalle.sd_cantidad * solicitud_detalle.sd_preciounitario) from solicitud_detalle WHERE solicitud.id = solicitud_detalle.solicitud_id) as suma'),
             'solicitud.solicitud_fecha AS fecha',
             'solicitud.solicitud_motivo AS solicitud_motivo',
             'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
@@ -1233,24 +1234,42 @@ class SolicitudController extends Controller
 
         if($id == 1){
 
-            //Realizamos la consulta a la base de datos
-            $query = Solicitud::select(
-                'solicitud.id AS id',
-                'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
-                'solicitud.solicitud_fecha AS fecha',
-                'obra.obra_nombre AS obra_nombre',
-                'solicitud.solicitud_motivo AS solicitud_motivo',
-                'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
-                'solicitud.solicitud_estadopago AS pago',
-                'users.user_name AS nombre'
 
-            )
-            ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
-            ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
-            // ->where('solicitud.solicitud_tipo', $id)
-            ->orderBy('id', 'DESC')
-            // ->limit(5000) //Sin limites, es decir, podra ver absolutamente todas las solicitudes
-            ->get();
+            $query = DB::select('select
+            `solicitud`.`id` as `id`,
+            `solicitud`.`solicitud_numerocontrol` as `solicitud_numerocontrol`,
+            `solicitud`.`solicitud_fecha` as `fecha`,
+            `solicitud`.`solicitud_estadopago` as `pago`,
+            (select SUM(solicitud_detalle.sd_cantidad * solicitud_detalle.sd_preciounitario) from solicitud_detalle WHERE solicitud.id = solicitud_detalle.solicitud_id) as `suma`,
+            `solicitud`.`moneda` as `moneda`,
+            `obra`.`obra_nombre` as `obra_nombre`,
+            `solicitud`.`solicitud_motivo` as `solicitud_motivo`,
+            `solicitud`.`solicitud_aprobacion` as `solicitud_aprobacion`,
+            `users`.`user_name` as `nombre`
+
+            from `solicitud`
+            left join `users` on `users`.`id` = `solicitud`.`usuario_id`
+            left join `obra` on `obra`.`id` = `solicitud`.`obra_id`
+            order by `id` desc');
+
+            // //Realizamos la consulta a la base de datos
+            // $query = Solicitud::select(
+            //     'solicitud.id AS id',
+            //     'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+            //     'solicitud.solicitud_fecha AS fecha',
+            //     'obra.obra_nombre AS obra_nombre',
+            //     'solicitud.solicitud_motivo AS solicitud_motivo',
+            //     'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
+            //     'solicitud.solicitud_estadopago AS pago',
+            //     'users.user_name AS nombre'
+
+            // )
+            // ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+            // ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+            // // ->where('solicitud.solicitud_tipo', $id)
+            // ->orderBy('id', 'DESC')
+            // // ->limit(5000) //Sin limites, es decir, podra ver absolutamente todas las solicitudes
+            // ->get();
 
         } else {
 
@@ -1277,12 +1296,12 @@ class SolicitudController extends Controller
                     break;
             }
 
-
             //Realizamos la consulta a la base de datos
             $query = Solicitud::select(
                 'solicitud.id AS id',
                 'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
                 'solicitud.solicitud_fecha AS fecha',
+                DB::raw('(select SUM(solicitud_detalle.sd_cantidad * solicitud_detalle.sd_preciounitario) from solicitud_detalle WHERE solicitud.id = solicitud_detalle.solicitud_id) as suma'),
                 'solicitud.solicitud_motivo AS solicitud_motivo',
                 'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
                 'solicitud.solicitud_estadopago AS pago',
@@ -1294,9 +1313,8 @@ class SolicitudController extends Controller
             ->where('solicitud.solicitud_aprobacion', $valor)
             ->where('solicitud.solicitud_estadopago', $estadoPago)
             ->orderBy('id', 'DESC')
-            ->limit(1000)
+            ->limit(500)
             ->get();
-
         }
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
