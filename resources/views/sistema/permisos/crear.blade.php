@@ -19,14 +19,14 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="">Nombre del permiso</label>
-                    <input type="text" name="nombrePermiso" id="nombrePermiso" placeholder="Ingrese el nombre del permiso a crear" class="form-control">
+                    <input type="text" name="nombrePermiso" id="nombrePermiso" placeholder="Ingrese el nombre del permiso a crear" class="form-control" maxlength="60">
                     <input type="submit" value="enviar">
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-7">
-        
+
         <div class="accordion" id="accordionExample">
             <div class="card">
               <div class="card-header bg-info" id="headingOne">
@@ -102,32 +102,32 @@
                             </div>
                             <label>Crear suministros</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-sum" id="crear-sum" autocomplete="off">
-                                <label class="custom-control-label" for="crear-sum" id="msjCrear-sum"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearSum" id="crearSum" autocomplete="off">
+                                <label class="custom-control-label" for="crearSum" id="msjcrearSum"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar suministros</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-sum" id="mod-sum" autocomplete="off">
-                                <label class="custom-control-label" for="mod-sum" id="msjMod-sum"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modSum" id="modSum" autocomplete="off">
+                                <label class="custom-control-label" for="modSum" id="msjmodSum"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-sum" id="ver-sum" autocomplete="off">
-                                <label class="custom-control-label" for="ver-sum" id="msjVer-sum"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verSum" id="verSum" autocomplete="off">
+                                <label class="custom-control-label" for="verSum" id="msjverSum"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar suministros</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-sum" id="des-sum" autocomplete="off">
-                                <label class="custom-control-label" for="des-sum" id="msjDes-sum"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desSum" id="desSum" autocomplete="off">
+                                <label class="custom-control-label" for="desSum" id="msjdesSum"></label>
                             </div>
                             <label>Reactivar suministros</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-sum" id="Reac-sum" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-sum" id="msjReac-sum"></label>
+                                <input type="checkbox" class="custom-control-input"  name="reacSum" id="reacSum" autocomplete="off">
+                                <label class="custom-control-label" for="reacSum" id="msjreacSum"></label>
                             </div>
                         </div>
                     </div>
@@ -138,36 +138,36 @@
                             <label>proveedores</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="prov" id="prov" autocomplete="off">
-                                <label class="custom-control-label" for="prov" id="msj-prov"></label>
+                                <label class="custom-control-label" for="prov" id="msjProv"></label>
                             </div>
                             <label>Crear proveedores</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-prov" id="crear-prov" autocomplete="off">
-                                <label class="custom-control-label" for="crear-prov" id="msjCrear-prov"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearProv" id="crearProv" autocomplete="off">
+                                <label class="custom-control-label" for="crearProv" id="msjcrearProv"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar proveedores</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-prov" id="mod-prov" autocomplete="off">
-                                <label class="custom-control-label" for="mod-prov" id="msjMod-prov"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modProv" id="modProv" autocomplete="off">
+                                <label class="custom-control-label" for="modProv" id="msjmodProv"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-prov" id="ver-prov" autocomplete="off">
-                                <label class="custom-control-label" for="ver-prov" id="msjVer-prov"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verProv" id="verProv" autocomplete="off">
+                                <label class="custom-control-label" for="verProv" id="msjverProv"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar proveedores</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-prov" id="des-prov" autocomplete="off">
-                                <label class="custom-control-label" for="des-prov" id="msjDes-prov"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desProv" id="desProv" autocomplete="off">
+                                <label class="custom-control-label" for="desProv" id="msjdesProv"></label>
                             </div>
                             <label>Reactivar proveedores</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-prov" id="Reac-prov" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-prov" id="msjReac-prov"></label>
+                                <input type="checkbox" class="custom-control-input"  name="reacProv" id="reacProv" autocomplete="off">
+                                <label class="custom-control-label" for="reacProv" id="msjreacProv"></label>
                             </div>
                         </div>
                     </div>
@@ -179,36 +179,36 @@
                             <label>Clientes</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="cli" id="cli" autocomplete="off">
-                                <label class="custom-control-label" for="cli" id="msj-cli"></label>
+                                <label class="custom-control-label" for="cli" id="msjCli"></label>
                             </div>
                             <label>Crear clientes</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-cli" id="crear-cli" autocomplete="off">
-                                <label class="custom-control-label" for="crear-cli" id="msjCrear-cli"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearCli" id="crearCli" autocomplete="off">
+                                <label class="custom-control-label" for="crearCli" id="msjcrearCli"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar clientes</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-cli" id="mod-cli" autocomplete="off">
-                                <label class="custom-control-label" for="mod-cli" id="msjMod-cli"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modCli" id="modCli" autocomplete="off">
+                                <label class="custom-control-label" for="modCli" id="msjmodCli"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-cli" id="ver-cli" autocomplete="off">
-                                <label class="custom-control-label" for="ver-cli" id="msjVer-cli"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verCli" id="verCli" autocomplete="off">
+                                <label class="custom-control-label" for="verCli" id="msjverCli"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar clientes</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-cli" id="des-cli" autocomplete="off">
-                                <label class="custom-control-label" for="des-cli" id="msjDes-cli"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desCli" id="desCli" autocomplete="off">
+                                <label class="custom-control-label" for="desCli" id="msjdesCli"></label>
                             </div>
                             <label>Reactivar clientes</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-cli" id="Reac-cli" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-cli" id="msjReac-cli"></label>
+                                <input type="checkbox" class="custom-control-input"  name="reacCli" id="reacCli" autocomplete="off">
+                                <label class="custom-control-label" for="reacCli" id="msjreacCli"></label>
                             </div>
                         </div>
                     </div> <!-- END -->
@@ -220,37 +220,37 @@
                             <label>Materiales</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="mate" id="mate" autocomplete="off">
-                                <label class="custom-control-label" for="mate" id="msj-mate"></label>
+                                <label class="custom-control-label" for="mate" id="msjMate"></label>
                             </div>
                             <label>Crear materiales</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crea-mMate" id="crear-mate" autocomplete="off">
-                                <label class="custom-control-label" for="crear-mate" id="msjCrear-mate"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearMate" id="crearMate" autocomplete="off">
+                                <label class="custom-control-label" for="crearMate" id="msjcrearMate"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Modificar materiales</label>
+                            {{-- <label>Modificar materiales ****</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-mate" id="mod-mate" autocomplete="off">
-                                <label class="custom-control-label" for="mod-mate" id="msjMod-mate"></label>
-                            </div>
+                                <input type="checkbox" class="custom-control-input"  name="modMate" id="modMate" autocomplete="off" disabled>
+                                <label class="custom-control-label" for="modMate" id="msjmodMate"></label>
+                            </div> --}}
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-mate" id="ver-mate" autocomplete="off">
-                                <label class="custom-control-label" for="ver-mate" id="msjVer-mate"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verMate" id="verMate" autocomplete="off">
+                                <label class="custom-control-label" for="verMate" id="msjverMate"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar materiales</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-mate" id="des-mate" autocomplete="off">
-                                <label class="custom-control-label" for="des-mate" id="msjDes-mate"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desMate" id="desMate" autocomplete="off">
+                                <label class="custom-control-label" for="desMate" id="msjdesMate"></label>
                             </div>
-                            <label>Reactivar materiales</label>
+                            {{-- <label>Reactivar materiales ****</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-mate" id="Reac-mate" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-mate" id="msjReac-mate"></label>
-                            </div>
+                                <input type="checkbox" class="custom-control-input"  name="reacMate" id="reacMate" autocomplete="off" disabled>
+                                <label class="custom-control-label" for="reacMate" id="msjreacMate"></label>
+                            </div> --}}
                         </div>
                     </div> <!-- END -->
 
@@ -261,37 +261,37 @@
                             <label>Servicio</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="serv" id="serv" autocomplete="off">
-                                <label class="custom-control-label" for="serv" id="msj-serv"></label>
+                                <label class="custom-control-label" for="serv" id="msjServ"></label>
                             </div>
                             <label>Crear servicios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-serv" id="crear-serv" autocomplete="off">
-                                <label class="custom-control-label" for="crear-serv" id="msjCrear-serv"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearServ" id="crearServ" autocomplete="off">
+                                <label class="custom-control-label" for="crearServ" id="msjcrearServ"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Modificar servicios</label>
+                            {{-- <label>Modificar servicios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-serv" id="mod-serv" autocomplete="off">
-                                <label class="custom-control-label" for="mod-serv" id="msjMod-serv"></label>
-                            </div>
+                                <input type="checkbox" class="custom-control-input"  name="modServ" id="modServ" autocomplete="off">
+                                <label class="custom-control-label" for="modServ" id="msjmodServ"></label>
+                            </div> --}}
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-serv" id="ver-serv" autocomplete="off">
-                                <label class="custom-control-label" for="ver-serv" id="msjVer-serv"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verServ" id="verServ" autocomplete="off">
+                                <label class="custom-control-label" for="verServ" id="msjverServ"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar servicios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-serv" id="des-serv" autocomplete="off">
-                                <label class="custom-control-label" for="des-serv" id="msjDes-serv"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desServ" id="desServ" autocomplete="off">
+                                <label class="custom-control-label" for="desServ" id="msjdesServ"></label>
                             </div>
-                            <label>Reactivar servicios</label>
+                            {{-- <label>Reactivar servicios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-serv" id="Reac-serv" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-serv" id="msjReac-serv"></label>
-                            </div>
+                                <input type="checkbox" class="custom-control-input"  name="reacServ" id="reacServ" autocomplete="off">
+                                <label class="custom-control-label" for="reacServ" id="msjreacServ"></label>
+                            </div> --}}
                         </div>
                     </div> <!-- END -->
 
@@ -302,37 +302,37 @@
                             <label>Viáticos</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="viat" id="viat" autocomplete="off">
-                                <label class="custom-control-label" for="viat" id="msj-viat"></label>
+                                <label class="custom-control-label" for="viat" id="msjViat"></label>
                             </div>
                             <label>Crear viáticos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-viat" id="crear-viat" autocomplete="off">
-                                <label class="custom-control-label" for="crear-viat" id="msjCrear-viat"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearViat" id="crearViat" autocomplete="off">
+                                <label class="custom-control-label" for="crearViat" id="msjcrearViat"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Modificar viáticos</label>
+                            {{-- <label>Modificar viáticos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-viat" id="mod-viat" autocomplete="off">
-                                <label class="custom-control-label" for="mod-viat" id="msjMod-viat"></label>
-                            </div>
+                                <input type="checkbox" class="custom-control-input"  name="modViat" id="modViat" autocomplete="off">
+                                <label class="custom-control-label" for="modViat" id="msjmodViat"></label>
+                            </div> --}}
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-viat" id="ver-viat" autocomplete="off">
-                                <label class="custom-control-label" for="ver-viat" id="msjVer-viat"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verViat" id="verViat" autocomplete="off">
+                                <label class="custom-control-label" for="verViat" id="msjverViat"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar viáticos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-viat" id="des-viat" autocomplete="off">
-                                <label class="custom-control-label" for="des-viat" id="msjDes-viat"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desViat" id="desViat" autocomplete="off">
+                                <label class="custom-control-label" for="desViat" id="msjdesViat"></label>
                             </div>
-                            <label>Reactivar viáticos</label>
+                            {{-- <label>Reactivar viáticos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-viat" id="Reac-viat" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-viat" id="msjReac-viat"></label>
-                            </div>
+                                <input type="checkbox" class="custom-control-input"  name="reacViat" id="reacViat" autocomplete="off">
+                                <label class="custom-control-label" for="reacViat" id="msjreacViat"></label>
+                            </div> --}}
                         </div>
                     </div> <!-- END -->
 
@@ -343,36 +343,36 @@
                             <label>Usuarios</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="usua" id="usua" autocomplete="off">
-                                <label class="custom-control-label" for="usua" id="msj-usua"></label>
+                                <label class="custom-control-label" for="usua" id="msjUsua"></label>
                             </div>
                             <label>Crear usuarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-usua" id="crear-usua" autocomplete="off">
-                                <label class="custom-control-label" for="crear-usua" id="msjCrear-usua"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearUsuario" id="crearUsuario" autocomplete="off">
+                                <label class="custom-control-label" for="crearUsuario" id="msjcrearUsuario"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar usuarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-usua" id="mod-usua" autocomplete="off">
-                                <label class="custom-control-label" for="mod-usua" id="msjMod-usua"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modUsuario" id="modUsuario" autocomplete="off">
+                                <label class="custom-control-label" for="modUsuario" id="msjmodUsuario"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-usua" id="ver-usua" autocomplete="off">
-                                <label class="custom-control-label" for="ver-usua" id="msjVer-usua"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verUsuario" id="verUsuario" autocomplete="off">
+                                <label class="custom-control-label" for="verUsuario" id="msjverUsuario"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar usuarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-usua" id="des-usua" autocomplete="off">
-                                <label class="custom-control-label" for="des-usua" id="msjDes-usua"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desUsuario" id="desUsuario" autocomplete="off">
+                                <label class="custom-control-label" for="desUsuario" id="msjdesUsuario"></label>
                             </div>
                             <label>Reactivar usuarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-usua" id="Reac-usua" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-usua" id="msjReac-usua"></label>
+                                <input type="checkbox" class="custom-control-input"  name="reacUsuario" id="reacUsuario" autocomplete="off">
+                                <label class="custom-control-label" for="reacUsuario" id="msjreacUsuario"></label>
                             </div>
                         </div>
                     </div> <!-- END -->
@@ -385,36 +385,36 @@
                             <label>Permisos</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="perm" id="perm" autocomplete="off">
-                                <label class="custom-control-label" for="perm" id="msj-perm"></label>
+                                <label class="custom-control-label" for="perm" id="msjPerm"></label>
                             </div>
                             <label>Crear permisos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-perm" id="crear-perm" autocomplete="off">
-                                <label class="custom-control-label" for="crear-perm" id="msjCrear-perm"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearPerm" id="crearPerm" autocomplete="off">
+                                <label class="custom-control-label" for="crearPerm" id="msjcrearPerm"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar permisos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-perm" id="mod-perm" autocomplete="off">
-                                <label class="custom-control-label" for="mod-perm" id="msjMod-perm"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modPerm" id="modPerm" autocomplete="off">
+                                <label class="custom-control-label" for="modPerm" id="msjmodPerm"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-perm" id="ver-perm" autocomplete="off">
-                                <label class="custom-control-label" for="ver-perm" id="msjVer-perm"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verPerm" id="verPerm" autocomplete="off">
+                                <label class="custom-control-label" for="verPerm" id="msjverPerm"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar permisos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-perm" id="des-perm" autocomplete="off">
-                                <label class="custom-control-label" for="des-perm" id="msjDes-perm"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desPerm" id="desPerm" autocomplete="off">
+                                <label class="custom-control-label" for="desPerm" id="msjdesPerm"></label>
                             </div>
                             <label>Reactivar permisos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-perm" id="Reac-perm" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-perm" id="msjReac-perm"></label>
+                                <input type="checkbox" class="custom-control-input"  name="reacPerm" id="reacPerm" autocomplete="off">
+                                <label class="custom-control-label" for="reacPerm" id="msjreacPerm"></label>
                             </div>
                         </div>
                     </div> <!-- END -->
@@ -426,36 +426,36 @@
                             <label>Maestro PTC</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="master" id="master" autocomplete="off">
-                                <label class="custom-control-label" for="master" id="msj-master"></label>
+                                <label class="custom-control-label" for="master" id="msjMaster"></label>
                             </div>
                             <label>Crear PTC</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-master" id="crear-master" autocomplete="off">
-                                <label class="custom-control-label" for="crear-master" id="msjCrear-master"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearMaster" id="crearMaster" autocomplete="off">
+                                <label class="custom-control-label" for="crearMaster" id="msjCrearMaster"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar PTC</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-master" id="mod-master" autocomplete="off">
-                                <label class="custom-control-label" for="mod-master" id="msjMod-master"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modMaster" id="modMaster" autocomplete="off">
+                                <label class="custom-control-label" for="modMaster" id="msjModMaster"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-master" id="ver-master" autocomplete="off">
-                                <label class="custom-control-label" for="ver-master" id="msjVer-master"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verMaster" id="verMaster" autocomplete="off">
+                                <label class="custom-control-label" for="verMaster" id="msjVerMaster"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar PTC</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-master" id="des-master" autocomplete="off">
-                                <label class="custom-control-label" for="des-master" id="msjDes-master"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desMaster" id="desMaster" autocomplete="off">
+                                <label class="custom-control-label" for="desMaster" id="msjDesMaster"></label>
                             </div>
                             <label>Reactivar PTC</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-master" id="Reac-master" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-master" id="msjReac-master"></label>
+                                <input type="checkbox" class="custom-control-input"  name="ReacMaster" id="ReacMaster" autocomplete="off">
+                                <label class="custom-control-label" for="ReacMaster" id="msjReacMaster"></label>
                             </div>
                         </div>
                     </div> <!-- END -->
@@ -481,36 +481,36 @@
                             <label>Obras</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="obras" id="obras" autocomplete="off">
-                                <label class="custom-control-label" for="obras" id="msj-obras"></label>
+                                <label class="custom-control-label" for="obras" id="msjObras"></label>
                             </div>
                             <label>Crear obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-obras" id="crear-obras" autocomplete="off">
-                                <label class="custom-control-label" for="crear-obras" id="msjCrear-obras"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearObras" id="crearObras" autocomplete="off">
+                                <label class="custom-control-label" for="crearObras" id="msjCrearObras"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-obras" id="mod-obras" autocomplete="off">
-                                <label class="custom-control-label" for="mod-obras" id="msjMod-obras"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modObras" id="modObras" autocomplete="off">
+                                <label class="custom-control-label" for="modObras" id="msjModObras"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-obras" id="ver-obras" autocomplete="off">
-                                <label class="custom-control-label" for="ver-obras" id="msjVer-obras"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verObras" id="verObras" autocomplete="off">
+                                <label class="custom-control-label" for="verObras" id="msjVerObras"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-obras" id="des-obras" autocomplete="off">
-                                <label class="custom-control-label" for="des-obras" id="msjDes-obras"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desObras" id="desObras" autocomplete="off">
+                                <label class="custom-control-label" for="desObras" id="msjDesObras"></label>
                             </div>
                             <label>Reactivar obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-obras" id="Reac-obras" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-obras" id="msjReac-obras"></label>
+                                <input type="checkbox" class="custom-control-input"  name="ReacObras" id="ReacObras" autocomplete="off">
+                                <label class="custom-control-label" for="ReacObras" id="msjReacObras"></label>
                             </div>
                         </div>
                     </div> <!-- END -->
@@ -522,37 +522,37 @@
                             <label>Tipos de obras</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="tipos" id="tipos" autocomplete="off">
-                                <label class="custom-control-label" for="tipos" id="msj-tipos"></label>
+                                <label class="custom-control-label" for="tipos" id="msjTipos"></label>
                             </div>
                             <label>Crear tipos de obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-tipos" id="crear-tipos" autocomplete="off">
-                                <label class="custom-control-label" for="crear-tipos" id="msjCrear-tipos"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearTipos" id="crearTipos" autocomplete="off">
+                                <label class="custom-control-label" for="crearTipos" id="msjCrearTipos"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar tipos de obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-tipos" id="mod-tipos" autocomplete="off">
-                                <label class="custom-control-label" for="mod-tipos" id="msjMod-tipos"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modTipos" id="modTipos" autocomplete="off">
+                                <label class="custom-control-label" for="modTipos" id="msjModTipos"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-tipos" id="ver-tipos" autocomplete="off">
-                                <label class="custom-control-label" for="ver-tipos" id="msjVer-tipos"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verTipos" id="verTipos" autocomplete="off">
+                                <label class="custom-control-label" for="verTipos" id="msjVerTipos"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar tipos de obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-tipos" id="des-tipos" autocomplete="off">
-                                <label class="custom-control-label" for="des-tipos" id="msjDes-tipos"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desTipos" id="desTipos" autocomplete="off">
+                                <label class="custom-control-label" for="desTipos" id="msjDesTipos"></label>
                             </div>
-                            <label>Reactivar tipos de obras</label>
+                            {{-- <label>Reactivar tipos de obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-tipos" id="Reac-tipos" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-tipos" id="msjReac-tipos"></label>
-                            </div>
+                                <input type="checkbox" class="custom-control-input"  name="ReacTipos" id="ReacTipos" autocomplete="off">
+                                <label class="custom-control-label" for="ReacTipos" id="msjReacTipos"></label>
+                            </div> --}}
                         </div>
                     </div> <!-- END -->
 
@@ -614,38 +614,38 @@
                         <div class="col-md-4">
                             <label>Requisición</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="requisición" id="requisición" autocomplete="off">
-                                <label class="custom-control-label" for="requisición" id="msj-requisición"></label>
+                                <input type="checkbox" class="custom-control-input"  name="Req" id="Req" autocomplete="off">
+                                <label class="custom-control-label" for="Req" id="msjReq"></label>
                             </div>
                             <label>Crear requisición</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-requisición" id="crear-requisición" autocomplete="off">
-                                <label class="custom-control-label" for="crear-requisición" id="msjCrear-requisición"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearRequisicion" id="crearRequisicion" autocomplete="off">
+                                <label class="custom-control-label" for="crearRequisicion" id="msjCrearRequisicion"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar requisición</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-requisición" id="mod-requisición" autocomplete="off">
-                                <label class="custom-control-label" for="mod-requisición" id="msjMod-requisición"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modRequisicion" id="modRequisicion" autocomplete="off">
+                                <label class="custom-control-label" for="modRequisicion" id="msjModRequisicion"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-requisición" id="ver-requisición" autocomplete="off">
-                                <label class="custom-control-label" for="ver-requisición" id="msjVer-requisición"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verRequisicion" id="verRequisicion" autocomplete="off">
+                                <label class="custom-control-label" for="verRequisicion" id="msjVerRequisicion"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Desactivar requisición</label>
+                            <label>Anular requisición</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-requisición" id="des-requisición" autocomplete="off">
-                                <label class="custom-control-label" for="des-requisición" id="msjDes-requisición"></label>
+                                <input type="checkbox" class="custom-control-input"  name="anularRequisicion" id="anularRequisicion" autocomplete="off">
+                                <label class="custom-control-label" for="anularRequisicion" id="msjanularRequisicion"></label>
                             </div>
-                            <label>Reactivar requisición</label>
+                            {{-- <label>Reactivar requisición</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-requisición" id="Reac-requisición" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-requisición" id="msjReac-requisición"></label>
-                            </div>
+                                <input type="checkbox" class="custom-control-input"  name="ReacRequisición" id="ReacRequisición" autocomplete="off">
+                                <label class="custom-control-label" for="ReacRequisición" id="msjReacRequisición"></label>
+                            </div> --}}
                         </div>
                     </div> <!-- END -->
                   </div>
@@ -654,50 +654,50 @@
             <div class="card" id="opcionesSolicitud" style="display:none">
                 <div class="card-header bg-info" id="solicitud">
                   <h2 class="mb-0">
-                    <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#collapseSolicitud" aria-expanded="false" aria-controls="collapseSolicitud">
+                    <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#collapseSolicitud1" aria-expanded="false" aria-controls="collapseSolicitud1">
                       Solicitud
                     </button>
                   </h2>
                 </div>
-                <div id="collapseSolicitud" class="collapse" aria-labelledby="solicitud" data-parent="#accordionExample">
+                <div id="collapseSolicitud1" class="collapse" aria-labelledby="solicitud" data-parent="#accordionExample">
                   <div class="card-body">
                     {{-- <br> --}}
                     <div class="row">
                         <div class="col-md-4">
                             <label>Solicitud</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="solicitud" id="solicitud" autocomplete="off">
-                                <label class="custom-control-label" for="solicitud" id="msj-solicitud"></label>
+                                <input type="checkbox" class="custom-control-input"  name="HacerSolicitud" id="HacerSolicitud" autocomplete="off">
+                                <label class="custom-control-label" for="HacerSolicitud" id="msjHacerSolicitud"></label>
                             </div>
                             <label>Crear solicitud</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-solicitud" id="crear-solicitud" autocomplete="off">
-                                <label class="custom-control-label" for="crear-solicitud" id="msjCrear-solicitud"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearSolicitud" id="crearSolicitud" autocomplete="off">
+                                <label class="custom-control-label" for="crearSolicitud" id="msjCrearSolicitud"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar solicitud</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-solicitud" id="mod-solicitud" autocomplete="off">
-                                <label class="custom-control-label" for="mod-solicitud" id="msjMod-solicitud"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modSolicitud" id="modSolicitud" autocomplete="off">
+                                <label class="custom-control-label" for="modSolicitud" id="msjModSolicitud"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-solicitud" id="ver-solicitud" autocomplete="off">
-                                <label class="custom-control-label" for="ver-solicitud" id="msjVer-solicitud"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verSolicitud" id="verSolicitud" autocomplete="off">
+                                <label class="custom-control-label" for="verSolicitud" id="msjVerSolicitud"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Desactivar solicitud</label>
+                            <label>Anular solicitud</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-solicitud" id="des-solicitud" autocomplete="off">
-                                <label class="custom-control-label" for="des-solicitud" id="msjDes-solicitud"></label>
+                                <input type="checkbox" class="custom-control-input"  name="anularSolicitud" id="anularSolicitud" autocomplete="off">
+                                <label class="custom-control-label" for="anularSolicitud" id="msjAnularSolicitud"></label>
                             </div>
-                            <label>Reactivar solicitud</label>
+                            {{-- <label>Reactivar solicitud</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-solicitud" id="Reac-solicitud" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-solicitud" id="msjReac-solicitud"></label>
-                            </div>
+                                <input type="checkbox" class="custom-control-input"  name="ReacSolicitud" id="ReacSolicitud" autocomplete="off">
+                                <label class="custom-control-label" for="ReacSolicitud" id="msjReacSolicitud"></label>
+                            </div> --}}
                         </div>
                     </div> <!-- END -->
                   </div>
@@ -718,37 +718,37 @@
                         <div class="col-md-4">
                             <label>Solicitud de pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="pago" id="pago" autocomplete="off">
-                                <label class="custom-control-label" for="pago" id="msj-pago"></label>
+                                <input type="checkbox" class="custom-control-input"  name="solPago" id="solPago" autocomplete="off">
+                                <label class="custom-control-label" for="solPago" id="msjSolPago"></label>
                             </div>
                             <label>Crear pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-pago" id="crear-pago" autocomplete="off">
-                                <label class="custom-control-label" for="crear-pago" id="msjCrear-pago"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearPago" id="crearPago" autocomplete="off">
+                                <label class="custom-control-label" for="crearPago" id="msjCrearPago"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-pago" id="mod-pago" autocomplete="off">
-                                <label class="custom-control-label" for="mod-pago" id="msjMod-pago"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modPago" id="modPago" autocomplete="off">
+                                <label class="custom-control-label" for="modPago" id="msjModPago"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-pago" id="ver-pago" autocomplete="off">
-                                <label class="custom-control-label" for="ver-pago" id="msjVer-pago"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verPago" id="verPago" autocomplete="off">
+                                <label class="custom-control-label" for="verPago" id="msjVerPago"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-pago" id="des-pago" autocomplete="off">
-                                <label class="custom-control-label" for="des-pago" id="msjDes-pago"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desPago" id="desPago" autocomplete="off">
+                                <label class="custom-control-label" for="desPago" id="msjDesPago"></label>
                             </div>
                             <label>Reactivar pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-pago" id="Reac-pago" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-pago" id="msjReac-pago"></label>
+                                <input type="checkbox" class="custom-control-input"  name="ReacPago" id="ReacPago" autocomplete="off">
+                                <label class="custom-control-label" for="ReacPago" id="msjReacPago"></label>
                             </div>
                         </div>
                     </div> <!-- END -->
@@ -773,59 +773,59 @@
                             <label>Cuentas por pagar</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="CXP" id="CXP" autocomplete="off">
-                                <label class="custom-control-label" for="CXP" id="msj-CXP"></label>
+                                <label class="custom-control-label" for="CXP" id="msjCXP"></label>
                             </div>
                             <label>Crear pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-CXP" id="crear-CXP" autocomplete="off">
-                                <label class="custom-control-label" for="crear-CXP" id="msjCrear-CXP"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearCXP" id="crearCXP" autocomplete="off">
+                                <label class="custom-control-label" for="crearCXP" id="msjCrearCXP"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mod-CXP" id="mod-CXP" autocomplete="off">
-                                <label class="custom-control-label" for="mod-CXP" id="msjMod-CXP"></label>
+                                <input type="checkbox" class="custom-control-input"  name="modCXP" id="modCXP" autocomplete="off">
+                                <label class="custom-control-label" for="modCXP" id="msjModCXP"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ver-CXP" id="ver-CXP" autocomplete="off">
-                                <label class="custom-control-label" for="ver-CXP" id="msjVer-CXP"></label>
+                                <input type="checkbox" class="custom-control-input"  name="verCXP" id="verCXP" autocomplete="off">
+                                <label class="custom-control-label" for="verCXP" id="msjVerCXP"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="des-CXP" id="des-CXP" autocomplete="off">
-                                <label class="custom-control-label" for="des-CXP" id="msjDes-CXP"></label>
+                                <input type="checkbox" class="custom-control-input"  name="desCXP" id="desCXP" autocomplete="off">
+                                <label class="custom-control-label" for="desCXP" id="msjDesCXP"></label>
                             </div>
                             <label>Reactivar pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Reac-CXP" id="Reac-CXP" autocomplete="off">
-                                <label class="custom-control-label" for="Reac-CXP" id="msjReac-CXP"></label>
+                                <input type="checkbox" class="custom-control-input"  name="ReacCXP" id="ReacCXP" autocomplete="off">
+                                <label class="custom-control-label" for="ReacCXP" id="msjReacCXP"></label>
                             </div>
                         </div>
                     </div> <!-- END -->
                     <br>
                     <div class="row bg-info" style="padding: 3px;"><div>Conciliación</div></div><br>
-                    
+
                     <div class="row">
                         <div class="col-md-4">
                             <label>Conciliación</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="conciliacion" id="conciliacion" autocomplete="off">
-                                <label class="custom-control-label" for="conciliacion" id="msj-conciliacion"></label>
+                                <label class="custom-control-label" for="conciliacion" id="msjConciliacion"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Crear conciliación</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crear-conciliacion" id="crear-conciliacion" autocomplete="off">
-                                <label class="custom-control-label" for="crear-conciliacion" id="msjCrear-conciliacion"></label>
+                                <input type="checkbox" class="custom-control-input"  name="crearConciliacion" id="crearConciliacion" autocomplete="off">
+                                <label class="custom-control-label" for="crearConciliacion" id="msjCrearConciliacion"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-  
+
                         </div>
                     </div> <!-- END -->
 
