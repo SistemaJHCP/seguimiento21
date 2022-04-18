@@ -92,7 +92,7 @@ class CreateUsersTable extends Migration
             $table->boolean('material_solicitud_opcion')->default(1);
             $table->boolean('servicio_solicitud_opcion')->default(1);
             $table->boolean('viatico_solicitud_opcion')->default(1);
-            // $table->boolean('caja_chica_solicitud_opcion')->default(0);//No es necesario al parecer
+            $table->boolean('caja_chica_solicitud_opcion')->default(0);//No es necesario al parecer
             // $table->boolean('caja_chica_solicitud')->default(0);//No es necesario al parecer
             $table->boolean('nomina_solicitud')->default(1);
             $table->boolean('materiales_solicitud')->default(1);
