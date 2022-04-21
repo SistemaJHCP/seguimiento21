@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('titulo')
-    <h1 class="m-0"> Crear <small>permiso de usuario</small></h1>
+    <h1 class="m-0"> Modificar <small>permiso de usuario</small></h1>
 @endsection
 @section('navegador')
     {{-- <li class="breadcrumb-item">Home</li>--}}
@@ -19,9 +19,9 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="">Nombre del permiso</label>
-                    <input type="text" name="nombrePermiso" id="nombrePermiso" placeholder="Ingrese el nombre del permiso a crear" class="form-control" maxlength="60" required>
+                    <input type="text" name="nombrePermiso" id="nombrePermiso" placeholder="Ingrese el nombre del permiso a crear" value="{{ $permisos->nombre_permiso }}" class="form-control" maxlength="60" required>
 
-                    <br><input type="submit" value="Crear permisos" class="btn btn-info"> <a href="{{ route('permisos.index') }}"><button type="button" class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a>
+                    <br><a href="{{ route('permisos.index') }}"><button type="button" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar</button></a><input type="submit" value="Crear permisos" class="btn btn-info float-right">
                 </div>
             </div>
         </div>
@@ -33,17 +33,17 @@
                       <div class="form-group">
                         <label>Maestro</label>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="maestro" id="maestro" autocomplete="off">
+                            <input type="checkbox" class="custom-control-input"  name="maestro" id="maestro" autocomplete="off" {!! $permisos->maestro_btn == 1 ? ' checked' : "" !!}>
                             <label class="custom-control-label" for="maestro" id="msjMaestro"></label>
                         </div>
                         <label>Control de obra</label>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="obra" id="obra" autocomplete="off">
+                            <input type="checkbox" class="custom-control-input"  name="obra" id="obra" autocomplete="off" {!! $permisos->control_de_obras_btn == 1 ? ' checked' : "" !!}>
                             <label class="custom-control-label" for="obra" id="msjObra"></label>
                         </div>
                         <label>Configuración</label>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="configuracion" id="configuracion" autocomplete="off">
+                            <input type="checkbox" class="custom-control-input"  name="configuracion" id="configuracion" autocomplete="off" {!! $permisos->configuracion_btn == 1 ? ' checked' : "" !!}>
                             <label class="custom-control-label" for="configuracion" id="msjConfiguracion"></label>
                         </div>
                       </div>
@@ -51,52 +51,36 @@
                     <div class="col-md-4">
                         <label>Requisición</label>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="requisicion" id="requisicion" autocomplete="off">
+                            <input type="checkbox" class="custom-control-input"  name="requisicion" id="requisicion" autocomplete="off" {!! $permisos->requisicion == 1 ? ' checked' : "" !!}>
                             <label class="custom-control-label" for="requisicion" id="msjRequisicion"></label>
                         </div>
                         <label>Solicitud</label>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="solicitud" id="solicitud" autocomplete="off">
+                            <input type="checkbox" class="custom-control-input"  name="solicitud" id="solicitud" autocomplete="off" {!! $permisos->solicitud == 1 ? ' checked' : "" !!}>
                             <label class="custom-control-label" for="solicitud" id="msjSolicitud"></label>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label>Solicitud de pago</label>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="pago" id="pago" autocomplete="off">
+                            <input type="checkbox" class="custom-control-input"  name="pago" id="pago" autocomplete="off" {!! $permisos->solicitud_pago == 1 ? ' checked' : "" !!}>
                             <label class="custom-control-label" for="pago" id="msjPago"></label>
                         </div>
                         <label>Cuentas por pagar</label>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="cuentasx" id="cuentasx" autocomplete="off">
+                            <input type="checkbox" class="custom-control-input"  name="cuentasx" id="cuentasx" autocomplete="off" {!! $permisos->cuentas_por_pagar_btn == 1 ? ' checked' : "" !!}>
                             <label class="custom-control-label" for="cuentasx" id="mjsCuentasx"></label>
                         </div>
                     </div>
                   </div>
             </div>
         </div>
-
-
     </div>
     <div class="col-md-7">
 
         <div class="accordion" id="accordionExample">
-            {{-- <div class="card">
-              <div class="card-header bg-info" id="headingOne">
-                <h2 class="mb-0">
-                  <button class="btn btn-link btn-block text-left" style="color:white;" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Botones a mostrar
-                  </button>
-                </h2>
-              </div>
 
-              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div class="card-body">
-
-                </div>
-              </div>
-            </div> --}}
-            <div class="card" id="opcionesMaestro" style="display:none">
+            <div class="card" id="opcionesMaestro" style="{!! $permisos->maestro_btn != 1 ? ' display:none' : "" !!}">
               <div class="card-header bg-info" id="headingTwo">
                 <h2 class="mb-0">
                   <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -111,36 +95,36 @@
                         <div class="col-md-4">
                             <label>suministros</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="sum" id="sum" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="sum" id="sum" autocomplete="off" {!! $permisos->suministros == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="sum" id="msjSum"></label>
                             </div>
                             <label>Crear suministros</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearSum" id="crearSum" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearSum" id="crearSum" autocomplete="off" {!! $permisos->crear_suministros == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearSum" id="msjcrearSum"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar suministros</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modSum" id="modSum" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modSum" id="modSum" autocomplete="off"{!! $permisos->modificar_suministros == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modSum" id="msjmodSum"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verSum" id="verSum" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verSum" id="verSum" autocomplete="off"{!! $permisos->ver_botones_suministros == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verSum" id="msjverSum"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar suministros</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desSum" id="desSum" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desSum" id="desSum" autocomplete="off"{!! $permisos->desactivar_suministros == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desSum" id="msjdesSum"></label>
                             </div>
                             <label>Reactivar suministros</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="reacSum" id="reacSum" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="reacSum" id="reacSum" autocomplete="off"{!! $permisos->reactivar_suministros == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="reacSum" id="msjreacSum"></label>
                             </div>
                         </div>
@@ -151,36 +135,36 @@
                         <div class="col-md-4">
                             <label>proveedores</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="prov" id="prov" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="prov" id="prov" autocomplete="off" {!! $permisos->proveedores == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="prov" id="msjProv"></label>
                             </div>
                             <label>Crear proveedores</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearProv" id="crearProv" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearProv" id="crearProv" autocomplete="off" {!! $permisos->crear_proveedores == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearProv" id="msjcrearProv"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar proveedores</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modProv" id="modProv" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modProv" id="modProv" autocomplete="off" {!! $permisos->modificar_proveedores == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modProv" id="msjmodProv"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verProv" id="verProv" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verProv" id="verProv" autocomplete="off" {!! $permisos->ver_botones_proveedores == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verProv" id="msjverProv"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar proveedores</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desProv" id="desProv" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desProv" id="desProv" autocomplete="off" {!! $permisos->desactivar_proveedores == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desProv" id="msjdesProv"></label>
                             </div>
                             <label>Reactivar proveedores</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="reacProv" id="reacProv" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="reacProv" id="reacProv" autocomplete="off" {!! $permisos->reactivar_proveedores == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="reacProv" id="msjreacProv"></label>
                             </div>
                         </div>
@@ -190,21 +174,21 @@
                         <div class="col-md-4">
                             <label>Banco</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="banco" id="banco" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="banco" id="banco" autocomplete="off" {!! $permisos->banco == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="banco" id="msjbanco"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Cargar datos bancarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="cargarBancos" id="cargarBancos" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="cargarBancos" id="cargarBancos" autocomplete="off" {!! $permisos->crear_banco == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="cargarBancos" id="msjcargarBancos"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Des. datos bancarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desactivarBancos" id="desactivarBancos" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desactivarBancos" id="desactivarBancos" autocomplete="off" {!! $permisos->desactivar_banco == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desactivarBancos" id="msjdesactivarBancos"></label>
                             </div>
                         </div>
@@ -501,7 +485,7 @@
                 </div>
               </div>
             </div>
-            <div class="card" id="opcionesObras" style="display:none">
+            <div class="card" id="opcionesObras" style=" {!! $permisos->control_de_obras_btn!= 1 ? ' display:none' : "" !!}">
               <div class="card-header bg-info" id="controlObras">
                 <h2 class="mb-0">
                   <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#r-controlObras" aria-expanded="false" aria-controls="r-controlObras">
@@ -636,7 +620,7 @@
                 </div>
               </div>
             </div>
-            <div class="card" id="opcionesRequisicion" style="display:none">
+            <div class="card" id="opcionesRequisicion" style="{!! $permisos->requisicion != 1 ? 'display:none' : "" !!}">
                 <div class="card-header bg-info" id="requisicion">
                   <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#collapseRequisicion" aria-expanded="false" aria-controls="collapseRequisicion">
@@ -688,7 +672,7 @@
                   </div>
                 </div>
             </div>
-            <div class="card" id="opcionesSolicitud" style="display:none">
+            <div class="card" id="opcionesSolicitud" style="{!! $permisos->solicitud != 1 ? 'display:none' : "" !!}">
                 <div class="card-header bg-info" id="solicitud">
                   <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#collapseSolicitud1" aria-expanded="false" aria-controls="collapseSolicitud1">
@@ -775,7 +759,7 @@
                   </div>
                 </div>
             </div>
-            <div class="card" id="opcionesPago" style="display:none">
+            <div class="card" id="opcionesPago" style="{!! $permisos->solicitud_pago != 1 ? 'display:none' : "" !!}">
                 <div class="card-header bg-info" id="pago">
                   <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#solicitud-pago" aria-expanded="false" aria-controls="solicitud-pago">
@@ -813,7 +797,7 @@
                 </div>
             </div>
 
-            <div class="card" id="opcionesCXP" style="display:none">
+            <div class="card" id="opcionesCXP" style="{!! $permisos->cuentas_por_pagar_btn != 1 ? 'display:none' : "" !!}">
                 <div class="card-header bg-info" id="pago">
                   <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#cuentas_x_pagar" aria-expanded="false" aria-controls="cuentas_x_pagar">
@@ -879,7 +863,7 @@
                   </div>
                 </div>
             </div>
-            <div class="card" id="opcionesConfiguracion" style="display:none">
+            <div class="card" id="opcionesConfiguracion" style=" {!! $permisos->configuracion_btn != 1 ? 'display:none' : "" !!}">
                 <div class="card-header bg-info" id="Configuracion">
                   <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#collapseConfiguracion" aria-expanded="false" aria-controls="collapseConfiguracion">
@@ -991,7 +975,7 @@
 </div>
 @endsection
 @section('js')
-<script src="{{ asset("js/permisos/crear-permiso.js") }}"></script>
+<script src="{{ asset("js/permisos/modificar-permiso.js") }}"></script>
 @endsection
 @section('css')
 

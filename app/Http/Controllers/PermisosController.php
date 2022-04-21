@@ -86,6 +86,9 @@ class PermisosController extends Controller
         $permisos->ver_botones_proveedores =  $request->verProv == "on" ? 1 : 0;
         $permisos->desactivar_proveedores =  $request->desProv == "on" ? 1 : 0;
         $permisos->reactivar_proveedores =  $request->reacProv == "on" ? 1 : 0;
+        $permisos->banco =  $request->banco == "on" ? 1 : 0;
+        $permisos->crear_banco =  $request->cargarBancos == "on" ? 1 : 0;
+        $permisos->desactivar_banco =  $request->desactivarBancos == "on" ? 1 : 0;
 
         //Cliente
         $permisos->cliente =  $request->cli == "on" ? 1 : 0;
@@ -213,6 +216,13 @@ class PermisosController extends Controller
         $permisos->desactivar_permisos  =  $request->desConfPermisos == "on" ? 1 : 0;
         $permisos->reactivar_permisos  =  $request->ReacConfPermisos == "on" ? 1 : 0;
 
+        //estos eran los botones, fueron agregados en la BD mas no fueron usados
+        //actualmente estoy usando por ejemplo nomina_solicitud_opcion
+        $permisos->nomina_solicitud  =  0;
+        $permisos->materiales_solicitud  =  0;
+        $permisos->servicio_solicitud  =  0;
+        $permisos->viatico_solicitud  =  0;
+
         $permisos->save();
 
         dd( "Ya guardo!" );
@@ -237,7 +247,36 @@ class PermisosController extends Controller
      */
     public function edit($id)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->permisos_btn != 1 || $permisoUsuario[0]->modificar_permisos != 1){
+            return redirect()->route("home");
+        }
+
+        //buscamos el nivel de permiso asignado a este ID
+        $permisos = Permiso::find( $id );
+        dump($permisos);
+        //Redireccionamos a la vista seleccionada
+        return view('sistema.permisos.modificar')->with('permisos', $permisos)->with('permisoUsuario', $permisoUsuario[0]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     /**
