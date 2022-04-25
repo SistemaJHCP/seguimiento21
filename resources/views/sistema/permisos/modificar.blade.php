@@ -13,7 +13,7 @@
 @section('contenedor')
 <div class="row">
     <div class="col-md-5">
-    <form action="{{ route('permisos.cargar') }}" method="post">
+    <form action="#" method="post">
     @csrf
         <div class="card card-info card-outline">
             <div class="card-body">
@@ -21,7 +21,7 @@
                     <label for="">Nombre del permiso</label>
                     <input type="text" name="nombrePermiso" id="nombrePermiso" placeholder="Ingrese el nombre del permiso a crear" value="{{ $permisos->nombre_permiso }}" class="form-control" maxlength="60" required>
 
-                    <br><a href="{{ route('permisos.index') }}"><button type="button" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar</button></a><input type="submit" value="Crear permisos" class="btn btn-info float-right">
+                    <br><a href="{{ route('permisos.index') }}"><button type="button" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar</button></a><input type="submit" value="Modificar permisos" class="btn btn-info float-right">
                 </div>
             </div>
         </div>
@@ -199,36 +199,36 @@
                         <div class="col-md-4">
                             <label>Clientes</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="cli" id="cli" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="cli" id="cli" autocomplete="off" {!! $permisos->cliente == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="cli" id="msjCli"></label>
                             </div>
                             <label>Crear clientes</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearCli" id="crearCli" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearCli" id="crearCli" autocomplete="off" {!! $permisos->crear_cliente == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearCli" id="msjcrearCli"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar clientes</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modCli" id="modCli" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modCli" id="modCli" autocomplete="off" {!! $permisos->modificar_cliente == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modCli" id="msjmodCli"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verCli" id="verCli" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verCli" id="verCli" autocomplete="off" {!! $permisos->ver_botones_cliente == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verCli" id="msjverCli"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar clientes</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desCli" id="desCli" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desCli" id="desCli" autocomplete="off" {!! $permisos->desactivar_cliente == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desCli" id="msjdesCli"></label>
                             </div>
                             <label>Reactivar clientes</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="reacCli" id="reacCli" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="reacCli" id="reacCli" autocomplete="off" {!! $permisos->reactivar_cliente == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="reacCli" id="msjreacCli"></label>
                             </div>
                         </div>
@@ -240,38 +240,28 @@
                         <div class="col-md-4">
                             <label>Materiales</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="mate" id="mate" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="mate" id="mate" autocomplete="off"  {!! $permisos->materiales == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="mate" id="msjMate"></label>
                             </div>
                             <label>Crear materiales</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearMate" id="crearMate" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearMate" id="crearMate" autocomplete="off"  {!! $permisos->crear_materiales == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearMate" id="msjcrearMate"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            {{-- <label>Modificar materiales ****</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modMate" id="modMate" autocomplete="off" disabled>
-                                <label class="custom-control-label" for="modMate" id="msjmodMate"></label>
-                            </div> --}}
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verMate" id="verMate" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verMate" id="verMate" autocomplete="off"  {!! $permisos->ver_botones_materiales == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verMate" id="msjverMate"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar materiales</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desMate" id="desMate" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desMate" id="desMate" autocomplete="off"  {!! $permisos->desactivar_materiales == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desMate" id="msjdesMate"></label>
                             </div>
-                            {{-- <label>Reactivar materiales ****</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="reacMate" id="reacMate" autocomplete="off" disabled>
-                                <label class="custom-control-label" for="reacMate" id="msjreacMate"></label>
-                            </div> --}}
                         </div>
                     </div> <!-- END -->
 
@@ -281,38 +271,28 @@
                         <div class="col-md-4">
                             <label>Servicio</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="serv" id="serv" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="serv" id="serv" autocomplete="off" {!! $permisos->servicio == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="serv" id="msjServ"></label>
                             </div>
                             <label>Crear servicios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearServ" id="crearServ" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearServ" id="crearServ" autocomplete="off" {!! $permisos->crear_servicio == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearServ" id="msjcrearServ"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            {{-- <label>Modificar servicios</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modServ" id="modServ" autocomplete="off">
-                                <label class="custom-control-label" for="modServ" id="msjmodServ"></label>
-                            </div> --}}
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verServ" id="verServ" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verServ" id="verServ" autocomplete="off" {!! $permisos->ver_botones_servicio == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verServ" id="msjverServ"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar servicios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desServ" id="desServ" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desServ" id="desServ" autocomplete="off" {!! $permisos->desactivar_servicio == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desServ" id="msjdesServ"></label>
                             </div>
-                            {{-- <label>Reactivar servicios</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="reacServ" id="reacServ" autocomplete="off">
-                                <label class="custom-control-label" for="reacServ" id="msjreacServ"></label>
-                            </div> --}}
                         </div>
                     </div> <!-- END -->
 
@@ -322,38 +302,28 @@
                         <div class="col-md-4">
                             <label>Viáticos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="viat" id="viat" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="viat" id="viat" autocomplete="off" {!! $permisos->viatico == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="viat" id="msjViat"></label>
                             </div>
                             <label>Crear viáticos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearViat" id="crearViat" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearViat" id="crearViat" autocomplete="off" {!! $permisos->crear_viatico == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearViat" id="msjcrearViat"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            {{-- <label>Modificar viáticos</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modViat" id="modViat" autocomplete="off">
-                                <label class="custom-control-label" for="modViat" id="msjmodViat"></label>
-                            </div> --}}
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verViat" id="verViat" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verViat" id="verViat" autocomplete="off" {!! $permisos->ver_botones_viatico == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verViat" id="msjverViat"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar viáticos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desViat" id="desViat" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desViat" id="desViat" autocomplete="off" {!! $permisos->desactivar_viatico == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desViat" id="msjdesViat"></label>
                             </div>
-                            {{-- <label>Reactivar viáticos</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="reacViat" id="reacViat" autocomplete="off">
-                                <label class="custom-control-label" for="reacViat" id="msjreacViat"></label>
-                            </div> --}}
                         </div>
                     </div> <!-- END -->
 
@@ -363,36 +333,36 @@
                         <div class="col-md-4">
                             <label>Usuarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="usua" id="usua" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="usua" id="usua" autocomplete="off" {!! $permisos->usuario == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="usua" id="msjUsua"></label>
                             </div>
                             <label>Crear usuarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearUsuario" id="crearUsuario" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearUsuario" id="crearUsuario" autocomplete="off" {!! $permisos->crear_usuario == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearUsuario" id="msjcrearUsuario"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar usuarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modUsuario" id="modUsuario" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modUsuario" id="modUsuario" autocomplete="off" {!! $permisos->modificar_usuario == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modUsuario" id="msjmodUsuario"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verUsuario" id="verUsuario" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verUsuario" id="verUsuario" autocomplete="off" {!! $permisos->ver_botones_usuario == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verUsuario" id="msjverUsuario"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar usuarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desUsuario" id="desUsuario" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desUsuario" id="desUsuario" autocomplete="off" {!! $permisos->desactivar_usuario == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desUsuario" id="msjdesUsuario"></label>
                             </div>
                             <label>Reactivar usuarios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="reacUsuario" id="reacUsuario" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="reacUsuario" id="reacUsuario" autocomplete="off" {!! $permisos->reactivar_usuario == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="reacUsuario" id="msjreacUsuario"></label>
                             </div>
                         </div>
@@ -405,36 +375,36 @@
                         <div class="col-md-4">
                             <label>Permisos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="perm" id="perm" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="perm" id="perm" autocomplete="off" {!! $permisos->permisos_btn == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="perm" id="msjPerm"></label>
                             </div>
                             <label>Crear permisos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearPerm" id="crearPerm" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearPerm" id="crearPerm" autocomplete="off" {!! $permisos->crear_permisos == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearPerm" id="msjcrearPerm"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar permisos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modPerm" id="modPerm" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modPerm" id="modPerm" autocomplete="off" {!! $permisos->modificar_permisos == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modPerm" id="msjmodPerm"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verPerm" id="verPerm" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verPerm" id="verPerm" autocomplete="off" {!! $permisos->ver_boton_permisos == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verPerm" id="msjverPerm"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar permisos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desPerm" id="desPerm" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desPerm" id="desPerm" autocomplete="off" {!! $permisos->desactivar_permisos == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desPerm" id="msjdesPerm"></label>
                             </div>
                             <label>Reactivar permisos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="reacPerm" id="reacPerm" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="reacPerm" id="reacPerm" autocomplete="off" {!! $permisos->reactivar_permisos == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="reacPerm" id="msjreacPerm"></label>
                             </div>
                         </div>
@@ -446,36 +416,36 @@
                         <div class="col-md-4">
                             <label>Maestro PTC</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="master" id="master" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="master" id="master" autocomplete="off" {!! $permisos->ptc == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="master" id="msjMaster"></label>
                             </div>
                             <label>Crear PTC</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearMaster" id="crearMaster" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearMaster" id="crearMaster" autocomplete="off" {!! $permisos->crear_ptc == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearMaster" id="msjCrearMaster"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar PTC</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modMaster" id="modMaster" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modMaster" id="modMaster" autocomplete="off" {!! $permisos->modificar_ptc == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modMaster" id="msjModMaster"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verMaster" id="verMaster" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verMaster" id="verMaster" autocomplete="off" {!! $permisos->ver_botones_ptc == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verMaster" id="msjVerMaster"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar PTC</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desMaster" id="desMaster" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desMaster" id="desMaster" autocomplete="off" {!! $permisos->desactivar_ptc == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desMaster" id="msjDesMaster"></label>
                             </div>
                             <label>Reactivar PTC</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ReacMaster" id="ReacMaster" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="ReacMaster" id="ReacMaster" autocomplete="off" {!! $permisos->reactivar_ptc == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="ReacMaster" id="msjReacMaster"></label>
                             </div>
                         </div>
@@ -501,36 +471,36 @@
                         <div class="col-md-4">
                             <label>Obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="obras" id="obras" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="obras" id="obras" autocomplete="off" {!! $permisos->obra == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="obras" id="msjObras"></label>
                             </div>
                             <label>Crear obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearObras" id="crearObras" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearObras" id="crearObras" autocomplete="off" {!! $permisos->crear_obra == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearObras" id="msjCrearObras"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modObras" id="modObras" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modObras" id="modObras" autocomplete="off" {!! $permisos->modificar_obra == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modObras" id="msjModObras"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verObras" id="verObras" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verObras" id="verObras" autocomplete="off" {!! $permisos->ver_botones_obra == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verObras" id="msjVerObras"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desObras" id="desObras" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desObras" id="desObras" autocomplete="off" {!! $permisos->desactivar_obra == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desObras" id="msjDesObras"></label>
                             </div>
                             <label>Reactivar obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ReacObras" id="ReacObras" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="ReacObras" id="ReacObras" autocomplete="off" {!! $permisos->reactivar_obra == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="ReacObras" id="msjReacObras"></label>
                             </div>
                         </div>
@@ -542,38 +512,33 @@
                         <div class="col-md-4">
                             <label>Tipos de obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="tipos" id="tipos" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="tipos" id="tipos" autocomplete="off" {!! $permisos->tipo == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="tipos" id="msjTipos"></label>
                             </div>
                             <label>Crear tipos de obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearTipos" id="crearTipos" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearTipos" id="crearTipos" autocomplete="off" {!! $permisos->crear_tipo == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearTipos" id="msjCrearTipos"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar tipos de obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modTipos" id="modTipos" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modTipos" id="modTipos" autocomplete="off" {!! $permisos->modificar_tipo == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modTipos" id="msjModTipos"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verTipos" id="verTipos" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verTipos" id="verTipos" autocomplete="off" {!! $permisos->ver_botones_tipo == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verTipos" id="msjVerTipos"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar tipos de obras</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desTipos" id="desTipos" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desTipos" id="desTipos" autocomplete="off" {!! $permisos->desactivar_tipo == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desTipos" id="msjDesTipos"></label>
                             </div>
-                            {{-- <label>Reactivar tipos de obras</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ReacTipos" id="ReacTipos" autocomplete="off">
-                                <label class="custom-control-label" for="ReacTipos" id="msjReacTipos"></label>
-                            </div> --}}
                         </div>
                     </div> <!-- END -->
 
@@ -583,36 +548,36 @@
                         <div class="col-md-4">
                             <label>Personal</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="personal" id="personal" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="personal" id="personal" autocomplete="off" {!! $permisos->personal == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="personal" id="msj-personal"></label>
                             </div>
                             <label>Crear personal</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearPersonal" id="crearPersonal" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearPersonal" id="crearPersonal" autocomplete="off" {!! $permisos->crear_personal == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearPersonal" id="msjCrearPersonal"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar personal</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modPersonal" id="modPersonal" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modPersonal" id="modPersonal" autocomplete="off" {!! $permisos->modificar_personal == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modPersonal" id="msjModPersonal"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verPersonal" id="verPersonal" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verPersonal" id="verPersonal" autocomplete="off" {!! $permisos->ver_botones_personal == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verPersonal" id="msjVerPersonal"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Desactivar personal</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="desPersonal" id="desPersonal" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="desPersonal" id="desPersonal" autocomplete="off" {!! $permisos->desactivar_personal == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="desPersonal" id="msjDesPersonal"></label>
                             </div>
                             <label>Reactivar personal</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="reacPersonal" id="reacPersonal" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="reacPersonal" id="reacPersonal" autocomplete="off" {!! $permisos->reactivar_personal == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="reacPersonal" id="msjReacPersonal"></label>
                             </div>
                         </div>
@@ -635,38 +600,33 @@
                         <div class="col-md-4">
                             <label>Requisición</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Req" id="Req" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="Req" id="Req" autocomplete="off" {!! $permisos->requisicion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="Req" id="msjReq"></label>
                             </div>
                             <label>Crear requisición</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearRequisicion" id="crearRequisicion" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearRequisicion" id="crearRequisicion" autocomplete="off" {!! $permisos->crear_requisicion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearRequisicion" id="msjCrearRequisicion"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar requisición</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modRequisicion" id="modRequisicion" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modRequisicion" id="modRequisicion" autocomplete="off" {!! $permisos->modificar_requisicion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modRequisicion" id="msjModRequisicion"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verRequisicion" id="verRequisicion" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verRequisicion" id="verRequisicion" autocomplete="off" {!! $permisos->ver_botones_requisicion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verRequisicion" id="msjVerRequisicion"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Anular requisición</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="anularRequisicion" id="anularRequisicion" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="anularRequisicion" id="anularRequisicion" autocomplete="off" {!! $permisos->anular_requisicion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="anularRequisicion" id="msjanularRequisicion"></label>
                             </div>
-                            {{-- <label>Reactivar requisición</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ReacRequisición" id="ReacRequisición" autocomplete="off">
-                                <label class="custom-control-label" for="ReacRequisición" id="msjReacRequisición"></label>
-                            </div> --}}
                         </div>
                     </div> <!-- END -->
                   </div>
@@ -687,38 +647,33 @@
                         <div class="col-md-4">
                             <label>Solicitud</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="hacerSolicitud" id="hacerSolicitud" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="hacerSolicitud" id="hacerSolicitud" autocomplete="off" {!! $permisos->solicitud == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="hacerSolicitud" id="msjHacerSolicitud"></label>
                             </div>
                             <label>Crear solicitud</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearSolicitud" id="crearSolicitud" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearSolicitud" id="crearSolicitud" autocomplete="off" {!! $permisos->crear_solicitud == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearSolicitud" id="msjCrearSolicitud"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Modificar solicitud</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="modSolicitud" id="modSolicitud" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="modSolicitud" id="modSolicitud" autocomplete="off" {!! $permisos->modificar_solicitud == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modSolicitud" id="msjModSolicitud"></label>
                             </div>
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verSolicitud" id="verSolicitud" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verSolicitud" id="verSolicitud" autocomplete="off" {!! $permisos->ver_botones_solicitud == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verSolicitud" id="msjVerSolicitud"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Anular solicitud</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="anularSolicitud" id="anularSolicitud" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="anularSolicitud" id="anularSolicitud" autocomplete="off" {!! $permisos->anular_solicitud == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="anularSolicitud" id="msjAnularSolicitud"></label>
                             </div>
-                            {{-- <label>Reactivar solicitud</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ReacSolicitud" id="ReacSolicitud" autocomplete="off">
-                                <label class="custom-control-label" for="ReacSolicitud" id="msjReacSolicitud"></label>
-                            </div> --}}
                         </div>
                     </div> <!-- END -->
                     <br>
@@ -727,19 +682,19 @@
                         <div class="col-md-4">
                             <label>Mostrar boton Materiales</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="btnMateriales" id="btnMateriales" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="btnMateriales" id="btnMateriales" autocomplete="off" {!! $permisos->material_solicitud_opcion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="btnMateriales" id="msjbtnMateriales"></label>
                             </div>
                             <label>Mostrar boton Nómina</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="btnNomina" id="btnNomina" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="btnNomina" id="btnNomina" autocomplete="off" {!! $permisos->nomina_solicitud_opcion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="btnNomina" id="msjbtnNomina"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Mostrar boton Servicios</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="btnServicios" id="btnServicios" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="btnServicios" id="btnServicios" autocomplete="off" {!! $permisos->servicio_solicitud_opcion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="btnServicios" id="msjbtnServicios"></label>
                             </div>
                             <label>Mostrar boton Caja Chica</label>
@@ -751,7 +706,7 @@
                         <div class="col-md-4">
                             <label>Mostrar boton Viático</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="btnViatico" id="btnViatico" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="btnViatico" id="btnViatico" autocomplete="off" {!! $permisos->viatico_solicitud_opcion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="btnViatico" id="msjbtnViatico"></label>
                             </div>
                         </div>
@@ -774,21 +729,21 @@
                         <div class="col-md-4">
                             <label>Solicitud de pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="solPago" id="solPago" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="solPago" id="solPago" autocomplete="off" {!! $permisos->solicitud_pago == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="solPago" id="msjSolPago"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Aprobar pago</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="aprobarPago" id="aprobarPago" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="aprobarPago" id="aprobarPago" autocomplete="off" {!! $permisos->aprobacion_solicitud_pago == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="aprobarPago" id="msjaprobarPago"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Ver pagos</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verPago" id="verPago" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verPago" id="verPago" autocomplete="off" {!! $permisos->ver_solicitud_pago == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verPago" id="msjverPago"></label>
                             </div>
                         </div>
@@ -813,28 +768,23 @@
                         <div class="col-md-4">
                             <label>Cuentas por pagar</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="CXP" id="CXP" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="CXP" id="CXP" autocomplete="off" {!! $permisos->compra_cuentas_x_pagar == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="CXP" id="msjCXP"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Aprobar CXP</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="aprobarCXP" id="aprobarCXP" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="aprobarCXP" id="aprobarCXP" autocomplete="off" {!! $permisos->aproRepro_compra_cuentas_x_pagar == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="aprobarCXP" id="msjaprobarCXP"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Ver botones</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verCXP" id="verCXP" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="verCXP" id="verCXP" autocomplete="off" {!! $permisos->ver_botones_compra_cuentas_x_pagar == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verCXP" id="msjverCXP"></label>
                             </div>
-                            {{-- <label>Desactivar pago</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="desCXP" autocomplete="off">
-                                <label class="custom-control-label" for="desCXP" id="msjDesCXP"></label>
-                            </div> --}}
                         </div>
                     </div> <!-- END -->
                     <br>
@@ -844,14 +794,14 @@
                         <div class="col-md-4">
                             <label>Conciliación</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="conciliacion" id="conciliacion" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="conciliacion" id="conciliacion" autocomplete="off" {!! $permisos->conciliacion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="conciliacion" id="msjConciliacion"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Crear archivo XLSX</label>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="crearConciliacion" id="crearConciliacion" autocomplete="off">
+                                <input type="checkbox" class="custom-control-input"  name="crearConciliacion" id="crearConciliacion" autocomplete="off" {!! $permisos->crear_conciliacion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearConciliacion" id="msjCrearConciliacion"></label>
                             </div>
                         </div>
