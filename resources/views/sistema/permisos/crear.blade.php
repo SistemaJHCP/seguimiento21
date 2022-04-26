@@ -374,6 +374,47 @@
                     </div> <!-- END -->
 
                     <br>
+                    <div class="row bg-info" style="padding: 3px;"><div>Nómina</div></div><br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Nómina</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="hacerNomina" id="hacerNomina" autocomplete="off">
+                                <label class="custom-control-label" for="hacerNomina" id="msjHacerNomina"></label>
+                            </div>
+                            <label>Crear nómina</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="crearNomina" id="crearNomina" autocomplete="off">
+                                <label class="custom-control-label" for="crearNomina" id="msjcrearNomina"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Modificar nómina</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="modNomina" id="modNomina" autocomplete="off">
+                                <label class="custom-control-label" for="modNomina" id="msjmodNomina"></label>
+                            </div>
+                            <label>Ver botones</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="verNomina" id="verNomina" autocomplete="off">
+                                <label class="custom-control-label" for="verNomina" id="msjverNomina"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Desactivar nómina</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="desNomina" id="desNomina" autocomplete="off">
+                                <label class="custom-control-label" for="desNomina" id="msjdesNomina"></label>
+                            </div>
+                            <label>Reactivar nómina</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="reacNomina" id="reacNomina" autocomplete="off">
+                                <label class="custom-control-label" for="reacNomina" id="msjreacNomina"></label>
+                            </div>
+                        </div>
+                    </div> <!-- END -->
+
+                    {{-- <br>
                     <div class="row bg-info" style="padding: 3px;"><div>Usuarios</div></div><br>
                     <div class="row">
                         <div class="col-md-4">
@@ -412,10 +453,10 @@
                                 <label class="custom-control-label" for="reacUsuario" id="msjreacUsuario"></label>
                             </div>
                         </div>
-                    </div> <!-- END -->
+                    </div> <!-- END --> --}}
 
 
-                    <br>
+                    {{-- <br>
                     <div class="row bg-info" style="padding: 3px;"><div>Permisos</div></div><br>
                     <div class="row">
                         <div class="col-md-4">
@@ -454,7 +495,7 @@
                                 <label class="custom-control-label" for="reacPerm" id="msjreacPerm"></label>
                             </div>
                         </div>
-                    </div> <!-- END -->
+                    </div> <!-- END --> --}}
 
                     <br>
                     <div class="row bg-info" style="padding: 3px;"><div>Maestro PTC</div></div><br>
@@ -701,15 +742,15 @@
                     {{-- <br> --}}
                     <div class="row">
                         <div class="col-md-4">
-                            <label>Solicitud</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="hacerSolicitud" id="hacerSolicitud" autocomplete="off">
-                                <label class="custom-control-label" for="hacerSolicitud" id="msjHacerSolicitud"></label>
-                            </div>
                             <label>Crear solicitud</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="crearSolicitud" id="crearSolicitud" autocomplete="off">
                                 <label class="custom-control-label" for="crearSolicitud" id="msjCrearSolicitud"></label>
+                            </div>
+                            <label>Ver botones</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="verSolicitud" id="verSolicitud" autocomplete="off">
+                                <label class="custom-control-label" for="verSolicitud" id="msjVerSolicitud"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -717,11 +758,6 @@
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="modSolicitud" id="modSolicitud" autocomplete="off">
                                 <label class="custom-control-label" for="modSolicitud" id="msjModSolicitud"></label>
-                            </div>
-                            <label>Ver botones</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verSolicitud" id="verSolicitud" autocomplete="off">
-                                <label class="custom-control-label" for="verSolicitud" id="msjVerSolicitud"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -978,6 +1014,17 @@
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="estadistica" id="estadistica" autocomplete="off">
                                 <label class="custom-control-label" for="estadistica" id="msjestadistica"></label>
+                            </div>
+                        </div>
+                    </div> <!-- END -->
+                    <br>
+                    <div class="row bg-info" style="padding: 3px;"><div>Bitácora</div></div><br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Consultar bitácora</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="bitacora" id="bitacora" autocomplete="off">
+                                <label class="custom-control-label" for="bitacora" id="msjbitacora"></label>
                             </div>
                         </div>
                     </div> <!-- END -->

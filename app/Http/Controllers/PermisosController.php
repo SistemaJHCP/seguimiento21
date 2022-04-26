@@ -67,9 +67,10 @@ class PermisosController extends Controller
         $permisos->maestro_btn =  $request->maestro == "on" ? 1 : 0;
         $permisos->control_de_obras_btn =  $request->obra == "on" ? 1 : 0;
         $permisos->requisicion =  $request->requisicion == "on" ? 1 : 0;
-        $permisos->solicitud =  $request->solicitud == "on" ? 1 : 0;
+        $permisos->solicitud = $request->solicitud == "on" ? 1 : 0;
         $permisos->solicitud_pago  =  $request->pago == "on" ? 1 : 0;
         $permisos->cuentas_por_pagar_btn  =  $request->cuentasx == "on" ? 1 : 0;
+        $permisos->configuracion_btn  =  $request->configuracion == "on" ? 1 : 0;
 
         //Suministros
         $permisos->suministros =  $request->sum == "on" ? 1 : 0;
@@ -116,6 +117,14 @@ class PermisosController extends Controller
         $permisos->ver_botones_viatico =  $request->verViat == "on" ? 1 : 0;
         $permisos->desactivar_viatico =  $request->desViat == "on" ? 1 : 0;
 
+        //Nómina
+        $permisos->nomina =  $request->hacerNomina == "on" ? 1 : 0;
+        $permisos->crear_nomina =  $request->crearNomina == "on" ? 1 : 0;
+        $permisos->modificar_nomina =  $request->modNomina == "on" ? 1 : 0;
+        $permisos->ver_boton_nomina =  $request->verNomina == "on" ? 1 : 0;
+        $permisos->desactivar_nomina =  $request->desNomina == "on" ? 1 : 0;
+        $permisos->reactivar_nomina =  $request->reacNomina == "on" ? 1 : 0;
+
         //Usuarios
         $permisos->usuario =  $request->usua == "on" ? 1 : 0;
         $permisos->crear_usuario =  $request->crearUsuario == "on" ? 1 : 0;
@@ -160,11 +169,11 @@ class PermisosController extends Controller
 
         //Personal
         $permisos->personal =  $request->personal == "on" ? 1 : 0;
-        $permisos->crear_personal =  $request->crear_personal == "on" ? 1 : 0;
-        $permisos->modificar_personal =  $request->modificar_personal == "on" ? 1 : 0;
-        $permisos->ver_botones_personal =  $request->ver_botones_personal == "on" ? 1 : 0;
-        $permisos->desactivar_personal =  $request->desactivar_personal == "on" ? 1 : 0;
-        $permisos->reactivar_personal =  $request->reactivar_personal == "on" ? 1 : 0;
+        $permisos->crear_personal =  $request->crearPersonal == "on" ? 1 : 0;
+        $permisos->modificar_personal =  $request->modPersonal == "on" ? 1 : 0;
+        $permisos->ver_botones_personal =  $request->verPersonal == "on" ? 1 : 0;
+        $permisos->desactivar_personal =  $request->desPersonal == "on" ? 1 : 0;
+        $permisos->reactivar_personal =  $request->reacPersonal == "on" ? 1 : 0;
 
         //Requisicion
         $permisos->requisicion =  $request->Req == "on" ? 1 : 0;
@@ -174,7 +183,7 @@ class PermisosController extends Controller
         $permisos->anular_requisicion =  $request->anularRequisicion == "on" ? 1 : 0;
 
         //Solicitud
-        $permisos->solicitud =  $request->HacerSolicitud == "on" ? 1 : 0;
+        // $permisos->solicitud =  $request->HacerSolicitud == "on" ? 1 : 0;
         $permisos->crear_solicitud =  $request->crearSolicitud == "on" ? 1 : 0;
         $permisos->modificar_solicitud =  $request->modSolicitud == "on" ? 1 : 0;
         $permisos->ver_botones_solicitud =  $request->verSolicitud == "on" ? 1 : 0;
@@ -223,9 +232,22 @@ class PermisosController extends Controller
         $permisos->servicio_solicitud  =  0;
         $permisos->viatico_solicitud  =  0;
 
-        $permisos->save();
+        //Bitácora
+        $permisos->bitacora  =  $request->bitacora == "on" ? 1 : 0;
+        $permisos->estadistica  =  $request->estadistica == "on" ? 1 : 0;
+        $permisos->estado_permisos  =  1;
 
-        dd( "Ya guardo!" );
+        $resp = $permisos->save();
+
+        //Se realiza la redireccion y se envia la respuesta al procedimiento de ser positivo o negativo
+
+        if($resp){
+            return redirect()->route('permisos.index')->with('resp', $resp);
+        } else {
+            return redirect()->route('permisos.index')->with('resp', false);
+        }
+
+
     }
 
     /**
@@ -256,26 +278,9 @@ class PermisosController extends Controller
 
         //buscamos el nivel de permiso asignado a este ID
         $permisos = Permiso::find( $id );
-        dump($permisos);
+
         //Redireccionamos a la vista seleccionada
-        return view('sistema.permisos.modificar')->with('permisos', $permisos)->with('permisoUsuario', $permisoUsuario[0]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return view('sistema.permisos.modificar')->with('id', $id)->with('permisos', $permisos)->with('permisoUsuario', $permisoUsuario[0]);
 
     }
 

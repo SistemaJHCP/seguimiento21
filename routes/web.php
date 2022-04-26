@@ -222,6 +222,7 @@ Route::middleware('auth')->prefix('permisos')->group(function () {
     Route::get("crear-permisos", [App\Http\Controllers\PermisosController::class, 'create'])->name('permisos.crear');
     Route::post("cargar-permisos", [App\Http\Controllers\PermisosController::class, 'store'])->name('permisos.cargar');
     Route::get("modificar-permisos/yuid7gytdyuh9i87yduhijnjdhuh8{id}ud87gyd", [App\Http\Controllers\PermisosController::class, 'edit'])->name('permiso.modificar');
+    Route::put("modificar-permisos", [App\Http\Controllers\PermisosController::class, 'update'])->name('permisos.modificar');
 });
 
 Auth::routes();

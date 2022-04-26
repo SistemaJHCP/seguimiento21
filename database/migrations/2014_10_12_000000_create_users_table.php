@@ -131,6 +131,9 @@ class CreateUsersTable extends Migration
             $table->boolean('control_de_obras_btn')->default(1);
             $table->boolean('cuentas_por_pagar_btn')->default(1);
 
+            $table->boolean('bitacora')->default(1);
+            $table->boolean('estadistica')->default(1);
+
             $table->boolean('permisos_btn')->default(0);
             $table->boolean('crear_permisos')->default(0);
             $table->boolean('ver_boton_permisos')->default(0);
