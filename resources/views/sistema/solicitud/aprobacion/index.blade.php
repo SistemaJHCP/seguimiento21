@@ -63,24 +63,29 @@
 <script src="{{ asset("plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
+<script src="{{ asset("plugins/plugins/toastr/toastr.min.js") }}"></script>
 <script src="{{ asset("js/solicitud/aprobacion.js") }}"></script>
 
 @if (Session::has('respApro'))
     @if (Session::has('respApro'))
     <script>
-        Swal.fire(
-        'Solicitud procesada!',
-        'Se ha aprobado la solicitud!',
-        'success'
-        )
+        $(document).Toasts('create', {
+            class: 'bg-success',
+            title: 'Solicitud aprobada',
+            body: 'Se ha aprobado la solicitud.',
+            autohide: true,
+            delay: 1600,
+        });
     </script>
     @else
     <script>
-        Swal.fire(
-        'No se cargo la información!',
-        'No se pudo guardar en el sistema',
-        'error'
-        )
+        $(document).Toasts('create', {
+            class: 'bg-danger',
+            title: 'Hubo un problema',
+            body: 'hubo un error en guardar la información.',
+            autohide: true,
+            delay: 1600,
+        });
     </script>
     @endif
 @endif
@@ -88,19 +93,23 @@
 @if (Session::has('respNega'))
     @if (Session::has('respNega'))
     <script>
-        Swal.fire(
-        'Solicitud procesada!',
-        'Se ha rechazado la solicitud de manera exitosa!',
-        'warning'
-        )
+        $(document).Toasts('create', {
+            class: 'bg-warning',
+            title: 'Solicitud rechazada',
+            body: 'No fue aprobada esta solicitud.',
+            autohide: true,
+            delay: 1600,
+        });
     </script>
     @else
     <script>
-        Swal.fire(
-        'No se cargo la información!',
-        'No se pudo guardar en el sistema',
-        'error'
-        )
+        $(document).Toasts('create', {
+            class: 'bg-danger',
+            title: 'Hubo un problema',
+            body: 'hubo un error en guardar la información.',
+            autohide: true,
+            delay: 1600,
+        });
     </script>
     @endif
 @endif

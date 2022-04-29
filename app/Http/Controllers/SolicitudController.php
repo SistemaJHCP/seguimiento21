@@ -377,8 +377,14 @@ class SolicitudController extends Controller
         if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->modificar_solicitud != 1 ){
             return redirect()->route("home");
         }
+
         //Solicitamos la informacion de la solicitud
         $solicitud = Solicitud::find( $id );
+        //Si la solicitud no esta "Sin respuesta, regresame al inicio"
+        if($solicitud->solicitud_aprobacion != "Sin Respuesta"){
+            return redirect()->route("home");
+        }
+
         //Solicitamos la lista de obra
         $obra = Obra::select('id', 'obra_codigo', 'obra_nombre')->orderBy('id', 'DESC')->where('obra_estado', 1)->get();
 
@@ -414,6 +420,11 @@ class SolicitudController extends Controller
 
         //buscamos la solicitud asociada a su id
         $solicitud = Solicitud::find( $id );
+
+        //Si el estado es distinto a "SIN RESPUESTA" retorna al inicio
+        if($solicitud->solicitud_aprobacion != "Sin Respuesta"){
+            return redirect()->route("home");
+        }
 
         //Validamos que sea la misma persona que creo la solicitud, quien modifique los datos
         if(\Auth::user()->id != $solicitud->usuario_id){
@@ -480,6 +491,12 @@ class SolicitudController extends Controller
 
         //Buscas el ID seleccionado
         $elim = Solicitud_detalle::find( $request->id );
+        //Consultar el estado de la solicitud
+        $Solicitud = Solicitud::find( $elim->solicitud_id );
+        //Validamos que el estado de la aprobacion no sea distinta a SIN RESPUESTA
+        if($Solicitud->solicitud_aprobacion != "Sin Respuesta"){
+            return response()->json(false);
+        }
 
         //Borrar todo lo referente a ese ID eliminado
         $resp = $elim->delete();
@@ -847,11 +864,16 @@ class SolicitudController extends Controller
 
     public function agregarMaterialExtra(Request $request)
     {
+        //Validamos que no haya sido visto aun
+        $solicitud = Solicitud::find($request->id);
+        if($solicitud->solicitud_aprobacion != "Sin Respuesta"){
+            return response()->json(false);
+        }
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
         if( $permisoUsuario[0]->solicitud != 1 || $permisoUsuario[0]->crear_solicitud != 1){
-            return redirect()->route("home");
+            return response()->json(false);
         }
 
         //Instanciamos en donde guardaremos los precios

@@ -14,7 +14,8 @@
 <div id="loader" class="switch"></div>
 <form action="{{ route('solicitud.modificarSolicitud', $id) }}" method="post">
 @csrf
-<input type="hidden" name="" id="dato" value="{{ $id }}">
+<input type="hidden"  id="dato" value="{{ $id }}">
+
 <div class="row">
     <div class="col-md-12">
         <div class="card card-info card-outline">

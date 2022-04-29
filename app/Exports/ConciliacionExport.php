@@ -50,6 +50,18 @@ class ConciliacionExport implements  FromView, WithTitle
     public function view(): View
     {
 
+        if($this->inicial == ""){
+            $fechaInicial = 2000-01-01;
+        } else {
+            $fechaInicial = $this->inicial;
+        }
+
+        if($this->final == ""){
+            $fechaFinal = date('Y-m-d');
+        } else {
+            $fechaFinal = $this->final;
+        }
+
 
         if ($this->obra) {
 
@@ -88,7 +100,7 @@ class ConciliacionExport implements  FromView, WithTitle
                         ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
                         ->leftJoin('cuenta', 'cuenta.id', '=', 'pago.cuenta_id')
                         ->leftJoin('banco', 'banco.id', '=', 'cuenta.banco_id')
-                        ->whereBetween('solicitud.solicitud_fecha', [$this->inicial , $this->final])
+                        ->whereBetween('solicitud.solicitud_fecha', [$fechaInicial , $fechaFinal])
                         ->where('obra.id', $this->obra)
                         ->where('solicitud.solicitud_estadopago', $this->estado)
                     ->get()
@@ -131,7 +143,7 @@ class ConciliacionExport implements  FromView, WithTitle
                     ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
                     ->leftJoin('cuenta', 'cuenta.id', '=', 'pago.cuenta_id')
                     ->leftJoin('banco', 'banco.id', '=', 'cuenta.banco_id')
-                    ->whereBetween('solicitud.solicitud_fecha', [$this->inicial , $this->final])
+                    ->whereBetween('solicitud.solicitud_fecha', [$fechaInicial , $fechaFinal])
 
                     ->where('solicitud.solicitud_estadopago', $this->estado)
                 ->get()

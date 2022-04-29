@@ -162,7 +162,7 @@
                       <label for="">Repita la contraseña</label>
                       <input type="password" name="password2" id="password222" class="form-control" placeholder="Repita la contraseña escrita arriba" maxlength="30"  autocomplete="off" required>
 
-                      <label for="">Nombre de usuario</label>
+                      <label for="">Nivel de permisología</label>
                       <select name="levelAccess" id="levelAccess2" class="form-control" autocomplete="off" required>
                           <option value="">Seleccione...</option>
                           @foreach ($permisos as $p)
@@ -211,7 +211,7 @@
         @if (Session::has('user'))
         <script>
             Swal.fire(
-            'Sulicitud procesada!',
+            'Solicitud procesada!',
             'La información fue cargada exitosamente!',
             'success'
             )

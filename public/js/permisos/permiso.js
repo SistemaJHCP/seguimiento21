@@ -36,5 +36,50 @@ $(document).ready(function(){
           ],
     });
 
+    $(document).on('click', "#desactivarPermiso", function(){
+        Swal.fire({
+            title: '¿Esta seguro',
+            text: "de deshabilitar el permiso?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, deshabilitar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: "permisos/desactivar/i9u4928sdd92sdv6272dv82rdddvdu9ih",
+                type: 'POST',
+                dataType: 'json',
+                data: {id: this.value},
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            })
+            .done(function(comp) {
+
+                if(comp == true){
+                    Swal.fire(
+                        'Deshabilitado',
+                        'El permiso a sido deshabilitado.',
+                        'success'
+                    )
+                    $('#listaPermisos').DataTable().ajax.reload()
+                } else {
+                    Swal.fire(
+                        'Hubo un error',
+                        'no se pudo deshabilitar este permiso.',
+                        'error'
+                    )
+                }
+
+
+            })
+            .fail( function(){
+                console.log("Error al deshabilitar un permiso");
+            })
+        }
+        })
+    });
 
 });

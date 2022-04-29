@@ -151,7 +151,7 @@
     @if (Session::has('sum') == true)
     <script>
         Swal.fire(
-        'Sulicitud procesada!',
+        'Solicitud procesada!',
         'La información fue cargada exitosamente!',
         'success'
         )

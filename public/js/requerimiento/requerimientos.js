@@ -16,8 +16,8 @@ $(document).ready(function(){
             {data: 'btn'}
         ],
         order: [
-            [0, "desc"]
-          ],
+            [2, "DESC"]
+        ],
         bLengthChange: false,
         searching: true,
         responsive: true,

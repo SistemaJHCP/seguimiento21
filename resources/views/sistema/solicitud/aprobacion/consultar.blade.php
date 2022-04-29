@@ -401,6 +401,7 @@
       </div>
     </div>
   </div>
+
 @endsection
 @section('js')
 <script src="{{ asset("js/solicitud/consulta.js") }}"></script>

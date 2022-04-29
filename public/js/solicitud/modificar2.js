@@ -183,6 +183,7 @@ $(document).ready(function(){
         let id = $('#dato').val();
         let tipo = $('#opciones').val();
         let moneda = $('#moneda').val();
+        let opcion = $('#opciones').val();
 
         var combo = document.getElementById("conceptoSelect");
         var texto = combo.options[combo.selectedIndex].text;
@@ -205,7 +206,7 @@ $(document).ready(function(){
             url: '../agregar-material-extra',
             type: 'POST',
             dataType: 'json',
-            data:{id: id, cantidad: cant, concepto: concepto, precio: precio, tipo: tipo, moneda: moneda},
+            data:{id: id, cantidad: cant, concepto: concepto, precio: precio, tipo: tipo, moneda: moneda, opcion: opcion},
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
@@ -216,7 +217,22 @@ $(document).ready(function(){
                 html+= '<tr id="pull' + comp + '"><td>' + cant + '</td><td>' + msj + '</td><td style="float: right;">' + precio + coin + '</td><td onclick="borrar(' + comp + ')"><i class="fas fa-trash-alt" style="color:#6b1022; text-align:center;"></i></td></tr>';
                 $('#tableListado > tbody').append( html );
             } else {
-                alert("Hubo un error al cargar el material y el monto");
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                  })
+
+                Toast.fire({
+                    icon: 'error',
+                    title: 'No se pudo eliminar, es posible que ya haya sido visto su solicitud'
+                })
             }
 
 
@@ -243,6 +259,26 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
+
+            if(comp == false){
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                  })
+
+                Toast.fire({
+                    icon: 'error',
+                    title: 'No se pudo eliminar, es posible que ya haya sido visto su solicitud'
+                })
+                return false;
+            }
 
             var html = "";
             html+= '<div class="info-box" id="consultarO" data-toggle="modal" data-target="#consultarObra">' +
@@ -508,7 +544,7 @@ function borrar(a){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
     })
     .done(function(comp) {
-
+        console.log(comp);
         if (comp) {
 
             let id = "#pull" + a;
@@ -526,7 +562,7 @@ function borrar(a){
                 }
               })
 
-              Toast.fire({
+            Toast.fire({
                 icon: 'success',
                 title: 'Se ha eliminado un material'
             })

@@ -577,15 +577,15 @@
                     {{-- <br> --}}
                     <div class="row">
                         <div class="col-md-4">
-                            <label>Requisición</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="Req" id="Req" autocomplete="off" {!! $permisos->requisicion == 1 ? ' checked' : "" !!}>
-                                <label class="custom-control-label" for="Req" id="msjReq"></label>
-                            </div>
                             <label>Crear requisición</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="crearRequisicion" id="crearRequisicion" autocomplete="off" {!! $permisos->crear_requisicion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="crearRequisicion" id="msjCrearRequisicion"></label>
+                            </div>
+                            <label>Ver botones</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="verRequisicion" id="verRequisicion" autocomplete="off" {!! $permisos->ver_botones_requisicion == 1 ? ' checked' : "" !!}>
+                                <label class="custom-control-label" for="verRequisicion" id="msjVerRequisicion"></label>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -594,11 +594,7 @@
                                 <input type="checkbox" class="custom-control-input"  name="modRequisicion" id="modRequisicion" autocomplete="off" {!! $permisos->modificar_requisicion == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="modRequisicion" id="msjModRequisicion"></label>
                             </div>
-                            <label>Ver botones</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="verRequisicion" id="verRequisicion" autocomplete="off" {!! $permisos->ver_botones_requisicion == 1 ? ' checked' : "" !!}>
-                                <label class="custom-control-label" for="verRequisicion" id="msjVerRequisicion"></label>
-                            </div>
+
                         </div>
                         <div class="col-md-4">
                             <label>Anular requisición</label>
@@ -701,13 +697,6 @@
                     {{-- <br> --}}
                     <div class="row">
                         <div class="col-md-4">
-                            <label>Solicitud de pago</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="solPago" id="solPago" autocomplete="off" {!! $permisos->solicitud_pago == 1 ? ' checked' : "" !!}>
-                                <label class="custom-control-label" for="solPago" id="msjSolPago"></label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
                             <label>Aprobar pago</label>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="aprobarPago" id="aprobarPago" autocomplete="off" {!! $permisos->aprobacion_solicitud_pago == 1 ? ' checked' : "" !!}>
@@ -720,6 +709,9 @@
                                 <input type="checkbox" class="custom-control-input"  name="verPago" id="verPago" autocomplete="off" {!! $permisos->ver_solicitud_pago == 1 ? ' checked' : "" !!}>
                                 <label class="custom-control-label" for="verPago" id="msjverPago"></label>
                             </div>
+                        </div>
+                        <div class="col-md-4">
+
                         </div>
                     </div> <!-- END -->
                   </div>
