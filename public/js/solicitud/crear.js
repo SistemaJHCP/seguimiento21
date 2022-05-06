@@ -234,9 +234,9 @@ $(document).ready(function(){
             $('#mensajeMoneda').empty();
             $('#mensajeMoneda').append("Solicitud en Dolares");
          }else{
-            $('#precioUnitarioSelect').attr('placeholder', 'Ingrese el monto en Bolivares');
+            $('#precioUnitarioSelect').attr('placeholder', 'Ingrese el monto en Balboa');
             $('#mensajeMoneda').empty();
-            $('#mensajeMoneda').append("Solicitud en Bolivares");
+            $('#mensajeMoneda').append("Solicitud en Balboa");
          }
     }
 
@@ -265,9 +265,9 @@ $(document).ready(function(){
     $('#limpiador').click(function(){
         $('#cant1').empty();
         $('#tramiteDolar').prop("checked", "");
-        $('#precioUnitarioSelect').attr('placeholder', 'Ingrese el monto en Bolivares');
+        $('#precioUnitarioSelect').attr('placeholder', 'Ingrese el monto en Balboa');
         $('#mensajeMoneda').empty();
-        $('#mensajeMoneda').append("Solicitud en Bolivares");
+        $('#mensajeMoneda').append("Solicitud en Balboa");
         $('#tramiteDolar').attr("disabled", false);
         $('#concep1').empty();
         $('#prec1').empty();
@@ -489,8 +489,8 @@ $(document).ready(function(){
             moneda = "$";
             $('#monedaTipo21').append('<input type="hidden" name="tipoMoneda" value="$">');
          }else{
-            moneda = "Bs";
-            $('#monedaTipo21').append('<input type="hidden" name="tipoMoneda" value="Bs">');
+            moneda = "B/.";
+            $('#monedaTipo21').append('<input type="hidden" name="tipoMoneda" value="B/.">');
          }
 
 

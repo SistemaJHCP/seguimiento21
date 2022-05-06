@@ -226,5 +226,14 @@ Route::middleware('auth')->prefix('permisos')->group(function () {
     Route::post("desactivar/i9u4928sdd92sdv6272dv82rdddvdu9ih", [App\Http\Controllers\PermisosController::class, 'deshabilitar']);
 });
 
+Route::middleware('auth')->prefix('nomina')->group(function () {
+    Route::get("/", [App\Http\Controllers\NominaController::class, 'index'])->name('nomina.index');
+    Route::get("listado-nomina", [App\Http\Controllers\NominaController::class, 'jq_lista']);
+    Route::post("guardar-nomina", [App\Http\Controllers\NominaController::class, 'store'])->name('nomina.guardar');
+    Route::get("modificar/8uhdi7282j92uh2j{id}", [App\Http\Controllers\NominaController::class, 'edit']);
+    // Route::post("modificar-nomina", [App\Http\Controllers\NominaController::class, 'update'])->name('nomina.modificar'); 
+});
+
+
 Auth::routes();
 

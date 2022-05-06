@@ -65,7 +65,7 @@
                         @if ($solicitud->moneda == "$")
                             <b>Pago en Dolares</b>
                         @else
-                            <b>Pago en Bolivares</b>
+                            <b>Pago en Balboa</b>
                         @endif
                         <input type="hidden" name="moneda" id="moneda" value="{{ $solicitud->moneda }}">
                         <br><br>

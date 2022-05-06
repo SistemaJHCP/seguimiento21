@@ -153,7 +153,7 @@ class SolicitudController extends Controller
         $solicitud->solicitud_observaciones = $request->observacion;
         $solicitud->solicitud_formapago = $request->forma_pago;
         $solicitud->solicitud_motivo = $request->motivo;
-        $solicitud->moneda = $request->tipoMoneda;
+        $solicitud->moneda = $request->tipoMoneda; //Debes cambiar solicitud detalle tambien si deseas otra moneda
         $solicitud->usuario_id = \Auth::user()->id ;
         $solicitud->obra_id = $request->obra;
         $solicitud->proveedor_id = $request->proveedor;
@@ -864,6 +864,7 @@ class SolicitudController extends Controller
 
     public function agregarMaterialExtra(Request $request)
     {
+
         //Validamos que no haya sido visto aun
         $solicitud = Solicitud::find($request->id);
         if($solicitud->solicitud_aprobacion != "Sin Respuesta"){

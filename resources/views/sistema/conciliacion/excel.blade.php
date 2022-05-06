@@ -1,16 +1,16 @@
 <table>
     <tr>
-        <td><b>Empresa: &nbsp;</b> JHCP CONSTRUCCION, C.A.</td>
+        <td><b>Empresa: &nbsp;</b> JHCP Panamá, S.A.</td>
     </tr>
     <tr>
-        <td><b>Rif:&nbsp; </b>J-31599959-5</td>
+        <td><b>Ruc:&nbsp; </b>155651502-2-2017 DV 2</td>
     </tr>
     <tr>
         <td><b>Impreso por:&nbsp; </b>{{ \Auth::user()->user_name }}</td>
     </tr>
 </table>
-<div><b>Empresa: </b>JHCP CONSTRUCCION, C.A.</div>
-<div><b>Rif: </b>J-31599959-5</div>
+<div><b>Empresa: </b>JHCP Panamá, S.A.</div>
+<div><b>Ruc: </b>155651502-2-2017 DV 2</div>
 <div><b>Impreso por: </b>{{ \Auth::user()->user_name }}</div>
 
 <table>

@@ -192,7 +192,7 @@ $(document).ready(function(){
         if(moneda === "$"){
             coin = "$";
         } else {
-            coin = "Bs"
+            coin = "B/."
         }
 
 
@@ -593,5 +593,3 @@ function borrar(a){
         console.log("fallo el ajax en el modulo de lista de la solicitud");
     })
 }
-
-

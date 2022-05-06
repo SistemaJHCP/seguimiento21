@@ -11,6 +11,15 @@
 @endsection
 
 @section('contenedor')
+<style>
+    .modal-dialog{
+        overflow-y: initial !important
+    }
+    .modal-body{
+        height: 450px;
+        overflow-y: auto;
+    }
+</style>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -24,7 +33,7 @@
                   <tr>
                       <th>Código</th>
                       <th>Tipo</th>
-                      <th>Rif</th>
+                      <th>Ruc</th>
                       <th>Nombre</th>
                       <th>Teléfono</th>
                       <th>Correo</th>
@@ -40,7 +49,7 @@
                     <tr>
                         <th>Código</th>
                         <th>Tipo</th>
-                        <th>Rif</th>
+                        <th>Ruc</th>
                         <th>Nombre</th>
                         <th>Teléfono</th>
                         <th>Correo</th>
@@ -56,7 +65,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="nuevoProveedor" data-backdrop="static" data-keyboard="false" style="overflow:hidden" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="nuevoProveedor" data-backdrop="static" data-keyboard="true" style="overflow:hidden" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -80,7 +89,7 @@
                       </div>
                     <div class="form-group col-10">
                       <label for="inputCity">Identificación</label>
-                      <input type="text" class="form-control" placeholder="Ingrese el número de cédula" id="cedula" minlength="5"  maxlength="9" name="identificacion" required autocomplete="off">
+                      <input type="text" class="form-control" placeholder="Ingrese el número de cédula" id="cedula" minlength="5"  maxlength="25" name="identificacion" required autocomplete="off">
                     </div>
                 </div>
                 <div class="form-group">
@@ -98,7 +107,7 @@
                 </div>
                 <div class="form-group">
                     <label>Teléfono</label>
-                    <input type="text" name="telefono" id="telefono" class="form-control" minlength="3" maxlength="11" placeholder="Ingrese el número del proveedor" required autocomplete="off">
+                    <input type="text" name="telefono" id="telefono" class="form-control" minlength="3" maxlength="12" placeholder="Ingrese el número del proveedor" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Dirección</label>

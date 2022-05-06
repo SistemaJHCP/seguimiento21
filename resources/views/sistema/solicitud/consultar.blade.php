@@ -168,7 +168,7 @@
                                         <tr>
                                             <td>{{ $c->sd_cantidad }}</td>
                                             <td>{{ $c->nombre }}</td>
-                                            <td>{{ $c->sd_preciounitario }} {{ $c->moneda }}</td>
+                                            <td>{{ $c->moneda }} {{ $c->sd_preciounitario }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>

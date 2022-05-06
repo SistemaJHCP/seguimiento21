@@ -94,16 +94,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               ?>
 
               <?php
-                  if ($permisoUsuario->usuario == 1){
+                  if ($permisoUsuario->nomina == 1){
               ?>
-                  <li><a href="{{ route('usuario.index') }}" class="dropdown-item">Usuarios </a></li>
-              <?php
-                  }
-              ?>
-              <?php
-                  if ($permisoUsuario->permisos_btn == 1){
-              ?>
-                  <li><a href="{{ route('permisos.index') }}" class="dropdown-item">Permisos </a></li>
+                  <li><a href="{{ route("nomina.index") }}" class="dropdown-item">Nómina</a></li>
               <?php
                   }
               ?>
@@ -211,6 +204,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </li>
     @endif
 
+    <?php
+    if ($permisoUsuario->configuracion_btn == 1) {
+    ?>
+    <li class="nav-item">
+        <li class="nav-item dropdown">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Configuración</a>
+            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+            <?php
+                if ($permisoUsuario->usuario == 1){
+            ?>
+                <li><a href="{{ route('usuario.index') }}" class="dropdown-item">Usuarios </a></li>
+            <?php
+                }
+            ?>
+            <?php
+                if ($permisoUsuario->permisos_btn == 1){
+            ?>
+                <li><a href="{{ route('permisos.index') }}" class="dropdown-item">Permisos </a></li>
+            <?php
+                }
+            ?>
+
+            </ul>
+        </li>
+    </li>
+    <?php
+    }
+    ?>
 
 
 

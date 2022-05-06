@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     limpiar();
-    $("#cedula").numeric(false);
+
     $("#telefono").numeric(false);
 
     $('#listaProveedores').DataTable({
