@@ -29,7 +29,7 @@
             </div>
         @endif
         @if ( $permisoUsuario->reactivar_suministros )
-            <a href="{{ route("suministros.deshabilitados") }}">
+            <a href="{{ route("nomina.deshabilitadas") }}">
                 <div class="info-box">
                     <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-arrow-alt-circle-left"></i></span>
 
@@ -105,7 +105,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modificarSuministro" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modificarNomina" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -115,12 +115,12 @@
           </button>
         </div>
         <div class="modal-body">
-        <form action="{{ route("suministro.modificar") }}" method="post">
+        <form action="{{ route("nomina.modificar") }}" method="post">
             @csrf
             <div class="form-group">
                 <label for="">Nombre de la nomina</label>
                 <input type="text" name="nominaMod" id="nombreNominaMod" class="form-control" maxlength="60" autocomplete="off" placeholder="ESPERE......" required>
-                <input type="hidden" name="dato" id="dato" value="">
+                <input type="hidden" name="dato" id="dato">
             </div>
         </div>
         <div class="modal-footer">

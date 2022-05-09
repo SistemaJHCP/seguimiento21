@@ -75,7 +75,7 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            console.log(comp);
+
             $("#nombreNominaMod").val(comp.nomina_nombre);
             $("#dato").val(comp.id);
             $("#agregarNominaMod").attr("disabled", false);
@@ -109,7 +109,7 @@ $(document).ready(function(){
 
         Swal.fire({
             title: '¿Esta seguro?',
-            text: "¿de querer deshabilitar este suministro?",
+            text: "¿de querer deshabilitar este dato de nómina?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -118,9 +118,9 @@ $(document).ready(function(){
             cancelButtonText: 'Cancelar'
           }).then((result) => {
             if (result.isConfirmed) {
-
+                console.log(this.value);
                 $.ajax({
-                    url: "suministros/deshabilitar/cefefdfsfdsfys8u" + this.value,
+                    url: "nomina/deshabilitar/cwd34qfe5vc2u" + this.value,
                     type: 'GET',
                     dataType: 'json',
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -128,7 +128,7 @@ $(document).ready(function(){
                 .done(function(comp) {
 
                     if(comp == true){
-                        $('#listaSuministros').DataTable().ajax.reload();
+                        $('#listaNominas').DataTable().ajax.reload();
                         Swal.fire(
                             'Solicitud procesada',
                             'Se ha desactivado este suministro.',

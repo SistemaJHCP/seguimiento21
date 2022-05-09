@@ -122,7 +122,7 @@ class NominaController extends Controller
 
         //Ubicar los datos por el ID
         $nomina = Nomina::find( $id );
-    
+
         //Lo enviamos via json
         return response()->json($nomina);
     }
@@ -134,9 +134,29 @@ class NominaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        dd("update nomina");
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->nomina != 1 || $permisoUsuario[0]->modificar_nomina != 1 ){
+            return redirect()->route("home");
+        }
+        //Uicamos la nomina a modificar
+        $nomina = Nomina::find( $request->dato );
+        //Sustituimos el valor
+        $nomina->nomina_nombre = $request->nominaMod;
+        //Guardamos en la base de datos
+        // dump( $request->all() );
+        // dd( $nomina );
+        $resp = $nomina->save();
+        //Si se guarda o no la informacion se envia la respuesta al usuario
+        if ($resp) {
+            return redirect()->route('nomina.index')->with('sum', $resp);
+        } else {
+            return redirect()->route('nomina.index')->with('sum', false);
+        }
+
     }
 
     /**
@@ -147,7 +167,35 @@ class NominaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->nomina != 1 || $permisoUsuario[0]->desactivar_nomina != 1 ){
+            return redirect()->route("home");
+        }
+
+        //Ubicar los datos por el ID
+        $nomina = Nomina::find( $id );
+        //Cambiamos el estado a inactivo
+        $nomina->nomina_estado = 0;
+        //Guardamos este cambio
+        $resp = $nomina->save();
+        //Lo enviamos via json
+        return response()->json($resp);
+    }
+
+    public function disabled()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->nomina != 1 || $permisoUsuario[0]->reactivar_nomina != 1 ){
+            return redirect()->route("home");
+        }
+
+        return view('sistema.nomina.deshabilitar')->with([
+            'permisoUsuario' => $permisoUsuario[0]
+        ]);
     }
 
     public function jq_lista()
@@ -168,4 +216,26 @@ class NominaController extends Controller
             ->rawColumns(['btn'])->toJson();
         }
     }
+
+    public function jq_listaDeshabilitadas()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        //consultamos a la base de datos
+        $query = Nomina::select()->where("nomina_estado", 0)->get();
+
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ($permisoUsuario[0]->nomina != 1 || $permisoUsuario[0]->ver_boton_nomina != 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.nomina.btnNominaRe')
+            ->rawColumns(['btn'])->toJson();
+        }
+    }
+
+
+
 }

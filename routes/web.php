@@ -231,7 +231,10 @@ Route::middleware('auth')->prefix('nomina')->group(function () {
     Route::get("listado-nomina", [App\Http\Controllers\NominaController::class, 'jq_lista']);
     Route::post("guardar-nomina", [App\Http\Controllers\NominaController::class, 'store'])->name('nomina.guardar');
     Route::get("modificar/8uhdi7282j92uh2j{id}", [App\Http\Controllers\NominaController::class, 'edit']);
-    // Route::post("modificar-nomina", [App\Http\Controllers\NominaController::class, 'update'])->name('nomina.modificar'); 
+    Route::post("modificar-nomina", [App\Http\Controllers\NominaController::class, 'update'])->name('nomina.modificar');
+    Route::get("deshabilitar/cwd34qfe5vc2u{id}", [App\Http\Controllers\NominaController::class, 'destroy']);
+    Route::get("nominas-deshabilitadas", [App\Http\Controllers\NominaController::class, 'disabled'])->name('nomina.deshabilitadas');
+    Route::get("listado-nomina-deshabilitada", [App\Http\Controllers\NominaController::class, 'jq_listaDeshabilitadas']);
 });
 
 
