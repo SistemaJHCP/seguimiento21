@@ -28,7 +28,16 @@ class BancoController extends Controller
      */
     public function index()
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->ban != 1 ){
+            return redirect()->route("home");
+        }
+        //Retorna a la vista principal de bancos
+        return view('sistema.banco.index')->with([
+            'permisoUsuario' => $permisoUsuario[0]
+        ]);
     }
 
     /**

@@ -236,6 +236,23 @@ class NominaController extends Controller
         }
     }
 
+    public function enabled($id)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        if( $permisoUsuario[0]->nomina != 1 || $permisoUsuario[0]->reactivar_nomina != 1 ){
+            return redirect()->route("home");
+        }
+
+        //Ubicar los datos por el ID
+        $nomina = Nomina::find( $id );
+        //Cambiamos el estado a inactivo
+        $nomina->nomina_estado = 1;
+        //Guardamos este cambio
+        $resp = $nomina->save();
+        //Lo enviamos via json
+        return response()->json($resp);
+    }
 
 }

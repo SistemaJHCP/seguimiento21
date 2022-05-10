@@ -235,8 +235,12 @@ Route::middleware('auth')->prefix('nomina')->group(function () {
     Route::get("deshabilitar/cwd34qfe5vc2u{id}", [App\Http\Controllers\NominaController::class, 'destroy']);
     Route::get("nominas-deshabilitadas", [App\Http\Controllers\NominaController::class, 'disabled'])->name('nomina.deshabilitadas');
     Route::get("listado-nomina-deshabilitada", [App\Http\Controllers\NominaController::class, 'jq_listaDeshabilitadas']);
+    Route::get("rehabilitar/87yuijdhhudegy7y8{id}", [App\Http\Controllers\NominaController::class, 'enabled']);
 });
 
+Route::middleware('auth')->prefix('Bancos')->group(function () {
+    Route::get("/",[App\Http\Controllers\BancoController::class, 'index'])->name('banco.index');
+});
 
 Auth::routes();
 

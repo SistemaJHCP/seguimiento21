@@ -114,6 +114,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
             ?>
 
+        @if ($permisoUsuario->cuentas_por_pagar_btn == 1)
+        <li class="nav-item dropdown">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Bancos</a>
+            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+            <?php
+                if ($permisoUsuario->compra_cuentas_x_pagar  == 1){
+            ?>
+                <li><a href="{{ route('banco.index') }}" class="dropdown-item">Cargar bancos</a></li>
+            <?php
+                }
+            ?>
+            <?php
+                if ($permisoUsuario->conciliacion == 1){
+            ?>
+                <li><a href="#" class="dropdown-item">Cuentas de empresa</a></li>
+            <?php
+                }
+            ?>
+            <?php
+                if ($permisoUsuario->conciliacion == 1){
+            ?>
+                <li><a href="#" class="dropdown-item">Cheques</a></li>
+            <?php
+                }
+            ?>
+            </ul>
+        </li>
+        @endif
+
+
+
             <?php
             if ($permisoUsuario->control_de_obras_btn == 1) {
             ?>
@@ -275,7 +306,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                     </form>
-            </li>
+          </li>
         </ul>
 
         {{-- <!-- SEARCH FORM -->
@@ -390,7 +421,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" style="background: #bfbcc7"> {{-- Rosman --}}
+  <div class="content-wrapper" style="background: rgb(54, 214, 180)"> {{-- Rosman --}}
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">

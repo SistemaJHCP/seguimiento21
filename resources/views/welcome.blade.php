@@ -68,7 +68,7 @@
                     <div style="margin: 40px"></div>
                 </form>
               </div>
-              <div class="col-md-7 col-12" class="img img-responsive" style="border: 1px solid black;background-image: url('{{asset('imagen/panama.jpg')}}');background-repeat:no-repeat;background-size: 100% 100%;">
+              <div class="col-md-7 col-12" class="img img-responsive" style="border: 1px solid black;background-image: url('{{asset('imagen/desarrollo.jpg')}}');background-repeat:no-repeat;background-size: 100% 100%;">
                 {{-- <img src="imagen/img-inicial-1.jpg" class = "img-responsive"> --}}
 
               </div>

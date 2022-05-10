@@ -67,7 +67,7 @@
                       <tfoot>
                       <tr>
                           <th>Codigo</th>
-                          <th>Nombre de suministro</th>
+                          <th>Nombre de nómina</th>
                           <th>Acción</th>
                       </tr>
                       </tfoot>

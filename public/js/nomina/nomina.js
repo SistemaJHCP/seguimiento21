@@ -118,7 +118,7 @@ $(document).ready(function(){
             cancelButtonText: 'Cancelar'
           }).then((result) => {
             if (result.isConfirmed) {
-                console.log(this.value);
+
                 $.ajax({
                     url: "nomina/deshabilitar/cwd34qfe5vc2u" + this.value,
                     type: 'GET',
