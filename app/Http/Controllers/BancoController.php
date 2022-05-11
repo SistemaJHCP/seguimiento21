@@ -105,9 +105,19 @@ class BancoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->ban != 1 || $permisoUsuario[0]->modificar_ban != 1){
+            return redirect()->route("home");
+        }
+
+        // buscamos los valores relacionados a este banco
+        $banco = Banco::find( $request->valor );
+        // Retornamos la informacion a la vista mediante json
+        return response()->json( $banco );
     }
 
     /**
@@ -117,9 +127,9 @@ class BancoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        dd( $request->all() );
     }
 
     /**
@@ -185,14 +195,30 @@ class BancoController extends Controller
         $resp = $cuenta->save();
         //Retornamos la respuesta a la vista
         return response()->json($cuenta);
-
-
-
     }
 
+    public function jq_lista()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        //consultamos a la base de datos
+        $query = Banco::select()->where("banco_estado", 1)->get();
 
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ($permisoUsuario[0]->ban != 1 || $permisoUsuario[0]->ver_botones_ban != 1) {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.banco.btnbanco')
+            ->rawColumns(['btn'])->toJson();
+        }
+    }
 
-
+    public function guardar(Request $request){
+        dd( $request->all() );
+    }
 
 
 

@@ -238,8 +238,12 @@ Route::middleware('auth')->prefix('nomina')->group(function () {
     Route::get("rehabilitar/87yuijdhhudegy7y8{id}", [App\Http\Controllers\NominaController::class, 'enabled']);
 });
 
-Route::middleware('auth')->prefix('Bancos')->group(function () {
+Route::middleware('auth')->prefix('bancos')->group(function () {
     Route::get("/",[App\Http\Controllers\BancoController::class, 'index'])->name('banco.index');
+    Route::get("listado-bancos", [App\Http\Controllers\BancoController::class, 'jq_lista']);
+    Route::post("guardar-banco",[App\Http\Controllers\BancoController::class, 'guardar'])->name('banco.guardar');
+    Route::post("modificar/eweefwefwef2uh2j",[App\Http\Controllers\BancoController::class, 'edit']);
+    Route::post("modificar-banco",[App\Http\Controllers\BancoController::class, 'update'])->name('banco.modificar');
 });
 
 Auth::routes();
