@@ -244,7 +244,14 @@ Route::middleware('auth')->prefix('bancos')->group(function () {
     Route::post("guardar-banco",[App\Http\Controllers\BancoController::class, 'guardar'])->name('banco.guardar');
     Route::post("modificar/eweefwefwef2uh2j",[App\Http\Controllers\BancoController::class, 'edit']);
     Route::post("modificar-banco",[App\Http\Controllers\BancoController::class, 'update'])->name('banco.modificar');
+    Route::post("desactivar-banco",[App\Http\Controllers\BancoController::class, 'destroy']);
 });
+
+Route::middleware('auth')->prefix('bancos/cuentas')->group(function () {
+    Route::get("/",[App\Http\Controllers\BancoController::class, 'index'])->name('cuenta.index');
+});
+
+
 
 Auth::routes();
 

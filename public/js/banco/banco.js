@@ -32,11 +32,14 @@ $(document).ready(function(){
         },
     });
 
-    $("#cerrarNuevo, .cerrarCruz").on("click", function(){
+    $("#cerrarNuevo, .cerrarCruz, #cerrarMod").on("click", function(){
         limpiar();
     });
 
     $(document).on("click", "#modificar", function(){
+
+        $("#rifMod").val("");
+        $("#nombreBancoMod").val("");
 
         $.ajax({
             url: "bancos/modificar/eweefwefwef2uh2j",
@@ -46,10 +49,13 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            console.log(comp);
-            // $("#nombreNominaMod").val(comp.nomina_nombre);
-            // $("#dato").val(comp.id);
-            // $("#agregarNominaMod").attr("disabled", false);
+
+            $("#rifMod").attr("disabled", false);
+            $("#nombreBancoMod").attr("disabled", false);
+            $("#rifMod").val(comp.banco_rif);
+            $("#nombreBancoMod").val(comp.banco_nombre);
+            $("#dato").val(comp.id);
+
         })
         .fail( function(){
             console.log("Hubo un error en el ajax de mostra el suministro para modificarlo");
@@ -57,12 +63,81 @@ $(document).ready(function(){
 
     });
 
-
-
     function limpiar(){
         $("#rif").val("");
         $("#nombreBanco").val("");
+        $("#rifMod").val("");
+        $("#nombreBancoMod").val("");
+        $("#rifMod").attr("disabled", true);
+        $("#nombreBancoMod").attr("disabled", true);
     }
 
+    $("#cargar").click(function(){
+        $("form").on("submit", function () {
+            $("#cargar").attr("value", "Guardando, espere...");
+            $("#cargar").attr("disabled", true);
+        });
+    });
+
+    $(document).on("click", "#modificarValor", function(){
+        $("form").on("submit", function () {
+            $("#modificarValor").attr("value", "Guardando, espere...");
+            $("#modificarValor").attr("disabled", true);
+        });
+    });
+
+
+    $(document).on('click', "#deshabilitar", function(){
+
+        Swal.fire({
+            title: '¿Esta seguro?',
+            text: "¿de querer deshabilitar estos datos bancarios?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, deshabilita!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "bancos/desactivar-banco",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { dato: this.value },
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+                })
+                .done(function(comp) {
+
+
+
+                    if(comp == true){
+                        $('#listaBancos').DataTable().ajax.reload();
+                        Swal.fire(
+                            'Solicitud procesada',
+                            'Se ha desactivado este suministro.',
+                            'success'
+                        )
+                    }else{
+                        Swal.fire(
+                            'Hubo un error',
+                            'No se pudo desactivar el suministro.',
+                            'error'
+                        )
+                    }
+                })
+                .fail( function(){
+                    Swal.fire(
+                        'Hubo un error',
+                        'No se pudo desactivar el suministro solicitado.',
+                        'error'
+                    )
+                });
+
+            }
+          })
+
+    });
 
 });

@@ -114,7 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
             ?>
 
-        @if ($permisoUsuario->cuentas_por_pagar_btn == 1)
+        @if ($permisoUsuario->banco_btn == 1)
         <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Bancos</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">

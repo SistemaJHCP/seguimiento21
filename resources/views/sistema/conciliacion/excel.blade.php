@@ -25,6 +25,10 @@
             <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Monto total</th>
             <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Moneda</th>
             <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Material</th>
+
+            <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Proveedor</th>
+            <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">Estado de la solicitud</th>
+
             <th style="background: #1798ac; color:white;text-align:center;width:20px;border: 1px solid white">solicitante</th>
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Estado</th>
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Fecha de pago</th>
@@ -45,21 +49,38 @@
                 <td>{{ $con->preciounitario }}</td> {{-- precio unitario --}}
                 <td>{{ $con->preciounitario * $con->cantidad }}</td> {{-- monto total --}}
                 <td>{{ $con->moneda }}</td> {{-- moneda --}}
-            @if ($con->material_nombre != null)
-                <td>{{ $con->material_nombre }}</td> {{-- Material --}}
+
+            @if ($con->material_nombre == null && $con->nomina_nombre == null && $con->servicio_nombre == null && $con->viatico_nombre == null && $con->caja_nombre == null)
+                <td> - Sin material - </td>
+            @else
+                @if ($con->material_nombre != null)
+                    <td>{{ $con->material_nombre }}</td> {{-- Material --}}
+                @endif
+                @if ($con->nomina_nombre != null)
+                    <td>{{ $con->nomina_nombre }}</td> {{-- nomina --}}
+                @endif
+                @if ($con->servicio_nombre != null)
+                    <td>{{ $con->servicio_nombre }}</td> {{-- servicio --}}
+                @endif
+                @if ($con->viatico_nombre != null)
+                    <td>{{ $con->viatico_nombre }}</td> {{-- viatico --}}
+                @endif
+                @if ($con->caja_nombre != null)
+                <td>{{ $con->caja_nombre }}</td> {{-- caja chica --}}
+                @endif
             @endif
-            @if ($con->nomina_nombre != null)
-                <td>{{ $con->nomina_nombre }}</td> {{-- nomina --}}
+
+            @if ($con->proveedor_nombre != null)
+                <td>{{ $con->proveedor_nombre }}</td> {{-- Proveedor --}}
+            @else
+                <td> Sin proveedor </td> {{-- Proveedor --}}
             @endif
-            @if ($con->servicio_nombre != null)
-                <td>{{ $con->servicio_nombre }}</td> {{-- servicio --}}
-            @endif
-            @if ($con->viatico_nombre != null)
-                <td>{{ $con->viatico_nombre }}</td> {{-- viatico --}}
-            @endif
-            @if ($con->caja_nombre != null)
-            <td>{{ $con->caja_nombre }}</td> {{-- caja chica --}}
-            @endif
+
+
+                <td>{{ $con->solicitud_aprobacion }}</td> {{-- Estado de la solicitud --}}
+
+
+
                 <td>{{ $con->nombre }}</td> {{-- solicitante --}}
             @if ($con->solicitud_estadopago == 0)
                 <td>Pagado</td> {{-- Estado --}}

@@ -129,7 +129,24 @@ class BancoController extends Controller
      */
     public function update(Request $request)
     {
-        dd( $request->all() );
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->ban != 1 || $permisoUsuario[0]->modificar_ban != 1){
+            return redirect()->route("home");
+        }
+
+        //Buscamos por el ID el valor del banco a modificar
+        $banco = Banco::find( $request->dato );
+        // sustituimos los valores
+        $banco->banco_rif = $request->rif;
+        $banco->banco_nombre = $request->nombreBanco;
+        //Guardamos los valores
+        $resp = $banco->save();
+
+        //Retornamos a la vista la respuesta de este procedimiento
+        return redirect()->route('banco.index')->with('sum', $resp);
+
     }
 
     /**
@@ -138,9 +155,24 @@ class BancoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->ban != 1 || $permisoUsuario[0]->deshabilitar_ban != 1 ){
+            return response()->json(false);
+        }
+
+        //Ubicamos el banco por el numero ID
+        $banco = Banco::find( $request->dato );
+        // Cambiar el estado a deshabilitado
+        $banco->banco_estado = 0;
+        $resp = $banco->save();
+        // Retorna a la vista la respuesta via json
+        return response()->json($resp);
+
     }
 
 
@@ -211,13 +243,32 @@ class BancoController extends Controller
             ->rawColumns(['btn'])->toJson();
         } else {
             return datatables()->of($query)
-            ->addColumn('btn','sistema.banco.btnbanco')
+            ->addColumn('btn','sistema.banco.btnBanco')
             ->rawColumns(['btn'])->toJson();
         }
     }
 
     public function guardar(Request $request){
-        dd( $request->all() );
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->ban != 1 || $permisoUsuario[0]->crear_ban != 1 ){
+            return redirect()->route('home');
+        }
+
+        //Instanciamos la clase para agregar los valores
+        $banco = new Banco();
+        // Agregamos los valores
+        $banco->banco_rif = $request->rif;
+        $banco->banco_nombre = $request->nombreBanco;
+        $banco->banco_estado = 1;
+
+        //Guardamos los valores
+        $resp = $banco->save();
+
+        //Retornamos a la vista la respuesta de este procedimiento
+        return redirect()->route('banco.index')->with('sum', $resp);
+
     }
 
 
