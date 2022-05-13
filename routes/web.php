@@ -248,7 +248,11 @@ Route::middleware('auth')->prefix('bancos')->group(function () {
 });
 
 Route::middleware('auth')->prefix('bancos/cuentas')->group(function () {
-    Route::get("/",[App\Http\Controllers\BancoController::class, 'index'])->name('cuenta.index');
+    Route::get("/",[App\Http\Controllers\CuentaController::class, 'index'])->name('cuenta.index');
+    Route::get("listado-bancos-empresa", [App\Http\Controllers\CuentaController::class, 'jq_lista']);
+    Route::post("cargar_bancos_empresa",[App\Http\Controllers\CuentaController::class, 'store'])->name('cuenta.guardar');
+    Route::post("mostrar-modificacion",[App\Http\Controllers\CuentaController::class, 'edit']);
+    Route::post("modificando_bancos_empresa",[App\Http\Controllers\CuentaController::class, 'update'])->name('cuenta.guardando');
 });
 
 
