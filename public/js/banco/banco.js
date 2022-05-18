@@ -116,13 +116,13 @@ $(document).ready(function(){
                         $('#listaBancos').DataTable().ajax.reload();
                         Swal.fire(
                             'Solicitud procesada',
-                            'Se ha desactivado este suministro.',
+                            'Se ha desactivado este banco.',
                             'success'
                         )
                     }else{
                         Swal.fire(
                             'Hubo un error',
-                            'No se pudo desactivar el suministro.',
+                            'No se pudo desactivar el banco.',
                             'error'
                         )
                     }

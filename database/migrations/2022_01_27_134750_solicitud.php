@@ -37,7 +37,7 @@ class Solicitud extends Migration
             $table->integer('aprobador_id')->nullable()->default(NULL);
             $table->integer('cotizacion_id')->nullable()->default(NULL);
             $table->integer('requisicion_id')->nullable()->default(NULL);
-            $table->enum('moneda', ['Bs', '$'])->default('Bs');
+            $table->enum('moneda', ['B/', '$'])->default('Bs');
 
             $table->foreign('usuario_id')->references('id')->on('users');
             $table->foreign('obra_id')->references('id')->on('obra');

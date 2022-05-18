@@ -253,9 +253,12 @@ Route::middleware('auth')->prefix('bancos/cuentas')->group(function () {
     Route::post("cargar_bancos_empresa",[App\Http\Controllers\CuentaController::class, 'store'])->name('cuenta.guardar');
     Route::post("mostrar-modificacion",[App\Http\Controllers\CuentaController::class, 'edit']);
     Route::post("modificando_bancos_empresa",[App\Http\Controllers\CuentaController::class, 'update'])->name('cuenta.guardando');
+    Route::post("desactivar-banco-jhcp",[App\Http\Controllers\CuentaController::class, 'destroy']);
 });
 
-
+Route::middleware('auth')->prefix('bancos/cuentas/chequeras')->group(function () {
+    Route::get("87yygu8u9oihdhvgyg7y8d98y7y{id}dgu9i0d",[App\Http\Controllers\ChequeraController::class, 'index'])->name('chequera.index');
+});
 
 Auth::routes();
 

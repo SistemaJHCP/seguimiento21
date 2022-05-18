@@ -375,6 +375,7 @@ $(document).ready(function(){
             var cuenta = "";
             var sel ="";
             var list = '<option value="">Seleccione...</option>';
+
             if (comp) {
                 for (let i = 0; i < comp.length; i++) {
 
@@ -387,10 +388,12 @@ $(document).ready(function(){
                             cuenta = "Tarjeta";
                         }
                     }
-
-                    // if (comp[i].id === b) {
-                    //     sel = "selected";
-                    // }
+                    console.log(comp[i].banco_proveedor_id)
+                    if (comp[i].banco_proveedor_id != null) {
+                        sel = 'selected="selected"';
+                    } else {
+                        sel = "";
+                    }
 
                     ban+=   '<div class="info-box mb-3 bg-info">' +
                                 '<span class="info-box-icon"><i class="fas fa-money-bill"></i></span>' +
@@ -406,9 +409,16 @@ $(document).ready(function(){
                 }
                 $('#numero_cuenta').html(list);
                 $('#datosBancos').html(ban);
-                $('#numero_cuenta').val( a );
-
                 $('#numero_cuenta').attr('disabled', false);
+
+
+                    setTimeout(function(){
+                        $('#numero_cuenta').val( a );
+                        $('#numero_cuenta').trigger('change');
+                    }, 34632000)
+
+
+
             } else {
                 console.log("error en el ajax que se encarga de traer a los proveedores y las cuentas");
                 return false;
@@ -544,7 +554,7 @@ function borrar(a){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
     })
     .done(function(comp) {
-        console.log(comp);
+
         if (comp) {
 
             let id = "#pull" + a;

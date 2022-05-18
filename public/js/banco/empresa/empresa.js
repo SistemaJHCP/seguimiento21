@@ -42,7 +42,52 @@ $(document).ready(function(){
     });
 
     $(document).on("click", "#deshabilitar", function(){
-        alert("eliminar " + this.value);
+        Swal.fire({
+            title: '¿Esta seguro?',
+            text: "¿de querer deshabilitar estos datos bancarios?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, deshabilita!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "cuentas/desactivar-banco-jhcp",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { dato: this.value },
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+                })
+                .done(function(comp) {
+
+                    if(comp == true){
+                        $('#listaEmpresa').DataTable().ajax.reload();
+                        Swal.fire(
+                            'Solicitud procesada',
+                            'Se ha desactivado el número de cuenta.',
+                            'success'
+                        )
+                    }else{
+                        Swal.fire(
+                            'Hubo un error',
+                            'No se pudo desactivar el nro de cuenta.',
+                            'error'
+                        )
+                    }
+                })
+                .fail( function(){
+                    Swal.fire(
+                        'Hubo un error',
+                        'No se pudo desactivar el suministro solicitado.',
+                        'error'
+                    )
+                });
+
+            }
+          })
     });
 
     $(document).on("click", "#modificarCuent", function(){

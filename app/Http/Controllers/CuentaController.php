@@ -164,9 +164,27 @@ class CuentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->cuenta_emp != 1 ||  $permisoUsuario[0]->deshabilitar_cuenta_emp != 1 ){
+            return response()->json( false );
+        }
+        //Buscamos la informacion asociada al ID
+        $cuenta = Cuenta::find( $request->dato );
+        // Cambiamos el estado de la solicitud a deshabilitada
+        $cuenta->cuenta_estado = 0;
+        // Guardamos la informacion en la base de datos
+        $resp = $cuenta->save();
+        // retornamos la informacion via json dependiendo si se guardo o no
+        if($resp){
+            return response()->json( true );
+        } else {
+            return response()->json( false );
+        }
+
     }
 
     public function jq_lista()
@@ -182,6 +200,7 @@ class CuentaController extends Controller
             'banco.banco_nombre AS banco_nombre'
         )
         ->leftJoin('banco', 'banco.id', '=', 'cuenta.banco_id')
+        ->where('cuenta.cuenta_estado', 1)
         ->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion

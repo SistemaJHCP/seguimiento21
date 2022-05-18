@@ -717,10 +717,14 @@ class SolicitudController extends Controller
             'banco_proveedor.numero AS numero',
             'banco.banco_nombre AS banco_nombre',
             'banco.banco_rif AS banco_rif',
-            'banco_proveedor.tipodecuenta AS tipoCuenta'
+            'banco_proveedor.tipodecuenta AS tipoCuenta',
+            'solicitud.banco_proveedor_id AS banco_proveedor_id'
         )
         ->leftJoin('banco', 'banco_proveedor.banco_id', '=', 'banco.id')
+        ->leftJoin('solicitud', 'solicitud.banco_proveedor_id', '=', 'banco_proveedor.id')
         ->where('banco_proveedor.proveedor_id', $id)
+        ->where('banco_proveedor.estado', 1)
+        ->distinct()
         ->get();
 
         return response()->json( $banco);
@@ -930,6 +934,7 @@ class SolicitudController extends Controller
 
     public function solicitudesPagoLista()
     {
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 

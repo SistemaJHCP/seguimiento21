@@ -34,6 +34,7 @@ class BancoController extends Controller
         if( $permisoUsuario[0]->ban != 1 ){
             return redirect()->route("home");
         }
+
         //Retorna a la vista principal de bancos
         return view('sistema.banco.index')->with([
             'permisoUsuario' => $permisoUsuario[0]
