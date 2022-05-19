@@ -11,33 +11,87 @@
 @endsection
 
 @section('contenedor')
-    <div class="row">
-        <div class="col-md-5">
-            <div class="card mb-3" style="max-width: 540px;">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                    <div  class="d-none d-lg-block d-print-block">
-                        <img src="..." alt="imagen de banco">
-                    </div>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Cuenta</h5>
-                      <p class="card-text">{{ $banco->cuenta_tipo }}</p>
-                      <h5 class="card-title">Nro. de cuenta</h5>
-                      <p class="card-text">{{ $banco->cuenta_numero }}</p>
-                      <h5 class="card-title">Monto incial</h5>
-                      <p class="card-text">{{ $banco->cuenta_montoinicial }}</p>
-                      <h5 class="card-title">Nombre de banco</h5>
-                      <p class="card-text">{{ $banco->banco_nombre }}</p>
-                      <p class="card-text"><small class="text-muted">{{ $banco->banco_rif }}</small></p>
-                    </div>
-                  </div>
-                </div>
+<div class="row">
+<div class="col-md-12">
+    <div class="card-footer" style="">
+        <div class="row">
+          <div class="col-sm-3 col-6">
+            <div class="description-block border-right">
+              <span class="description-percentage text-info"><i class="fas fa-university"></i></span>
+              <h5 class="description-header">Nombre de banco</h5>
+              <span class="description-text">{{ $banco->banco_nombre }}</span><br>
+              <small class="text-muted">{{ $banco->banco_rif }}</small>
             </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-3 col-6">
+            <div class="description-block border-right">
+              <span class="description-percentage text-info"><i class="fas fa-money-check"></i></span>
+              <h5 class="description-header">Nro. de cuenta</h5>
+              <span class="description-text">{{ $banco->cuenta_numero }}</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-3 col-6">
+            <div class="description-block border-right">
+              <span class="description-percentage text-info"><i class="fas fa-money-bill"></i></span>
+              <h5 class="description-header">Monto incial</h5>
+              <span class="description-text">{{ $banco->cuenta_montoinicial }}</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-3 col-6">
+            <div class="description-block">
+              <span class="description-percentage text-info"><i class="fas fa-wallet"></i></span>
+              <h5 class="description-header">Tipo de cuenta</h5>
+              <span class="description-text">{{ $banco->cuenta_tipo }}</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
         </div>
-        <div class="col-md-7">
-            2
+        <!-- /.row -->
+      </div>
+</div>
+<br><br>
+</div>
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                  <a href="{{ route('cuenta.index') }}"><button type="button" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar</button></a> <button  data-toggle="modal" data-target="#cargarNuevaChequera" type="button" class="btn btn-info float-right">Cargar nueva chequera</button>
+                </div>
+                <!-- /.card-header -->
+                  <div class="card-body">
+                      <table id="listaBancos" class="table table-bordered table-hover display responsive no-wrap">
+                      <thead>
+                      <tr>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Cantidad</th>
+                            <th>Chequera</th>
+                            <th>Acción</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Cantidad</th>
+                            <th>Chequera</th>
+                            <th>Acción</th>
+                      </tr>
+                      </tfoot>
+                      </table>
+                  </div>
+                <!-- /.card-body -->
+            </div>
         </div>
     </div>
 @endsection

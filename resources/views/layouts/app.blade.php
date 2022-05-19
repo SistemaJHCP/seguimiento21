@@ -421,7 +421,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" style="background: rgb(54, 214, 180)"> {{-- Rosman --}}
+  <div class="content-wrapper" style="background: rgb(250, 250, 250)"> {{-- Rosman --}}
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">

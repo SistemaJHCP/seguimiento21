@@ -41,7 +41,7 @@
                   </table>
               </div>
             <!-- /.card-body -->
-          </div>
+        </div>
 
 
           <div class="modal fade" id="cargarNuevoBanco" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="cargarNuevoBancoLabel" aria-hidden="true">
