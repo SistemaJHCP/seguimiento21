@@ -132,13 +132,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <?php
                 }
             ?>
-            <?php
-                if ($permisoUsuario->conciliacion == 1){
-            ?>
-                <li><a href="#" class="dropdown-item">Cheques</a></li>
-            <?php
-                }
-            ?>
             </ul>
         </li>
         @endif
@@ -483,3 +476,4 @@ scratch. This page gets rid of all links and provides the needed markup only.
 @yield('js')
 </body>
 </html>
+

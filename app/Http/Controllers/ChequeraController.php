@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Chequera;
 use App\Models\Cheque;
 use App\Models\Cuenta;
 use App\Models\Permiso;
@@ -33,7 +35,7 @@ class ChequeraController extends Controller
         // if( $permisoUsuario[0]->ban != 1 ){
         //     return redirect()->route("home");
         // }
-
+        //se consulta los datos del banco seleccionado para mostrar en la vista
         $banco = Cuenta::select(
             'cuenta.id AS id',
             'cuenta.cuenta_tipo AS cuenta_tipo',
@@ -94,7 +96,7 @@ class ChequeraController extends Controller
      */
     public function edit($id)
     {
-        //
+        dd("wwwwww");
     }
 
     /**
@@ -119,4 +121,45 @@ class ChequeraController extends Controller
     {
         //
     }
+
+    public function jq_lista($id)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        // if( $permisoUsuario[0]->solicitud != 1 ){
+        //     return redirect()->route("home");
+        // }
+
+        //Realizamos la consulta a la base de datos
+
+        $query = Chequera::select(
+            'chequera.id',
+            'chequera.chequera_codigo AS chequera_codigo',
+            'chequera.chequera_fecha AS fecha',
+            'chequera.chequera_cantidadcheque AS chequera_cantidadcheque',
+            'chequera.chequera_correlativo AS chequera_correlativo',
+            DB::raw('( SELECT COUNT(*) FROM cheque WHERE chequera_id = chequera.id AND cheque_estado IN (1,2) ) AS emitido'),
+            DB::raw('( SELECT COUNT(*) FROM cheque WHERE chequera_id = chequera.id AND cheque_estado IN (0) ) AS anulado')
+        )
+        ->where('chequera.cuenta_id', $id)
+        ->orderBy('id', 'DESC')
+        ->get();
+
+        // // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        // if ( $permisoUsuario[0]->solicitud == 1 && $permisoUsuario[0]->ver_botones_solicitud == 1) {
+        //     return datatables()->of($query)
+        //     ->addColumn('btn','sistema.solicitud.btnSolicitud')
+        //     ->addColumn('btn2','sistema.solicitud.aprobacion.btnAproRepro')
+        //     ->rawColumns(['btn','btn2'])->toJson();
+        // } else {
+            return datatables()->of($query)
+            // ->addColumn('btn','sistema.btnNull')
+            ->addColumn('btn','sistema.banco.chequera.btnChequera')
+            ->rawColumns(['btn'])->toJson();
+        // }
+    }
+
+
+
 }
