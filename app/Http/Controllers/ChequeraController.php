@@ -63,7 +63,13 @@ class ChequeraController extends Controller
      */
     public function create()
     {
-        //
+        //Pendiente por crear permisos!!
+        // if( $permisoUsuario[0]->ban != 1 ){
+        //     return redirect()->route("home");
+        // }
+
+
+
     }
 
     /**
@@ -74,7 +80,44 @@ class ChequeraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Pendiente por crear permisos!!
+        // if( $permisoUsuario[0]->ban != 1 ){
+        //     return redirect()->route("home");
+        // }
+
+        // Se crea el codigo, dependiendo de que exista o no uno previo, se crea el codigo
+        $codigo = Chequera::select("chequera_codigo")->orderBy("id", "desc")->first();
+        //Si la variable codigo es mayor o igual a 1, ejecuta el conteo
+
+        if(count( array($codigo) ) < 1){
+            //Si es menor a 1
+            $codigoChe = "CHE-1";
+        } else {
+            //Se extrae el numero y se le agrega un valor mas (xx + 1)
+            preg_match_all('!\d+!', $codigo->chequera_codigo, $cod);
+            $cod = $cod[0][0] + 1;
+            $codigoChe = "CHE-".$cod;
+        }
+
+        //Se instanciará la clase donde se guardara la información
+        $banco = new Chequera();
+        // Se sustituyen los valores
+        $banco->chequera_codigo = $codigoChe;
+        $banco->cuenta_id = $request->dato;
+        $banco->chequera_fecha = $request->fechaE;
+        $banco->chequera_cantidadcheque = $request->nroCheque;
+        $banco->chequera_correlativo = $request->correlativo;
+        $banco->chequera_estado = 1;
+        //Guardamos la nueva chequera
+        $resp = $banco->save();
+        if ($resp) {
+            return redirect()->route('chequera.index', $request->dato)->with('resp', $resp);
+        } else {
+            return redirect()->route('chequera.index', $request->dato)->with('resp', false);
+        }
+
+
+
     }
 
     /**
@@ -96,7 +139,14 @@ class ChequeraController extends Controller
      */
     public function edit($id)
     {
-        dd("wwwwww");
+        //Pendiente por crear permisos!!
+        // if( $permisoUsuario[0]->ban != 1 ){
+        //     return redirect()->route("home");
+        // }
+        // Consultamos los valores asociados a ese ID
+        $chequera = Chequera::find( $id );
+        // Retornamos todo lo traido por medio de json
+        return response()->json($chequera);
     }
 
     /**
@@ -106,9 +156,26 @@ class ChequeraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        //Pendiente por crear permisos!!
+        // if( $permisoUsuario[0]->ban != 1 ){
+        //     return redirect()->route("home");
+        // }
+        // Se buscan los datos asociados al ID
+        $chequera = Chequera::find( $request->id );
+        // Sustituir los valores
+        $chequera->chequera_fecha = $request->fechaEMod;
+        $chequera->chequera_cantidadcheque = $request->nroChequeMod;
+        $chequera->chequera_correlativo = $request->correlativoMod;
+        //Guardamos la modificacion y retornamos segun el resultado
+        $resp = $chequera->save();
+        if ($resp) {
+            return redirect()->route('chequera.index', $request->dato)->with('resp', $resp);
+        } else {
+            return redirect()->route('chequera.index', $request->dato)->with('resp', false);
+        }
+
     }
 
     /**

@@ -108,7 +108,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="" method="post">
+        <form action="{{ route('chequera.crear') }}" method="post">
             @csrf
             <div class="modal-body">
                 <div class="row">
@@ -116,23 +116,62 @@
                         <div class="form-group">
                             <label>Nro de cuenta</label>
                             <input type="text" name="fecha-cheque" id="fecha-cheque" class="form-control" value="{{ $banco->cuenta_numero }}" placeholder="{{ $banco->cuenta_numero }}" readonly>
-                            <label>Indique la fecha del cheque</label>
-                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                <input type="text" name="fecha" id="fecha" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required>
-                                {{-- <div class="input-group-append" id="fecha2" data-target="#reservationdate" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div> --}}
+                            <input type="hidden" name="dato" value="{{ $banco->id }}">
+                            <label for="">Fecha de Entrega</label>
+                            <div class="form-group">
+                                <input type="text" name="fechaE" id="fechaE" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required autocomplete="off">
                             </div>
                             <label>Cantidad de cheques</label>
-                            <input type="text" name="nroCheque" id="nroCheque" class="form-control" placeholder="Número de cheques">
+                            <input type="text" name="nroCheque" id="nroCheque" class="form-control" placeholder="Número de cheques" maxlength="4" required autocomplete="off">
                             <label>Correlativo</label>
-                            <input type="text" name="correlativo" id="correlativo" class="form-control" placeholder="Número de primer cheque">
+                            <input type="text" name="correlativo" id="correlativo" class="form-control" placeholder="Número de primer cheque" maxlength="20" required autocomplete="off">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
+              <input type="submit" value="Cargar chequera" class="btn btn-primary">
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modificarChaquera" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modificarChaqueraLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modificarChaqueraLabel">Modificar esta chequera</h5>
+          <button type="button" class="close" data-dismiss="modal" id="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{{ route('chequera.modificar') }}" method="post">
+            @csrf
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Nro de cuenta</label>
+                            <input type="text" name="fecha-cheque" id="fecha-cheque" class="form-control" value="{{ $banco->cuenta_numero }}" placeholder="{{ $banco->cuenta_numero }}" readonly>
+                            <input type="hidden" name="id" id="id">
+                            <input type="hidden" name="dato" value="{{ $banco->id }}">
+                            <label for="">Fecha de Entrega</label>
+                            <div class="form-group">
+                                <input type="text" name="fechaEMod" id="fechaEMod" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required autocomplete="off" disabled>
+                            </div>
+                            <label>Cantidad de cheques</label>
+                            <input type="text" name="nroChequeMod" id="nroChequeMod" class="form-control" placeholder="Número de cheques" maxlength="4" required autocomplete="off" disabled>
+                            <label>Correlativo</label>
+                            <input type="text" name="correlativoMod" id="correlativoMod" class="form-control" placeholder="Número de primer cheque" maxlength="20" required autocomplete="off" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="cerrar2" data-dismiss="modal">Cerrar</button>
               <input type="submit" value="Cargar chequera" class="btn btn-primary">
             </div>
         </form>
@@ -152,13 +191,52 @@
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.print.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.colVis.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/jquery-ui/jquery-ui.js") }}"></script>
+<script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
+<script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
+<script src="{{ asset("js/requerimiento/crear.js") }}"></script>
 <script src="{{ asset("js/banco/cheques/chequera.js") }}"></script>
 <script>
     listar( {{ $id }} );
 </script>
+@if (Session::has('resp'))
+{{ Session::has('resp') }}
+    @if (Session::has('resp') == true)
+    <script>
+        Swal.fire(
+        'Solicitud procesada!',
+        'La información fue cargada exitosamente!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+
+@endif
+
+
+@if (count($errors) > 0)
+{{-- Este es el mensaje de error desde la validacion --}}
+<script>
+    Swal.fire(
+    'Hubo un error!',
+    'el formulario no esta correctamente cargado!',
+    'error'
+    )
+</script>
+@endif
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}">
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-responsive/css/responsive.bootstrap4.min.css") }}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('plugins/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 @endsection
 

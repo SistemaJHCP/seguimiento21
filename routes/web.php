@@ -258,13 +258,15 @@ Route::middleware('auth')->prefix('bancos/cuentas')->group(function () {
 
 Route::middleware('auth')->prefix('bancos/cuentas/chequeras')->group(function () {
     Route::get("87yygu8u9oihdhvgyg7y8d98y7y{id}dgu9i0d",[App\Http\Controllers\ChequeraController::class, 'index'])->name('chequera.index');
+    Route::get("modificar/9yedide7t6tfgihe/{id}",[App\Http\Controllers\ChequeraController::class, 'edit']);
+    Route::post("modificando/poi2u287y2gihe",[App\Http\Controllers\ChequeraController::class, 'update'])->name('chequera.modificar');
     Route::get("lista-chequera/{id}",[App\Http\Controllers\ChequeraController::class, 'jq_lista']);
+    Route::post("crear-nueva-chequera",[App\Http\Controllers\ChequeraController::class, 'store'])->name('chequera.crear');
     // Route::get("cheque/ef234re3wdfrfreedef234r21e{id}wr32234r43e2wdef",[App\Http\Controllers\ChequeraController::class, 'edit'])->name('chequera.index');
 });
 
 Route::middleware('auth')->prefix('bancos/cuentas/chequeras/cheque')->group(function () {
     Route::get("iuyyd9ii98ytghdidu23ewq2234e3ws2d32dssd{id}dgu9i0d",[App\Http\Controllers\ChequeController::class, 'index'])->name('cheque.index');
-
 });
 
 Auth::routes();

@@ -1,6 +1,9 @@
 $(document).ready(function(){
 
-    $("#fecha").datepicker({
+    $("#nroCheque").numeric();
+    limpiar();
+
+    $("#fechaE, #fechaEMod").datepicker({
         dateFormat: "yy-mm-dd",
         closeText: 'Cerrar',
         prevText: '< Ant',
@@ -14,8 +17,52 @@ $(document).ready(function(){
         weekHeader: 'Sm'
     });
 
+    $(document).on('click', '#modCheq', function(){
+
+        $('#fechaEMod').val("");
+        $('#nroChequeMod').val("");
+        $('#correlativoMod').val("");
+        $('#fechaEMod').attr('disabled', true);
+        $('#nroChequeMod').attr('disabled', true);
+        $('#correlativoMod').attr('disabled', true);
+
+        $.ajax({
+            type: "get",
+            url: "modificar/9yedide7t6tfgihe/" + this.value,
+            dataType: "json",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            success: function (comp) {
+                $('#fechaEMod').attr('disabled', false);
+                $('#nroChequeMod').attr('disabled', false);
+                $('#correlativoMod').attr('disabled', false);
+                $('#fechaEMod').val( comp.chequera_fecha );
+                $('#nroChequeMod').val( comp.chequera_cantidadcheque );
+                $('#correlativoMod').val( comp.chequera_correlativo );
+                $('#id').val( comp.id );
+
+            },error: function(){
+                alert("Error al momento de cargar los datos del archivo a modificar");
+            }
+        });
+    });
+
+    $(document).on('click', '#cerrar, #cerrar2', function(){
+        limpiar();
+    });
 
 
+    function limpiar(){
+        $('#fechaE').val("");
+        $('#nroCheque').val("");
+        $('#correlativo').val("");
+        $('#fechaEMod').val("");
+        $('#nroChequeMod').val("");
+        $('#correlativoMod').val("");
+        $('#fechaEMod').attr('disabled', true);
+        $('#nroChequeMod').attr('disabled', true);
+        $('#correlativoMod').attr('disabled', true);
+        $('#id').val("");
+    }
 
 
 });
