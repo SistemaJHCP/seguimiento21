@@ -111,6 +111,26 @@ class ChequeraController extends Controller
         //Guardamos la nueva chequera
         $resp = $banco->save();
         if ($resp) {
+
+            // for ($i=0; $i < $request->nroCheque ; $i++) {
+            //     //Creas una nueva instancia del cheque
+            //     $cheque = new Cheque();
+            //     //Agrego la cantidad de cheques solicitante
+            //     $cheque->cheque_codigo = $request->correlativo;
+            //     //Agrego un mensaje generico de los cheques sin asignar aun
+            //     $cheque->cheque_monto = "0.00";
+            //     $cheque->cheque_destinatario = "Sin asignar";
+            //     $cheque->cheque_fecha = "1900-01-01";
+            //     $cheque->cheque_estado = "1";
+            //     $cheque->chequera_id = $banco->id;
+            //     $cheque->save();
+
+            //     $request->correlativo++;
+
+            // }
+
+
+
             return redirect()->route('chequera.index', $request->dato)->with('resp', $resp);
         } else {
             return redirect()->route('chequera.index', $request->dato)->with('resp', false);
@@ -166,7 +186,7 @@ class ChequeraController extends Controller
         $chequera = Chequera::find( $request->id );
         // Sustituir los valores
         $chequera->chequera_fecha = $request->fechaEMod;
-        $chequera->chequera_cantidadcheque = $request->nroChequeMod;
+        // $chequera->chequera_cantidadcheque = $request->nroChequeMod;
         $chequera->chequera_correlativo = $request->correlativoMod;
         //Guardamos la modificacion y retornamos segun el resultado
         $resp = $chequera->save();

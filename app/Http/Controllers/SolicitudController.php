@@ -1364,7 +1364,6 @@ class SolicitudController extends Controller
 
     public function showCuenta($id)
     {
-
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 

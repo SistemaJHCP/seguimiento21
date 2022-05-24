@@ -131,7 +131,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
-              <input type="submit" value="Cargar chequera" class="btn btn-primary">
+              <input type="submit" value="Cargar chequera" id="cargarChequera"class="btn btn-primary">
             </div>
         </form>
       </div>
@@ -159,9 +159,7 @@
                             <input type="hidden" name="id" id="id">
                             <input type="hidden" name="dato" value="{{ $banco->id }}">
                             <label for="">Fecha de Entrega</label>
-                            <div class="form-group">
-                                <input type="text" name="fechaEMod" id="fechaEMod" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required autocomplete="off" disabled>
-                            </div>
+                            <input type="text" name="fechaEMod" id="fechaEMod" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required autocomplete="off" disabled>
                             <label>Cantidad de cheques</label>
                             <input type="text" name="nroChequeMod" id="nroChequeMod" class="form-control" placeholder="Número de cheques" maxlength="4" required autocomplete="off" disabled>
                             <label>Correlativo</label>
@@ -172,7 +170,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" id="cerrar2" data-dismiss="modal">Cerrar</button>
-              <input type="submit" value="Cargar chequera" class="btn btn-primary">
+              <input type="submit" value="Modificar chequera" id="modificaChequera" class="btn btn-primary">
             </div>
         </form>
       </div>

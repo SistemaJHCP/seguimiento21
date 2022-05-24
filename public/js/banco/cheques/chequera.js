@@ -33,12 +33,13 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             success: function (comp) {
                 $('#fechaEMod').attr('disabled', false);
-                $('#nroChequeMod').attr('disabled', false);
+                // $('#nroChequeMod').attr('disabled', false);
                 $('#correlativoMod').attr('disabled', false);
                 $('#fechaEMod').val( comp.chequera_fecha );
                 $('#nroChequeMod').val( comp.chequera_cantidadcheque );
                 $('#correlativoMod').val( comp.chequera_correlativo );
                 $('#id').val( comp.id );
+                $('#modificaChequera').attr('disabled', false);
 
             },error: function(){
                 alert("Error al momento de cargar los datos del archivo a modificar");
@@ -48,6 +49,20 @@ $(document).ready(function(){
 
     $(document).on('click', '#cerrar, #cerrar2', function(){
         limpiar();
+    });
+
+    $('#cargarChequera').on('click', function(){
+        $("form").on("submit", function () {
+            $("#cargarChequera").attr("value", "Guardando, espere...");
+            $("#cargarChequera").attr("disabled", true);
+        });
+    });
+
+    $('#modificaChequera').on('click', function(){
+        $("form").on("submit", function () {
+            $("#modificaChequera").attr("value", "Guardando, espere...");
+            $("#modificaChequera").attr("disabled", true);
+        });
     });
 
 
@@ -62,6 +77,7 @@ $(document).ready(function(){
         $('#nroChequeMod').attr('disabled', true);
         $('#correlativoMod').attr('disabled', true);
         $('#id').val("");
+        $('#modificaChequera').attr('disabled', true);
     }
 
 

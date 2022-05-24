@@ -15,9 +15,6 @@ $(document).ready(function(){
             {data: 'usuario_nombre'},
             {data: 'btn'}
         ],
-        order: [
-            [2, "DESC"]
-        ],
         bLengthChange: false,
         searching: true,
         responsive: true,
@@ -36,6 +33,9 @@ $(document).ready(function(){
             },
             "processing" : "procesando."
         },
+        order: [
+            [0, "DESC"]
+        ],
     });
 
     $(document).on("click", '#desactivar', function(){
