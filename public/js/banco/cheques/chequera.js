@@ -83,6 +83,60 @@ $(document).ready(function(){
 
 });
 
+$(document).on('click', '#desactivar', function(){
+
+    Swal.fire({
+        title: '¿Esta seguro',
+        text: "de querer deshabilitar esta chequera?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, deshabilita!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: "post",
+                url: "desactivar/98uyuikjhui9uygvg2yui98uywghuis",
+                data: {id: this.value},
+                dataType: "json",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                success: function (comp) {
+                    if (comp) {
+                        $('#listaChequeras').DataTable().ajax.reload();
+                        Swal.fire(
+                            'Desactivado!',
+                            'Se ha desactivado la chequera.',
+                            'success'
+                        );
+                    } else {
+                        Swal.fire(
+                            'Hubo un error!',
+                            'Hubo un problema al momento de realizar la solicitud.',
+                            'success'
+                        );
+                    }
+                }, error: function() {
+                    Swal.fire(
+                        'Hubo un error!',
+                        'Hubo un problema al momento de realizar esta consulta.',
+                        'success'
+                    );
+                }
+            });
+
+
+
+
+
+
+
+        }
+      })
+
+});
 
 function listar(a){
 

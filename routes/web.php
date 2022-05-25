@@ -262,11 +262,12 @@ Route::middleware('auth')->prefix('bancos/cuentas/chequeras')->group(function ()
     Route::post("modificando/poi2u287y2gihe",[App\Http\Controllers\ChequeraController::class, 'update'])->name('chequera.modificar');
     Route::get("lista-chequera/{id}",[App\Http\Controllers\ChequeraController::class, 'jq_lista']);
     Route::post("crear-nueva-chequera",[App\Http\Controllers\ChequeraController::class, 'store'])->name('chequera.crear');
-    // Route::get("cheque/ef234re3wdfrfreedef234r21e{id}wr32234r43e2wdef",[App\Http\Controllers\ChequeraController::class, 'edit'])->name('chequera.index');
+    Route::post("desactivar/98uyuikjhui9uygvg2yui98uywghuis",[App\Http\Controllers\ChequeraController::class, 'destroy']);
 });
 
 Route::middleware('auth')->prefix('bancos/cuentas/chequeras/cheque')->group(function () {
     Route::get("iuyyd9ii98ytghdidu23ewq2234e3ws2d32dssd{id}dgu9i0d",[App\Http\Controllers\ChequeController::class, 'index'])->name('cheque.index');
+    Route::get("lista-cheque/{id}",[App\Http\Controllers\ChequeController::class, 'jq_lista']);
 });
 
 Auth::routes();

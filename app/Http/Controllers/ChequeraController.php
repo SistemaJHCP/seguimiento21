@@ -204,9 +204,23 @@ class ChequeraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        // if( $permisoUsuario[0]->solicitud != 1 ){
+        //     return redirect()->route("home");
+        // }
+        //Se busca la informacion que esta asociado al id
+        $chequera = Chequera::find( $request->id );
+        // Se cambia el estado a deshabilitado
+        $chequera->chequera_estado = 0;
+        //Se guarda la informacion
+        $resp = $chequera->save();
+        //Retornamos la respuesta via json
+        return response()->json( $resp );
+
     }
 
     public function jq_lista($id)
@@ -230,6 +244,7 @@ class ChequeraController extends Controller
             DB::raw('( SELECT COUNT(*) FROM cheque WHERE chequera_id = chequera.id AND cheque_estado IN (0) ) AS anulado')
         )
         ->where('chequera.cuenta_id', $id)
+        ->where('chequera.chequera_estado', 1)
         ->orderBy('id', 'DESC')
         ->get();
 
