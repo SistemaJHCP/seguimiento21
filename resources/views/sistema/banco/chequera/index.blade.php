@@ -119,7 +119,7 @@
                             <input type="hidden" name="dato" value="{{ $banco->id }}">
                             <label for="">Fecha de Entrega</label>
                             <div class="form-group">
-                                <input type="text" name="fechaE" id="fechaE" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required autocomplete="off">
+                                <input type="text" name="fechaE" id="fechaE" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required autocomplete="off" readonly>
                             </div>
                             <label>Cantidad de cheques</label>
                             <input type="text" name="nroCheque" id="nroCheque" class="form-control" placeholder="Número de cheques" maxlength="4" required autocomplete="off">
@@ -159,7 +159,7 @@
                             <input type="hidden" name="id" id="id">
                             <input type="hidden" name="dato" value="{{ $banco->id }}">
                             <label for="">Fecha de Entrega</label>
-                            <input type="text" name="fechaEMod" id="fechaEMod" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required autocomplete="off" disabled>
+                            <input type="text" name="fechaEMod" id="fechaEMod" class="form-control" placeholder="aaaa-mm-dd" maxlength="10" autocomplete="off" required autocomplete="off" disabled readonly>
                             <label>Cantidad de cheques</label>
                             <input type="text" name="nroChequeMod" id="nroChequeMod" class="form-control" placeholder="Número de cheques" maxlength="4" required autocomplete="off" disabled>
                             <label>Correlativo</label>

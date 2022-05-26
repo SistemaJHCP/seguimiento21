@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Permiso;
 use App\Models\Chequera;
@@ -38,6 +39,7 @@ class ChequeController extends Controller
             'chequera.chequera_codigo AS chequera_codigo',
             'chequera.chequera_correlativo AS chequera_correlativo',
             'chequera.chequera_cantidadcheque AS chequera_cantidadcheque',
+             DB::raw('( SELECT COUNT(*) FROM cheque WHERE chequera_id = chequera.id AND cheque_estado IN (1,2) ) AS emitido'),
             'cuenta.id AS id_cuenta',
             'cuenta.cuenta_numero AS cuenta_numero',
             'cuenta.cuenta_tipo AS cuenta_tipo',
@@ -50,11 +52,15 @@ class ChequeController extends Controller
         ->first();
         //Consultamos el ultimo numero del cheque que hay
         $codigoActual = Cheque::select('cheque_codigo')->where('chequera_id', $id)->orderBy('id', 'DESC')->first();
-        //Creamos el numero siguiente
-        $codigoSiguiente = $codigoActual->cheque_codigo + 1;
-        dump($codigoSiguiente);
-        //Creo un limite de cheques a permitir
-        $limite = $chequera->chequera_correlativo + $chequera->chequera_cantidadcheque;
+        //Si existe, creamos el numero siguiente
+        if ($codigoActual) {
+            $codigoSiguiente = $codigoActual->cheque_codigo + 1;
+            //Creo un limite de cheques a permitir
+            $limite = $chequera->chequera_correlativo + $chequera->chequera_cantidadcheque;
+        } else {
+            $codigoSiguiente = 0;
+            $limite = 0;
+        }
 
         //Retorna a la vista principal de bancos
         return view('sistema.banco.cheques.index')->with([
@@ -85,7 +91,32 @@ class ChequeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        //Pendiente por crear permisos!!
+        // if( $permisoUsuario[0]->ban != 1 ){
+        //     return redirect()->route("home");
+        // }
+        //Instanciamos la clase a ingresar los valores
+        $cheque = new Cheque();
+        //Agregamos la informacion captturada en la vista
+        $cheque->cheque_codigo = $request->codigo;
+        $cheque->cheque_destinatario = $request->destinatario;
+        $cheque->cheque_monto = $request->monto;
+        $cheque->cheque_fecha = $request->fecha;
+        $cheque->cheque_estado = 1;
+        $cheque->chequera_id = $request->chequeraId;
+        //Guardar la informacion
+        $resp = $cheque->save();
+        //Envia la respuesta
+        if ($resp) {
+            return redirect()->route('cheque.index', $request->chequeraId)->with('resp', $resp);
+        } else {
+            return redirect()->route('cheque.index', $request->chequeraId)->with('resp', false);
+        }
+
+
+
     }
 
     /**
@@ -128,9 +159,26 @@ class ChequeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        //Validamos los permisos
+        // $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        // if( $permisoUsuario[0]->solicitud != 1 ){
+        //     return redirect()->route("home");
+        // }
+
+        //Se busca el cheque asociado al id
+        $cheque = Cheque::find( $request->id );
+        //Se cambia la informacion por anulada
+        $cheque->cheque_monto = "0.00";
+        $cheque->cheque_destinatario = "ANULADO";
+        $cheque->cheque_estado = 0;
+        $cheque->cheque_fecha = now();
+        //Se guarda la modificacion
+        $resp = $cheque->save();
+        //Se retorna via json
+        return response()->json( $resp );
     }
 
 

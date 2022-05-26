@@ -268,6 +268,8 @@ Route::middleware('auth')->prefix('bancos/cuentas/chequeras')->group(function ()
 Route::middleware('auth')->prefix('bancos/cuentas/chequeras/cheque')->group(function () {
     Route::get("iuyyd9ii98ytghdidu23ewq2234e3ws2d32dssd{id}dgu9i0d",[App\Http\Controllers\ChequeController::class, 'index'])->name('cheque.index');
     Route::get("lista-cheque/{id}",[App\Http\Controllers\ChequeController::class, 'jq_lista']);
+    Route::post("crear-un-cheque",[App\Http\Controllers\ChequeController::class, 'store'])->name('cheque.crear');
+    Route::post("anular-cheque",[App\Http\Controllers\ChequeController::class, 'destroy']);
 });
 
 Auth::routes();
