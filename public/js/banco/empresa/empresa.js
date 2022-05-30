@@ -115,16 +115,18 @@ $(document).ready(function(){
         })
         .done(function(comp) {
 
-            $("#tipo_cuenta_MOD").attr("disabled", false);
-            $("#num_cuenta_MOD").attr("disabled", false);
-            $("#monto_inicial_MOD").attr("disabled", false);
-            $("#nombre_banco_MOD").attr("disabled", false);
+            if(comp){
+                $("#tipo_cuenta_MOD").attr("disabled", false);
+                $("#num_cuenta_MOD").attr("disabled", false);
+                $("#monto_inicial_MOD").attr("disabled", false);
+                $("#nombre_banco_MOD").attr("disabled", false);
 
-            $("#tipo_cuenta_MOD").val( comp.cuenta_tipo );
-            $("#num_cuenta_MOD").val( comp.cuenta_numero );
-            $("#monto_inicial_MOD").val( comp.cuenta_montoinicial );
-            $("#nombre_banco_MOD").val( comp.banco_id );
-            $("#dato").val( comp.id );
+                $("#tipo_cuenta_MOD").val( comp.cuenta_tipo );
+                $("#num_cuenta_MOD").val( comp.cuenta_numero );
+                $("#monto_inicial_MOD").val( comp.cuenta_montoinicial );
+                $("#nombre_banco_MOD").val( comp.banco_id );
+                $("#dato").val( comp.id );
+            }
 
         })
         .fail( function(){

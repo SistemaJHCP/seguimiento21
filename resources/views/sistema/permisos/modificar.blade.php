@@ -21,61 +21,66 @@
                     <label for="">Nombre del permiso</label>
                     <input type="text" name="nombrePermiso" id="nombrePermiso" placeholder="Ingrese el nombre del permiso a crear" value="{{ $permisos->nombre_permiso }}" class="form-control" maxlength="60" required>
 
-                    <br><input type="submit" value="Modificar permisos" class="btn btn-info"> <a href="{{ route('permisos.index') }}"><button type="button" class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a>
+                    <br><input type="submit" id="cargarPermisos" value="Modificar permisos" class="btn btn-info"> <a href="{{ route('permisos.index') }}"><button type="button" class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a>
                 </div>
             </div>
         </div>
 
         <div class="card card-info card-outline">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label>Maestro</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="maestro" id="maestro" autocomplete="off" {!! $permisos->maestro_btn == 1 ? ' checked' : "" !!}>
-                            <label class="custom-control-label" for="maestro" id="msjMaestro"></label>
-                        </div>
-                        <label>Control de obra</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="obra" id="obra" autocomplete="off" {!! $permisos->control_de_obras_btn == 1 ? ' checked' : "" !!}>
-                            <label class="custom-control-label" for="obra" id="msjObra"></label>
-                        </div>
-                        <label>Configuración</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="configuracion" id="configuracion" autocomplete="off" {!! $permisos->configuracion_btn == 1 ? ' checked' : "" !!}>
-                            <label class="custom-control-label" for="configuracion" id="msjConfiguracion"></label>
-                        </div>
-                      </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Maestro</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"  name="maestro" id="maestro" autocomplete="off" {!! $permisos->maestro_btn == 1 ? ' checked' : "" !!}>
+                        <label class="custom-control-label" for="maestro" id="msjMaestro"></label>
                     </div>
-                    <div class="col-md-4">
-                        <label>Requisición</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="requisicion" id="requisicion" autocomplete="off" {!! $permisos->requisicion == 1 ? ' checked' : "" !!}>
-                            <label class="custom-control-label" for="requisicion" id="msjRequisicion"></label>
-                        </div>
-                        <label>Solicitud</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="solicitud" id="solicitud" autocomplete="off" {!! $permisos->solicitud == 1 ? ' checked' : "" !!}>
-                            <label class="custom-control-label" for="solicitud" id="msjSolicitud"></label>
-                        </div>
+                    <label>Requisición</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"  name="requisicion" id="requisicion" autocomplete="off" {!! $permisos->requisicion == 1 ? ' checked' : "" !!}>
+                        <label class="custom-control-label" for="requisicion" id="msjRequisicion"></label>
                     </div>
-                    <div class="col-md-4">
-                        <label>Solicitud de pago</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="pago" id="pago" autocomplete="off" {!! $permisos->solicitud_pago == 1 ? ' checked' : "" !!}>
-                            <label class="custom-control-label" for="pago" id="msjPago"></label>
-                        </div>
-                        <label>Cuentas por pagar</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="cuentasx" id="cuentasx" autocomplete="off" {!! $permisos->cuentas_por_pagar_btn == 1 ? ' checked' : "" !!}>
-                            <label class="custom-control-label" for="cuentasx" id="mjsCuentasx"></label>
-                        </div>
+                    <label>Cuentas por pagar</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"  name="cuentasx" id="cuentasx" autocomplete="off" {!! $permisos->cuentas_por_pagar_btn == 1 ? ' checked' : "" !!}>
+                        <label class="custom-control-label" for="cuentasx" id="mjsCuentasx"></label>
                     </div>
                   </div>
-            </div>
-        </div>
+                </div>
+                <div class="col-md-4">
+                    <label>Bancos</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"  name="Bancos" id="Bancos" autocomplete="off" {!! $permisos->banco_btn == 1 ? ' checked' : "" !!}>
+                        <label class="custom-control-label" for="Bancos" id="msjBancos"></label>
+                    </div>
+                    <label>Solicitud</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"  name="solicitud" id="solicitud" autocomplete="off" {!! $permisos->solicitud == 1 ? ' checked' : "" !!}>
+                        <label class="custom-control-label" for="solicitud" id="msjSolicitud"></label>
+                    </div>
+                    <label>Configuración</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"  name="configuracion" id="configuracion" autocomplete="off" {!! $permisos->configuracion_btn == 1 ? ' checked' : "" !!}>
+                        <label class="custom-control-label" for="configuracion" id="msjConfiguracion"></label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label>Control de obra</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"  name="obra" id="obra" autocomplete="off" {!! $permisos->control_de_obras_btn == 1 ? ' checked' : "" !!}>
+                        <label class="custom-control-label" for="obra" id="msjObra"></label>
+                    </div>
 
+                    <label>Solicitud de pago</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"  name="pago" id="pago" autocomplete="off" {!! $permisos->solicitud_pago == 1 ? ' checked' : "" !!}>
+                        <label class="custom-control-label" for="pago" id="msjPago"></label>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
 
     </div>
     <div class="col-md-7">
@@ -424,11 +429,124 @@
                             </div>
                         </div>
                     </div> <!-- END -->
-
-
                 </div>
               </div>
             </div>
+
+            <div class="card" id="opcionesBancos"  style="{!! $permisos->banco_btn != 1 ? ' display:none' : "" !!}">
+                <div class="card-header bg-info" id="headingTwo">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Bancos
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                  <div class="card-body">
+                      <div class="row bg-info" style="padding: 3px;"><div>Cuentas JHCP</div></div><br>
+                      <div class="row">
+                          <div class="col-md-4">
+                              <label>Cuentas</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="CuentaEmp" id="CuentaEmp" autocomplete="off"  {!! $permisos->cuenta_emp == 1 ? ' checked' : "" !!}>
+                                  <label class="custom-control-label" for="CuentaEmp" id="msjCuentaEmp"></label>
+                              </div>
+                              <label>Crear cuentas</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="crearCuentaEmp" id="crearCuentaEmp" autocomplete="off"  {!! $permisos->crear_cuenta_emp == 1 ? ' checked' : "" !!}>
+                                  <label class="custom-control-label" for="crearCuentaEmp" id="msjcrearCuentaEmp"></label>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <label>Modificar cuentas</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="modCuentaEmp" id="modCuentaEmp" autocomplete="off"  {!! $permisos->modificar_cuenta_emp == 1 ? ' checked' : "" !!}>
+                                  <label class="custom-control-label" for="modCuentaEmp" id="msjmodCuentaEmp"></label>
+                              </div>
+                              <label>Ver botones</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="verCuentaEmp" id="verCuentaEmp" autocomplete="off"  {!! $permisos->ver_boton_cuenta_emp == 1 ? ' checked' : "" !!}>
+                                  <label class="custom-control-label" for="verCuentaEmp" id="msjverCuentaEmp"></label>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <label>Desactivar cuentas</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="desCuentaEmp" id="desCuentaEmp" autocomplete="off"  {!! $permisos->deshabilitar_cuenta_emp == 1 ? ' checked' : "" !!}>
+                                  <label class="custom-control-label" for="desCuentaEmp" id="msjdesCuentaEmp"></label>
+                              </div>
+                          </div>
+                      </div>
+                      <br>
+                      <div class="row bg-info" style="padding: 3px;"><div>Chequera</div></div><br>
+                      <div class="row">
+                          <div class="col-md-4">
+                              <label>Chequera</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="chequera" id="chequera" autocomplete="off" {!! $permisos->chequera_emp == 1 ? ' checked' : "" !!} >
+                                  <label class="custom-control-label" for="chequera" id="msjChequera"></label>
+                              </div>
+                              <label>Crear chequera</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="crearChequera" id="crearChequera" autocomplete="off" {!! $permisos->crear_Chequera_emp == 1 ? ' checked' : "" !!} >
+                                  <label class="custom-control-label" for="crearChequera" id="msjcrearChequera"></label>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <label>Modificar chequera</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="modChequera" id="modChequera" autocomplete="off" {!! $permisos->modificar_Chequera_emp == 1 ? ' checked' : "" !!} >
+                                  <label class="custom-control-label" for="modChequera" id="msjmodChequera"></label>
+                              </div>
+                              <label>Ver botones</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="verChequera" id="verChequera" autocomplete="off" {!! $permisos->ver_boton_Chequera_emp == 1 ? ' checked' : "" !!} >
+                                  <label class="custom-control-label" for="verChequera" id="msjverChequera"></label>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <label>Desactivar chequera</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="desChequera" id="desChequera" autocomplete="off"  {!! $permisos->deshabilitar_Chequera_emp == 1 ? ' checked' : "" !!}>
+                                  <label class="custom-control-label" for="desChequera" id="msjdesChequera"></label>
+                              </div>
+                          </div>
+                      </div>
+
+                      <br>
+                      <div class="row bg-info" style="padding: 3px;"><div>Cheque</div></div><br>
+                      <div class="row">
+                          <div class="col-md-4">
+                              <label>Cheque</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="Cheque" id="Cheque" autocomplete="off" {!! $permisos->cheque_emp == 1 ? ' checked' : "" !!}>
+                                  <label class="custom-control-label" for="Cheque" id="msjCheque"></label>
+                              </div>
+                              <label>Anular Cheque</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="anularCheque" id="anularCheque" autocomplete="off" {!! $permisos->deshabilitar_Cheque_emp == 1 ? ' checked' : "" !!}>
+                                  <label class="custom-control-label" for="anularCheque" id="msjanularCheque"></label>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <label>Ver botones</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input"  name="verCheque" id="verCheque" autocomplete="off" {!! $permisos->ver_boton_Cheque_emp == 1 ? ' checked' : "" !!}>
+                                  <label class="custom-control-label" for="verCheque" id="msjverCheque"></label>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                            <label>Crear Cheque</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="crearCheque" id="crearCheque" autocomplete="off" {!! $permisos->crear_Cheque_emp == 1 ? ' checked' : "" !!}>
+                                <label class="custom-control-label" for="crearCheque" id="msjcrearCheque"></label>
+                            </div>
+                          </div>
+                      </div> <!-- END -->
+                  </div>
+                </div>
+            </div>
+
             <div class="card" id="opcionesObras" style=" {!! $permisos->control_de_obras_btn!= 1 ? ' display:none' : "" !!}">
               <div class="card-header bg-info" id="controlObras">
                 <h2 class="mb-0">

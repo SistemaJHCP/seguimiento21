@@ -56,21 +56,6 @@ class ChequeraController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //Pendiente por crear permisos!!
-        // if( $permisoUsuario[0]->ban != 1 ){
-        //     return redirect()->route("home");
-        // }
-
-
-
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -110,45 +95,13 @@ class ChequeraController extends Controller
         $banco->chequera_estado = 1;
         //Guardamos la nueva chequera
         $resp = $banco->save();
+        //Retornamos la respuesta a la vista
         if ($resp) {
-
-            // for ($i=0; $i < $request->nroCheque ; $i++) {
-            //     //Creas una nueva instancia del cheque
-            //     $cheque = new Cheque();
-            //     //Agrego la cantidad de cheques solicitante
-            //     $cheque->cheque_codigo = $request->correlativo;
-            //     //Agrego un mensaje generico de los cheques sin asignar aun
-            //     $cheque->cheque_monto = "0.00";
-            //     $cheque->cheque_destinatario = "Sin asignar";
-            //     $cheque->cheque_fecha = "1900-01-01";
-            //     $cheque->cheque_estado = "1";
-            //     $cheque->chequera_id = $banco->id;
-            //     $cheque->save();
-
-            //     $request->correlativo++;
-
-            // }
-
-
-
             return redirect()->route('chequera.index', $request->dato)->with('resp', $resp);
         } else {
             return redirect()->route('chequera.index', $request->dato)->with('resp', false);
         }
 
-
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -261,7 +214,5 @@ class ChequeraController extends Controller
             ->rawColumns(['btn'])->toJson();
         // }
     }
-
-
 
 }

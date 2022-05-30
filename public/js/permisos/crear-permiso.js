@@ -18,8 +18,21 @@ $(document).ready(function(){
             limpiarMaestroPTC();
         }
 
+    });
+
+    $("#Bancos").click(function(){
+
+        $('#opcionesBancos').toggle(400);
+        if( $(this).is(':checked') == false ){
+            limpiarCuentaEmp();
+            limpiarChequera();
+            limpiarCheque();
+        }
+
 
     });
+
+
 
     $("#obra").click(function(){
         $('#opcionesObras').toggle(400);
@@ -85,6 +98,30 @@ $(document).ready(function(){
         $('#verCli').prop("checked", "");
         $('#desCli').prop("checked", "");
         $('#reacCli').prop("checked", "");
+    }
+
+    function limpiarCuentaEmp(){
+        $('#CuentaEmp').prop("checked", "");
+        $('#crearCuentaEmp').prop("checked", "");
+        $('#modCuentaEmp').prop("checked", "");
+        $('#verCuentaEmp').prop("checked", "");
+        $('#desCuentaEmp').prop("checked", "");
+    }
+
+    function limpiarChequera(){
+        $('#chequera').prop("checked", "");
+        $('#crearChequera').prop("checked", "");
+        $('#modChequera').prop("checked", "");
+        $('#verChequera').prop("checked", "");
+        $('#desChequera').prop("checked", "");
+    }
+
+        function limpiarCheque(){
+        $('#Cheque').prop("checked", "");
+        $('#crearCheque').prop("checked", "");
+        $('#modCheque').prop("checked", "");
+        $('#verCheque').prop("checked", "");
+        $('#anularCheque').prop("checked", "");
     }
 
     function limpiarMaestroMateriales(){
@@ -225,6 +262,13 @@ $(document).ready(function(){
         $('#desConfPermisos').prop("checked", "");
         $('#ReacConfPermisos').prop("checked", "");
     }
+
+    $("#cargarPermisos").click(function(){
+        $("form").on("submit", function () {
+            $("#cargarPermisos").attr("value", "Guardando, espere...");
+            $("#cargarPermisos").prop("disabled", true);
+        });
+    });
 
 });
 

@@ -527,7 +527,7 @@ class SolicitudController extends Controller
         ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
         ->where('solicitud.usuario_id', \Auth::user()->id) //habilita el solo mostrar informacion de quien crea la solicitud
         ->orderBy('id', 'DESC')
-        ->limit(5000)
+        ->limit(6000)
         ->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
@@ -1341,7 +1341,7 @@ class SolicitudController extends Controller
             ->where('solicitud.solicitud_aprobacion', $valor)
             ->where('solicitud.solicitud_estadopago', $estadoPago)
             ->orderBy('id', 'DESC')
-            ->limit(500)
+            ->limit(600)
             ->get();
         }
 

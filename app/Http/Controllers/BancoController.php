@@ -41,15 +41,6 @@ class BancoController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -89,16 +80,7 @@ class BancoController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -256,7 +238,7 @@ class BancoController extends Controller
         if( $permisoUsuario[0]->ban != 1 || $permisoUsuario[0]->crear_ban != 1 ){
             return redirect()->route('home');
         }
-
+        dd("Crear banco");
         //Instanciamos la clase para agregar los valores
         $banco = new Banco();
         // Agregamos los valores

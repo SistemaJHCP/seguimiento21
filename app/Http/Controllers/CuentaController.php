@@ -25,6 +25,7 @@ class CuentaController extends Controller
      */
     public function index()
     {
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -86,16 +87,6 @@ class CuentaController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -109,6 +100,7 @@ class CuentaController extends Controller
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
         if( $permisoUsuario[0]->cuenta_emp != 1 ||  $permisoUsuario[0]->modificar_cuenta_emp != 1 ){
+            dd("No cuenta con los permisos adecuados");
             return response()->json( false );
         }
         // Buscamos el valor a editar
@@ -130,6 +122,7 @@ class CuentaController extends Controller
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
         if( $permisoUsuario[0]->cuenta_emp != 1 ||  $permisoUsuario[0]->modificar_cuenta_emp != 1 ){
+            dd("No cuenta con los permisos adecuados");
             return response()->json( false );
         }
 
@@ -170,6 +163,7 @@ class CuentaController extends Controller
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
         if( $permisoUsuario[0]->cuenta_emp != 1 ||  $permisoUsuario[0]->deshabilitar_cuenta_emp != 1 ){
+            dd("No cuentan con los permisos");
             return response()->json( false );
         }
         //Buscamos la informacion asociada al ID
