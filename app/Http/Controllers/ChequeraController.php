@@ -27,14 +27,12 @@ class ChequeraController extends Controller
      */
     public function index($id)
     {
-
-
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
-        //Pendiente por crear permisos!!
-        // if( $permisoUsuario[0]->ban != 1 ){
-        //     return redirect()->route("home");
-        // }
+
+        if( $permisoUsuario[0]->chequera_emp != 1 ){
+            return redirect()->route("home");
+        }
         //se consulta los datos del banco seleccionado para mostrar en la vista
         $banco = Cuenta::select(
             'cuenta.id AS id',
@@ -65,10 +63,12 @@ class ChequeraController extends Controller
      */
     public function store(Request $request)
     {
-        //Pendiente por crear permisos!!
-        // if( $permisoUsuario[0]->ban != 1 ){
-        //     return redirect()->route("home");
-        // }
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->chequera_emp != 1 || $permisoUsuario[0]->crear_Chequera_emp ){
+            return redirect()->route("home");
+        }
 
         // Se crea el codigo, dependiendo de que exista o no uno previo, se crea el codigo
         $codigo = Chequera::select("chequera_codigo")->orderBy("id", "desc")->first();
@@ -112,10 +112,12 @@ class ChequeraController extends Controller
      */
     public function edit($id)
     {
-        //Pendiente por crear permisos!!
-        // if( $permisoUsuario[0]->ban != 1 ){
-        //     return redirect()->route("home");
-        // }
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->chequera_emp != 1 || $permisoUsuario[0]->modificar_Chequera_emp ){
+            return redirect()->route("home");
+        }
         // Consultamos los valores asociados a ese ID
         $chequera = Chequera::find( $id );
         // Retornamos todo lo traido por medio de json
@@ -131,10 +133,12 @@ class ChequeraController extends Controller
      */
     public function update(Request $request)
     {
-        //Pendiente por crear permisos!!
-        // if( $permisoUsuario[0]->ban != 1 ){
-        //     return redirect()->route("home");
-        // }
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->chequera_emp != 1 || $permisoUsuario[0]->modificar_Chequera_emp ){
+            return redirect()->route("home");
+        }
         // Se buscan los datos asociados al ID
         $chequera = Chequera::find( $request->id );
         // Sustituir los valores
@@ -162,9 +166,9 @@ class ChequeraController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        // if( $permisoUsuario[0]->solicitud != 1 ){
-        //     return redirect()->route("home");
-        // }
+        if( $permisoUsuario[0]->chequera_emp != 1 || $permisoUsuario[0]->deshabilitar_Chequera_emp ){
+            return redirect()->route("home");
+        }
         //Se busca la informacion que esta asociado al id
         $chequera = Chequera::find( $request->id );
         // Se cambia el estado a deshabilitado
@@ -181,12 +185,11 @@ class ChequeraController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        // if( $permisoUsuario[0]->solicitud != 1 ){
-        //     return redirect()->route("home");
-        // }
+        if( $permisoUsuario[0]->chequera_emp != 1 ){
+            return redirect()->route("home");
+        }
 
         //Realizamos la consulta a la base de datos
-
         $query = Chequera::select(
             'chequera.id',
             'chequera.chequera_codigo AS chequera_codigo',
@@ -201,18 +204,16 @@ class ChequeraController extends Controller
         ->orderBy('id', 'DESC')
         ->get();
 
-        // // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        // if ( $permisoUsuario[0]->solicitud == 1 && $permisoUsuario[0]->ver_botones_solicitud == 1) {
-        //     return datatables()->of($query)
-        //     ->addColumn('btn','sistema.solicitud.btnSolicitud')
-        //     ->addColumn('btn2','sistema.solicitud.aprobacion.btnAproRepro')
-        //     ->rawColumns(['btn','btn2'])->toJson();
-        // } else {
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->chequera_emp == 1 && $permisoUsuario[0]->ver_boton_Chequera_emp == 1) {
             return datatables()->of($query)
-            // ->addColumn('btn','sistema.btnNull')
             ->addColumn('btn','sistema.banco.chequera.btnChequera')
             ->rawColumns(['btn'])->toJson();
-        // }
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->rawColumns(['btn'])->toJson();
+        }
     }
 
 }

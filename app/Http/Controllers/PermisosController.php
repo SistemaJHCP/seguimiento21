@@ -82,6 +82,14 @@ class PermisosController extends Controller
         $permisos->desactivar_suministros =  $request->desSum == "on" ? 1 : 0;
         $permisos->reactivar_suministros =  $request->reacSum == "on" ? 1 : 0;
 
+        //Cargar bancos
+        $permisos->ban =  $request->cargarBancoEmp == "on" ? 1 : 0;
+        $permisos->crear_ban =  $request->crearBancoEmp == "on" ? 1 : 0;
+        $permisos->modificar_ban =  $request->modBancoEmp == "on" ? 1 : 0;
+        $permisos->ver_botones_ban =  $request->verBancoEmp == "on" ? 1 : 0;
+        $permisos->deshabilitar_ban =  $request->desBancoEmp == "on" ? 1 : 0;
+        $permisos->reactivar_ban = 0;
+
         //proveedores
         $permisos->proveedores =  $request->prov == "on" ? 1 : 0;
         $permisos->crear_proveedores =  $request->crearProv == "on" ? 1 : 0;
@@ -318,6 +326,7 @@ class PermisosController extends Controller
         //los botones para activar las funciones
         $permisos->nombre_permiso = $request->nombrePermiso;
         $permisos->maestro_btn =  $request->maestro == "on" ? 1 : 0;
+        $permisos->banco_btn =  $request->Bancos == "on" ? 1 : 0;
         $permisos->control_de_obras_btn =  $request->obra == "on" ? 1 : 0;
         $permisos->requisicion =  $request->requisicion == "on" ? 1 : 0;
         $permisos->solicitud = $request->solicitud == "on" ? 1 : 0;
@@ -332,6 +341,14 @@ class PermisosController extends Controller
         $permisos->ver_botones_suministros =  $request->verSum == "on" ? 1 : 0;
         $permisos->desactivar_suministros =  $request->desSum == "on" ? 1 : 0;
         $permisos->reactivar_suministros =  $request->reacSum == "on" ? 1 : 0;
+
+        //Cargar bancos
+        $permisos->ban =  $request->cargarBancoEmp == "on" ? 1 : 0;
+        $permisos->crear_ban =  $request->crearBancoEmp == "on" ? 1 : 0;
+        $permisos->modificar_ban =  $request->modBancoEmp == "on" ? 1 : 0;
+        $permisos->ver_botones_ban =  $request->verBancoEmp == "on" ? 1 : 0;
+        $permisos->deshabilitar_ban =  $request->desBancoEmp == "on" ? 1 : 0;
+        $permisos->reactivar_ban = 0;
 
         //proveedores
         $permisos->proveedores =  $request->prov == "on" ? 1 : 0;
@@ -521,12 +538,39 @@ class PermisosController extends Controller
      */
     public function deshabilitar(Request $request)
     {
-       dd("Estoy donde se debe en deshabilitar");
+        //Como siempre, se validan los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->permisos_btn != 1 || $permisoUsuario[0]->desactivar_permisos != 1){
+            return response()->json(false);
+        }
+        //Buscamos el permiso segun el id asignado
+        $permisos = Permiso::find( $request->id );
+        //cambio el estado del permiso a inactivo
+        $permisos->estado_permisos = 0;
+        //Guardamos el cambio en la base de datos
+        $resp = $permisos->save();
+        //Enviamos la respuesta via json
+        return response()->json( $resp );
+
     }
 
     public function habilitar(Request $request)
     {
-        dd("Estoy donde se debe en rehabilitar");
+        //Como siempre, se validan los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if( $permisoUsuario[0]->permisos_btn != 1 || $permisoUsuario[0]->reactivar_permisos != 1 ){
+            return response()->json(false);
+        }
+        //Buscamos el permiso segun el id asignado
+        $permisos = Permiso::find( $request->id );
+        //cambio el estado del permiso a activo
+        $permisos->estado_permisos = 1;
+        //Guardamos el cambio en la base de datos
+        $resp = $permisos->save();
+        //Enviamos la respuesta via json
+        return response()->json( $resp );
     }
 
 

@@ -29,10 +29,10 @@ class ChequeController extends Controller
     {
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
-        //Pendiente por crear permisos!!
-        // if( $permisoUsuario[0]->ban != 1 ){
-        //     return redirect()->route("home");
-        // }
+
+        if( $permisoUsuario[0]->cheque_emp != 1 ){
+            return redirect()->route("home");
+        }
         //Consultamos los datos de la chequera
         $chequera = Chequera::select(
             'chequera.id AS id',
@@ -84,10 +84,10 @@ class ChequeController extends Controller
     {
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
-        //Pendiente por crear permisos!!
-        // if( $permisoUsuario[0]->ban != 1 ){
-        //     return redirect()->route("home");
-        // }
+
+        if( $permisoUsuario[0]->cheque_emp != 1 || $permisoUsuario[0]->crear_Cheque_emp != 1 ){
+            return redirect()->route("home");
+        }
         //Instanciamos la clase a ingresar los valores
         $cheque = new Cheque();
         //Agregamos la informacion captturada en la vista
@@ -120,11 +120,11 @@ class ChequeController extends Controller
     public function destroy(Request $request)
     {
         //Validamos los permisos
-        // $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        // if( $permisoUsuario[0]->solicitud != 1 ){
-        //     return redirect()->route("home");
-        // }
+        if( $permisoUsuario[0]->cheque_emp != 1 || $permisoUsuario[0]->deshabilitar_Cheque_emp != 1 ){
+            return redirect()->route("home");
+        }
 
         //Se busca el cheque asociado al id
         $cheque = Cheque::find( $request->id );
@@ -142,13 +142,12 @@ class ChequeController extends Controller
 
     public function jq_lista($id)
     {
-
         //Validamos los permisos
-        // $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        // if( $permisoUsuario[0]->solicitud != 1 ){
-        //     return redirect()->route("home");
-        // }
+        if( $permisoUsuario[0]->cheque_emp != 1 ){
+            return redirect()->route("home");
+        }
 
         //Realizamos la consulta a la base de datos
 
@@ -165,19 +164,18 @@ class ChequeController extends Controller
         ->where('cheque.chequera_id', $id)
         ->get();
 
-        // // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
-        // if ( $permisoUsuario[0]->solicitud == 1 && $permisoUsuario[0]->ver_botones_solicitud == 1) {
-        //     return datatables()->of($query)
-        //     ->addColumn('btn','sistema.solicitud.btnSolicitud')
-        //     ->addColumn('btn2','sistema.solicitud.aprobacion.btnAproRepro')
-        //     ->rawColumns(['btn','btn2'])->toJson();
-        // } else {
+        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+        if ( $permisoUsuario[0]->cheque_emp == 1 && $permisoUsuario[0]->ver_boton_Cheque_emp == 1 ) {
             return datatables()->of($query)
-            // ->addColumn('btn','sistema.btnNull')
             ->addColumn('btn','sistema.banco.cheques.btnCheque')
             ->addColumn('btn2','sistema.banco.cheques.btnEstado')
+            ->rawColumns(['btn','btn2'])->toJson();
+        } else {
+            return datatables()->of($query)
+            ->addColumn('btn','sistema.btnNull')
+            ->addColumn('btn2','sistema.banco.cheques.btnEstado')
             ->rawColumns(['btn', 'btn2'])->toJson();
-        // }
+        }
 
     }
 

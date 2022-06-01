@@ -19,7 +19,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="">Nombre del permiso</label>
-                    <input type="text" name="nombrePermiso" id="nombrePermiso" placeholder="Ingrese el nombre del permiso a crear" class="form-control" maxlength="60" required>
+                    <input type="text" name="nombrePermiso" id="nombrePermiso" placeholder="Ingrese el nombre del permiso a crear" class="form-control" maxlength="60" required autocomplete="off">
 
                     <br><input type="submit" id="cargarPermisos" value="Crear permisos" class="btn btn-info"> <a href="{{ route('permisos.index') }}"><button type="button" class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a>
                 </div>
@@ -30,23 +30,23 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                      <div class="form-group">
-                        <label>Maestro</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="maestro" id="maestro" autocomplete="off">
-                            <label class="custom-control-label" for="maestro" id="msjMaestro"></label>
+                        <div class="form-group">
+                            <label>Maestro</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="maestro" id="maestro" autocomplete="off">
+                                <label class="custom-control-label" for="maestro" id="msjMaestro"></label>
+                            </div>
+                            <label>Requisición</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="requisicion" id="requisicion" autocomplete="off">
+                                <label class="custom-control-label" for="requisicion" id="msjRequisicion"></label>
+                            </div>
+                            <label>Cuentas por pagar</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="cuentasx" id="cuentasx" autocomplete="off">
+                                <label class="custom-control-label" for="cuentasx" id="mjsCuentasx"></label>
+                            </div>
                         </div>
-                        <label>Requisición</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="requisicion" id="requisicion" autocomplete="off">
-                            <label class="custom-control-label" for="requisicion" id="msjRequisicion"></label>
-                        </div>
-                        <label>Cuentas por pagar</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input"  name="cuentasx" id="cuentasx" autocomplete="off">
-                            <label class="custom-control-label" for="cuentasx" id="mjsCuentasx"></label>
-                        </div>
-                      </div>
                     </div>
                     <div class="col-md-4">
                         <label>Bancos</label>
@@ -559,6 +559,42 @@
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                   <div class="card-body">
+
+                    <div class="row bg-info" style="padding: 3px;"><div>Cargar bancos</div></div><br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Cargar bancos</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="cargarBancoEmp" id="cargarBancoEmp" autocomplete="off">
+                                <label class="custom-control-label" for="cargarBancoEmp" id="msjcargarBancoEmp"></label>
+                            </div>
+                            <label>Crear bancos empresa</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="crearBancoEmp" id="crearBancoEmp" autocomplete="off">
+                                <label class="custom-control-label" for="crearBancoEmp" id="msjcrearBancoEmp"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Modif. bancos empresa</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="modBancoEmp" id="modBancoEmp" autocomplete="off">
+                                <label class="custom-control-label" for="modBancoEmp" id="msjmodBancoEmp"></label>
+                            </div>
+                            <label>Ver bancos empresa</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="verBancoEmp" id="verBancoEmp" autocomplete="off">
+                                <label class="custom-control-label" for="verBancoEmp" id="msjverBancoEmp"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Desactivar bancos empresa</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="desBancoEmp" id="desBancoEmp" autocomplete="off">
+                                <label class="custom-control-label" for="desBancoEmp" id="msjdesBancoEmp"></label>
+                            </div>
+                        </div>
+                    </div><br>
+
                       <div class="row bg-info" style="padding: 3px;"><div>Cuentas JHCP</div></div><br>
                       <div class="row">
                           <div class="col-md-4">

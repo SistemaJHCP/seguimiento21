@@ -119,7 +119,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Bancos</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
             <?php
-                if ($permisoUsuario->ban  == 1){
+                if ($permisoUsuario->ban == 1){
             ?>
                 <li><a href="{{ route('banco.index') }}" class="dropdown-item">Cargar bancos</a></li>
             <?php

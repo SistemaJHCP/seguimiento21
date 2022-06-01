@@ -104,12 +104,12 @@
             <div class="card" id="opcionesMaestro" style="{!! $permisos->maestro_btn != 1 ? ' display:none' : "" !!}">
               <div class="card-header bg-info" id="headingTwo">
                 <h2 class="mb-0">
-                  <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  <button class="btn btn-link btn-block text-left collapsed" style="color:white;" type="button" data-toggle="collapse" data-target="#bancosOpciones" aria-expanded="false" aria-controls="bancosOpciones">
                     Maestro
                   </button>
                 </h2>
               </div>
-              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div id="bancosOpciones" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
                     <div class="row bg-info" style="padding: 3px;"><div>Suministro</div></div><br>
                     <div class="row">
@@ -443,7 +443,43 @@
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                   <div class="card-body">
-                      <div class="row bg-info" style="padding: 3px;"><div>Cuentas JHCP</div></div><br>
+
+                    <div class="row bg-info" style="padding: 3px;"><div>Cargar bancos</div></div><br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Cargar bancos</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="cargarBancoEmp" id="cargarBancoEmp" autocomplete="off" {!! $permisos->ban == 1 ? ' checked' : "" !!}>
+                                <label class="custom-control-label" for="cargarBancoEmp" id="msjcargarBancoEmp"></label>
+                            </div>
+                            <label>Crear bancos empresa</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="crearBancoEmp" id="crearBancoEmp" autocomplete="off" {!! $permisos->crear_ban == 1 ? ' checked' : "" !!}>
+                                <label class="custom-control-label" for="crearBancoEmp" id="msjcrearBancoEmp"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Modif. bancos empresa</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="modBancoEmp" id="modBancoEmp" autocomplete="off" {!! $permisos->modificar_ban == 1 ? ' checked' : "" !!}>
+                                <label class="custom-control-label" for="modBancoEmp" id="msjmodBancoEmp"></label>
+                            </div>
+                            <label>Ver bancos empresa</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="verBancoEmp" id="verBancoEmp" autocomplete="off" {!! $permisos->ver_botones_ban == 1 ? ' checked' : "" !!}>
+                                <label class="custom-control-label" for="verBancoEmp" id="msjverBancoEmp"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Desactivar bancos empresa</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="desBancoEmp" id="desBancoEmp" autocomplete="off" {!! $permisos->deshabilitar_ban == 1 ? ' checked' : "" !!}>
+                                <label class="custom-control-label" for="desBancoEmp" id="msjdesBancoEmp"></label>
+                            </div>
+                        </div>
+                    </div><br>
+
+                    <div class="row bg-info" style="padding: 3px;"><div>Cuentas JHCP</div></div><br>
                       <div class="row">
                           <div class="col-md-4">
                               <label>Cuentas</label>
