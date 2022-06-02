@@ -139,6 +139,18 @@ class ChequeController extends Controller
         return response()->json( $resp );
     }
 
+    public function buscarCheque_solicitud(Request $request)
+    {
+        //consultamos los
+        $cheque = Cheque::select('id', 'cheque_codigo', 'cheque_destinatario', 'cheque_monto')
+        ->where( 'chequera_id', $request->id )
+        ->whereNotIn( 'cheque_monto', ['0.00'] )
+        ->where( 'cheque_estado', 1 )
+        ->orderBy( 'id', 'DESC' )
+        ->get();
+
+        return response()->json( $cheque );
+    }
 
     public function jq_lista($id)
     {

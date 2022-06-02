@@ -209,6 +209,8 @@ Route::middleware('auth')->prefix('solicitud/cuentas')->group(function () {
     Route::get("consultar/76yuijshy787sysj{id}iusy8s9uygshji7s",[App\Http\Controllers\SolicitudController::class, 'showCuenta'])->name('cuentas.consultar');
     Route::post("guardar-cuenta",[App\Http\Controllers\SolicitudController::class, 'createCuenta'])->name('cuentas.crear');
     Route::post("anular-cuenta",[App\Http\Controllers\SolicitudController::class, 'anularCuenta'])->name('cuentas.anularCuenta');
+    Route::post("busqueda-chequera/65rdt78u9i0dibhdgyt65rdd",[App\Http\Controllers\ChequeraController::class, 'buscarChequera_Solicitud']);
+    Route::post("busqueda-cheque/98u7ytfghuiijuyftrserdtyyuy7tt",[App\Http\Controllers\ChequeController::class, 'buscarCheque_solicitud']);
 });
 
 Route::middleware('auth')->prefix('conciliacion')->group(function () {

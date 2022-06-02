@@ -1495,7 +1495,13 @@ class SolicitudController extends Controller
         }
         //Si existe un costo ejecuta enviando el calculo
 
-        $cuentaJHCP = Cuenta::select()->get();
+        $cuentaJHCP = Cuenta::select(
+            'cuenta.id AS id',
+            'cuenta.cuenta_numero AS cuenta_numero',
+            'banco.banco_nombre AS banco_nombre'
+            )
+            ->leftJoin('banco', 'banco.id', '=', 'cuenta.banco_id')
+            ->get();
 
         $cuenta = Cuenta::select(
             'cuenta.cuenta_tipo AS cuenta_tipo',
@@ -1535,7 +1541,7 @@ class SolicitudController extends Controller
                 ]
             );
 
-        } else { //Su no envia todo el costo en null
+        } else { //Si no envia todo el costo en null
 
             return view('sistema.solicitud.cuentas.consultar')->with(
                 [
@@ -1564,7 +1570,7 @@ class SolicitudController extends Controller
         if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->aproRepro_compra_cuentas_x_pagar != 1 ){
             return redirect()->route("home");
         }
-
+        dd( $request->all() );
         //Instanciamos la clase de Pago
         $pago = new Pago();
         //Agregamos los valores en los campos instanciados

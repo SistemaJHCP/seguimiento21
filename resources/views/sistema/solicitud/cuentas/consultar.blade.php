@@ -217,18 +217,28 @@
                                                     <option value="Efectivo">Efectivo</option>
                                                 </select>
                                                 <label>Cuentas de JHCP</label>
-                                                <select name="cuentaJHCP" id="cuentaJHCP" class="form-control" disabled>
+                                                <select name="cuentaJHCP" id="cuentaJHCP" class="form-control opcionCuenta" disabled>
                                                     <option value="">Seleccione...</option>
                                                     @foreach ($cuentaJHCP as $cu)
-                                                    <option value="{{$cu->id }}">{{$cu->cuenta_numero }}</option>
+                                                    <option value="{{$cu->id }}">{{$cu->cuenta_numero }} - {{$cu->banco_nombre}}</option>
                                                     @endforeach
                                                 </select>
-                                                <label>Comprobante</label>
-                                                <input type="text" name="comprobante" id="comprobante" class="form-control" autocomplete="off" maxlength="20" placeholder="Agregue el numero de referencia.">
-                                                <label>Cheque</label>
-                                                <select name="cheque" id="cheque" class="form-control" disabled>
-                                                    <option value="">Seleccione...</option>
-                                                </select>
+                                                <div id="ocultarTransferencia" style="display:none;">
+                                                    <label>Comprobante</label>
+                                                    <input type="text" name="comprobante" id="comprobante" class="form-control" autocomplete="off" maxlength="20" placeholder="Agregue el numero de referencia.">
+                                                </div>
+
+                                                <div id="ocultarCheque" style="display:none;">
+                                                    <label>Chequera</label>
+                                                    <select name="chequera" id="chequera" class="form-control" disabled>
+                                                        <option value="">Seleccione...</option>
+                                                    </select>
+                                                    <label>Cheque</label>
+                                                    <select name="cheque" id="cheque" class="form-control" disabled>
+                                                        <option value="">Seleccione...</option>
+                                                    </select>
+                                                </div>
+
                                                 <label>Comentarios</label>
                                                 <textarea name="comentario" id="comentario" maxlength="240" placeholder="Agregue un comentario" class="form-control"></textarea>
                                             </div>

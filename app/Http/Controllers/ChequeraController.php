@@ -180,6 +180,23 @@ class ChequeraController extends Controller
 
     }
 
+    public function buscarChequera_Solicitud(Request $request)
+    {
+        //Consultamos en la base de datos los datos de la chequera que esten asociados al ID
+        $chequera = Chequera::select( 'id', 'chequera_codigo', 'chequera_correlativo' )
+        ->where( 'cuenta_id', $request->id )
+        ->where( 'chequera_estado', 1 )
+        ->orderBy( 'id', 'DESC' )
+        ->get();
+        //Retornamos la consulta a la vista usando json
+        return response()->json( $chequera );
+    
+    }
+
+
+
+
+
     public function jq_lista($id)
     {
         //Validamos los permisos
@@ -215,5 +232,9 @@ class ChequeraController extends Controller
             ->rawColumns(['btn'])->toJson();
         }
     }
+
+
+
+
 
 }
