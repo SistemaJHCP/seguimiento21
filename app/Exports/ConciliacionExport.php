@@ -136,6 +136,7 @@ class ConciliacionExport implements  FromView, WithTitle
                     "pago.pago_monto AS pago_monto",
                     "pago.pago_descripcion AS pago_descripcion",
                     "cuenta.cuenta_tipo AS cuenta_tipo",
+                    "cheque.cheque_codigo AS cheque_codigo",
                     "banco.banco_nombre AS banco_nombre"
                     )
                     ->leftJoin('solicitud_detalle', 'solicitud_detalle.solicitud_id', '=', 'solicitud.id')
@@ -149,6 +150,7 @@ class ConciliacionExport implements  FromView, WithTitle
                     ->leftJoin('users', 'users.id', '=', 'solicitud.usuario_id')
                     ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
                     ->leftJoin('cuenta', 'cuenta.id', '=', 'pago.cuenta_id')
+                    ->leftJoin('cheque', 'cheque.id', '=', 'pago.cheque_id')
                     ->leftJoin('banco', 'banco.id', '=', 'cuenta.banco_id')
                     ->whereBetween('solicitud.solicitud_fecha', [$fechaInicial , $fechaFinal])
                     // ->whereIn('solicitud.solicitud_aprobacion', ['Aprobada'])

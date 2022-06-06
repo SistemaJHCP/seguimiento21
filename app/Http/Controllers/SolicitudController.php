@@ -13,7 +13,7 @@ use App\Models\Material;
 use App\Models\Servicio;
 use App\Models\Nomina;
 use App\Models\Viatico;
-// use App\Models\Banco;
+use App\Models\Cheque;
 use App\Models\Pago;
 use App\Models\Banco_proveedor;
 use App\Models\Solicitud_detalle;
@@ -1135,7 +1135,7 @@ class SolicitudController extends Controller
                 $num[] = $costo[$i]->sd_preciounitario * $costo[$i]->sd_cantidad;
             }
             //Si num existe (para nomina no deberia de existir)
-            // dd(  );
+
             if($num){
                 //Suma los montos dentro de un array
                 $total = array_sum($num);
@@ -1262,7 +1262,6 @@ class SolicitudController extends Controller
 
         if($id == 1){
 
-
             $query = DB::select('select
             `solicitud`.`id` as `id`,
             `solicitud`.`solicitud_numerocontrol` as `solicitud_numerocontrol`,
@@ -1273,11 +1272,13 @@ class SolicitudController extends Controller
             `obra`.`obra_nombre` as `obra_nombre`,
             `solicitud`.`solicitud_motivo` as `solicitud_motivo`,
             `solicitud`.`solicitud_aprobacion` as `solicitud_aprobacion`,
-            `users`.`user_name` as `nombre`
+            `users`.`user_name` as `nombre`,
+            `proveedor`.`proveedor_nombre` as `proveedor_nombre`
 
             from `solicitud`
             left join `users` on `users`.`id` = `solicitud`.`usuario_id`
             left join `obra` on `obra`.`id` = `solicitud`.`obra_id`
+            left join `proveedor` on `proveedor`.`id` = `solicitud`.`proveedor_id`
             order by `id` desc');
 
             // //Realizamos la consulta a la base de datos
@@ -1334,10 +1335,12 @@ class SolicitudController extends Controller
                 'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
                 'solicitud.solicitud_estadopago AS pago',
                 'users.user_name AS nombre',
-                'obra.obra_nombre AS obra_nombre'
+                'obra.obra_nombre AS obra_nombre',
+                'proveedor.proveedor_nombre as proveedor_nombre'
             )
             ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
             ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+            ->leftJoin('proveedor','proveedor.id', '=', 'solicitud.proveedor_id')
             ->where('solicitud.solicitud_aprobacion', $valor)
             ->where('solicitud.solicitud_estadopago', $estadoPago)
             ->orderBy('id', 'DESC')
@@ -1570,7 +1573,7 @@ class SolicitudController extends Controller
         if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->aproRepro_compra_cuentas_x_pagar != 1 ){
             return redirect()->route("home");
         }
-        dd( $request->all() );
+
         //Instanciamos la clase de Pago
         $pago = new Pago();
         //Agregamos los valores en los campos instanciados
@@ -1582,7 +1585,11 @@ class SolicitudController extends Controller
         $pago->orden_compra_id = null;
         $pago->solicitud_id = $request->dato;
         $pago->cuenta_id = $request->cuentaJHCP;
-        $pago->cheque_id = null;
+        if($request->forma_pago == "Cheque"){
+            $pago->cheque_id = $request->cheque;
+        }else{
+            $pago->cheque_id = null;
+        }
         //Guardamos esta informacion en la BD
         $resp1 = $pago->save();
         //Si se guarda, realiza la modificacion de "No pagado" a "Pagado"
@@ -1593,6 +1600,14 @@ class SolicitudController extends Controller
             $solicitud->solicitud_estadopago = 0;
             //Guardamos este cambio
             $resp = $solicitud->save();
+
+            if ( $request->forma_pago == "Cheque" ) {
+                //Buscamos el cheque asociado al id
+                $estadoCheque = Cheque::find( $request->cheque );
+                //Cambiamos el esta do a pagado
+                $estadoCheque->cheque_estado = 2;
+                $estadoCheque->save();
+            }
 
             //Retornamos a la vista principal
             return redirect()->route('cuentas.index')->with('respPago', $resp);

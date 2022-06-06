@@ -17,6 +17,7 @@ $(document).ready(function(){
                 {data: 'fecha'},
                 {data: 'obra_nombre'},
                 {data: 'solicitud_motivo'},
+                {data: 'proveedor_nombre', 'visible': false},
                 {data: 'apro'},
                 {data: 'pago'},
                 {data: 'suma',render: $.fn.dataTable.render.number( ',', '.', 2)},
@@ -53,6 +54,7 @@ $(document).ready(function(){
                 { "width": "8%", "targets": 5 }
               ],
         });
+
 
     }
 

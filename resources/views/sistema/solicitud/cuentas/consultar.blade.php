@@ -73,7 +73,7 @@
                                         @elseif($solicitud->solicitud_formapago == 2)
                                             <dd>Cheque</dd>
                                         @elseif($solicitud->solicitud_formapago == 3)
-                                            <dd>Viáticos</dd>
+                                            <dd>Depósito</dd>
                                         @elseif($solicitud->solicitud_formapago == 4)
                                             <dd>Efectivo</dd>
                                         @endif

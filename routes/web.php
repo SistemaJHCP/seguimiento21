@@ -188,7 +188,6 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::post("solicitud-de-pago/respuesta1",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoRespuestaAprobada'])->name('sPagoIndex.respuesta1');
     Route::post("solicitud-de-pago/respuesta2",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoRespuestaNegada'])->name('sPagoIndex.respuesta2');
 });
-
 Route::middleware('auth')->prefix('servicio')->group(function () {
     Route::get("/",[App\Http\Controllers\ServicioController::class, 'index'])->name('servicio.index');
     Route::get("lista-servicios",[App\Http\Controllers\ServicioController::class, 'jq_lista']);

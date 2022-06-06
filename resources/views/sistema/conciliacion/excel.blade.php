@@ -1,4 +1,13 @@
 <table>
+    {{-- <tr>
+        <td><b>Empresa: &nbsp;</b> JHCP Panamá, S.A.</td>
+    </tr>
+    <tr>
+        <td><b>Ruc:&nbsp; </b>155651502-2-2017 DV 2</td>
+    </tr>
+    <tr>
+        <td><b>Impreso por:&nbsp; </b>{{ \Auth::user()->user_name }}</td>
+    </tr>
     <tr>
         <td><b>Empresa: &nbsp;</b> JHCP Panamá, S.A.</td>
     </tr>
@@ -11,7 +20,23 @@
 </table>
 <div><b>Empresa: </b>JHCP Panamá, S.A.</div>
 <div><b>Ruc: </b>155651502-2-2017 DV 2</div>
+<div><b>Impreso por: </b>{{ \Auth::user()->user_name }}</div> --}}
+
+
+    <tr>
+        <td><b>Empresa: &nbsp;</b> JHCP Construcción, C.A.</td>
+    </tr>
+    <tr>
+        <td><b>Rif:&nbsp; </b>J-315999595</td>
+    </tr>
+    <tr>
+        <td><b>Impreso por:&nbsp; </b>{{ \Auth::user()->user_name }}</td>
+    </tr>
+</table>
+<div><b>Empresa: </b>JHCP Construcción, C.A.</div>
+<div><b>Rif: </b>J-315999595</div>
 <div><b>Impreso por: </b>{{ \Auth::user()->user_name }}</div>
+
 
 <table>
     <thead>
@@ -33,6 +58,7 @@
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Estado</th>
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Fecha de pago</th>
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Tipo de transacción</th>
+            <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Código de cheque</th><!-- rosman -->
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Nro de comprobante</th>
             <th style="background: #0a6574; color:white;text-align:center;width:20px;border: 1px solid white">Banco</th>
             <th style="background: #0a6574; color:white;text-align:center;width:40px;border: 1px solid white">Descripción</th>
@@ -88,7 +114,12 @@
                 <td>No pagado</td> {{-- Estado --}}
             @endif
                 <td>{{ $con->pago_fecha }}</td> {{-- fecha de pago --}}
-                <td>{{ $con->pago_formapago }}</td> {{-- forma de pago --}}
+                <td>{{ $con->pago_formapago }}</td> {{-- Tipo de transaccion --}}
+            @if ($con->cheque_codigo != null)
+                <td>{{ $con->cheque_codigo }}</td> {{-- Nro de comprobante --}}
+            @else
+                <td>No aplica</td> {{-- Nro de comprobante --}}
+            @endif
             @if ($con->pago_numerocomprobante != null)
                 <td>{{ $con->pago_numerocomprobante }}</td> {{-- Nro de comprobante --}}
             @else
