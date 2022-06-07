@@ -187,6 +187,8 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::get("solicitud-de-pago/consultar/validar/87tyuhhgvxugfsft6787t6s6t7y8u9sxihugyxsf7t{id}8yxst7s",[App\Http\Controllers\SolicitudController::class, 'consultarAprobacion'])->name('sPagoIndex.consultarAprobacion');
     Route::post("solicitud-de-pago/respuesta1",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoRespuestaAprobada'])->name('sPagoIndex.respuesta1');
     Route::post("solicitud-de-pago/respuesta2",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoRespuestaNegada'])->name('sPagoIndex.respuesta2');
+
+    Route::get("solicitud-de-pago/costos-de-obra",[App\Http\Controllers\SolicitudController::class, 'costoObraIndex'])->name('costosObra.index');
 });
 Route::middleware('auth')->prefix('servicio')->group(function () {
     Route::get("/",[App\Http\Controllers\ServicioController::class, 'index'])->name('servicio.index');
@@ -272,6 +274,9 @@ Route::middleware('auth')->prefix('bancos/cuentas/chequeras/cheque')->group(func
     Route::post("crear-un-cheque",[App\Http\Controllers\ChequeController::class, 'store'])->name('cheque.crear');
     Route::post("anular-cheque",[App\Http\Controllers\ChequeController::class, 'destroy']);
 });
+
+
+
 
 Auth::routes();
 

@@ -1638,8 +1638,25 @@ class SolicitudController extends Controller
     }
 
 
+ //--------------- Costos de obra ---------------------------
 
+    public function costoObraIndex()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        // if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->aproRepro_compra_cuentas_x_pagar != 1 ){
+        //     return redirect()->route("home");
+        // }
 
+        //Seleccione las obras por su nombre y su codigo
+        $obra = Obra::select('id','obra_codigo', 'obra_nombre')->orderBy('id', 'DESC')->get();
+
+        return view('sistema.costo.index')->with([
+            'permisoUsuario' => $permisoUsuario[0],
+            'obra' => $obra
+        ]);
+
+    }
 
 }

@@ -66,7 +66,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">Total planificado</label>
-                                    <input type="text" name="total" id="total" autocomplete="off" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Gasto planificado de la obra" maxlength="17">
+                                    <input type="text" name="total" id="total" autocomplete="off" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Gasto planificado de la obra" maxlength="17" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -80,7 +80,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Fecha de inicio</label>
-                                    <input type="text" name="fechaInicio" autocomplete="off" id="datepicker" class="form-control" placeholder="dd-mm-yyyy">
+                                    <input type="text" name="fechaInicio" autocomplete="off" id="datepicker" class="form-control" placeholder="dd-mm-yyyy" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
