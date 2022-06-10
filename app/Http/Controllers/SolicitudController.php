@@ -527,7 +527,7 @@ class SolicitudController extends Controller
         ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
         ->where('solicitud.usuario_id', \Auth::user()->id) //habilita el solo mostrar informacion de quien crea la solicitud
         ->orderBy('id', 'DESC')
-        ->limit(6000)
+        ->limit(500)
         ->get();
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
@@ -1281,24 +1281,6 @@ class SolicitudController extends Controller
             left join `proveedor` on `proveedor`.`id` = `solicitud`.`proveedor_id`
             order by `id` desc');
 
-            // //Realizamos la consulta a la base de datos
-            // $query = Solicitud::select(
-            //     'solicitud.id AS id',
-            //     'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
-            //     'solicitud.solicitud_fecha AS fecha',
-            //     'obra.obra_nombre AS obra_nombre',
-            //     'solicitud.solicitud_motivo AS solicitud_motivo',
-            //     'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
-            //     'solicitud.solicitud_estadopago AS pago',
-            //     'users.user_name AS nombre'
-
-            // )
-            // ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
-            // ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
-            // // ->where('solicitud.solicitud_tipo', $id)
-            // ->orderBy('id', 'DESC')
-            // // ->limit(5000) //Sin limites, es decir, podra ver absolutamente todas las solicitudes
-            // ->get();
 
         } else {
 
@@ -1638,7 +1620,7 @@ class SolicitudController extends Controller
     }
 
 
- //--------------- Costos de obra ---------------------------
+ //--------------- Egresos ---------------------------
 
     public function costoObraIndex()
     {
@@ -1657,6 +1639,47 @@ class SolicitudController extends Controller
             'obra' => $obra
         ]);
 
+    }
+
+//----------------- control de gastos -----------------------------------
+
+    public function totalizacion()
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        // if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->aproRepro_compra_cuentas_x_pagar != 1 ){
+        //     return redirect()->route("home");
+        // }
+
+
+    }
+
+    public function calcularSolicitud(Request $request)
+    {
+
+        // $porcentaje = Solicitud::select(
+
+        // )->get();
+
+
+        DB::raw(
+            "SELECT
+            SUM(pago.pago_monto) AS monto_gasto,
+            obra.obra_monto AS obra_monto,
+            (obra.obra_monto - SUM(pago.pago_monto)) AS resta,
+            ((SUM(pago.pago_monto) * 100 / obra.obra_monto) - 100) AS por_ganancia,
+            ((SUM(pago.pago_monto) * 100 / obra.obra_monto)) AS por_inversion
+            FROM `solicitud`
+            LEFT JOIN pago ON pago.solicitud_id = solicitud.id
+            LEFT JOIN obra ON obra.id = solicitud.obra_id
+            LEFT JOIN users ON users.id = solicitud.usuario_id
+            WHERE obra.id = 312 AND
+            solicitud.solicitud_aprobacion = 'Aprobada' AND
+            pago.pago_estado = 1
+            LIMIT 1"
+        );
+        dd($porcentaje);
     }
 
 }

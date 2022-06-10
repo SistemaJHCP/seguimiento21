@@ -220,7 +220,6 @@ class ObraController extends Controller
         //Solicito todo el listado de la tabla Personal
         $per = Personal::select("id", "personal_nombre")->where("personal_estado", 1)->orderBy("personal_nombre", "ASC")->get();
 
-
         return view("sistema.obra.modificar")->with('obra', $obra)->with('permisoUsuario', $permisoUsuario[0])->with("tipo", $tipo)->with("cli", $cli)->with("cod", $cod)->with("per", $per);
 
     }
@@ -465,5 +464,33 @@ class ObraController extends Controller
         return response()->json($resultado);
 
     }
+
+    //--------------------- Control de gastos ------------------------
+
+    public function consultarObra(Request $request)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+        // if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->desactivar_obra != 1){
+        //     return redirect()->route("home");
+        // }
+
+        //Buscamos los datos de la obra asociada al ID a buscar
+        $obra = Obra::select(
+            'obra.id AS id',
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_monto AS obra_monto',
+            'obra.obra_fechainicio AS obra_fechainicio',
+            'cliente.cliente_nombre AS cliente_nombre'
+            )
+        ->leftJoin('cliente', 'cliente.id', '=', 'obra.cliente_id')
+        ->where('obra.id', $request->id)
+        ->first();
+        //Retornamos la respuesta via json
+        return response()->json( $obra );
+
+    }
+
 
 }

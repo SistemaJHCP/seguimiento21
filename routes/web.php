@@ -100,6 +100,8 @@ Route::middleware('auth')->prefix('control-de-obras')->group(function () {
     Route::post("reactivar/39u4radea9ih", [App\Http\Controllers\ObraController::class, 'jq_reactivarObra']);
     Route::get("reactivar-obra", [App\Http\Controllers\ObraController::class, 'reactivar'])->name('obra.reactivar');
     Route::get("lista-de-obras-deshabilitadas/09uyghid9876tdyuido",[App\Http\Controllers\ObraController::class, 'jq_listaDes']);
+
+    Route::post("consultar-dato-obra", [App\Http\Controllers\ObraController::class, 'consultarObra']);
 });
 
 Route::middleware('auth')->prefix('suministros')->group(function () {
@@ -189,6 +191,9 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::post("solicitud-de-pago/respuesta2",[App\Http\Controllers\SolicitudController::class, 'solicitudesPagoRespuestaNegada'])->name('sPagoIndex.respuesta2');
 
     Route::get("solicitud-de-pago/costos-de-obra",[App\Http\Controllers\SolicitudController::class, 'costoObraIndex'])->name('costosObra.index');
+
+    Route::post("calculo-solicitudes",[App\Http\Controllers\SolicitudController::class, 'calcularSolicitud']);
+    // Route::post("calculo-porcentual",[App\Http\Controllers\SolicitudController::class, 'totalizacion']);
 });
 Route::middleware('auth')->prefix('servicio')->group(function () {
     Route::get("/",[App\Http\Controllers\ServicioController::class, 'index'])->name('servicio.index');
