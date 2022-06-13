@@ -519,12 +519,16 @@ class SolicitudController extends Controller
             'solicitud.id AS id',
             'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
             DB::raw('(select SUM(solicitud_detalle.sd_cantidad * solicitud_detalle.sd_preciounitario) from solicitud_detalle WHERE solicitud.id = solicitud_detalle.solicitud_id) as suma'),
+            'obra.obra_nombre AS obra_nombre',
+            'proveedor.proveedor_nombre AS proveedor_nombre',
             'solicitud.solicitud_fecha AS fecha',
             'solicitud.solicitud_motivo AS solicitud_motivo',
             'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
             'users.user_name AS nombre'
         )
         ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+        ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+        ->leftJoin('proveedor','proveedor.id', '=', 'solicitud.proveedor_id')
         ->where('solicitud.usuario_id', \Auth::user()->id) //habilita el solo mostrar informacion de quien crea la solicitud
         ->orderBy('id', 'DESC')
         ->limit(500)
@@ -1658,28 +1662,55 @@ class SolicitudController extends Controller
     public function calcularSolicitud(Request $request)
     {
 
-        // $porcentaje = Solicitud::select(
+        $porcentaje = Solicitud::select(
+            DB::raw('SUM(pago.pago_monto) AS monto_gasto'),
+            'obra.obra_monto AS obra_monto',
+            DB::raw('(obra.obra_monto - SUM(pago.pago_monto)) AS resta'),
+            DB::raw('100 - ((SUM(pago.pago_monto) * 100 / obra.obra_monto) ) AS por_ganancia'),
+            DB::raw('((SUM(pago.pago_monto) * 100 / obra.obra_monto)) AS por_gasto')
+        )
+        ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+        ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+        ->leftJoin('users', 'users.id', '=', 'solicitud.usuario_id')
+        ->where('obra.id',$request->id)
+        ->where('solicitud.solicitud_aprobacion', 'Aprobada')
+        ->where('pago.pago_estado', 1)
+        ->groupBy(['obra.obra_monto'])
+        ->first();
 
-        // )->get();
+        return response()->json( $porcentaje );
 
-
-        DB::raw(
-            "SELECT
-            SUM(pago.pago_monto) AS monto_gasto,
-            obra.obra_monto AS obra_monto,
-            (obra.obra_monto - SUM(pago.pago_monto)) AS resta,
-            ((SUM(pago.pago_monto) * 100 / obra.obra_monto) - 100) AS por_ganancia,
-            ((SUM(pago.pago_monto) * 100 / obra.obra_monto)) AS por_inversion
-            FROM `solicitud`
-            LEFT JOIN pago ON pago.solicitud_id = solicitud.id
-            LEFT JOIN obra ON obra.id = solicitud.obra_id
-            LEFT JOIN users ON users.id = solicitud.usuario_id
-            WHERE obra.id = 312 AND
-            solicitud.solicitud_aprobacion = 'Aprobada' AND
-            pago.pago_estado = 1
-            LIMIT 1"
-        );
-        dd($porcentaje);
     }
+
+    public function controlGasto( $id )
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        // if( $permisoUsuario[0]->solicitud != 1 ){
+        //     return redirect()->route("home");
+        // }
+
+        //Realizamos la consulta a la base de datos
+        $query = Solicitud::select(
+            'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
+            'solicitud.solicitud_motivo AS solicitud_motivo',
+            'pago.pago_monto AS pago_monto',
+            'solicitud.moneda AS moneda',
+            'users.user_name AS nombre_usuario',
+            'obra.obra_nombre AS obra_nombre'
+        )
+        ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+        ->leftJoin('pago','solicitud.id', '=', 'pago.solicitud_id')
+        ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+        ->where('pago.pago_estado', 1)
+        ->where('obra.id', $id)
+        ->orderBy('solicitud.id', 'DESC')
+        ->get();
+
+        return datatables()->of($query)->toJson();
+
+    }
+
 
 }

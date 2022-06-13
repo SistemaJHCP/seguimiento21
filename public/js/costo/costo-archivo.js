@@ -2,11 +2,17 @@ $(document).ready(function(){
 
     $('#tipo').val("0");
     datosObra(0);
+
     $('#numero').html("-----------");
     $('#cliente').html("-----------");
     $('#nombre').html("-----------");
     $('#total').html("-----------");
     $('#fecha').html("-----------");
+    $('#gasto1').html("--");
+    $('#ganancia1').html("--");
+    $('#porGan').html("-- % ganancia");
+    $('#porGas').html("-- % gastos");
+    listadoObra(0);
 
     $('#tipo').select2({
         theme: 'bootstrap4'
@@ -19,10 +25,17 @@ $(document).ready(function(){
             $('#nombre').html("-----------");
             $('#total').html("-----------");
             $('#fecha').html("-----------");
+            $('#gasto1').html("--");
+            $('#ganancia1').html("--");
+            $('#porGan').html("-- % ganancia");
+            $('#porGas').html("-- % gastos");
+            listadoObra(0);
+
             return false
         } else {
             datosObra( this.value );
             calculo( this.value );
+            listadoObra( this.value );
         }
     });
 
@@ -54,21 +67,22 @@ $(document).ready(function(){
         $('#nombre').empty();
         $('#total').empty();
         $('#fecha').empty();
+
     }
 
 
     function listadoObra(b){
-
-        $('#listaObras').DataTable({
+        limpiar();
+        $('#listasolicitudesGastos').DataTable({
             serverSide:true,
             processing: true,
-            ajax: "obra-seleccionada/" + b,
+            ajax: "../obra-seleccionada/" + b,
             columns: [
                 {data: 'solicitud_numerocontrol'},
                 {data: 'solicitud_motivo'},
                 {data: 'pago_monto'},
-                {data: 'moneda'},
-                {data: 'usuario'}
+                {data: 'moneda', 'visible': false},
+                {data: 'nombre_usuario'}
             ],
             order: [
                 [0, "desc"]
@@ -78,6 +92,7 @@ $(document).ready(function(){
             responsive: true,
             autoWidth: false,
             info: false,
+            bDestroy: true,
             language: {
                 "search": "Buscar: ",
                 "lengthMenu": "Display _MENU_ records per page",
@@ -96,14 +111,32 @@ $(document).ready(function(){
     }
 
     function calculo(c){
+
+
         $.ajax({
             type: "post",
             url: "../../solicitud/calculo-solicitudes",
             data: {id: c},
             dataType: "json",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            success: function (comp) {
-                console.log(comp);
+            success: function (comp1) {
+                console.log(comp1);
+
+
+
+
+                $('#gasto1').html(comp1.monto_gasto);
+                $('#ganancia1').html(comp1.resta);
+
+                var porc = Number(comp1.por_ganancia);
+                porcentaje_ganancia = porc.toFixed(2);
+                var porcGas = Number(comp1.por_gasto);
+                porcentaje_gasto = porcGas.toFixed(2);
+
+
+                $('#porGan').html(porcentaje_ganancia + "% ganancia");
+                $('#porGas').html(porcentaje_gasto + "% gastos");
+
             }
         });
     }

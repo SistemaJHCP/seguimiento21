@@ -28,6 +28,8 @@
                   <th>Código</th>
                   <th>Fecha</th>
                   <th>motivo</th>
+                  <th style="display:none;">Obra</th>
+                  <th style="display:none;">Proveedor</th>
                   <th>estado</th>
                   <th>Solicitante</th>
                   <th>Monto</th>
@@ -43,6 +45,8 @@
                   <th>Código</th>
                   <th>fecha</th>
                   <th>motivo</th>
+                  <th style="display:none;">Obra</th>
+                  <th style="display:none;">Proveedor</th>
                   <th>estado</th>
                   <th>Solicitante</th>
                   <th>Monto</th>

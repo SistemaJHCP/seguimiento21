@@ -65,9 +65,9 @@
 
                             <div class="info-box-content">
                               <span class="info-box-text">Gastos</span>
-                              <span class="info-box-number">--</span>
+                              <span class="info-box-number"><div id="gasto1">--</div></span>
                             </div>
-                            <!-- /.info-box-content -->
+                            <! /.info-box-content >
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -75,8 +75,8 @@
                             <span class="info-box-icon bg-info"><i class="fas fa-coins"></i></span>
 
                             <div class="info-box-content">
-                              <span class="info-box-text">Ganancia estimada</span>
-                              <span class="info-box-number">--</span>
+                              <span class="info-box-text">Ganancia real</span>
+                              <span class="info-box-number"><div id="ganancia1">--</div></span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -86,8 +86,8 @@
                             <span class="info-box-icon bg-info"><i class="fas fa-percent"></i></span>
 
                             <div class="info-box-content">
-                              <span class="info-box-text">% de ganancia</span>
-                              <span class="info-box-number">-- %</span>
+                              <span class="info-box-text"><span id="porGan">-- % ganancia</span></span>
+                              <span class="info-box-text"><span id="porGas">-- % gastos</span></span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -97,13 +97,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card-body">
-                            <table id="listaSolicitud" class="table table-bordered table-hover" style="font-size: 12px">
+                            <table id="listasolicitudesGastos" class="table table-bordered table-hover" style="font-size: 12px">
                             <thead>
                             <tr>
                               <th>Código</th>
                               <th>Motivo</th>
                               <th>Monto</th>
-                              <th>Moneda</th>
+                              <th style="display:none;">Moneda</th>
                               <th>Usuario</th>
                             </tr>
                             </thead>
@@ -115,7 +115,7 @@
                               <th>Código</th>
                               <th>Motivo</th>
                               <th>Monto</th>
-                              <th>Moneda</th>
+                              <th style="display:none;">Moneda</th>
                               <th>Usuario</th>
                             </tr>
                             </tfoot>

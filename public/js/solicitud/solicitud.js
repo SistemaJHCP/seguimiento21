@@ -8,20 +8,22 @@ $(document).ready(function(){
             {data: 'solicitud_numerocontrol'},
             {data: 'fecha'},
             {data: 'solicitud_motivo'},
+            {data: 'obra_nombre', 'visible': false},
+            {data: 'proveedor_nombre', 'visible': false},
             {data: 'btn2'},
             {data: 'nombre'},
             {data: 'suma', render: $.fn.dataTable.render.number( ',', '.', 2)},
             {data: 'btn'}
         ],
         order: [
-            [6, "DESC"]
+            [8, "DESC"]
           ],
         bLengthChange: false,
         searching: true,
         responsive: true,
         autoWidth: false,
         info: false,
-        "language": {
+        language: {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",
             "zeroRecords": "Lo que busca no esta en el registro",
@@ -34,8 +36,8 @@ $(document).ready(function(){
             },
             "processing" : "procesando."
         },
-        "columnDefs": [
-            { "width": "20%", "targets": 6 }
+        columnDefs: [
+            { "width": "16%", "targets": 8 }
           ],
     });
 

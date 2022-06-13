@@ -193,7 +193,7 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::get("solicitud-de-pago/costos-de-obra",[App\Http\Controllers\SolicitudController::class, 'costoObraIndex'])->name('costosObra.index');
 
     Route::post("calculo-solicitudes",[App\Http\Controllers\SolicitudController::class, 'calcularSolicitud']);
-    // Route::post("calculo-porcentual",[App\Http\Controllers\SolicitudController::class, 'totalizacion']);
+    Route::get("obra-seleccionada/{id}",[App\Http\Controllers\SolicitudController::class, 'controlGasto']);
 });
 Route::middleware('auth')->prefix('servicio')->group(function () {
     Route::get("/",[App\Http\Controllers\ServicioController::class, 'index'])->name('servicio.index');
