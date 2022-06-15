@@ -13,6 +13,7 @@ $(document).ready(function(){
     $('#porGan').html("-- % ganancia");
     $('#porGas').html("-- % gastos");
     listadoObra(0);
+    $('#estadistic').attr('disabled', true);
 
     $('#tipo').select2({
         theme: 'bootstrap4'
@@ -29,6 +30,8 @@ $(document).ready(function(){
             $('#ganancia1').html("--");
             $('#porGan').html("-- % ganancia");
             $('#porGas').html("-- % gastos");
+            $('#chartdiv').empty();
+            $('#estadistic').attr('disabled', true);
             listadoObra(0);
 
             return false
@@ -36,7 +39,10 @@ $(document).ready(function(){
             datosObra( this.value );
             calculo( this.value );
             listadoObra( this.value );
+
+            $('#estadistic').attr('disabled', false);
         }
+
     });
 
     function datosObra(a){
@@ -73,6 +79,12 @@ $(document).ready(function(){
 
     function listadoObra(b){
         limpiar();
+        console.log( $('#tipo').val() );
+        if ($('#tipo').val() == "0") {
+            $('#estadistic').attr('disabled', true);
+        } else {
+            $('#estadistic').attr('disabled', false);
+        }
         $('#listasolicitudesGastos').DataTable({
             serverSide:true,
             processing: true,
@@ -81,7 +93,7 @@ $(document).ready(function(){
                 {data: 'solicitud_numerocontrol'},
                 {data: 'solicitud_motivo'},
                 {data: 'pago_monto'},
-                {data: 'moneda', 'visible': false},
+                {data: 'solicitud_fecha'},
                 {data: 'nombre_usuario'}
             ],
             order: [
@@ -113,6 +125,7 @@ $(document).ready(function(){
     function calculo(c){
 
 
+
         $.ajax({
             type: "post",
             url: "../../solicitud/calculo-solicitudes",
@@ -120,25 +133,41 @@ $(document).ready(function(){
             dataType: "json",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             success: function (comp1) {
-                console.log(comp1);
 
+                if(comp1.monto_gasto){
+                    $('#gasto1').html(comp1.monto_gasto);
+                    if ( Number(comp1.resta) > 1 ) {
+                        $('#ganancia1').html(comp1.resta).css('color', '##303438');
+                    } else {
+                        $('#ganancia1').html(comp1.resta).css('color', 'red');
+                    }
 
+                    var porc = Number(comp1.por_ganancia);
+                    porcentaje_ganancia = porc.toFixed(2);
+                    var porcGas = Number(comp1.por_gasto);
+                    porcentaje_gasto = porcGas.toFixed(2);
 
-
-                $('#gasto1').html(comp1.monto_gasto);
-                $('#ganancia1').html(comp1.resta);
-
-                var porc = Number(comp1.por_ganancia);
-                porcentaje_ganancia = porc.toFixed(2);
-                var porcGas = Number(comp1.por_gasto);
-                porcentaje_gasto = porcGas.toFixed(2);
-
-
-                $('#porGan').html(porcentaje_ganancia + "% ganancia");
-                $('#porGas').html(porcentaje_gasto + "% gastos");
+                    if ( Number(porcentaje_ganancia) > 0 ) {
+                        $('#porGan').html(porcentaje_ganancia + "% ganancia").css('color', '##303438');
+                    } else {
+                        $('#porGan').html(porcentaje_ganancia + "% perdida").css('color', 'red');
+                    }
+                    $('#porGas').html(porcentaje_gasto + "% gastos");
+                } else {
+                    $('#gasto1').html("0");
+                    $('#ganancia1').html("0");
+                    $('#porGan').html("0.00% ganancia");
+                    $('#porGas').html("0.00% gastos");
+                }
 
             }
         });
     }
+
+
+
+
+
+
 
 });

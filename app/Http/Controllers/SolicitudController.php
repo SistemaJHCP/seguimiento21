@@ -1695,8 +1695,8 @@ class SolicitudController extends Controller
         $query = Solicitud::select(
             'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
             'solicitud.solicitud_motivo AS solicitud_motivo',
+            'solicitud.solicitud_fecha AS solicitud_fecha',
             'pago.pago_monto AS pago_monto',
-            'solicitud.moneda AS moneda',
             'users.user_name AS nombre_usuario',
             'obra.obra_nombre AS obra_nombre'
         )
@@ -1709,6 +1709,36 @@ class SolicitudController extends Controller
         ->get();
 
         return datatables()->of($query)->toJson();
+
+    }
+
+    public function calcularEstadistica(Request $request)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        // if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->aproRepro_compra_cuentas_x_pagar != 1 ){
+        //     return redirect()->route("home");
+        // }
+
+        $obra = Obra::select(
+            'obra.id AS id',
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_monto AS obra_monto',
+            'obra.obra_fechainicio AS obra_fechainicio',
+            'obra.obra_fechafin AS obra_fechafin',
+            'cliente.cliente_nombre AS cliente_nombre'
+        )
+        ->leftJoin('cliente', 'cliente.id', '=', 'obra.cliente_id')
+        ->where('obra.id', $request->obra)->first();
+
+        return view('sistema.costo.estadistica')->with([
+            'permisoUsuario' => $permisoUsuario[0],
+            'obra' => $obra,
+            'id', $request->obra
+        ]);
+
 
     }
 

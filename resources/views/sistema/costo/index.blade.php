@@ -16,13 +16,20 @@
         <div class="card card-info card-outline">
             <div class="card-body">
                 <div class="form-group">
-                    <label>Seleccione una obra</label>
-                    <select name="obra" id="tipo" class="form-control">
-                        <option value="0">Seleccione...</option>
-                        @foreach ($obra as $ob)
-                            <option value="{{ $ob->id }}">{{ $ob->obra_codigo }} | {{ $ob->obra_nombre }}</option>
-                        @endforeach
-                    </select>
+                    <form action="{{ route('solicitud.estadistica') }}" method="post">
+                    @csrf
+                        <label>Seleccione una obra</label>
+                        <select name="obra" id="tipo" class="form-control">
+                            <option value="0">Seleccione...</option>
+                            @foreach ($obra as $ob)
+                                <option value="{{ $ob->id }}">{{ $ob->obra_codigo }} | {{ $ob->obra_nombre }}</option>
+                            @endforeach
+                        </select>
+                        <br>
+                        <input type="submit" value="Estadística" id="estadistic" class="btn btn-info" disabled>
+
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -54,6 +61,8 @@
             </div>
             <!-- /.card-body -->
           </div>
+
+          <br><br>
     </div>
     <div class="col-md-8">
         <div class="card card-info card-outline">
@@ -103,7 +112,7 @@
                               <th>Código</th>
                               <th>Motivo</th>
                               <th>Monto</th>
-                              <th style="display:none;">Moneda</th>
+                              <th>Fecha</th>
                               <th>Usuario</th>
                             </tr>
                             </thead>
@@ -115,7 +124,7 @@
                               <th>Código</th>
                               <th>Motivo</th>
                               <th>Monto</th>
-                              <th style="display:none;">Moneda</th>
+                              <th>Fecha</th>
                               <th>Usuario</th>
                             </tr>
                             </tfoot>
@@ -127,8 +136,10 @@
         </div>
     </div>
 </div>
+
 @endsection
 @section('js')
+
 <script src="{{ asset("plugins/plugins/datatables/jquery.dataTables.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js") }}"></script>
 <script src="{{ asset("plugins/plugins/datatables-responsive/js/dataTables.responsive.min.js") }}"></script>
@@ -139,6 +150,9 @@
 <script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/costo/costo-archivo.js") }}"></script>
+{{-- <script src="{{ asset("plugins/gstatic/charts-loader.js") }}"></script> --}}
+<!-- Resources -->
+
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset("plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}">
