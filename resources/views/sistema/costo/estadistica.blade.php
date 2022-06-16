@@ -64,7 +64,7 @@
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 <script src="{{ asset("js/costo/estadistica.js") }}"></script>
 <script>
-    estadistica({{ $obra->id }});
+    estadistica( {{ $obra->id }} );
 </script>
 @endsection
 @section('css')

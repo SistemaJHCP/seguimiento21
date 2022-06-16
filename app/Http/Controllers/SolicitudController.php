@@ -1721,6 +1721,7 @@ class SolicitudController extends Controller
         //     return redirect()->route("home");
         // }
 
+        //Consultamos los datos de la obra
         $obra = Obra::select(
             'obra.id AS id',
             'obra.obra_codigo AS obra_codigo',
@@ -1741,6 +1742,99 @@ class SolicitudController extends Controller
 
 
     }
+
+    public function histograma($id)
+    {
+
+        // tenemos las fechas de la primera y ultima solicitud junto al monto total
+        $sol = DB::select(
+            'SELECT
+            SUM(pago.pago_monto) AS pago_monto,
+            (SELECT solicitud.solicitud_fecha FROM `solicitud` WHERE `obra_id` = '. $id .' AND `solicitud_aprobacion` = "Aprobada" AND`solicitud_estadopago` = 0 ORDER BY id ASC LIMIT 1) AS f_ini,
+            (SELECT solicitud.solicitud_fecha FROM `solicitud` WHERE `obra_id` = '. $id .' AND `solicitud_aprobacion` = "Aprobada" AND`solicitud_estadopago` = 0 ORDER BY id DESC LIMIT 1 ) AS f_fin
+            FROM solicitud
+            LEFT JOIN pago ON pago.solicitud_id = solicitud.id
+            LEFT JOIN obra ON obra.id = solicitud.obra_id
+            WHERE  obra.id ='. $id
+        );
+
+        //Donde se guardara el array
+        $array = array();
+        //contador de semanas, agrega un numero
+        $cont = 1;
+
+        //Si las fechas son distintas, has esto.
+        if( $sol[0]->f_ini != $sol[0]->f_fin ){
+            //Fecha inicial
+            $fecha_inicial = $sol[0]->f_ini;
+            //fecha final
+            $fecha_final = $sol[0]->f_fin;
+            //sumamos 7 dias
+            $sumarDias = date('Y-m-d', strtotime($fecha_inicial."+ 7 days"));
+
+
+            // ¿La fecha con 7 dias sumados es menor o igual a la fecha final?
+            if($sumarDias <= $fecha_final){
+                // Se le solicita a la base de datos el monto de la sumatorio de la obra por los dias
+                while($sumarDias <= $fecha_final){
+                    // La suma de 7 dias sigue siendo menor que la fecha final, por ende hace el recorrido
+
+
+                    $calcular = Solicitud::select(
+                        DB::raw('SUM(pago.pago_monto) AS pago_monto')
+                    )
+                    ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+                    ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+                    ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial, $sumarDias])
+                    ->where('obra.id', $id)
+                    ->first();
+                    // Agrega el nombre y el valor al array
+                    $array[]= array('country' => 'Semana '.$cont, 'value' => $calcular->pago_monto);
+                    //Le agregamos un dia a la nueva fecha inicial
+                    $fecha_inicial = date('Y-m-d', strtotime($sumarDias."+ 1 days"));
+                    //Le agregamos 7 dias
+                    $sumarDias = date('Y-m-d', strtotime($sumarDias."+ 7 days"));
+                    //Agregamos uno al contador de semanas
+                    $cont = $cont + 1;
+                    //Regresamos al bucle
+                }
+                //Preguntamos al bucle si las fechas cohinciden, de no cohincidir consulta a BD
+                if($fecha_inicial != $sumarDias){
+                    //Calculamos la fecha desde el ultimo dia calculado en el bucle hasta la ultima solicitud
+                    $calcular = Solicitud::select(
+                        DB::raw('SUM(pago.pago_monto) AS pago_monto')
+                    )
+                    ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+                    ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+                    ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial, $fecha_final])
+                    ->where('obra.id', $id)
+                    ->first();
+                    // Agrega el nombre y el valor al array
+                    $array[]= array('country' => 'Semana '.$cont, 'value' => $calcular->pago_monto);
+                }
+
+            }
+
+        } else {
+
+            $calcular = Solicitud::select(
+                DB::raw('SUM(pago.pago_monto) AS pago_monto')
+            )
+            ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+            ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+            ->whereBetween('solicitud.solicitud_fecha', [$sol[0]->f_ini , $sol[0]->f_fin])
+            ->where('obra.id', $id)
+            ->first();
+            // Agrega el nombre y el valor al array
+            $array[]= array('country' => 'Semana '.$cont, 'value' => $calcular->pago_monto);
+        }
+
+        //Retornamos a la vista via json
+        return response()->json($array);
+    }
+
+
+
 
 
 }

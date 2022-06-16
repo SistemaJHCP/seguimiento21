@@ -195,6 +195,7 @@ Route::middleware('auth')->prefix('solicitud')->group(function () {
     Route::post("calculo-solicitudes",[App\Http\Controllers\SolicitudController::class, 'calcularSolicitud']);
     Route::get("obra-seleccionada/{id}",[App\Http\Controllers\SolicitudController::class, 'controlGasto']);
     Route::post("estadistica",[App\Http\Controllers\SolicitudController::class, 'calcularEstadistica'])->name('solicitud.estadistica');
+    Route::get("calcular-histograma/{id}",[App\Http\Controllers\SolicitudController::class, 'histograma']);
 });
 Route::middleware('auth')->prefix('servicio')->group(function () {
     Route::get("/",[App\Http\Controllers\ServicioController::class, 'index'])->name('servicio.index');
