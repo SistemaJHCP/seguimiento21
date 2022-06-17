@@ -1789,7 +1789,7 @@ class SolicitudController extends Controller
                     ->where('obra.id', $id)
                     ->first();
                     // Agrega el nombre y el valor al array
-                    $array[]= array('country' => 'Semana '.$cont, 'value' => $calcular->pago_monto);
+                    $array[]= array('country' => 'Semana '.$cont, 'value' => floatval($calcular->pago_monto));
                     //Le agregamos un dia a la nueva fecha inicial
                     $fecha_inicial = date('Y-m-d', strtotime($sumarDias."+ 1 days"));
                     //Le agregamos 7 dias
@@ -1810,7 +1810,7 @@ class SolicitudController extends Controller
                     ->where('obra.id', $id)
                     ->first();
                     // Agrega el nombre y el valor al array
-                    $array[]= array('country' => 'Semana '.$cont, 'value' => $calcular->pago_monto);
+                    $array[]= array('country' => 'Semana '.$cont, 'value' => floatval($calcular->pago_monto));
                 }
 
             }
@@ -1826,7 +1826,7 @@ class SolicitudController extends Controller
             ->where('obra.id', $id)
             ->first();
             // Agrega el nombre y el valor al array
-            $array[]= array('country' => 'Semana '.$cont, 'value' => $calcular->pago_monto);
+            $array[]= array('country' => 'Semana '.$cont, 'value' => floatval($calcular->pago_monto) );
         }
 
         //Retornamos a la vista via json

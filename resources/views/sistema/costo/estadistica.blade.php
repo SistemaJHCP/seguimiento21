@@ -13,9 +13,33 @@
 @section('contenedor')
 <div class="row">
     <div class="col-md-8">
-        <div class="card card-info card-outline">
+        <div class="card">
             <div class="card-body">
-                <div id="chartdiv"></div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link active" id="historigrama-tab" data-toggle="tab" href="#historigrama" role="tab" aria-controls="historigrama" aria-selected="true">Histograma</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Gráfico laguna</a>
+                    </li>
+                    {{-- <li class="nav-item" role="presentation">
+                      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                    </li> --}}
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="historigrama" role="tabpanel" aria-labelledby="historigrama-tab">
+                        <div class="card-body">
+                            <div id="chartdiv"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="card-body">
+                            <div id="chartdiv2"></div>
+                        </div>
+                    </div>
+                    {{-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div> --}}
+                  </div>
+
             </div>
         </div>
     </div>
@@ -59,17 +83,24 @@
 @endsection
 @section('js')
     <!-- Resources -->
-    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/5.2.8/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/5.2.8/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/5.2.8/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/5.2.8/locales/es_ES.js"></script>
 <script src="{{ asset("js/costo/estadistica.js") }}"></script>
 <script>
     estadistica( {{ $obra->id }} );
+    laguna( {{ $obra->id }} );
 </script>
 @endsection
 @section('css')
 <style>
     #chartdiv {
+      width: 100%;
+      height: 400px;
+    }
+
+    #chartdiv2 {
       width: 100%;
       height: 400px;
     }

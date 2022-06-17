@@ -18,6 +18,7 @@ class Obra extends Migration
             $table->string('obra_codigo', 25)->nullable();
             $table->string('obra_nombre', 100);
             $table->decimal('obra_monto', $precision = 20, $scale = 2)->nullable();
+            $table->decimal('obra_anticipo', $precision = 20, $scale = 2)->nullable();
             $table->decimal('obra_montogasto', $precision = 20, $scale = 2)->nullable();
             $table->decimal('obra_ganancia', $precision = 20, $scale = 2)->nullable();
             $table->date('obra_fechainicio')->nullable();
