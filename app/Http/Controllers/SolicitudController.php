@@ -19,6 +19,7 @@ use App\Models\Banco_proveedor;
 use App\Models\Solicitud_detalle;
 use App\Models\User;
 use App\Models\Cuenta;
+use App\Models\Valuacion;
 
 
 class SolicitudController extends Controller
@@ -1834,6 +1835,130 @@ class SolicitudController extends Controller
     }
 
 
+
+    public function graficoGastos()
+    {
+
+        // tenemos las fechas de la primera y ultima solicitud junto al monto total
+        $datoObra = Solicitud::select(
+            'obra.id AS id_obra',
+            DB::raw('SUM(pago.pago_monto) AS pago_monto'),
+            DB::raw('(SELECT solicitud.solicitud_fecha FROM solicitud WHERE obra_id = '. 293 .' AND solicitud_aprobacion = "Aprobada" AND solicitud_estadopago = 0 ORDER BY id ASC LIMIT 1) AS fecha_inicio_solicitudes'),
+            DB::raw('(SELECT solicitud.solicitud_fecha FROM solicitud WHERE obra_id = '. 293 .' AND solicitud_aprobacion = "Aprobada" AND solicitud_estadopago = 0 ORDER BY id DESC LIMIT 1) AS fecha_fin_solicitudes'),
+
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_anticipo AS obra_anticipo',
+            'obra.obra_fechainicio AS obra_fechainicio'
+        )
+        ->leftJoin('pago','pago.solicitud_id','=','solicitud.id')
+        ->leftJoin('obra','obra.id','=','solicitud.obra_id')
+        ->where('obra.id', 293)
+        ->groupBy(['obra.id','obra.obra_codigo','obra.obra_anticipo','obra.obra_fechainicio'])
+        ->first();
+
+        //Calculamos las valuaciones
+        $valuacion = Valuacion::select('valuacion_monto','observacion','valuacion_fecha')->where('obra_id', 293)->get();
+
+        //Donde se guardara el array
+        $array = array();
+        //contador de semanas, agrega un numero
+        $cont = 1;
+
+        //Si las fechas son distintas, has esto.
+        if( $datoObra->fecha_inicio_solicitudes != $datoObra->fecha_fin_solicitudes ){
+            //Fecha inicial
+            $fecha_inicial = $datoObra->fecha_inicio_solicitudes;
+            //fecha final
+            $fecha_final = $datoObra->fecha_fin_solicitudes;
+            //sumamos 7 dias
+            $sumarDias = date('Y-m-d', strtotime($fecha_inicial."+ 7 days"));
+
+            $agregarValuacion = 0;
+
+
+            // ¿La fecha con 7 dias sumados es menor o igual a la fecha final?
+            if($sumarDias <= $fecha_final){
+                // Se le solicita a la base de datos el monto de la sumatorio de la obra por los dias
+                while($sumarDias <= $fecha_final){
+                    // La suma de 7 dias sigue siendo menor que la fecha final, por ende hace el recorrido
+                    //Inicio en cero un contador
+                    $i = 0;
+
+                    $calcular = Solicitud::select(
+                        DB::raw('SUM(pago.pago_monto) AS pago_monto')
+                    )
+                    ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+                    ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+                    ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial, $sumarDias])
+                    ->where('obra.id', 293)
+                    ->first();
+
+                    if($fecha_inicial <= $valuacion[$i]->valuacion_fecha && $sumarDias >= $valuacion[$i]->valuacion_fecha){
+                        if($i == 0){
+                            $agregarValuacion =  $valuacion[$i]->valuacion_monto - $calcular->pago_monto + $datoObra->obra_anticipo;
+                            $i = $i + 1;
+                            dump($calcular->pago_monto);
+                        } else {
+                            $agregarValuacion =  $valuacion[$i]->valuacion_monto - $calcular->pago_monto;
+                            $i = $i + 1;
+                            dump($calcular->pago_monto);
+                        }
+                    } else {
+                        $agregarValuacion =  $agregarValuacion - $calcular->pago_monto;
+                        dump($calcular->pago_monto);
+                    }
+
+
+
+                    // Agrega el nombre y el valor al array
+                    $array[]= array('country' => 'Semana '.$cont, 'value' => floatval($agregarValuacion));
+                    //Le agregamos un dia a la nueva fecha inicial
+                    $fecha_inicial = date('Y-m-d', strtotime($sumarDias."+ 1 days"));
+                    //Le agregamos 7 dias
+                    $sumarDias = date('Y-m-d', strtotime($sumarDias."+ 7 days"));
+                    //Agregamos uno al contador de semanas
+                    $cont = $cont + 1;
+                    //Regresamos al bucle
+                }
+                //Preguntamos al bucle si las fechas cohinciden, de no cohincidir consulta a BD
+                if($fecha_inicial != $sumarDias){
+                    //Calculamos la fecha desde el ultimo dia calculado en el bucle hasta la ultima solicitud
+                    $calcular = Solicitud::select(
+                        DB::raw('SUM(pago.pago_monto) AS pago_monto')
+                    )
+                    ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+                    ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+                    ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial, $fecha_final])
+                    ->where('obra.id', 293)
+                    ->first();
+                    $agregarValuacion =  $agregarValuacion - $calcular->pago_monto;
+                    dump($calcular->pago_monto);
+                    // Agrega el nombre y el valor al array
+                    $array[]= array('country' => 'Semana '.$cont, 'value' => floatval($agregarValuacion));
+                }
+
+            }
+
+        } else {
+
+            $calcular = Solicitud::select(
+                DB::raw('SUM(pago.pago_monto) AS pago_monto')
+            )
+            ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+            ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+            ->whereBetween('solicitud.solicitud_fecha', [$datoObra->fecha_inicio_solicitudes , $datoObra->fecha_fin_solicitudes])
+            ->where('obra.id', $id)
+            ->first();
+
+            $agregarValuacion =  $agregarValuacion - $calcular->pago_monto;
+            // Agrega el nombre y el valor al array
+            $array[]= array('country' => 'Semana '.$cont, 'value' => floatval($agregarValuacion) );
+        }
+
+        dd( $array );
+
+
+    }
 
 
 

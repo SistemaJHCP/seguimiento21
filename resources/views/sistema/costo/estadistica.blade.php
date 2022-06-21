@@ -87,6 +87,9 @@
     <script src="https://cdn.amcharts.com/lib/version/5.2.8/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/version/5.2.8/themes/Animated.js"></script>
     <script src="https://cdn.amcharts.com/lib/version/5.2.8/locales/es_ES.js"></script>
+
+
+
 <script src="{{ asset("js/costo/estadistica.js") }}"></script>
 <script>
     estadistica( {{ $obra->id }} );
