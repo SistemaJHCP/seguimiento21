@@ -1724,23 +1724,169 @@ class SolicitudController extends Controller
         //     return redirect()->route("home");
         // }
 
+        // Definimos el id de la obra
+        $id = $request->obra;
+
         //Consultamos los datos de la obra
-        $obra = Obra::select(
+        $datoObra = Obra::select(
             'obra.id AS id',
             'obra.obra_codigo AS obra_codigo',
             'obra.obra_nombre AS obra_nombre',
             'obra.obra_monto AS obra_monto',
+            'obra.obra_anticipo AS obra_anticipo',
             'obra.obra_fechainicio AS obra_fechainicio',
             'obra.obra_fechafin AS obra_fechafin',
             'cliente.cliente_nombre AS cliente_nombre'
         )
         ->leftJoin('cliente', 'cliente.id', '=', 'obra.cliente_id')
-        ->where('obra.id', $request->obra)->first();
+        ->where('obra.id', $id)->first();
+
+        // Consultamos los datos de la valuacion relaciionados con esta obra
+        $valuacion = Valuacion::select('valuacion_monto','observacion','valuacion_fecha')->where('obra_id', $id)->get();
+        // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
+        $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
+        ->where('obra_id', $id)
+        ->where('solicitud_aprobacion', "Aprobada")
+        ->where('solicitud_estadopago', 0)
+        ->orderBy('id', 'DESC')
+        ->first();
+
+        // Inicio contador
+        $i = 0;
+        // Definimos la fecha inicial
+        $fecha_inicial = $datoObra->obra_fechainicio;
+        // Suma
+        $suma = $datoObra->obra_anticipo;
+        // Contador de semanas
+        $dia = 1;
+        // arreglo
+        $arreglo= array();
+        //Si la fecha final de la obra no existe, valida entonces que exista la fecha de la ultima solicitud
+        if( !empty($ff->fecha_fin_solicitudes) ){
+            // validamos que tengamos en existencia la ultima fecha en la solicitud
+            if( $ff->fecha_fin_solicitudes >  $datoObra->obra_fechafin ){
+                // Si no existe se coloca la ultima fecha por dia
+                $fecha_fin = $ff->fecha_fin_solicitudes;
+            } else {
+                // Si tienes informacion de la ultima solicitud, sera entonces el ultimo dia
+                $fecha_fin = $datoObra->obra_fechafin;
+            }
+        } else {
+            // Si la obra si tiene fecha final, entonces esa sera la ultima fecha de la estadistica
+            $fecha_fin = date('Y-m-d');
+        }
+        // Revisamos que existan valuaciones
+        if( count($valuacion) > 1 ){
+
+            // Si existen, entonces compara la fecha final de la obra o solicitud contra la echa final dictada por la valuacion
+            $num = count($valuacion) - 1;
+
+            if( $fecha_fin < $valuacion[$num]->valuacion_fecha ){
+                $fecha_fin = $valuacion[$num]->valuacion_fecha;
+            }
+
+        }
+
+        $incrementoDeDias = date('Y-m-d', strtotime($fecha_inicial."+ 6 days"));
+        // Mientras la fecha inicial sea menor a la fecha incrementada en dias
+        while($incrementoDeDias < $fecha_fin){
+            // Calculo los gastos realizados entre esas semanas
+            $calcular = Solicitud::select(
+                DB::raw('SUM(pago.pago_monto) AS pago_monto')
+            )
+            ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+            ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+            ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial , $incrementoDeDias])
+            ->where('obra.id', $id)
+            ->first();
+
+            if(empty($calcular->pago_monto)){
+                $monto = 0;
+            } else {
+                $monto = $calcular->pago_monto;
+            }
+
+            if(count($valuacion) > 1){
+                if(  $valuacion[$i]->valuacion_fecha > $fecha_inicial AND $valuacion[$i]->valuacion_fecha < $incrementoDeDias  ){
+                    $valuacionMonto = $valuacion[$i]->valuacion_monto;
+                } else {
+                    $valuacionMonto = 0;
+                }
+            } else {
+                $valuacionMonto = 0;
+            }
+
+            $suma =  ($valuacionMonto - $monto) + $suma;
+
+            $arreglo[] = array(
+                'fecha_inicial' => $fecha_inicial,
+                'fecha_final' => $fecha_fin,
+                'semana' => "Semana ".$dia,
+                'gasto' => $monto,
+                'valuacion' => $valuacionMonto,
+                'suma' => $suma,
+                'incremento' => $incrementoDeDias
+            );
+
+
+            // dump($fecha_inicial . " | " . $incrementoDeDias  . " | " . $fecha_fin . " | Semana: " . $dia . " | " . $monto . " | " . $valuacionMonto . " | " . $suma);
+            // la fecha inicial pasa a ser la fecha final de la anterior consulta mas un dia
+            $fecha_inicial = date('Y-m-d', strtotime($incrementoDeDias."+ 1 days"));
+            // La fecha final se vuelve a incrementar 6 dias
+            $incrementoDeDias = date('Y-m-d', strtotime($fecha_inicial."+ 6 days"));
+
+            $valuacionMonto = 0;
+
+            $dia = $dia + 1;
+
+        }
+
+        if($fecha_inicial <= $fecha_fin){
+            $calcular = Solicitud::select(
+                DB::raw('SUM(pago.pago_monto) AS pago_monto')
+            )
+            ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+            ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+            ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial , $fecha_fin])
+            ->where('obra.id', $id)
+            ->first();
+        }
+
+        if(empty($calcular->pago_monto)){
+            $monto = 0;
+        } else {
+            $monto = $calcular->pago_monto;
+        }
+
+        if(count($valuacion) > 1){
+            if(  $valuacion[$i]->valuacion_fecha >= $fecha_inicial OR $valuacion[$i]->valuacion_fecha <= $fecha_fin  ){
+                $valuacionMonto = $valuacion[$i]->valuacion_monto;
+            } else {
+                $valuacionMonto = 0;
+            }
+        } else {
+            $valuacionMonto = 0;
+        }
+
+        $suma =  ($valuacionMonto - $monto) + $suma;
+
+        $arreglo[] = array(
+            'fecha_inicial' => $fecha_inicial,
+            'fecha_final' => $fecha_fin,
+            'semana' => "Semana ".$dia,
+            'gasto' => $monto,
+            'valuacion' => $valuacionMonto,
+            'suma' => $suma,
+            'incremento' => $incrementoDeDias
+        );
+
+        // dump($fecha_inicial . " | " . $fecha_fin . " | Semana: " . $dia . " | " . $monto . " | " . $valuacionMonto . " | " . $suma);
 
         return view('sistema.costo.estadistica')->with([
             'permisoUsuario' => $permisoUsuario[0],
-            'obra' => $obra,
-            'id', $request->obra
+            'obra' => $datoObra,
+            'id', $request->obra,
+            'arreglo' => $arreglo
         ]);
 
 
@@ -1748,92 +1894,119 @@ class SolicitudController extends Controller
 
     public function histograma($id)
     {
+        // Buscamos los datos de la obra asociada al ID
+        $datoObra = Obra::select('id', 'obra_codigo', 'obra_anticipo', 'obra_fechainicio', 'obra_fechafin')->where('id', $id)->first();
 
-        // tenemos las fechas de la primera y ultima solicitud junto al monto total
-        $sol = DB::select(
-            'SELECT
-            SUM(pago.pago_monto) AS pago_monto,
-            (SELECT solicitud.solicitud_fecha FROM `solicitud` WHERE `obra_id` = '. $id .' AND `solicitud_aprobacion` = "Aprobada" AND`solicitud_estadopago` = 0 ORDER BY id ASC LIMIT 1) AS f_ini,
-            (SELECT solicitud.solicitud_fecha FROM `solicitud` WHERE `obra_id` = '. $id .' AND `solicitud_aprobacion` = "Aprobada" AND`solicitud_estadopago` = 0 ORDER BY id DESC LIMIT 1 ) AS f_fin
-            FROM solicitud
-            LEFT JOIN pago ON pago.solicitud_id = solicitud.id
-            LEFT JOIN obra ON obra.id = solicitud.obra_id
-            WHERE  obra.id ='. $id
-        );
+        // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
+        $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
+        ->where('obra_id', $id)
+        ->where('solicitud_aprobacion', "Aprobada")
+        ->where('solicitud_estadopago', 0)
+        ->orderBy('id', 'DESC')
+        ->first();
+
+        // Fecha inicial
+        $fecha_inicial = $datoObra->obra_fechainicio;
+
+        //Si la fecha final de la obra no existe, valida entonces que exista la fecha de la ultima solicitud
+        if( empty($ff->fecha_fin_solicitudes) ){
+            // validamos que tengamos en existencia la ultima fecha en la solicitud
+            if( empty($ff->fecha_fin_solicitudes) ){
+                // Si no existe se coloca la ultima fecha por dia
+                $fecha_fin = date('Y-m-d');
+            } else {
+                // Si tienes informacion de la ultima solicitud, sera entonces el ultimo dia
+                $fecha_fin = $ff->fecha_fin_solicitudes;
+            }
+        } else {
+            // Si la obra si tiene fecha final, entonces esa sera la ultima fecha de la estadistica
+            $fecha_fin = $datoObra->obra_fechafin;
+        }
+
+        // Compara si fecha fianl de la obra es menor a la fecha final de la solicitud
+        if($datoObra->obra_fechafin <= $ff->fecha_fin_solicitudes){
+            // Fecha final sera la fecha de la ultima solicitud
+            $fecha_fin = $ff->fecha_fin_solicitudes;
+        } else {
+            // La final va a ser la fecha de cierre indicada en la obra
+            $fecha_fin = $ff->fecha_fin_solicitudes;
+        }
 
         //Donde se guardara el array
         $array = array();
-        //contador de semanas, agrega un numero
+        // El contador para las semanas (semana 1, semana 2, etc)
         $cont = 1;
 
-        //Si las fechas son distintas, has esto.
-        if( $sol[0]->f_ini != $sol[0]->f_fin ){
-            //Fecha inicial
-            $fecha_inicial = $sol[0]->f_ini;
-            //fecha final
-            $fecha_final = $sol[0]->f_fin;
-            //sumamos 7 dias
-            $sumarDias = date('Y-m-d', strtotime($fecha_inicial."+ 7 days"));
+        //sumamos 6 dias desdee el dia de inicio hasta 6 dias mas
+        $incrementoDeDias = date('Y-m-d', strtotime($fecha_inicial."+ 6 days"));
 
+        // Si la fecha inicial es menor a la fecha final
+        if($fecha_inicial < $fecha_fin){
 
-            // ¿La fecha con 7 dias sumados es menor o igual a la fecha final?
-            if($sumarDias <= $fecha_final){
-                // Se le solicita a la base de datos el monto de la sumatorio de la obra por los dias
-                while($sumarDias <= $fecha_final){
-                    // La suma de 7 dias sigue siendo menor que la fecha final, por ende hace el recorrido
+            // Incremente 6 fias y comparamos si pasa a la fecha final
+            if($incrementoDeDias < $fecha_fin){
 
-
+                //Si no pasa la fecha incrementada a la fecha final has un bucle hasta que lo haga
+                while($incrementoDeDias < $fecha_fin){
+                    // Consulta en base al ID de la obra, la fecha, la fecha inicial la cual se incrementara
+                    // y la fecha incrementada
                     $calcular = Solicitud::select(
                         DB::raw('SUM(pago.pago_monto) AS pago_monto')
                     )
                     ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
                     ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
-                    ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial, $sumarDias])
+                    ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial , $incrementoDeDias])
                     ->where('obra.id', $id)
                     ->first();
-                    // Agrega el nombre y el valor al array
-                    $array[]= array('country' => 'Semana '.$cont, 'value' => floatval($calcular->pago_monto));
-                    //Le agregamos un dia a la nueva fecha inicial
-                    $fecha_inicial = date('Y-m-d', strtotime($sumarDias."+ 1 days"));
-                    //Le agregamos 7 dias
-                    $sumarDias = date('Y-m-d', strtotime($sumarDias."+ 7 days"));
-                    //Agregamos uno al contador de semanas
+
+                    // Guardamos la informacion en un array, la semana seria numerada
+                    $array[] = array('country' =>  "Semana " . $cont, 'value' => floatval($calcular->pago_monto));
+
+                    // la fecha inicial pasa a ser la fecha final de la anterior consulta mas un dia
+                    $fecha_inicial = date('Y-m-d', strtotime($incrementoDeDias."+ 1 days"));
+                    // La fecha final se vuelve a incrementar 6 dias
+                    $incrementoDeDias = date('Y-m-d', strtotime($fecha_inicial."+ 6 days"));
+                    // incrementa un numero mas
                     $cont = $cont + 1;
-                    //Regresamos al bucle
                 }
-                //Preguntamos al bucle si las fechas cohinciden, de no cohincidir consulta a BD
-                if($fecha_inicial != $sumarDias){
-                    //Calculamos la fecha desde el ultimo dia calculado en el bucle hasta la ultima solicitud
+
+                if($fecha_inicial <= $fecha_fin){
                     $calcular = Solicitud::select(
                         DB::raw('SUM(pago.pago_monto) AS pago_monto')
                     )
                     ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
                     ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
-                    ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial, $fecha_final])
+                    ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial , $fecha_fin])
                     ->where('obra.id', $id)
                     ->first();
-                    // Agrega el nombre y el valor al array
-                    $array[]= array('country' => 'Semana '.$cont, 'value' => floatval($calcular->pago_monto));
                 }
+
+                // Guardamos la informacion en un array, la semana seria numerada
+                $array[] = array('country' =>  "Semana " . $cont, 'value' => floatval($calcular->pago_monto));
 
             }
 
+
         } else {
 
-            $calcular = Solicitud::select(
-                DB::raw('SUM(pago.pago_monto) AS pago_monto')
-            )
-            ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
-            ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
-            ->whereBetween('solicitud.solicitud_fecha', [$sol[0]->f_ini , $sol[0]->f_fin])
-            ->where('obra.id', $id)
-            ->first();
-            // Agrega el nombre y el valor al array
-            $array[]= array('country' => 'Semana '.$cont, 'value' => floatval($calcular->pago_monto) );
+            if($fecha_inicial <= $fecha_fin){
+                $calcular = Solicitud::select(
+                    DB::raw('SUM(pago.pago_monto) AS pago_monto')
+                )
+                ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+                ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+                ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial , $fecha_fin])
+                ->where('obra.id', $id)
+                ->first();
+            }
+
+            // Guardamos la informacion en un array, la semana seria numerada
+            $array[] = array('country' =>  "Semana " . $cont, 'value' => floatval($calcular->pago_monto));
+
         }
 
-        //Retornamos a la vista via json
         return response()->json($array);
+
     }
 
 
@@ -1859,7 +2032,7 @@ class SolicitudController extends Controller
         $fecha_inicial = $datoObra->obra_fechainicio;
 
         //Si la fecha final de la obra no existe, valida entonces que exista la fecha de la ultima solicitud
-        if( empty($datoObra->obra_fechafin) ){
+        if( empty($ff->fecha_fin_solicitudes) ){
             // validamos que tengamos en existencia la ultima fecha en la solicitud
             if( empty($ff->fecha_fin_solicitudes) ){
                 // Si no existe se coloca la ultima fecha por dia
@@ -1872,6 +2045,18 @@ class SolicitudController extends Controller
             // Si la obra si tiene fecha final, entonces esa sera la ultima fecha de la estadistica
             $fecha_fin = $datoObra->obra_fechafin;
         }
+
+        # ---------------------------------------
+
+        // Compara si fecha fianl de la obra es menor a la fecha final de la solicitud
+        if($datoObra->obra_fechafin <= $ff->fecha_fin_solicitudes){
+            // Fecha final sera la fecha de la ultima solicitud
+            $fecha_fin = $ff->fecha_fin_solicitudes;
+        } else {
+            // La final va a ser la fecha de cierre indicada en la obra
+            $fecha_fin = $ff->fecha_fin_solicitudes;
+        }
+
         // Ahora comparamos la fecha final que escoja el sistema contra la fecha final de la
         // valuacion en caso de existir
 
@@ -1946,16 +2131,15 @@ class SolicitudController extends Controller
                         }
                     }
 
-
-
-
-                    dump($monto . " fecha nicial: " . $fecha_i . " | fecha incrementada: " . $incrementoDeDias. " | fecha Final: " . $fecha_fin);
+                    // dump($monto . " fecha nicial: " . $fecha_i . " | fecha incrementada: " . $incrementoDeDias. " | fecha Final: " . $fecha_fin);
+                    $array[] = array('date' => $fecha_i, 'value' => floatval($monto));
 
 
                     // la fecha inicial pasa a ser la fecha final de la anterior consulta mas un dia
                     $fecha_i = date('Y-m-d', strtotime($incrementoDeDias."+ 1 days"));
                     // La fecha final se vuelve a incrementar 6 dias
                     $incrementoDeDias = date('Y-m-d', strtotime($fecha_i."+ 6 days"));
+
 
                 }
 
@@ -1979,7 +2163,7 @@ class SolicitudController extends Controller
 
                     // En caso de existir valuacion
                     if(count($valuacion) >= 1){
-                        dump($valuacion[$i]->valuacion_fecha);
+
                         // Agregamos la valuacion en caso de que la fecha sea mayor a la fecha inicial y
                         // a su vez sea menor a la fecha incrementable
                         if( $valuacion[$i]->valuacion_fecha > $fecha_i && $valuacion[$i]->valuacion_fecha < $incrementoDeDias ){
@@ -1989,7 +2173,8 @@ class SolicitudController extends Controller
                         }
                     }
 
-                    dump($monto . " fecha nicial: " . $fecha_i . " | fecha incrementada: " . $fecha_fin);
+                    // dump($monto . " fecha nicial: " . $fecha_i . " | fecha incrementada: " . $fecha_fin);
+                    $array[] = array('date' => $fecha_i , 'value' => floatval($monto));
 
                 }
 
@@ -2010,21 +2195,23 @@ class SolicitudController extends Controller
 
                 // En caso de existir valuacion
                 if(count($valuacion) >= 1){
-                    dump($valuacion[$i]->valuacion_fecha);
+
                     // Agregamos la valuacion en caso de que la fecha sea mayor a la fecha inicial y
                     // a su vez sea menor a la fecha incrementable
-                    if( $valuacion[$i]->valuacion_fecha > $fecha_i && $valuacion[$i]->valuacion_fecha < $incrementoDeDias ){
+                    if( $valuacion[$i]->valuacion_fecha > $fecha_inicial && $valuacion[$i]->valuacion_fecha < $incrementoDeDias ){
                         // Monto va a avaler lo que valga la valuacio mas el propio monto
                         $monto = $valuacion[$i]->valuacion_monto + $monto;
                         $i = $i + 1;
                     }
                 }
 
-                dd($monto);
+                $array[] = array("date" => $fecha_inicial , "value" => floatval($monto));
 
 
             }
 
+
+        return response()->json( $array );
 
     }
 

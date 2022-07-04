@@ -51,7 +51,10 @@
                       <td style="width:50px">Nombre: </td><td><div id="nombre">-------</div></td>
                   </tr>
                   <tr>
-                      <td style="width:50px">Total: </td><td><div id="total">-------</div></td>
+                      <td style="width:50px">Presupuesto: </td><td><div id="total">-------</div></td>
+                  </tr>
+                  <tr>
+                    <td style="width:50px">Anticipo: </td><td><div id="anticipo">-------</div></td>
                   </tr>
                   <tr>
                       <td style="width:50px">Fecha inicio: </td><td><div id="fecha">-------</div></td>

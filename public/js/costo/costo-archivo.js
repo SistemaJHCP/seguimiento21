@@ -26,6 +26,7 @@ $(document).ready(function(){
             $('#nombre').html("-----------");
             $('#total').html("-----------");
             $('#fecha').html("-----------");
+            $('#anticipo').html("--");
             $('#gasto1').html("--");
             $('#ganancia1').html("--");
             $('#porGan').html("-- % ganancia");
@@ -62,6 +63,7 @@ $(document).ready(function(){
                 $('#nombre').html(comp.obra_nombre);
                 $('#total').html(comp.obra_monto);
                 $('#fecha').html(comp.obra_fechainicio);
+                $('#anticipo').html(comp.obra_anticipo);
 
             }
         });
@@ -73,7 +75,8 @@ $(document).ready(function(){
         $('#nombre').empty();
         $('#total').empty();
         $('#fecha').empty();
-
+        $('#fecha').empty();
+        $('#anticipo').empty();
     }
 
 

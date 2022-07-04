@@ -482,6 +482,7 @@ class ObraController extends Controller
             'obra.obra_nombre AS obra_nombre',
             'obra.obra_monto AS obra_monto',
             'obra.obra_fechainicio AS obra_fechainicio',
+            'obra.obra_anticipo AS obra_anticipo',
             'cliente.cliente_nombre AS cliente_nombre'
             )
         ->leftJoin('cliente', 'cliente.id', '=', 'obra.cliente_id')

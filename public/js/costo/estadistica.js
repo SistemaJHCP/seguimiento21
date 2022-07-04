@@ -85,7 +85,6 @@ function estadistica(id){
 
 
             // Set data
-            console.log(comp);
             var data = comp;
 
 
@@ -110,179 +109,56 @@ function estadistica(id){
 
 function laguna(id){
 
-    am5.ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "../solicitud/calcular-grafica/" + id,
+        dataType: "json",
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        success: function (comp) {
 
-        // Create root element
-        // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-        var root = am5.Root.new("chartdiv2");
+           // var obj = new Object(
+            //     value:
+            // );
 
+            var value = [];
+            var label = [];
 
-        // Set themes
-        // https://www.amcharts.com/docs/v5/concepts/themes/
-        root.setThemes([
-          am5themes_Animated.new(root)
-        ]);
-
-        root.dateFormatter.setAll({
-          dateFormat: ["yearY"],
-          dateFields: ["valueX"]
-        });
-
-        var data = [{
-          "year": "Sem 1",
-          "value": -0.307
-        }, {
-          "year": "Sem 2",
-          "value": -0.168
-        }, {
-          "year": "Sem 3",
-          "value": -0.073
-        }, {
-          "year": "Sem 4",
-          "value": -0.027
-        }, {
-          "year": "Sem 5",
-          "value": -0.251
-        }, {
-          "year": "Sem 6",
-          "value": -0.281
-        }, {
-          "year": "Sem 7",
-          "value": -0.348
-        }, {
-          "year": "Sem 8",
-          "value": -0.074
-        }, {
-          "year": "Sem 9",
-          "value": -0.011
-        }, {
-          "year": "Sem 10",
-          "value": -0.074
-        }, {
-          "year": "Sem 11",
-          "value": -0.124
-        }];
-
-
-        // Create chart
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/
-        var chart = root.container.children.push(am5xy.XYChart.new(root, {
-          focusable: true,
-          panX: true,
-          panY: true,
-          wheelX: "panX",
-          wheelY: "zoomX",
-          pinchZoomX:true
-        }));
-
-        var easing = am5.ease.linear;
-
-
-        // Create axes
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-        var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
-          maxDeviation: 0.5,
-          baseInterval: {
-            timeUnit: "year",
-            count: 1
-          },
-          renderer: am5xy.AxisRendererX.new(root, {
-            minGridDistance: 50, pan:"zoom"
-          }),
-          tooltip: am5.Tooltip.new(root, {})
-        }));
-
-        var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-          maxDeviation: 1,
-          renderer: am5xy.AxisRendererY.new(root, {pan:"zoom"})
-        }));
-
-
-        // Add series
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-        var series = chart.series.push(am5xy.SmoothedXLineSeries.new(root, {
-          minBulletDistance: 10,
-          connect: false,
-          xAxis: xAxis,
-          yAxis: yAxis,
-          valueYField: "value",
-          valueXField: "year",
-          tooltip: am5.Tooltip.new(root, {
-            pointerOrientation: "horizontal",
-            labelText: "{valueY}"
-          })
-        }));
-
-        series.fills.template.setAll({ fillOpacity: 0.2, visible: true });
-
-        // Add series axis range for a different stroke/fill
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/axis-ranges/#Series_axis_ranges
-        var rangeDataItem = yAxis.makeDataItem({
-          value: 0,
-          endValue: 1000
-        });
-
-        var color = chart.get("colors").getIndex(3);
-
-        var range = series.createAxisRange(rangeDataItem);
-
-        range.strokes.template.setAll({
-          stroke: color
-        });
-
-        range.fills.template.setAll({
-          fill: color,
-          fillOpacity: 0.2,
-          visible: true
-        });
-
-
-        // Set up data processor to parse string dates
-        // https://www.amcharts.com/docs/v5/concepts/data/#Pre_processing_data
-        series.data.processor = am5.DataProcessor.new(root, {
-          dateFormat: "yyyy",
-          dateFields: ["year"]
-        });
-
-        series.data.setAll(data);
-
-        series.bullets.push(function() {
-          var circle = am5.Circle.new(root, {
-            radius: 4,
-            fill: series.get("fill"),
-            stroke: root.interfaceColors.get("background"),
-            strokeWidth: 2
-          })
-
-          circle.adapters.add("fill", function(fill, target) {
-            var dataItem = circle.dataItem;
-            if (dataItem.get("valueY") >= 0) {
-              return color;
+            for (let index = 0; index < comp.length; index++) {
+                value[index] = comp[index].value;
+                label[index] = comp[index].date;
             }
-            return fill
-          })
 
-          return am5.Bullet.new(root, {
-            sprite: circle
-          })
-        });
+            // console.log(value);
+            // console.log(label);
+            console.log(label);
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: label,
+                    datasets: [{
+                      label: 'Gastos e incrementos',
+                      data: value,
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    }]
+                  },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
 
 
-        // Add cursor
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-        var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
-          xAxis: xAxis
-        }));
-        cursor.lineY.set("visible", false);
-
-        // add scrollbar
-        chart.set("scrollbarX", am5.Scrollbar.new(root, { orientation: "horizontal" }));
-
-        // Make stuff animate on load
-        // https://www.amcharts.com/docs/v5/concepts/animations/
-        chart.appear(1000, 100);
-
-        }); // end am5.ready()
+        }
+    });
 
 }
 
