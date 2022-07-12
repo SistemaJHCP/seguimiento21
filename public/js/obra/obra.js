@@ -23,6 +23,9 @@ $(document).ready(function(){
         responsive: true,
         autoWidth: false,
         info: false,
+        columnDefs: [
+            { "width": "19%", "targets": 8 }
+        ],
         language: {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",

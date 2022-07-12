@@ -8,6 +8,7 @@ use App\Models\Tipo;
 use App\Models\Cliente;
 use App\Models\Personal;
 use App\Models\Codventas;
+use App\Models\Valuacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -91,6 +92,7 @@ class ObraController extends Controller
             'codventa' => 'required',
             'nombreObra' => 'max:100',
             'total' => 'max:17',
+            'anticipo' => 'max:17',
             'porcentaje' => 'max:6',
             'observaciones' => 'max:200'
         ]);
@@ -118,6 +120,7 @@ class ObraController extends Controller
         $obra->codventa_id = $request->codventa;
         $obra->obra_nombre = $request->nombreObra;
         $obra->obra_monto = $request->total;
+        $obra->obra_anticipo = $request->anticipo;
         $obra->obra_ganancia = $request->porcentaje;
         $obra->obra_fechainicio = $request->fechaInicio;
         $obra->obra_fechafin = $request->fechaFin;
@@ -249,6 +252,7 @@ class ObraController extends Controller
         $obra->codventa_id = $request->codventa;
         $obra->obra_nombre = $request->nombreObra;
         $obra->obra_monto = $request->total;
+        $obra->obra_anticipo = $request->anticipo;
         $obra->obra_ganancia = $request->porcentaje;
         $obra->obra_fechainicio = $request->fechaInicio;
         $obra->obra_fechafin = $request->fechaFin;
@@ -273,16 +277,6 @@ class ObraController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Obra  $obra
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Obra $obra)
-    {
-        //
-    }
 
 
     public function reactivar()
@@ -297,6 +291,55 @@ class ObraController extends Controller
         return view('sistema.obra.reactivarObra')->with('permisoUsuario', $permisoUsuario[0]);
 
     }
+
+    public function indexValuacion($id)
+    {
+
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        // if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->valuacion != 1){
+        //     return redirect()->route("home");
+        // }
+
+        // Consultamos la obra
+        $obra = Obra::select(
+            'obra.obra_codigo AS obra_codigo',
+            'obra.obra_nombre AS obra_nombre',
+            'obra.obra_monto AS obra_monto',
+            'obra.obra_anticipo AS obra_anticipo',
+            'obra.obra_montogasto AS obra_montogasto',
+            'obra.obra_ganancia AS obra_ganancia',
+            'obra.obra_fechainicio AS obra_fechainicio',
+            'obra.obra_fechainicio AS obra_fechainicio',
+            'obra.obra_fechafin AS obra_fechafin',
+            'obra.obra_observaciones AS obra_observaciones',
+            'cliente.cliente_nombre AS cliente_nombre',
+            'tipo.tipo_nombre AS tipo_nombre',
+            'codventa.codventa_nombre AS codventa_nombre'
+        )
+        ->leftJoin('cliente', 'cliente.id', '=', 'obra.cliente_id')
+        ->leftJoin('tipo', 'tipo.id', '=', 'obra.tipo_id')
+        ->leftJoin('codventa', 'codventa.id', '=', 'obra.codventa_id')
+        ->where('obra.id', $id)
+        ->where('obra.obra_estado', 1)->first();
+
+        $valuacion = Valuacion::select()->where('valuacion_estado', 1)->where('obra_id', $id)->orderBy('id', 'DESC')->get();
+
+        // Retornamos la informacion de la obra
+        return view('sistema.obra.valuacion')->with( ['permisoUsuario' => $permisoUsuario[0], 'id' => $id, 'obra' => $obra, 'valuacion' => $valuacion]);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

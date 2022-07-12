@@ -115,7 +115,7 @@ function laguna(id){
         dataType: "json",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function (comp) {
-
+            console.log(comp);
            // var obj = new Object(
             //     value:
             // );
@@ -128,9 +128,6 @@ function laguna(id){
                 label[index] = comp[index].date;
             }
 
-            // console.log(value);
-            // console.log(label);
-            console.log(label);
 
             const ctx = document.getElementById('myChart').getContext('2d');
             const myChart = new Chart(ctx, {

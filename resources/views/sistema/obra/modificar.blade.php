@@ -64,10 +64,16 @@
                             <input type="text" name="nombreObra" id="nombreObra" class="form-control" value="{{ $obra->obra_nombre }}" placeholder="Nombre de la obra" maxlength="100">
                         </div>
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Total planificado</label>
-                                    <input type="text" name="total" id="total" class="form-control" value="{{ $obra->obra_monto }}" placeholder="Gasto planificado de la obra" maxlength="17" required>
+                                    <label for="">Total presupuestado</label>
+                                    <input type="text" name="total" id="total" autocomplete="off" value="{{ $obra->obra_monto }}" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Costo de la obra" maxlength="17" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Anticipo</label>
+                                    <input type="text" name="anticipo" id="anticipo" autocomplete="off" value="{{ $obra->obra_anticipo }}" pattern="^[0-9]+(.[0-9]+)?$" class="form-control" placeholder="Monto del anticipo" maxlength="17" required>
                                 </div>
                             </div>
                             <div class="col-md-4">

@@ -1694,6 +1694,18 @@ class SolicitudController extends Controller
         //     return redirect()->route("home");
         // }
 
+        ## Read value Rosman Rosman
+        $draw = $_GET['draw'];
+        $row = $_GET['start'];
+        $rowperpage = $_GET['length']; // Rows display per page
+        $columnIndex = $_GET['order'][0]['column']; // Column index
+        $columnName = $_GET['columns'][$columnIndex]['data']; // Column name
+        $columnSortOrder = $_GET['order'][0]['dir']; // asc or desc
+        // $searchValue = mysqli_real_escape_string($con,$_GET['search']['value']); // Search value
+        // dd( $draw . " | " . $row . " | " . $rowperpage . " | " . $columnIndex . " | " . $columnName . " | " . $columnSortOrder );
+
+
+
         //Realizamos la consulta a la base de datos
         $query = Solicitud::select(
             'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
@@ -1709,9 +1721,12 @@ class SolicitudController extends Controller
         ->where('pago.pago_estado', 1)
         ->where('obra.id', $id)
         ->orderBy('solicitud.id', 'DESC')
+        // ->offset($row)
+        // ->limit(10, 313)
         ->get();
 
         return datatables()->of($query)->toJson();
+
 
     }
 
@@ -1742,7 +1757,7 @@ class SolicitudController extends Controller
         ->where('obra.id', $id)->first();
 
         // Consultamos los datos de la valuacion relaciionados con esta obra
-        $valuacion = Valuacion::select('valuacion_monto','observacion','valuacion_fecha')->where('obra_id', $id)->get();
+        $valuacion = Valuacion::select('valuacion_monto','observacion','valuacion_fecha')->where('obra_id', $id)->where('valuacion_estado', 1)->get();
         // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
         $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
         ->where('obra_id', $id)
@@ -2018,18 +2033,28 @@ class SolicitudController extends Controller
         $datoObra = Obra::select('id', 'obra_codigo', 'obra_anticipo', 'obra_fechainicio', 'obra_fechafin')->where('id', $id)->first();
 
         //Calculamos las valuaciones
-        $valuacion = Valuacion::select('valuacion_monto','observacion','valuacion_fecha')->where('obra_id', $id)->get();
+        $valuacion = Valuacion::select('valuacion_monto','observacion','valuacion_fecha')->where('obra_id', $id)->where('valuacion_estado', 1)->get();
         // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
-        $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
-        ->where('obra_id', $id)
-        ->where('solicitud_aprobacion', "Aprobada")
-        ->where('solicitud_estadopago', 0)
-        ->orderBy('id', 'DESC')
+
+        $ff = Pago::select('pago.pago_fecha AS fecha_fin_solicitudes')
+        ->leftJoin('solicitud', 'solicitud.id', '=', 'pago.solicitud_id')
+        ->where('solicitud.obra_id', $id)
+        ->where('solicitud.solicitud_aprobacion', "Aprobada")
+        ->where('solicitud.solicitud_estadopago', 0)
+         ->orderBy('pago.id', 'DESC')
         ->first();
+
+        // $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
+        // ->where('obra_id', $id)
+        // ->where('solicitud_aprobacion', "Aprobada")
+        // ->where('solicitud_estadopago', 0)
+        // ->orderBy('id', 'DESC')
+        // ->first();
 
         //Armamos el paquete de datos que vamos a utilizar para hacer el calculo
         // La fecha de inicio de obra
         $fecha_inicial = $datoObra->obra_fechainicio;
+
 
         //Si la fecha final de la obra no existe, valida entonces que exista la fecha de la ultima solicitud
         if( empty($ff->fecha_fin_solicitudes) ){

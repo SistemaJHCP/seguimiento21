@@ -82,7 +82,7 @@ $(document).ready(function(){
 
     function listadoObra(b){
         limpiar();
-        console.log( $('#tipo').val() );
+
         if ($('#tipo').val() == "0") {
             $('#estadistic').attr('disabled', true);
         } else {
