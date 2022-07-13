@@ -50,7 +50,8 @@
           </div>
     </div>
     <div class="col-md-5">
-        @if ( !empty($valuacion) )
+        @if ( count($valuacion) > 1 )
+
         <div class="card">
             <div class="card-header">
               <h3 class="card-title">Valuaciones cargadas</h3>
@@ -69,60 +70,126 @@
                         <span class="badge badge-info float-right">{{ $val->valuacion_monto }}</span>
                       <span class="product-description">
                         {{ $val->observacion }}
-                      </span>
+                      </span><br>
                       <span class="product-description float-left">
-                          <button class="btn btn-info"><i class="fas fa-edit"></i></button>
-                          <button class="btn btn-danger"><i class="fas fa-times"> </i></button>
+                          <button class="btn btn-info" value="{{ $val->id }}"  id="capturarValuacion" data-toggle="modal" data-target="#modificarValuacion"><i class="fas fa-edit"></i></button>
+                          <button class="btn btn-danger" value="{{ $val->id }}" id="desactivar"><i class="fas fa-times"> </i></button>
                         </span>
                     </div>
                   </li>
+                  <?php $total[] = $val->valuacion_monto ?>
                 @endforeach
-
-
-
                 <!-- /.item -->
               </ul>
             </div>
+            <div class="card-footer">
+                <b class="float-right">Total: {{ array_sum($total) }}</b>
+            </div>
             <!-- /.card-body -->
+        </div>
 
-          </div>
-        @endif
+      @else
+      <div class="card d-none d-sm-block">
+        <div class="card-body">
+          <img src="{{ url('imagen/AA-2.jpg') }}" class="img-fluid">
+        </div>
+      </div>
+      @endif
     </div>
 </div>
 
 <div class="modal fade" id="crearValuacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="crearValuacionLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="crearValuacionLabel">Crear valuación</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label>Monto de la valuación</label>
-                <input type="text" name="valuacion" id="valuacion" class="form-control" placeholder="Ingrese el monto de la valuación" maxlength="20">
-                <label>Fecha</label>
-                <input type="text" name="fecha" id="fecha" class="form-control" placeholder="dd/mm/aaaa" readonly maxlength="10">
-                <label>Observación</label>
-                <input type="text" name="observacion" id="observacion" class="form-control" maxlength="180">
+        <form action="{{ route('valuacion.crear') }}" method="post">
+            @csrf
+            <div class="modal-header">
+            <h5 class="modal-title" id="crearValuacionLabel">Crear valuación</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
             </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
-        </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Monto de la valuación</label>
+                    <input type="text" name="valuacion" id="valuacion" class="form-control" placeholder="Ingrese el monto de la valuación" maxlength="20" autocomplete="off" required>
+                    <label>Fecha</label>
+                    <input type="text" name="fecha" id="fecha" class="form-control" placeholder="dd/mm/aaaa" readonly maxlength="10" autocomplete="off" required>
+                    <label>Observación</label>
+                    <input type="text" name="observacion" id="observacion" class="form-control" maxlength="180" placeholder="Ingrese la observación de las valuaciones" autocomplete="off" required>
+                    <input type="hidden" name="dato" value="{{ $id }}">
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="cerrar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <input type="submit" name="cargarVal" id="cargarVal" value="Crear valuación" id="cargarVal" class="btn btn-primary" disabled>
+            </div>
+        </form>
       </div>
     </div>
   </div>
 
+  <div class="modal fade" id="modificarValuacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modificarValuacionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modificarValuacionLabel">Modificar valuacion</h5>
+          <button type="button" class="close" id="closeMod" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" method="post">
+            @csrf
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Monto de la valuación</label>
+                    <input type="text" name="valuacionMod" id="valuacionMod" class="form-control" placeholder="Ingrese el monto de la valuación" maxlength="20" autocomplete="off" disabled required>
+                    <label>Fecha</label>
+                    <input type="text" name="fechaMod" id="fechaMod" class="form-control" placeholder="dd/mm/aaaa" disabled maxlength="10" autocomplete="off" required>
+                    <label>Observación</label>
+                    <input type="text" name="observacionMod" id="observacionMod" class="form-control" maxlength="180" placeholder="Ingrese la observación de las valuaciones" autocomplete="off" disabled required>
+                    <input type="hidden" name="datoMod" id="datoMod" value="{{ $id }}">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cerrarMod" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <input type="submit" id="ValMod" value="Modificar valuación" class="btn btn-primary" disabled>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 @endsection
 @section('js')
-
+<script src="{{ asset("plugins/plugins/jquery-ui/jquery-ui.js") }}"></script>
+<script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
+<script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
+<script src="{{ asset("js/obra/valuaciones.js") }}"></script>
+@if (Session::has('resp'))
+{{ Session::has('resp') }}
+    @if (Session::has('resp'))
+    <script>
+        Swal.fire(
+        'Solicitud procesada!',
+        'La información fue cargada exitosamente!',
+        'success'
+        )
+    </script>
+    @else
+    <script>
+        Swal.fire(
+        'No se cargo la información!',
+        'No se pudo guardar en el sistema',
+        'error'
+        )
+    </script>
+    @endif
+@endif
 @endsection
 @section('css')
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('plugins/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 @endsection
 

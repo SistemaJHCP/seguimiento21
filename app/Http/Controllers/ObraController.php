@@ -316,11 +316,12 @@ class ObraController extends Controller
             'obra.obra_observaciones AS obra_observaciones',
             'cliente.cliente_nombre AS cliente_nombre',
             'tipo.tipo_nombre AS tipo_nombre',
-            'codventa.codventa_nombre AS codventa_nombre'
+            'codventa.codventa_nombre AS codventa_nombre',
         )
         ->leftJoin('cliente', 'cliente.id', '=', 'obra.cliente_id')
         ->leftJoin('tipo', 'tipo.id', '=', 'obra.tipo_id')
         ->leftJoin('codventa', 'codventa.id', '=', 'obra.codventa_id')
+
         ->where('obra.id', $id)
         ->where('obra.obra_estado', 1)->first();
 
@@ -330,10 +331,48 @@ class ObraController extends Controller
         return view('sistema.obra.valuacion')->with( ['permisoUsuario' => $permisoUsuario[0], 'id' => $id, 'obra' => $obra, 'valuacion' => $valuacion]);
     }
 
+    public function valuacionCreate(Request $request)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        // if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->valuacion != 1){
+        //     return redirect()->route("home");
+        // }
+
+        // Creamos la instancia de la valuacion
+        $val = new Valuacion();
+        // Ingresamos los valores
+        $val->valuacion_monto = $request->valuacion;
+        $val->valuacion_fecha = $request->fecha;
+        $val->observacion = $request->observacion;
+        $val->obra_id = $request->dato;
+        $val->valuacion_estado = 1;
+        // $val->created_at = now();
+        // $val->updated_at = now();
+        // Guardamos en la base de datos
+        $resp = $val->save();
+        // Retornamos a la vista dependiendo si se guardo o no se guardo la Valuacion
+        return redirect()->route('obra.valuacion.index', $request->dato)->with('resp', $resp);
+
+    }
 
 
+    public function consultarValuacion(Request $request)
+    {
 
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        // if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->valuacion != 1){
+        //     return redirect()->route("home");
+        // }
+
+        // Buscamos toda la informacion relacionada a este ID
+        $val = Valuacion::select()->where('id', $request->id)->first();
+        // Retornamos la respuesta a la vista mediante json
+        return response()->json($val);
+    }
 
 
 
