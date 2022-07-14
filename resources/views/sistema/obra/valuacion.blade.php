@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('titulo')
-    <h1 class="m-0"> Valuaciones <small>de una obra</small></h1>
+    <h1 class="m-0"> Obras <small>y valuaciones</small></h1>
 @endsection
 @section('navegador')
     {{-- <li class="breadcrumb-item">Home</li>
@@ -43,14 +43,17 @@
                 <dt class="col-sm-4">Descripción: </dt>
                 <dd class="col-sm-8">{{ $obra->obra_observaciones }}</dd>
               </dl>
+              @if ($permisoUsuario->crear_valuacion)
               <button class="btn btn-info float-left" data-toggle="modal" data-target="#crearValuacion"><i class="fas fa-money-bill-wave-alt"> </i> Cargar valuación</button>
+              @endif
               <a href="{{ route('obra.index') }}"><button class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a>
             </div>
             <!-- /.card-body -->
           </div>
     </div>
     <div class="col-md-5">
-        @if ( count($valuacion) > 1 )
+
+        @if ( count($valuacion) >= 1 )
 
         <div class="card">
             <div class="card-header">
@@ -59,7 +62,7 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <ul class="products-list product-list-in-card pl-2 pr-2">
-
+                
                 @foreach ($valuacion as $val)
                 <li class="item">
                     <div class="product-img">
@@ -138,7 +141,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="" method="post">
+        <form action="{{ route('valuacion.modificar', $id) }}" method="post">
             @csrf
             <div class="modal-body">
                 <div class="form-group">
@@ -148,7 +151,7 @@
                     <input type="text" name="fechaMod" id="fechaMod" class="form-control" placeholder="dd/mm/aaaa" disabled maxlength="10" autocomplete="off" required>
                     <label>Observación</label>
                     <input type="text" name="observacionMod" id="observacionMod" class="form-control" maxlength="180" placeholder="Ingrese la observación de las valuaciones" autocomplete="off" disabled required>
-                    <input type="hidden" name="datoMod" id="datoMod" value="{{ $id }}">
+                    <input type="hidden" name="datoKid" id="datoKid">
                 </div>
             </div>
             <div class="modal-footer">

@@ -152,17 +152,17 @@ class PermisosController extends Controller
         $permisos->deshabilitar_cuenta_emp =  $request->desCuentaEmp == "on" ? 1 : 0;
 
         //Chequera
-        $permisos->chequera_emp =  $request->chequera == "on" ? 1 : 0;
-        $permisos->crear_Chequera_emp =  $request->crearChequera == "on" ? 1 : 0;
-        $permisos->modificar_Chequera_emp =  $request->modChequera == "on" ? 1 : 0;
-        $permisos->ver_boton_Chequera_emp =  $request->verChequera == "on" ? 1 : 0;
-        $permisos->deshabilitar_Chequera_emp =  $request->desChequera == "on" ? 1 : 0;
+        // $permisos->chequera_emp =  $request->chequera == "on" ? 1 : 0;
+        // $permisos->crear_Chequera_emp =  $request->crearChequera == "on" ? 1 : 0;
+        // $permisos->modificar_Chequera_emp =  $request->modChequera == "on" ? 1 : 0;
+        // $permisos->ver_boton_Chequera_emp =  $request->verChequera == "on" ? 1 : 0;
+        // $permisos->deshabilitar_Chequera_emp =  $request->desChequera == "on" ? 1 : 0;
 
         //Cheque
-        $permisos->cheque_emp =  $request->Cheque == "on" ? 1 : 0;
-        $permisos->crear_Cheque_emp =  $request->crearCheque == "on" ? 1 : 0;
-        $permisos->ver_boton_Cheque_emp =  $request->verCheque == "on" ? 1 : 0;
-        $permisos->deshabilitar_Cheque_emp  =  $request->anularCheque == "on" ? 1 : 0;
+        // $permisos->cheque_emp =  $request->Cheque == "on" ? 1 : 0;
+        // $permisos->crear_Cheque_emp =  $request->crearCheque == "on" ? 1 : 0;
+        // $permisos->ver_boton_Cheque_emp =  $request->verCheque == "on" ? 1 : 0;
+        // $permisos->deshabilitar_Cheque_emp  =  $request->anularCheque == "on" ? 1 : 0;
 
         //PTC
         $permisos->ptc =  $request->master == "on" ? 1 : 0;
@@ -187,6 +187,12 @@ class PermisosController extends Controller
         $permisos->modificar_tipo =  $request->modTipos == "on" ? 1 : 0;
         $permisos->ver_botones_tipo =  $request->verTipos == "on" ? 1 : 0;
         $permisos->desactivar_tipo =  $request->desTipos == "on" ? 1 : 0;
+
+        //Valuaciones
+        $permisos->valuacion =  $request->valuciones == "on" ? 1 : 0;
+        $permisos->crear_valuacion =  $request->crearValuciones == "on" ? 1 : 0;
+        $permisos->modificar_valuacion =  $request->modValuciones == "on" ? 1 : 0;
+        $permisos->desactivar_valuacion =  $request->desValuciones == "on" ? 1 : 0;    
 
         //Personal
         $permisos->personal =  $request->personal == "on" ? 1 : 0;
@@ -412,17 +418,17 @@ class PermisosController extends Controller
         $permisos->deshabilitar_cuenta_emp =  $request->desCuentaEmp == "on" ? 1 : 0;
 
         //Chequera
-        $permisos->chequera_emp =  $request->chequera == "on" ? 1 : 0;
-        $permisos->crear_Chequera_emp =  $request->crearChequera == "on" ? 1 : 0;
-        $permisos->modificar_Chequera_emp =  $request->modChequera == "on" ? 1 : 0;
-        $permisos->ver_boton_Chequera_emp =  $request->verChequera == "on" ? 1 : 0;
-        $permisos->deshabilitar_Chequera_emp =  $request->desChequera == "on" ? 1 : 0;
+        // $permisos->chequera_emp =  $request->chequera == "on" ? 1 : 0;
+        // $permisos->crear_Chequera_emp =  $request->crearChequera == "on" ? 1 : 0;
+        // $permisos->modificar_Chequera_emp =  $request->modChequera == "on" ? 1 : 0;
+        // $permisos->ver_boton_Chequera_emp =  $request->verChequera == "on" ? 1 : 0;
+        // $permisos->deshabilitar_Chequera_emp =  $request->desChequera == "on" ? 1 : 0;
 
         //Cheque
-        $permisos->cheque_emp =  $request->Cheque == "on" ? 1 : 0;
-        $permisos->crear_Cheque_emp =  $request->crearCheque == "on" ? 1 : 0;
-        $permisos->ver_boton_Cheque_emp =  $request->verCheque == "on" ? 1 : 0;
-        $permisos->deshabilitar_Cheque_emp  =  $request->anularCheque == "on" ? 1 : 0;
+        // $permisos->cheque_emp =  $request->Cheque == "on" ? 1 : 0;
+        // $permisos->crear_Cheque_emp =  $request->crearCheque == "on" ? 1 : 0;
+        // $permisos->ver_boton_Cheque_emp =  $request->verCheque == "on" ? 1 : 0;
+        // $permisos->deshabilitar_Cheque_emp  =  $request->anularCheque == "on" ? 1 : 0;
 
 
         //PTC
@@ -448,6 +454,12 @@ class PermisosController extends Controller
         $permisos->modificar_tipo =  $request->modTipos == "on" ? 1 : 0;
         $permisos->ver_botones_tipo =  $request->verTipos == "on" ? 1 : 0;
         $permisos->desactivar_tipo =  $request->desTipos == "on" ? 1 : 0;
+
+        //Valuaciones
+        $permisos->valuacion =  $request->valuciones == "on" ? 1 : 0;
+        $permisos->crear_valuacion =  $request->crearValuciones == "on" ? 1 : 0;
+        $permisos->modificar_valuacion =  $request->modValuciones == "on" ? 1 : 0;
+        $permisos->desactivar_valuacion =  $request->desValuciones == "on" ? 1 : 0;      
 
         //Personal
         $permisos->personal =  $request->personal == "on" ? 1 : 0;

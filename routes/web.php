@@ -91,7 +91,7 @@ Route::middleware('auth')->prefix('control-de-obras')->group(function () {
     Route::get("crear-obra",[App\Http\Controllers\ObraController::class, 'create'])->name('obra.crear');
     Route::get("consultar-coord/{id}",[App\Http\Controllers\ObraController::class, 'consultarCoord']);
     Route::post("cargando", [App\Http\Controllers\ObraController::class, 'store'])->name('obra.creando');
-    Route::get("ver-obra/89ssgvd76ds7tdsgds8gsuddrdst789dsijbhsdvt{id}9s7dds8gsd", [App\Http\Controllers\ObraController::class, 'show'])->name('obra.ver');
+    // Route::get("ver-obra/89ssgvd76ds7tdsgds8gsuddrdst789dsijbhsdvt{id}9s7dds8gsd", [App\Http\Controllers\ObraController::class, 'show'])->name('obra.ver');
     Route::get("modificar-obra/9s7dds8gsd891ssgvd7gs89dsijbhsdvt23{id}d3d4d321", [App\Http\Controllers\ObraController::class, 'edit'])->name('obra.modificar');
     Route::get("modificar-personal-3948/8330/{id}", [App\Http\Controllers\ObraController::class, 'consultarPersonal3456']);
     Route::post("modificando/09uyhc9ed8y7ygeuhijei8ye{id}7t6yegc", [App\Http\Controllers\ObraController::class, 'update'])->name('obra.modificando');
@@ -100,10 +100,12 @@ Route::middleware('auth')->prefix('control-de-obras')->group(function () {
     Route::post("reactivar/39u4radea9ih", [App\Http\Controllers\ObraController::class, 'jq_reactivarObra']);
     Route::get("reactivar-obra", [App\Http\Controllers\ObraController::class, 'reactivar'])->name('obra.reactivar');
     Route::get("lista-de-obras-deshabilitadas/09uyghid9876tdyuido",[App\Http\Controllers\ObraController::class, 'jq_listaDes']);
+   
     Route::post("valuaciones-cargadas/987yujiy765t78idd", [App\Http\Controllers\ObraController::class, 'consultarValuacion']);
-
+    Route::post("valuaciones-mod-valuacion/987yujiy{id}765t78idd", [App\Http\Controllers\ObraController::class, 'updateValuacion'])->name('valuacion.modificar');
     Route::get("valuacion-obra/9y7yuu0ij{id}d68jbhgu8yt7d3gyuhijo23", [App\Http\Controllers\ObraController::class, 'indexValuacion'])->name('obra.valuacion.index');
     Route::post("valuation/crear", [App\Http\Controllers\ObraController::class, 'valuacionCreate'])->name('valuacion.crear');
+    Route::post("desactivar/876tyu89ojbhdbvgytrdrftgyh", [App\Http\Controllers\ObraController::class, 'desactivarValuacion']);
 
     Route::post("consultar-dato-obra", [App\Http\Controllers\ObraController::class, 'consultarObra']);
 });

@@ -786,11 +786,6 @@
                                 <input type="checkbox" class="custom-control-input"  name="desTipos" id="desTipos" autocomplete="off">
                                 <label class="custom-control-label" for="desTipos" id="msjDesTipos"></label>
                             </div>
-                            {{-- <label>Reactivar tipos de obras</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="ReacTipos" id="ReacTipos" autocomplete="off">
-                                <label class="custom-control-label" for="ReacTipos" id="msjReacTipos"></label>
-                            </div> --}}
                         </div>
                     </div> <!-- END -->
 
@@ -831,6 +826,37 @@
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input"  name="reacPersonal" id="reacPersonal" autocomplete="off">
                                 <label class="custom-control-label" for="reacPersonal" id="msjReacPersonal"></label>
+                            </div>
+                        </div>
+                    </div> <!-- END -->
+
+                    <br>
+                    <div class="row bg-info" style="padding: 3px;"><div>Valuaciones</div></div><br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Valuciones</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="valuciones" id="valuciones" autocomplete="off">
+                                <label class="custom-control-label" for="valuciones" id="msjValuciones"></label>
+                            </div>
+                            <label>Crear valuciones</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="crearValuciones" id="crearValuciones" autocomplete="off">
+                                <label class="custom-control-label" for="crearValuciones" id="msjCrearValuciones"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Modificar valuciones</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="modValuciones" id="modValuciones" autocomplete="off">
+                                <label class="custom-control-label" for="modValuciones" id="msjModValuciones"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Desactivar valuciones</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="desValuciones" id="desValuciones" autocomplete="off">
+                                <label class="custom-control-label" for="desValuciones" id="msjDesValuciones"></label>
                             </div>
                         </div>
                     </div> <!-- END -->

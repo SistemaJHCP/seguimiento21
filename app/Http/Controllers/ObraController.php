@@ -298,9 +298,9 @@ class ObraController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        // if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->valuacion != 1){
-        //     return redirect()->route("home");
-        // }
+        if($permisoUsuario[0]->obra != 1 ){
+            return redirect()->route("home");
+        }
 
         // Consultamos la obra
         $obra = Obra::select(
@@ -336,9 +336,9 @@ class ObraController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        // if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->valuacion != 1){
-        //     return redirect()->route("home");
-        // }
+        if(  $permisoUsuario[0]->valuacion != 1 || $permisoUsuario[0]->crear_valuacion != 1 ){
+            return redirect()->route("home");
+        }
 
         // Creamos la instancia de la valuacion
         $val = new Valuacion();
@@ -348,8 +348,7 @@ class ObraController extends Controller
         $val->observacion = $request->observacion;
         $val->obra_id = $request->dato;
         $val->valuacion_estado = 1;
-        // $val->created_at = now();
-        // $val->updated_at = now();
+
         // Guardamos en la base de datos
         $resp = $val->save();
         // Retornamos a la vista dependiendo si se guardo o no se guardo la Valuacion
@@ -364,15 +363,58 @@ class ObraController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        // if($permisoUsuario[0]->obra != 1 || $permisoUsuario[0]->valuacion != 1){
-        //     return redirect()->route("home");
-        // }
+        if($permisoUsuario[0]->valuacion != 1 || $permisoUsuario[0]->modificar_valuacion != 1){
+            return redirect()->route("home");
+        }
 
         // Buscamos toda la informacion relacionada a este ID
         $val = Valuacion::select()->where('id', $request->id)->first();
         // Retornamos la respuesta a la vista mediante json
         return response()->json($val);
     }
+
+    public function updateValuacion(Request $request, $id)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->valuacion != 1 || $permisoUsuario[0]->modificar_valuacion != 1){
+            return redirect()->route("home");
+        }
+
+        // Buscamos la valuacion relacionada con el ID
+        $val = Valuacion::find($request->datoKid);
+        //Sustituimos ls valores
+        $val->valuacion_monto = $request->valuacionMod;
+        $val->valuacion_fecha = $request->fechaMod;
+        $val->observacion = $request->observacionMod;
+        $val->obra_id = $id;
+        //Guardamos en BD los cambios realizados
+        $resp = $val->save();
+        // Retornamos a la vista dependiendo si se guardo o no se guardo la Valuacion
+        return redirect()->route('obra.valuacion.index', $id)->with('resp', $resp);
+
+    }
+
+    public function desactivarValuacion(Request $request)
+    {
+        //Validamos los permisos
+        $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
+
+        if($permisoUsuario[0]->valuacion != 1 || $permisoUsuario[0]->desactivar_valuacion != 1){
+            return redirect()->route("home");
+        }
+
+        // Realizamos la busqueda de la valuacion
+        $val = Valuacion::find($request->id);
+        // Cambiamos el estado a inactivo
+        $val->valuacion_estado = 0;
+        // Guardamos la modificacion
+        $resp = $val->save();
+        return response()->json($resp);
+    }
+
+
 
 
 

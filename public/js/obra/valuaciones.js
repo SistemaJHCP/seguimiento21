@@ -168,6 +168,7 @@ $(document).ready(function(){
                 $('#observacionMod').attr('disabled', false);
                 $('#observacionMod').val( comp.observacion );
                 $('#ValMod').prop('disabled',false);
+                $('#datoKid').val(comp.id);
             }
         });
     });
@@ -187,5 +188,46 @@ $(document).ready(function(){
             $('#ValMod').prop('disabled',true);
         }
     };
+
+    $(document).on('click', "#desactivar", function(){
+
+        Swal.fire({
+            title: '¿Esta seguro?',
+            text: "¿Desea anular esta valuación?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Anula la valuación',
+            cancelButtonText: 'No, cancelar!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    type: "post",
+                    url: "../desactivar/876tyu89ojbhdbvgytrdrftgyh",
+                    data: {id: this.value},
+                    dataType: "json",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    success: function (comp) {
+                        if(comp){
+                            location.reload();
+                        } else {
+                            Swal.fire(
+                                'Hubo un error',
+                                'No pudo eliminar la valuación?',
+                                'error'
+                              )
+                        }
+                    }
+                });
+                
+
+            }
+          })
+    });
+
+
+
 
 });
