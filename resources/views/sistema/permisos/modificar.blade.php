@@ -955,7 +955,27 @@
 
                         </div>
                     </div> <!-- END -->
+                    <br>
+                    <div class="row bg-info" style="padding: 3px;"><div>Control de gastos</div></div><br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Control de gastos</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="bitacora" id="bitacora" autocomplete="off" {!! $permisos->control_de_gasto == 1 ? ' checked' : "" !!}>
+                                <label class="custom-control-label" for="bitacora" id="msjbitacora"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Consultar estadistica</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input"  name="estadistica" id="estadistica" autocomplete="off" {!! $permisos->estadistica == 1 ? ' checked' : "" !!}>
+                                <label class="custom-control-label" for="estadistica" id="msjestadistica"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
 
+                        </div>
+                    </div> <!-- END -->
                   </div>
                 </div>
             </div>
@@ -1050,28 +1070,8 @@
                             </div>
                         </div>
                     </div> <!-- END -->
-                    <br>
-                    <div class="row bg-info" style="padding: 3px;"><div>Resultados estadisticos</div></div><br>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label>Consultar estadistica</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="estadistica" id="estadistica" autocomplete="off" {!! $permisos->estadistica == 1 ? ' checked' : "" !!}>
-                                <label class="custom-control-label" for="estadistica" id="msjestadistica"></label>
-                            </div>
-                        </div>
-                    </div> <!-- END -->
-                    <br>
-                    <div class="row bg-info" style="padding: 3px;"><div>Bitácora</div></div><br>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label>Consultar bitácora</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  name="bitacora" id="bitacora" autocomplete="off" {!! $permisos->bitacora == 1 ? ' checked' : "" !!}>
-                                <label class="custom-control-label" for="bitacora" id="msjbitacora"></label>
-                            </div>
-                        </div>
-                    </div> <!-- END -->
+
+
                   </div>
                 </div>
             </div>

@@ -224,7 +224,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <?php
                 }
             ?>
+            <?php
+                if ($permisoUsuario->control_de_gasto == 1){
+            ?>
                 <li><a href="{{ route('costosObra.index') }}" class="dropdown-item">Control de gastos</a></li>
+            <?php
+                }
+            ?>
             </ul>
         </li>
     @endif

@@ -951,7 +951,6 @@ class SolicitudController extends Controller
 
         //Realizamos la consulta a la base de datos
 
-
         $query = DB::select('select
         `solicitud`.`id` as `id`,
         `solicitud`.`solicitud_numerocontrol` as `solicitud_numerocontrol`,
@@ -1551,6 +1550,8 @@ class SolicitudController extends Controller
 
 
     }
+
+
 
 
     public function createCuenta(Request $request)

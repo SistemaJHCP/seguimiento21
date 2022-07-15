@@ -100,7 +100,7 @@ Route::middleware('auth')->prefix('control-de-obras')->group(function () {
     Route::post("reactivar/39u4radea9ih", [App\Http\Controllers\ObraController::class, 'jq_reactivarObra']);
     Route::get("reactivar-obra", [App\Http\Controllers\ObraController::class, 'reactivar'])->name('obra.reactivar');
     Route::get("lista-de-obras-deshabilitadas/09uyghid9876tdyuido",[App\Http\Controllers\ObraController::class, 'jq_listaDes']);
-   
+
     Route::post("valuaciones-cargadas/987yujiy765t78idd", [App\Http\Controllers\ObraController::class, 'consultarValuacion']);
     Route::post("valuaciones-mod-valuacion/987yujiy{id}765t78idd", [App\Http\Controllers\ObraController::class, 'updateValuacion'])->name('valuacion.modificar');
     Route::get("valuacion-obra/9y7yuu0ij{id}d68jbhgu8yt7d3gyuhijo23", [App\Http\Controllers\ObraController::class, 'indexValuacion'])->name('obra.valuacion.index');

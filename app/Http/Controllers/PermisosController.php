@@ -192,7 +192,7 @@ class PermisosController extends Controller
         $permisos->valuacion =  $request->valuciones == "on" ? 1 : 0;
         $permisos->crear_valuacion =  $request->crearValuciones == "on" ? 1 : 0;
         $permisos->modificar_valuacion =  $request->modValuciones == "on" ? 1 : 0;
-        $permisos->desactivar_valuacion =  $request->desValuciones == "on" ? 1 : 0;    
+        $permisos->desactivar_valuacion =  $request->desValuciones == "on" ? 1 : 0;
 
         //Personal
         $permisos->personal =  $request->personal == "on" ? 1 : 0;
@@ -259,8 +259,8 @@ class PermisosController extends Controller
         $permisos->servicio_solicitud  =  0;
         $permisos->viatico_solicitud  =  0;
 
-        //Bitácora
-        $permisos->bitacora  =  $request->bitacora == "on" ? 1 : 0;
+        //Control de gasto
+        $permisos->control_de_gasto  =  $request->bitacora == "on" ? 1 : 0;
         $permisos->estadistica  =  $request->estadistica == "on" ? 1 : 0;
         $permisos->estado_permisos  =  1;
 
@@ -459,7 +459,7 @@ class PermisosController extends Controller
         $permisos->valuacion =  $request->valuciones == "on" ? 1 : 0;
         $permisos->crear_valuacion =  $request->crearValuciones == "on" ? 1 : 0;
         $permisos->modificar_valuacion =  $request->modValuciones == "on" ? 1 : 0;
-        $permisos->desactivar_valuacion =  $request->desValuciones == "on" ? 1 : 0;      
+        $permisos->desactivar_valuacion =  $request->desValuciones == "on" ? 1 : 0;
 
         //Personal
         $permisos->personal =  $request->personal == "on" ? 1 : 0;
@@ -526,8 +526,8 @@ class PermisosController extends Controller
         $permisos->servicio_solicitud  =  0;
         $permisos->viatico_solicitud  =  0;
 
-        //Bitácora
-        $permisos->bitacora  =  $request->bitacora == "on" ? 1 : 0;
+        //Control de gasto
+        $permisos->control_de_gasto  =  $request->bitacora == "on" ? 1 : 0;
         $permisos->estadistica  =  $request->estadistica == "on" ? 1 : 0;
         $permisos->estado_permisos  =  1;
 
