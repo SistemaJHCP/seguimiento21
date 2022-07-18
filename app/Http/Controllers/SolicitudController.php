@@ -1733,6 +1733,7 @@ class SolicitudController extends Controller
 
     public function calcularEstadistica(Request $request)
     {
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -1759,24 +1760,53 @@ class SolicitudController extends Controller
 
         // Consultamos los datos de la valuacion relaciionados con esta obra
         $valuacion = Valuacion::select('valuacion_monto','observacion','valuacion_fecha')->where('obra_id', $id)->where('valuacion_estado', 1)->get();
+
         // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
-        $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
+        $fi = Solicitud::select('solicitud_fecha AS fecha_inicio_solicitudes')
         ->where('obra_id', $id)
         ->where('solicitud_aprobacion', "Aprobada")
         ->where('solicitud_estadopago', 0)
-        ->orderBy('id', 'DESC')
+        ->orderBy('id', 'ASC')
         ->first();
+
+        // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
+        // $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
+        // ->where('obra_id', $id)
+        // ->where('solicitud_aprobacion', "Aprobada")
+        // ->where('solicitud_estadopago', 0)
+        // ->orderBy('id', 'DESC')
+        // ->first();
+
+        // Si requiere ue la fecha final sea en base a LA FECHA DE PAGO
+        // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
+        $ff = Pago::select('pago.pago_fecha AS fecha_fin_solicitudes')
+        ->leftJoin('solicitud', 'solicitud.id', '=', 'pago.solicitud_id')
+        ->where('solicitud.obra_id', $id)
+        ->where('solicitud.solicitud_aprobacion', "Aprobada")
+        ->where('solicitud.solicitud_estadopago', 0)
+         ->orderBy('pago.id', 'DESC')
+        ->first();
+
+
+
 
         // Inicio contador
         $i = 0;
-        // Definimos la fecha inicial
-        $fecha_inicial = $datoObra->obra_fechainicio;
+
+        // calculo de la fecha inicial
+        if($datoObra->obra_fechainicio <= $fi->fecha_inicio_solicitudes){
+            $fecha_inicial = $datoObra->obra_fechainicio;
+        } else{
+            $fecha_inicial = $fi->fecha_inicio_solicitudes;
+        }
+
         // Suma
         $suma = $datoObra->obra_anticipo;
         // Contador de semanas
         $dia = 1;
         // arreglo
         $arreglo= array();
+
         //Si la fecha final de la obra no existe, valida entonces que exista la fecha de la ultima solicitud
         if( !empty($ff->fecha_fin_solicitudes) ){
             // validamos que tengamos en existencia la ultima fecha en la solicitud
@@ -1787,9 +1817,9 @@ class SolicitudController extends Controller
                 // Si tienes informacion de la ultima solicitud, sera entonces el ultimo dia
                 $fecha_fin = $datoObra->obra_fechafin;
             }
+
         } else {
-            // Si la obra si tiene fecha final, entonces esa sera la ultima fecha de la estadistica
-            $fecha_fin = date('Y-m-d');
+            dump("No tiene fin la solicitud");
         }
         // Revisamos que existan valuaciones
         if( count($valuacion) > 1 ){
@@ -1803,16 +1833,20 @@ class SolicitudController extends Controller
 
         }
 
+
+
         $incrementoDeDias = date('Y-m-d', strtotime($fecha_inicial."+ 6 days"));
         // Mientras la fecha inicial sea menor a la fecha incrementada en dias
+
         while($incrementoDeDias < $fecha_fin){
+
             // Calculo los gastos realizados entre esas semanas
             $calcular = Solicitud::select(
                 DB::raw('SUM(pago.pago_monto) AS pago_monto')
             )
             ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
             ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
-            ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial , $incrementoDeDias])
+            ->whereBetween('pago.pago_fecha', [$fecha_inicial , $incrementoDeDias])
             ->where('obra.id', $id)
             ->first();
 
@@ -1863,7 +1897,7 @@ class SolicitudController extends Controller
             )
             ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
             ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
-            ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial , $fecha_fin])
+            ->whereBetween('pago.pago_fecha', [$fecha_inicial , $fecha_fin])
             ->where('obra.id', $id)
             ->first();
         }
@@ -1905,15 +1939,17 @@ class SolicitudController extends Controller
             'arreglo' => $arreglo
         ]);
 
-
     }
 
     public function histograma($id)
     {
+
         // Buscamos los datos de la obra asociada al ID
         $datoObra = Obra::select('id', 'obra_codigo', 'obra_anticipo', 'obra_fechainicio', 'obra_fechafin')->where('id', $id)->first();
 
+
         // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
+        // Fecha de la ultima solicitud
         $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
         ->where('obra_id', $id)
         ->where('solicitud_aprobacion', "Aprobada")
@@ -1921,8 +1957,22 @@ class SolicitudController extends Controller
         ->orderBy('id', 'DESC')
         ->first();
 
-        // Fecha inicial
-        $fecha_inicial = $datoObra->obra_fechainicio;
+        // Fecha de la primera solicitud
+        $fi = Solicitud::select('solicitud_fecha AS fecha_inicio_solicitudes')
+        ->where('obra_id', $id)
+        ->where('solicitud_aprobacion', "Aprobada")
+        ->where('solicitud_estadopago', 0)
+        ->orderBy('id', 'ASC')
+        ->first();
+
+
+
+        // calculo de la fecha inicial
+        if($datoObra->obra_fechainicio <= $fi->fecha_inicio_solicitudes){
+            $fecha_inicial = $datoObra->obra_fechainicio;
+        } else{
+            $fecha_inicial = $fi->fecha_inicio_solicitudes;
+        }
 
         //Si la fecha final de la obra no existe, valida entonces que exista la fecha de la ultima solicitud
         if( empty($ff->fecha_fin_solicitudes) ){
@@ -1945,7 +1995,7 @@ class SolicitudController extends Controller
             $fecha_fin = $ff->fecha_fin_solicitudes;
         } else {
             // La final va a ser la fecha de cierre indicada en la obra
-            $fecha_fin = $ff->fecha_fin_solicitudes;
+            $fecha_fin = $datoObra->obra_fechafin;
         }
 
         //Donde se guardara el array
@@ -1999,6 +2049,22 @@ class SolicitudController extends Controller
 
                 // Guardamos la informacion en un array, la semana seria numerada
                 $array[] = array('country' =>  "Semana " . $cont, 'value' => floatval($calcular->pago_monto));
+            // Nuevo codigo
+            } else {
+
+                    $calcular = Solicitud::select(
+                        DB::raw('SUM(pago.pago_monto) AS pago_monto')
+                    )
+                    ->leftJoin('pago', 'pago.solicitud_id', '=', 'solicitud.id')
+                    ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+                    ->whereBetween('solicitud.solicitud_fecha', [$fecha_inicial , $fecha_fin])
+                    ->where('obra.id', $id)
+                    ->first();
+
+
+
+                // Guardamos la informacion en un array, la semana seria numerada
+                $array[] = array('country' =>  "Semana " . $cont, 'value' => floatval($calcular->pago_monto));
 
             }
 
@@ -2045,16 +2111,22 @@ class SolicitudController extends Controller
          ->orderBy('pago.id', 'DESC')
         ->first();
 
-        // $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
-        // ->where('obra_id', $id)
-        // ->where('solicitud_aprobacion', "Aprobada")
-        // ->where('solicitud_estadopago', 0)
-        // ->orderBy('id', 'DESC')
-        // ->first();
+        // Fecha de la primera solicitud
+        $fi = Solicitud::select('solicitud_fecha AS fecha_inicio_solicitudes')
+        ->where('obra_id', $id)
+        ->where('solicitud_aprobacion', "Aprobada")
+        ->where('solicitud_estadopago', 0)
+        ->orderBy('id', 'ASC')
+        ->first();
 
-        //Armamos el paquete de datos que vamos a utilizar para hacer el calculo
-        // La fecha de inicio de obra
-        $fecha_inicial = $datoObra->obra_fechainicio;
+
+
+        // calculo de la fecha inicial
+        if($datoObra->obra_fechainicio <= $fi->fecha_inicio_solicitudes){
+            $fecha_inicial = $datoObra->obra_fechainicio;
+        } else{
+            $fecha_inicial = $fi->fecha_inicio_solicitudes;
+        }
 
 
         //Si la fecha final de la obra no existe, valida entonces que exista la fecha de la ultima solicitud
@@ -2115,6 +2187,7 @@ class SolicitudController extends Controller
         $i = 0;
         //sumamos 6 dias desdee el dia de inicio hasta 6 dias mas
         $incrementoDeDias = date('Y-m-d', strtotime($fecha_inicial."+ 6 days"));
+
         // Variable a usar para las sumatorias generales del while, el monto sera el anticipo o en caso de
         // no haber, valdra 0
         if($datoObra->obra_anticipo){
@@ -2126,6 +2199,7 @@ class SolicitudController extends Controller
             // Si los dias incrementados dan un numero mayor a la fecha final se reaiza la consulta
             // en base a la fecha inicial contra la fecha final
             if($incrementoDeDias < $fecha_fin){
+
                 // Se crea una variable a fin de no repetir el nombre de la fecha final
                 $fecha_i = $fecha_inicial;
                 // Mientras el incremento de dias sea menor a la fecha final, has este bucle
