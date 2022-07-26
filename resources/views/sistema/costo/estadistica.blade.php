@@ -48,7 +48,7 @@
                                         <th>Fecha final</th>
                                         <th>Gastos</th>
                                         <th>Valuacion</th>
-                                        <th>Suma</th>
+                                        <th>Resultado</th>
                                     </tr>
                                 </thead>
                                 <tbody>

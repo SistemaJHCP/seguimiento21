@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     $('#listaSolicitud').DataTable({
-        serverSide: false,
+        serverSide: true,
         processing: true,
         ajax: "solicitud-de-pago/lista-solicitud",
         columns: [
@@ -23,7 +23,7 @@ $(document).ready(function(){
         responsive: true,
         autoWidth: false,
         info: false,
-        "language": {
+        language: {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",
             "zeroRecords": "Lo que busca no esta en el registro",

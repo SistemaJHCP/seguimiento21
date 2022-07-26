@@ -941,7 +941,6 @@ class SolicitudController extends Controller
 
     public function solicitudesPagoLista()
     {
-
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -949,9 +948,19 @@ class SolicitudController extends Controller
             return redirect()->route("home");
         }
 
+        $draw = $_GET['draw'];
+        $row = $_GET['start'];
+        $rowperpage = $_GET['length']; // Rows display per page
+        // $columnIndex = $_GET['order'][0]['column']; // Column index
+        // $columnName = $_GET['columns'][$columnIndex]['data']; // Column name
+        // $columnSortOrder = $_GET['order'][0]['dir']; // asc or desc
+        // $searchValue = mysqli_real_escape_string($con,$_GET['search']['value']); // Search value
+        // dump( $draw . " | " . $row . " | " . $rowperpage . " | " . $columnIndex . " | " . $columnName . " | " . $columnSortOrder );
+        $buscador = $_GET['search']['value'];
+
         //Realizamos la consulta a la base de datos
 
-        $query = DB::select('select
+        $query = DB::select("select
         `solicitud`.`id` as `id`,
         `solicitud`.`solicitud_numerocontrol` as `solicitud_numerocontrol`,
         `solicitud`.`solicitud_fecha` as `fecha`,
@@ -965,23 +974,57 @@ class SolicitudController extends Controller
 
         from `solicitud`
         left join `users` on `users`.`id` = `solicitud`.`usuario_id`
-        left join `obra` on `obra`.`id` = `solicitud`.`obra_id`
-        order by `id` desc limit 500');
+        left join `obra` on `obra`.`id` = `solicitud`.`obra_id` 
+        WHERE `solicitud`.`id` LIKE '%$buscador%' OR 
+        `solicitud`.`solicitud_numerocontrol` LIKE '%$buscador%' OR 
+        `solicitud`.`solicitud_fecha` LIKE '%$buscador%' OR 
+        `solicitud`.`solicitud_estadopago` LIKE '%$buscador%' OR 
+        `obra`.`obra_nombre` LIKE '%$buscador%' OR 
+        `solicitud`.`solicitud_motivo` LIKE '%$buscador%' OR 
+        `solicitud`.`solicitud_aprobacion` LIKE '%$buscador%' OR 
+        `users`.`user_name` LIKE '%$buscador%' 
+        order by `id` desc limit " . $_GET['start'] . ", " . $_GET['length']);
+        
 
+        $total = Solicitud::select()
+        ->leftJoin('users', 'users.id', '=', 'solicitud.usuario_id')
+        ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+        ->where('solicitud.id', 'like', '%'.$buscador.'%')
+        ->orWhere('solicitud.solicitud_numerocontrol', 'like', '%'.$buscador.'%')
+        ->orWhere('solicitud.solicitud_fecha', 'like', '%'.$buscador.'%')
+        ->orWhere('solicitud.solicitud_estadopago', 'like', '%'.$buscador.'%')
+        ->orWhere('obra.obra_nombre', 'like', '%'.$buscador.'%')
+        ->orWhere('solicitud.solicitud_aprobacion', 'like', '%'.$buscador.'%')
+        ->orWhere('solicitud.solicitud_motivo', 'like', '%'.$buscador.'%')
+        ->orWhere('users.user_name', 'like', '%'.$buscador.'%')
+        ->orderBy('solicitud.id', 'DESC')
+        ->count();
+
+        // dd($total);
         // $query = Solicitud::select(
-        //     'solicitud.id AS id',
-        //     'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
-        //     'solicitud.solicitud_fecha AS fecha',
-        //     'solicitud.solicitud_motivo AS solicitud_motivo',
-        //     'solicitud.solicitud_aprobacion AS solicitud_aprobacion',
-        //     'obra.obra_nombre AS obra_nombre',
-        //     'users.user_name AS nombre'
+        // 'solicitud.id as id',
+        // 'solicitud.solicitud_numerocontrol as solicitud_numerocontrol',
+        // 'solicitud.solicitud_fecha as fecha',
+        // 'solicitud.solicitud_estadopago as pago',
+        // DB::raw('(select SUM(solicitud_detalle.sd_cantidad * solicitud_detalle.sd_preciounitario) from solicitud_detalle WHERE solicitud.id = solicitud_detalle.solicitud_id) as suma'),
+        // 'solicitud.moneda as moneda',
+        // 'obra.obra_nombre as obra_nombre',
+        // 'solicitud.solicitud_motivo as solicitud_motivo',
+        // 'solicitud.solicitud_aprobacion as solicitud_aprobacion',
+        // 'users.user_name as nombre'
         // )
-        // ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
-        // ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
-        // ->orderBy('id', 'DESC')
-        // ->limit(1000)
-        // ->toSql();
+        // ->leftJoin('users', 'users.id', '=', 'solicitud.usuario_id')
+        // ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
+        // ->orderBy('solicitud.id', 'DESC')
+        // ->get();
+
+        $results = array(
+            "sEcho" => $draw,
+            "iTotalRecords" => $total,
+            "iTotalDisplayRecords" => $total,
+            "aaData"=>$query
+        );
+
 
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
@@ -990,12 +1033,18 @@ class SolicitudController extends Controller
             ->addColumn('btn','sistema.solicitud.aprobacion.btnConsultarAprobacion')
             ->addColumn('aproRepro', 'sistema.solicitud.aprobacion.btnAproRepro')
             ->addColumn('btn2','sistema.solicitud.aprobacion.btnPago')
+            ->setTotalRecords( $total )
+            ->setFilteredRecords($total)
+            ->skipPaging()
             ->rawColumns(['btn', 'aproRepro', 'btn2'])->toJson();
         } else {
             return datatables()->of($query)
             ->addColumn('btn','sistema.btnNull')
             ->addColumn('aproRepro','sistema.solicitud.aprobacion.btnAproRepro')
             ->addColumn('btn2','sistema.solicitud.aprobacion.btnPago')
+            ->setTotalRecords( $total )
+            ->setFilteredRecords($total)
+            ->skipPaging()
             ->rawColumns(['btn', 'aproRepro', 'btn2'])->toJson();
         }
     }
@@ -1209,6 +1258,14 @@ class SolicitudController extends Controller
         $solicitud->aprobador_id = \Auth::user()->id;
         //guardamos en la BD
         $resp = $solicitud->save();
+
+        if($solicitud->requisicion_id){
+            // Buscamos la requisicion
+            $seguimiento = Requisicion::find($solicitud->requisicion_id);
+            $seguimiento->requisicion_estado = "Aprobada";
+            $seguimiento->save();
+        }
+
         //Retornamos a la vista
         return redirect()->route('sPagoIndex.index')->with('respApro', $resp);
 
@@ -1235,6 +1292,14 @@ class SolicitudController extends Controller
         $solicitud->aprobador_id = \Auth::user()->id;
         //guardamos en la BD
         $resp = $solicitud->save();
+
+        if($solicitud->requisicion_id){
+            // Buscamos la requisicion
+            $seguimiento = Requisicion::find($solicitud->requisicion_id);
+            $seguimiento->requisicion_estado = "Rechazada";
+            $seguimiento->save();
+        }
+
         //Retornamos a la vista
         return redirect()->route('sPagoIndex.index')->with('respNega', $resp);
     }
@@ -1334,6 +1399,7 @@ class SolicitudController extends Controller
             ->orderBy('id', 'DESC')
             ->limit(600)
             ->get();
+
         }
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
@@ -1706,7 +1772,6 @@ class SolicitudController extends Controller
         // dd( $draw . " | " . $row . " | " . $rowperpage . " | " . $columnIndex . " | " . $columnName . " | " . $columnSortOrder );
 
 
-
         //Realizamos la consulta a la base de datos
         $query = Solicitud::select(
             'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
@@ -1726,7 +1791,9 @@ class SolicitudController extends Controller
         // ->limit(10, 313)
         ->get();
 
-        return datatables()->of($query)->toJson();
+        return datatables()->of($query)
+        // ->setTotalRecords(count( $query))
+        ->toJson();
 
 
     }
@@ -1737,9 +1804,9 @@ class SolicitudController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
-        // if( $permisoUsuario[0]->compra_cuentas_x_pagar != 1 || $permisoUsuario[0]->aproRepro_compra_cuentas_x_pagar != 1 ){
-        //     return redirect()->route("home");
-        // }
+        if( $permisoUsuario[0]->control_de_gasto != 1 || $permisoUsuario[0]->estadistica != 1 ){
+            return redirect()->route("home");
+        }
 
         // Definimos el id de la obra
         $id = $request->obra;
@@ -1859,6 +1926,7 @@ class SolicitudController extends Controller
             if(count($valuacion) > 1){
                 if(  $valuacion[$i]->valuacion_fecha > $fecha_inicial AND $valuacion[$i]->valuacion_fecha < $incrementoDeDias  ){
                     $valuacionMonto = $valuacion[$i]->valuacion_monto;
+                    $i = $i + 1;
                 } else {
                     $valuacionMonto = 0;
                 }

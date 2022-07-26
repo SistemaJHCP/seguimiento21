@@ -89,7 +89,7 @@ $(document).ready(function(){
             $('#estadistic').attr('disabled', false);
         }
         $('#listasolicitudesGastos').DataTable({
-            serverSide:true,
+            serverSide: true,
             processing: true,
             ajax: "../obra-seleccionada/" + b,
             columns: [
