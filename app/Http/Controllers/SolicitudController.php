@@ -983,7 +983,7 @@ class SolicitudController extends Controller
         `solicitud`.`solicitud_motivo` LIKE '%$buscador%' OR 
         `solicitud`.`solicitud_aprobacion` LIKE '%$buscador%' OR 
         `users`.`user_name` LIKE '%$buscador%' 
-        order by `id` desc limit " . $_GET['start'] . ", " . $_GET['length']);
+        order by `id` desc limit " . $_GET['start'] . ", 10");
         
 
         $total = Solicitud::select()
@@ -1331,9 +1331,15 @@ class SolicitudController extends Controller
             return redirect()->route("home");
         }
 
-        if($id == 1){
+        // Capturamos los datos enviados por Datatables
+        $draw = $_GET['draw'];
+        $start = $_GET['start'];
+        $buscador = $_GET['search']['value'];
 
-            $query = DB::select('select
+        // Realizamos la consulta a la base de datos segun el ID que sea seleccionado al momento de presionar el boton de accion
+        if($id == 1){
+         // Traemos toda la informacion de la BD al presionar el boton "TODAS LAS SOLICITUDES"
+        $query = DB::select("select
             `solicitud`.`id` as `id`,
             `solicitud`.`solicitud_numerocontrol` as `solicitud_numerocontrol`,
             `solicitud`.`solicitud_fecha` as `fecha`,
@@ -1349,12 +1355,39 @@ class SolicitudController extends Controller
             from `solicitud`
             left join `users` on `users`.`id` = `solicitud`.`usuario_id`
             left join `obra` on `obra`.`id` = `solicitud`.`obra_id`
-            left join `proveedor` on `proveedor`.`id` = `solicitud`.`proveedor_id`
-            order by `id` desc');
+            left join `proveedor` on `proveedor`.`id` = `solicitud`.`proveedor_id` 
+            WHERE `solicitud`.`id` LIKE '%$buscador%' OR 
+            `solicitud`.`solicitud_numerocontrol` LIKE '%$buscador%' OR 
+            `solicitud`.`solicitud_fecha` LIKE '%$buscador%' OR 
+            `solicitud`.`solicitud_estadopago` LIKE '%$buscador%' OR 
+            `solicitud`.`moneda` LIKE '%$buscador%' OR 
+            `obra`.`obra_nombre` LIKE '%$buscador%' OR 
+            `solicitud`.`solicitud_motivo` LIKE '%$buscador%' OR 
+            `solicitud`.`solicitud_aprobacion` LIKE '%$buscador%' OR 
+            `users`.`user_name` LIKE '%$buscador%' OR 
+            `proveedor`.`proveedor_nombre` LIKE '%$buscador%'
+            order by `id` desc 
+            LIMIT $start, 10");
 
+            // Realizamos la cuenta de 
+            $total =Solicitud::select()
+            ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+            ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+            ->leftJoin('proveedor','proveedor.id', '=', 'solicitud.proveedor_id')
+            ->orWhere('solicitud.id', 'LIKE',  "%$buscador%")
+            ->orWhere("solicitud.solicitud_numerocontrol", "LIKE", "%$buscador%")
+            ->orWhere('solicitud.solicitud_fecha', 'LIKE',  "%$buscador%")
+            ->orWhere('solicitud.solicitud_motivo', 'LIKE',  "%$buscador%")
+            ->orWhere('solicitud.solicitud_aprobacion', 'LIKE',  "%$buscador%")
+            ->orWhere('solicitud.solicitud_estadopago', 'LIKE',  "%$buscador%")
+            ->orWhere('users.user_name', 'LIKE',  "%$buscador%")
+            ->orWhere('obra.obra_nombre', 'LIKE',  "%$buscador%")
+            ->orWhere('proveedor.proveedor_nombre', 'LIKE',  "%$buscador%")
+            ->orderBy('id', 'DESC')
+            ->count();
 
         } else {
-
+            // De presionar cualquier otra opcion el valida cual es y realiza la consulta dependiendo de la solicitud
             switch ($id) {
                 case 2:
                     $valor = "Sin Respuesta";
@@ -1394,26 +1427,57 @@ class SolicitudController extends Controller
             ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
             ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
             ->leftJoin('proveedor','proveedor.id', '=', 'solicitud.proveedor_id')
-            ->where('solicitud.solicitud_aprobacion', $valor)
-            ->where('solicitud.solicitud_estadopago', $estadoPago)
+            
+            
+            ->Where('solicitud.id', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere("solicitud.solicitud_numerocontrol", "LIKE", "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('solicitud.solicitud_fecha', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('solicitud.solicitud_motivo', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('solicitud.solicitud_aprobacion', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('solicitud.solicitud_estadopago', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('users.user_name', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('obra.obra_nombre', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('proveedor.proveedor_nombre', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
             ->orderBy('id', 'DESC')
-            ->limit(600)
+            ->offset($start)
+            ->limit(10)
+
             ->get();
+            // Contamos las pagnaciones dependiend de la busqueda realizada
+            $total =Solicitud::select()
+            ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+            ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+            ->leftJoin('proveedor','proveedor.id', '=', 'solicitud.proveedor_id')
+            ->where('solicitud.id', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere("solicitud.solicitud_numerocontrol", "LIKE", "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('solicitud.solicitud_fecha', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('solicitud.solicitud_motivo', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('solicitud.solicitud_aprobacion', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('solicitud.solicitud_estadopago', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('users.user_name', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('obra.obra_nombre', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orWhere('proveedor.proveedor_nombre', 'LIKE',  "%$buscador%")->where('solicitud.solicitud_estadopago', $estadoPago)->where('solicitud.solicitud_aprobacion', $valor)
+            ->orderBy('id', 'DESC')
+            ->count();
+
 
         }
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->compra_cuentas_x_pagar == 1 && $permisoUsuario[0]->ver_botones_compra_cuentas_x_pagar == 1) {
             return datatables()->of($query)
-            ->addColumn('apro','sistema.solicitud.cuentas.btnAproRepro')
-            ->addColumn('btn','sistema.solicitud.cuentas.btnCuenta')
-            ->addColumn('pago','sistema.solicitud.cuentas.btnPago')
-            ->rawColumns(['btn','apro','pago'])->toJson();
+            ->addColumn('apro','sistema.solicitud.cuentas.btnAproRepro') //Agregamos la vista con los botones de aprobado o rechazada
+            ->addColumn('btn','sistema.solicitud.cuentas.btnCuenta') // Agregamos la vista
+            ->addColumn('pago','sistema.solicitud.cuentas.btnPago') // Agregamos la vista con la consulta de pagada o no pagada
+            ->setTotalRecords( $total ) // Agregamos el monto total de la consulta
+            ->setFilteredRecords($total) // Agregamos el monto total de la paginacion
+            ->skipPaging() //Solicitamos que refresque la consulta cada vez que se realiza una paginacion
+            ->rawColumns(['btn','apro','pago'])->toJson(); //Indicamos el nombre de los botones y enviamos la informacion via json
         } else {
             return datatables()->of($query)
-            ->addColumn('btn','sistema.btnNull')
-            ->addColumn('apro','sistema.solicitud.cuentas.btnAproRepro')
-            ->addColumn('pago','sistema.solicitud.cuentas.btnPago')
+            ->addColumn('btn','sistema.btnNull') //Agrega una vista la cual no tiene botones
+            ->addColumn('apro','sistema.solicitud.cuentas.btnAproRepro') // Agregamos la vista con los botones de aprobado o rechazada
+            ->addColumn('pago','sistema.solicitud.cuentas.btnPago') // Agregamos la vista con la consulta de pagada o no pagada
             ->rawColumns(['btn','apro','pago'])->toJson();
         }
     }

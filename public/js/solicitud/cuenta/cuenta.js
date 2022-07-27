@@ -8,9 +8,9 @@ $(document).ready(function(){
         $('#listaCuenta > tbody').empty();
 
         $('#listaCuenta').DataTable({
-            serverSide: false,
+            serverSide: true,
             processing: true,
-            deferRender: true,
+            // deferRender: true,
             ajax: url,
             columns: [
                 {data: 'solicitud_numerocontrol'},
@@ -34,7 +34,6 @@ $(document).ready(function(){
             info: false,
             destroy: true,
             paging: true,
-            searching: true,
             language: {
                 search: "Buscar: ",
                 lengthMenu: "Display _MENU_ records per page",

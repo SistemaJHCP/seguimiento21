@@ -44,7 +44,7 @@
                   <th>Fecha</th>
                   <th>Nombre de la obra</th>
                   <th>Motivo de solicitud</th>
-                  <th style="display:none;">Proveedor</th>
+                  <th>Proveedor</th>
                   <th>Estado</th>
                   <th>Pago</th>
                   <th>Monto</th>
@@ -62,7 +62,7 @@
                   <th>Fecha</th>
                   <th>Nombre de la obra</th>
                   <th>Motivo de solicitud</th>
-                  <th style="display:none;">Proveedor</th>
+                  <th>Proveedor</th>
                   <th>Estado</th>
                   <th>Pago</th>
                   <th>Monto</th>
