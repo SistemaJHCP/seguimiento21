@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     $('#listaSolicitud').DataTable({
-        serverSide: false,
+        serverSide: true,
         processing: true,
         ajax: "solicitud/lista-de-solicitud",
         columns: [

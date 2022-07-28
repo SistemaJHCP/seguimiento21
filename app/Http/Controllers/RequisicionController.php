@@ -358,12 +358,18 @@ class RequisicionController extends Controller
 
     public function jq_lista()
     {
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
         if( $permisoUsuario[0]->requisicion != 1 ){
             return redirect()->route("home");
         }
+
+        // capturamos la informacion traida por el datatable 
+        $row = $_GET['start']; //Capturamos en una variable la primera paginacion de la datatables
+        $rowperpage = $_GET['length']; // Rows display per page tomamos la cantidad de registros que cargara por pag, la defini en 10 registros
+        $buscador = $_GET['search']['value']; //en caso de escribir en datatables algo, el sistema lo buscara
 
         //Realizamos la consulta a la base de datos
         $query = Requisicion::select(
@@ -384,18 +390,64 @@ class RequisicionController extends Controller
         ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
         ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
         ->leftJoin('permisos','permisos.id', '=', 'users.permiso_id')
+
+        ->where('requisicion.id', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_codigo', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_tipo', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_fecha', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_fechae', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.usuario_id', 'LIKE', "%$buscador%")
+        ->orWhere('obra.obra_nombre', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_motivo', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_estado', 'LIKE', "%$buscador%")
+        ->orWhere('users.user_name', 'LIKE', "%$buscador%")
+        ->orWhere('permisos.modificar_requisicion', 'LIKE', "%$buscador%")
+        ->orWhere('permisos.ver_botones_requisicion', 'LIKE', "%$buscador%")
+        ->orWhere('permisos.anular_requisicion', 'LIKE', "%$buscador%")
+
         ->orderBy('requisicion_fecha', 'DESC')
-        ->limit(2000)
+        ->offset($row)
+        ->limit(10)
         ->get();
+
+        //Contamos los resultados de la paginacion
+        $total = Requisicion::select()
+        ->leftJoin('obra','obra.id', '=', 'requisicion.obra_id')
+        ->leftJoin('users','users.id', '=', 'requisicion.usuario_id')
+        ->leftJoin('permisos','permisos.id', '=', 'users.permiso_id')
+
+        ->where('requisicion.id', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_codigo', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_tipo', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_fecha', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_fechae', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.usuario_id', 'LIKE', "%$buscador%")
+        ->orWhere('obra.obra_nombre', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_motivo', 'LIKE', "%$buscador%")
+        ->orWhere('requisicion.requisicion_estado', 'LIKE', "%$buscador%")
+        ->orWhere('users.user_name', 'LIKE', "%$buscador%")
+        ->orWhere('permisos.modificar_requisicion', 'LIKE', "%$buscador%")
+        ->orWhere('permisos.ver_botones_requisicion', 'LIKE', "%$buscador%")
+        ->orWhere('permisos.anular_requisicion', 'LIKE', "%$buscador%")
+        ->count();
+
+
+
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->requisicion == 1 && $permisoUsuario[0]->ver_botones_requisicion == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.requisicion.btnRequisicion')
+            ->setTotalRecords( $total )
+            ->setFilteredRecords($total)
+            ->skipPaging()
             ->rawColumns(['btn'])->toJson();
         } else {
             return datatables()->of($query)
             ->addColumn('btn','sistema.btnNull')
+            ->setTotalRecords( $total )
+            ->setFilteredRecords($total)
+            ->skipPaging()
             ->rawColumns(['btn'])->toJson();
         }
 

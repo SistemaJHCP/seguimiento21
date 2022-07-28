@@ -514,10 +514,16 @@ class SolicitudController extends Controller
         if( $permisoUsuario[0]->solicitud != 1 ){
             return redirect()->route("home");
         }
+        // capturamos la informacion traida por el datatable
+        // $draw = $_GET['draw']; 
+        $row = $_GET['start']; //Capturamos en una variable la primera paginacion de la datatables
+        $rowperpage = $_GET['length']; // Rows display per page tomamos la cantidad de registros que cargara por pag, la defini en 10 registros
+        $buscador = $_GET['search']['value']; //en caso de escribir en datatables algo, el sistema lo buscara
 
         //Realizamos la consulta a la base de datos
         $query = Solicitud::select(
             'solicitud.id AS id',
+            'solicitud.usuario_id AS usuario_id',
             'solicitud.solicitud_numerocontrol AS solicitud_numerocontrol',
             DB::raw('(select SUM(solicitud_detalle.sd_cantidad * solicitud_detalle.sd_preciounitario) from solicitud_detalle WHERE solicitud.id = solicitud_detalle.solicitud_id) as suma'),
             'obra.obra_nombre AS obra_nombre',
@@ -530,20 +536,56 @@ class SolicitudController extends Controller
         ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
         ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
         ->leftJoin('proveedor','proveedor.id', '=', 'solicitud.proveedor_id')
-        ->where('solicitud.usuario_id', \Auth::user()->id) //habilita el solo mostrar informacion de quien crea la solicitud
-        ->orderBy('id', 'DESC')
-        ->limit(500)
+
+        //Buscamos en donde se cumpla la condicion de lo escribo en el buscador y tambien que sea del usuario con el ID de autenticacion
+        ->orWhere('solicitud.id', 'LIKE',  "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('solicitud.solicitud_numerocontrol', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('obra.obra_nombre', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('proveedor.proveedor_nombre', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('solicitud.solicitud_fecha', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('solicitud.solicitud_motivo', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('solicitud.solicitud_aprobacion', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('users.user_name', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+
+        ->orderBy('id', 'DESC') //Ordenmos en orden descendente
+        ->offset($row) //paginamos segun nos indique la datatables
+        ->limit(10) //limitamos a 10 registros por paginacion
         ->get();
+
+        //Realizamos el conteo de la misma consulta arriba pero sin limitar, ya que debe enviarme la cantidad real de registros existentes
+        $total = Solicitud::select(
+        )
+        ->leftJoin('users','users.id', '=', 'solicitud.usuario_id')
+        ->leftJoin('obra','obra.id', '=', 'solicitud.obra_id')
+        ->leftJoin('proveedor','proveedor.id', '=', 'solicitud.proveedor_id')
+
+        ->orWhere('solicitud.id', 'LIKE',  "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('solicitud.solicitud_numerocontrol', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('obra.obra_nombre', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('proveedor.proveedor_nombre', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('solicitud.solicitud_fecha', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('solicitud.solicitud_motivo', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('solicitud.solicitud_aprobacion', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->orWhere('users.user_name', 'LIKE', "%$buscador%")->where('solicitud.usuario_id', \Auth::user()->id) 
+        ->count();
+
 
         // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->solicitud == 1 && $permisoUsuario[0]->ver_botones_solicitud == 1) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.solicitud.btnSolicitud')
             ->addColumn('btn2','sistema.solicitud.aprobacion.btnAproRepro')
+            ->setTotalRecords( $total )
+            ->setFilteredRecords($total)
+            ->skipPaging()
             ->rawColumns(['btn','btn2'])->toJson();
-        } else {
+        } else { //si llega a este punto, no mostrara botones para interactuar con la informacion
             return datatables()->of($query)
             ->addColumn('btn','sistema.btnNull')
+            ->addColumn('btn2','sistema.solicitud.aprobacion.btnAproRepro')
+            ->setTotalRecords( $total )
+            ->setFilteredRecords($total)
+            ->skipPaging()
             ->rawColumns(['btn','btn2'])->toJson();
         }
 
@@ -1018,12 +1060,12 @@ class SolicitudController extends Controller
         // ->orderBy('solicitud.id', 'DESC')
         // ->get();
 
-        $results = array(
-            "sEcho" => $draw,
-            "iTotalRecords" => $total,
-            "iTotalDisplayRecords" => $total,
-            "aaData"=>$query
-        );
+        // $results = array(
+        //     "sEcho" => $draw,
+        //     "iTotalRecords" => $total,
+        //     "iTotalDisplayRecords" => $total,
+        //     "aaData"=>$query
+        // );
 
 
 

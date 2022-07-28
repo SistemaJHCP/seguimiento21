@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     $('#listaObras').DataTable({
-        serverSide:false,
+        serverSide:true,
         processing: true,
         ajax: "requisicion/lista-de-requisicion",
         columns: [
