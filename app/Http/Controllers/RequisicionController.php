@@ -405,7 +405,7 @@ class RequisicionController extends Controller
         ->orWhere('permisos.ver_botones_requisicion', 'LIKE', "%$buscador%")
         ->orWhere('permisos.anular_requisicion', 'LIKE', "%$buscador%")
 
-        ->orderBy('requisicion_fecha', 'DESC')
+        ->orderBy('requisicion.id', 'DESC')
         ->offset($row)
         ->limit(10)
         ->get();

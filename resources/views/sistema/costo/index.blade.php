@@ -153,7 +153,6 @@
 <script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/costo/costo-archivo.js") }}"></script>
-{{-- <script src="{{ asset("plugins/gstatic/charts-loader.js") }}"></script> --}}
 <!-- Resources -->
 
 @endsection

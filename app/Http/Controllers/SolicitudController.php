@@ -1812,7 +1812,7 @@ class SolicitudController extends Controller
         // }
 
         //Seleccione las obras por su nombre y su codigo
-        $obra = Obra::select('id','obra_codigo', 'obra_nombre')->orderBy('id', 'DESC')->get();
+        $obra = Obra::select('id','obra_codigo', 'obra_nombre')->orderBy('id', 'DESC')->where('obra_estado', 1)->get();
 
         return view('sistema.costo.index')->with([
             'permisoUsuario' => $permisoUsuario[0],

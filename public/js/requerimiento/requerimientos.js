@@ -25,7 +25,7 @@ $(document).ready(function(){
             "lengthMenu": "Display _MENU_ records per page",
             "zeroRecords": "Ninguna requisición cargada por usted",
             "info": "Mostrando la página _PAGE_ of _PAGES_",
-            "infoEmpty": "No records available",
+            "infoEmpty": "Sin registros",
             "infoFiltered": "(Filtrado de _MAX_ registros totales)",
             'paginate':{
                 'next': 'Siguiente',
@@ -34,7 +34,8 @@ $(document).ready(function(){
             "processing" : "procesando."
         },
         order: [
-            [0, "DESC"]
+            [0, "DESC"],
+            [8, "DESC"]
         ],
     });
 
