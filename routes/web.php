@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('sistema.welcome');
+    // return view('sistema.welcome');
+    return view('login');
 })->name("inicio");
 
 Route::middleware('auth')->group(function () {

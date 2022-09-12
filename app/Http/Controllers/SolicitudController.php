@@ -1931,10 +1931,10 @@ class SolicitudController extends Controller
         ->leftJoin('cliente', 'cliente.id', '=', 'obra.cliente_id')
         ->where('obra.id', $id)->first();
 
-        // Consultamos los datos de la valuacion relaciionados con esta obra
+        // Consultamos los datos de la valuacion relacionados con esta obra
         $valuacion = Valuacion::select('valuacion_monto','observacion','valuacion_fecha')->where('obra_id', $id)->where('valuacion_estado', 1)->get();
 
-        // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
+        // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido aprobadas y pagadas
         $fi = Solicitud::select('solicitud_fecha AS fecha_inicio_solicitudes')
         ->where('obra_id', $id)
         ->where('solicitud_aprobacion', "Aprobada")
@@ -1942,16 +1942,8 @@ class SolicitudController extends Controller
         ->orderBy('id', 'ASC')
         ->first();
 
-        // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
-        // $ff = Solicitud::select('solicitud_fecha AS fecha_fin_solicitudes')
-        // ->where('obra_id', $id)
-        // ->where('solicitud_aprobacion', "Aprobada")
-        // ->where('solicitud_estadopago', 0)
-        // ->orderBy('id', 'DESC')
-        // ->first();
-
-        // Si requiere ue la fecha final sea en base a LA FECHA DE PAGO
-        // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido apobadas y pagadas
+        // Si requiere que la fecha final sea en base a LA FECHA DE PAGO?
+        // Calculamos la fecha final de las solicitudes asociadas a esta obra, qu ya hayan sido aprobadas y pagadas
         $ff = Pago::select('pago.pago_fecha AS fecha_fin_solicitudes')
         ->leftJoin('solicitud', 'solicitud.id', '=', 'pago.solicitud_id')
         ->where('solicitud.obra_id', $id)
@@ -1965,15 +1957,21 @@ class SolicitudController extends Controller
 
         // Inicio contador
         $i = 0;
+        // Inicio contador de la valuacion
+        $v = 0;
 
         // calculo de la fecha inicial
+        // Si, la fecha de la obra es menor o igual a la fecha de la primera solicitud
         if($datoObra->obra_fechainicio <= $fi->fecha_inicio_solicitudes){
+            // Fecha inicial va a ser igual a la fecha en que inicio la obra
             $fecha_inicial = $datoObra->obra_fechainicio;
         } else{
+            // Sino
+            // La fecha inicial sera el dia en que se realiza la primera solicitud
             $fecha_inicial = $fi->fecha_inicio_solicitudes;
         }
 
-        // Suma
+        // Suma es el valor del anticipo para comenzar la obra
         $suma = $datoObra->obra_anticipo;
         // Contador de semanas
         $dia = 1;
@@ -1984,7 +1982,7 @@ class SolicitudController extends Controller
         if( !empty($ff->fecha_fin_solicitudes) ){
             // validamos que tengamos en existencia la ultima fecha en la solicitud
             if( $ff->fecha_fin_solicitudes >  $datoObra->obra_fechafin ){
-                // Si no existe se coloca la ultima fecha por dia
+                // Si no existe se coloca la ultima fecha en 
                 $fecha_fin = $ff->fecha_fin_solicitudes;
             } else {
                 // Si tienes informacion de la ultima solicitud, sera entonces el ultimo dia
@@ -1992,7 +1990,7 @@ class SolicitudController extends Controller
             }
 
         } else {
-            dump("No tiene fin la solicitud");
+            dump("error dydjd7d8ydyd7idj8 consulte a soporte tecnico (A Rosman Gonzalez)");
         }
         // Revisamos que existan valuaciones
         if( count($valuacion) > 1 ){
@@ -2007,10 +2005,10 @@ class SolicitudController extends Controller
         }
 
 
-
+        // sumar los 7 dias
         $incrementoDeDias = date('Y-m-d', strtotime($fecha_inicial."+ 6 days"));
-        // Mientras la fecha inicial sea menor a la fecha incrementada en dias
 
+        // Mientras la fecha inicial sea menor a la fecha incrementada en dias
         while($incrementoDeDias < $fecha_fin){
 
             // Calculo los gastos realizados entre esas semanas
@@ -2022,17 +2020,23 @@ class SolicitudController extends Controller
             ->whereBetween('pago.pago_fecha', [$fecha_inicial , $incrementoDeDias])
             ->where('obra.id', $id)
             ->first();
-
+            
+            // En caso de estar vacio el monto de pago
             if(empty($calcular->pago_monto)){
+                // El monto de gastos es cero
                 $monto = 0;
             } else {
+                //Si no, el valor de la variable monto sera el valor del pago asociado al calculo
                 $monto = $calcular->pago_monto;
             }
 
+            // Si, al contar las valuaciones, su valor es mayor a uno?
             if(count($valuacion) > 1){
-                if(  $valuacion[$i]->valuacion_fecha > $fecha_inicial AND $valuacion[$i]->valuacion_fecha < $incrementoDeDias  ){
-                    $valuacionMonto = $valuacion[$i]->valuacion_monto;
-                    $i = $i + 1;
+                // Entra aqui, en donde compara dos opciones; la fecha en que se realizo la valuacion debe de ser mayor o igual
+                // a la inicial definida arriba, ya sea la fecha en que inicia la obra o la fecha en que se cargue la primera solicitud.
+                if(  $valuacion[$v]->valuacion_fecha >= $fecha_inicial AND $valuacion[$v]->valuacion_fecha <= $incrementoDeDias  ){
+                    $valuacionMonto = $valuacion[$v]->valuacion_monto;
+                    $v = $v + 1;
                 } else {
                     $valuacionMonto = 0;
                 }
@@ -2083,8 +2087,8 @@ class SolicitudController extends Controller
         }
 
         if(count($valuacion) > 1){
-            if(  $valuacion[$i]->valuacion_fecha >= $fecha_inicial OR $valuacion[$i]->valuacion_fecha <= $fecha_fin  ){
-                $valuacionMonto = $valuacion[$i]->valuacion_monto;
+            if(  $valuacion[$v]->valuacion_fecha >= $fecha_inicial OR $valuacion[$v]->valuacion_fecha <= $fecha_fin  ){
+                $valuacionMonto = $valuacion[$v]->valuacion_monto;
             } else {
                 $valuacionMonto = 0;
             }
@@ -2398,7 +2402,7 @@ class SolicitudController extends Controller
                     if(count($valuacion) >= 1){
                         // Agregamos la valuacion en caso de que la fecha sea mayor a la fecha inicial y
                         // a su vez sea menor a la fecha incrementable
-                        if( $valuacion[$i]->valuacion_fecha > $fecha_i && $valuacion[$i]->valuacion_fecha < $incrementoDeDias ){
+                        if( $valuacion[$i]->valuacion_fecha >= $fecha_i && $valuacion[$i]->valuacion_fecha <= $incrementoDeDias ){
                             // Monto va a avaler lo que valga la valuacio mas el propio monto
                             $monto = $valuacion[$i]->valuacion_monto + $monto;
                             $i = $i + 1;
@@ -2440,7 +2444,7 @@ class SolicitudController extends Controller
 
                         // Agregamos la valuacion en caso de que la fecha sea mayor a la fecha inicial y
                         // a su vez sea menor a la fecha incrementable
-                        if( $valuacion[$i]->valuacion_fecha > $fecha_i && $valuacion[$i]->valuacion_fecha < $incrementoDeDias ){
+                        if( $valuacion[$i]->valuacion_fecha >= $fecha_i && $valuacion[$i]->valuacion_fecha <= $incrementoDeDias ){
                             // Monto va a avaler lo que valga la valuacio mas el propio monto
                             $monto = $valuacion[$i]->valuacion_monto + $monto;
                             $i = $i + 1;
@@ -2472,7 +2476,7 @@ class SolicitudController extends Controller
 
                     // Agregamos la valuacion en caso de que la fecha sea mayor a la fecha inicial y
                     // a su vez sea menor a la fecha incrementable
-                    if( $valuacion[$i]->valuacion_fecha > $fecha_inicial && $valuacion[$i]->valuacion_fecha < $incrementoDeDias ){
+                    if( $valuacion[$i]->valuacion_fecha >= $fecha_inicial && $valuacion[$i]->valuacion_fecha <= $incrementoDeDias ){
                         // Monto va a avaler lo que valga la valuacio mas el propio monto
                         $monto = $valuacion[$i]->valuacion_monto + $monto;
                         $i = $i + 1;
@@ -2483,7 +2487,6 @@ class SolicitudController extends Controller
 
 
             }
-
 
         return response()->json( $array );
 

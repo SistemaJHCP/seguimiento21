@@ -1,0 +1,23 @@
+.imagen-adorno {
+    background-image: url(../../public/imagen/portada.webp) ;
+    /* Full height */
+    margin: 0; 
+    height: auto;
+
+
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.logueo {
+    margin-top: 20%;
+    margin-bottom: 40%;
+}
+
+#imagen-logo {
+    width: 190px;
+    text-align: center center;
+    padding: 20px;
+}
