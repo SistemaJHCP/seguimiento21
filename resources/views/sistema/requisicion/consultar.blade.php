@@ -35,6 +35,14 @@
                 <dd>{{ $requisicion->requisicion_estado }}</dd>
                 <dt>Observación:</dt>
                 <dd>{{ $requisicion->requisicion_observaciones }}</dd>
+                
+                @if($requisicion->fecha_creacion != null)
+                  <dt>Fecha de creación del requerimiento:</dt>
+                  <dd>{{ $requisicion->fecha_creacion }}</dd>
+                @else
+                  <dt>Fecha de creación del requerimiento:</dt>
+                  <dd>Sin registro de fecha y hora</dd>
+                @endif
             </div>
             <!-- /.card-body -->
         </div>

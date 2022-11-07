@@ -105,6 +105,19 @@
                                         </div>
                                     @endif
                                 </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        @if($solicitud->fecha_solicitud_creacion)
+                                        <dt>Fecha de creacion de solicitud:</dt>
+
+                                            <dd>{{ $solicitud->fecha_solicitud_creacion }}</dd>
+                                        @else
+                                            <dt>Fecha de creacion de solicitud:</dt>
+                                            <dd>Sin registro</dd>
+                                        @endif
+                                    </div>
+                                    <div class="col-6"></div>
+                                </div>
 
 
 
@@ -323,6 +336,14 @@
 
               <dt>Motivo</dt>
               <dd>{{ $solicitud->requisicion_motivo }}</dd>
+
+              @if($solicitud->fecha_requisicion_creacion)
+                <dt>Fecha de creación de requisición</dt>
+                <dd>{{ $solicitud->fecha_requisicion_creacion }}</dd>
+              @else
+                <dt>Fecha de creación de requisición</dt>
+                <dd>Sin registro</dd>
+              @endif
 
           </dl>
         </div>

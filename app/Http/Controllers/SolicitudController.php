@@ -83,7 +83,7 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-
+        dd($request);
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -275,7 +275,9 @@ class SolicitudController extends Controller
             'requisicion.requisicion_fechae AS requisicion_fechae',
             'requisicion.requisicion_motivo AS requisicion_motivo',
             'requisicion.requisicion_direccion AS requisicion_direccion',
-            'requisicion.requisicion_estado AS requisicion_estado'
+            'requisicion.requisicion_estado AS requisicion_estado',
+            'requisicion.created_at AS fecha_requisicion_creacion',
+            'solicitud.created_at AS fecha_solicitud_creacion'
         )
         ->leftJoin('obra', 'obra.id', '=', 'solicitud.obra_id')
         ->leftJoin('proveedor', 'proveedor.id', '=', 'solicitud.proveedor_id')
@@ -691,6 +693,7 @@ class SolicitudController extends Controller
             'requisicion.requisicion_fecha AS requisicion_fecha',
             'requisicion.requisicion_fechae AS requisicion_fechae',
             'requisicion.requisicion_observaciones AS requisicion_observaciones',
+            'requisicion.obra_id AS obra_id',
             'obra.obra_nombre AS obra',
             'requisicion.requisicion_motivo AS requisicion_motivo',
             'requisicion.requisicion_estado AS requisicion_estado',
@@ -1952,9 +1955,6 @@ class SolicitudController extends Controller
          ->orderBy('pago.id', 'DESC')
         ->first();
 
-
-
-
         // Inicio contador
         $i = 0;
         // Inicio contador de la valuacion
@@ -2086,14 +2086,16 @@ class SolicitudController extends Controller
             $monto = $calcular->pago_monto;
         }
 
-        if(count($valuacion) > 1){
-            if(  $valuacion[$v]->valuacion_fecha >= $fecha_inicial OR $valuacion[$v]->valuacion_fecha <= $fecha_fin  ){
+        if(count($valuacion) >= 1){
+            
+            if(  $valuacion[$v]->valuacion_fecha >= $fecha_inicial AND $valuacion[$v]->valuacion_fecha <= $fecha_fin  ){
                 $valuacionMonto = $valuacion[$v]->valuacion_monto;
             } else {
                 $valuacionMonto = 0;
             }
         } else {
             $valuacionMonto = 0;
+
         }
 
         $suma =  ($valuacionMonto - $monto) + $suma;
@@ -2363,6 +2365,9 @@ class SolicitudController extends Controller
         $cont = 1;
         //Inicio en cero un contador para las posiciones
         $i = 0;
+        //Inicio en cero un contador unicamente valuaciones
+        $v = 0;
+
         //sumamos 6 dias desdee el dia de inicio hasta 6 dias mas
         $incrementoDeDias = date('Y-m-d', strtotime($fecha_inicial."+ 6 days"));
 
@@ -2376,13 +2381,12 @@ class SolicitudController extends Controller
 
             // Si los dias incrementados dan un numero mayor a la fecha final se reaiza la consulta
             // en base a la fecha inicial contra la fecha final
-            if($incrementoDeDias < $fecha_fin){
-
+            if($incrementoDeDias <= $fecha_fin){
+                
                 // Se crea una variable a fin de no repetir el nombre de la fecha final
                 $fecha_i = $fecha_inicial;
                 // Mientras el incremento de dias sea menor a la fecha final, has este bucle
-                while ($incrementoDeDias < $fecha_fin) {
-
+                while ($incrementoDeDias <= $fecha_fin) {
                     // Se realiza la consulta a la BD
                     $calcular = Pago::select(
                         DB::raw('SUM(pago.pago_monto) AS pago_monto')
@@ -2392,26 +2396,36 @@ class SolicitudController extends Controller
                     ->where('solicitud.obra_id', $id)
                     ->first();
 
+                    
                     // Guardamos en una variable el monto de esa semana en negativo debido a que
                     // es un haber
                     $monto_consulta = -($calcular->pago_monto);
                     //Calculamos el monto menos el monto del pago
                     $monto =  $monto_consulta + $monto;
-
+                    
                     // En caso de existir valuacion
                     if(count($valuacion) >= 1){
+
                         // Agregamos la valuacion en caso de que la fecha sea mayor a la fecha inicial y
                         // a su vez sea menor a la fecha incrementable
-                        if( $valuacion[$i]->valuacion_fecha >= $fecha_i && $valuacion[$i]->valuacion_fecha <= $incrementoDeDias ){
+                        if( $valuacion[$v]->valuacion_fecha >= $fecha_i AND $valuacion[$v]->valuacion_fecha <= $incrementoDeDias ){
+                            
                             // Monto va a avaler lo que valga la valuacio mas el propio monto
-                            $monto = $valuacion[$i]->valuacion_monto + $monto;
-                            $i = $i + 1;
+                            $monto = $valuacion[$v]->valuacion_monto + $monto;
+                            
+                            // Si solo hay una valuacion no hagas nada, sino suma uno
+                            if(count($valuacion) >= 1) {
+                                $v = $v;
+                            } else {
+                                $v = $v + 1;
+                            }
+                        } else {
+                            // Si no, el monto es el mismo que el valor previo
+                            $monto = $monto;
                         }
                     }
-
-                    // dump($monto . " fecha nicial: " . $fecha_i . " | fecha incrementada: " . $incrementoDeDias. " | fecha Final: " . $fecha_fin);
+                    
                     $array[] = array('date' => $fecha_i, 'value' => floatval($monto));
-
 
                     // la fecha inicial pasa a ser la fecha final de la anterior consulta mas un dia
                     $fecha_i = date('Y-m-d', strtotime($incrementoDeDias."+ 1 days"));
@@ -2487,7 +2501,7 @@ class SolicitudController extends Controller
 
 
             }
-
+        
         return response()->json( $array );
 
     }

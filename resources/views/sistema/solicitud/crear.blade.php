@@ -72,7 +72,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Obra Relacionada *</label>
-                                    <select name="obra" id="obra" class="form-control" required>
+                                    <select name="obra" id="obra" class="form-control" required readonly="">
                                         <option value="">Seleccione...</option>
                                         @foreach ($obra as $o)
                                             <option value="{{ $o->id }}">{{ $o->obra_codigo }} - {{ $o->obra_nombre }}</option>

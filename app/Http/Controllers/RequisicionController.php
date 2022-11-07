@@ -193,6 +193,7 @@ class RequisicionController extends Controller
             'proveedor.proveedor_direccion AS proveedor_direccion',
             'proveedor.proveedor_correo AS proveedor_correo',
             'users.user_name AS usuario_nombre',
+            'requisicion.created_at AS fecha_creacion'
         )
         ->leftJoin('obra', 'obra.id', '=','requisicion.obra_id')
         ->leftJoin('proveedor', 'proveedor.id', '=','requisicion.proveedor_id')
@@ -325,6 +326,7 @@ class RequisicionController extends Controller
         $req->requisicion_direccion = $request->direccion;
         $req->requisicion_motivo = $request->motivo;
         $req->requisicion_observaciones = $request->observacion;
+        $req->updated_at = now();
         //Guardamos la modificacion
         $resp = $req->save();
         //Retornamos a la vista principal de requisicion con la respuesta para enviar el mensaje

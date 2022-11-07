@@ -1,5 +1,5 @@
 .imagen-adorno {
-    background-image: url(../../public/imagen/portada.webp) ;
+    background-image: url(../../public/imagen/portada-vzla.webp) ;
     /* Full height */
     margin: 0; 
     height: auto;
@@ -14,10 +14,21 @@
 .logueo {
     margin-top: 20%;
     margin-bottom: 40%;
+    border: 4px solid #007996;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 35px;
+    background-color: #e8e8e8;
+
+    box-shadow: 10px;
 }
 
 #imagen-logo {
     width: 190px;
     text-align: center center;
     padding: 20px;
+}
+
+input[type=email], input[type=password] {
+    background: rgb(249, 249, 249);
 }
