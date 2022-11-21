@@ -11,15 +11,7 @@
 @endsection
 
 @section('contenedor')
-<style>
-    .modal-dialog{
-        overflow-y: initial !important
-    }
-    .modal-body{
-        height: 450px;
-        overflow-y: auto;
-    }
-</style>
+
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -65,7 +57,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="nuevoProveedor" data-backdrop="static" data-keyboard="true" style="overflow:hidden" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal" id="nuevoProveedor"  tabindex="-1" aria-hidden="true" data-keyboard="true"  aria-labelledby="nuevoProveedor">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -130,8 +122,7 @@
         </form>
       </div>
     </div>
-  </div>
-
+</div>
 
 @endsection
 @section('js')

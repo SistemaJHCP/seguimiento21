@@ -235,10 +235,16 @@ class BancoController extends Controller
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
+        $request->validate([
+            'rif' => 'required',
+            'nombreBanco' => 'required',
+        ]);
+
+
         if( $permisoUsuario[0]->ban != 1 || $permisoUsuario[0]->crear_ban != 1 ){
             return redirect()->route('home');
         }
-        dd("Crear banco");
+
         //Instanciamos la clase para agregar los valores
         $banco = new Banco();
         // Agregamos los valores

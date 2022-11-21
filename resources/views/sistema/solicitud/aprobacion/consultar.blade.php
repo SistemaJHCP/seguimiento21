@@ -69,6 +69,8 @@
                                             <dd>Viáticos</dd>
                                         @elseif($solicitud->solicitud_formapago == 4)
                                             <dd>Efectivo</dd>
+                                        @elseif($solicitud->solicitud_formapago == 5)
+                                            <dd>Recarga</dd>
                                         @endif
                                     </div>
                                     <div class="col-6">

@@ -20,10 +20,26 @@
               <div class="col-md-4">
                 @if (\Auth::user()->sexo == 'm')
                     <?php !$mensaje = "o";?>
-                    <center><img src="{{ url('imagen/users.png') }}" class="img-responsive" width="170" height="156" style="padding: 10px; text-align:center;" ></center>
+                    <div style="width:160px; height:160px; background:#47b5c6 ;margin:10px; border-radius:160px;">
+                      <center>
+                        <lord-icon
+                            src="https://cdn.lordicon.com/vusrdugn.json"
+                            trigger="hover"
+                            style="text-align:center;width:150px; height:150px">
+                        </lord-icon>
+                      </center>
+                    </div>
                 @else
                     <?php !$mensaje = "a";?>
-                    <center><img src="{{ url('imagen/users2.png') }}" class="img-responsive" width="170" height="156" style="padding: 10px; text-align:center;" ></center>
+                    <div style="width:160px; height:160px; background:#47b5c6 ;margin:10px; border-radius:160px;">
+                      <center>
+                        <lord-icon
+                            src="https://cdn.lordicon.com/qemhfpjm.json"
+                            trigger="hover"
+                            style="text-align:center;width:150px; height:150px">
+                        </lord-icon>
+                      </center>
+                    </div>
                 @endif
               </div>
               <div class="col-md-8">
@@ -40,7 +56,7 @@
           <div class="row">
               <div class="col-1"></div>
               <div class="col-10">
-                <div class="info-box mb-3 bg-info">
+              <div class="info-box mb-3 bg-info">
                     <span class="info-box-icon"><i class="far fa-check-circle"></i></span>
 
                     <div class="info-box-content">
@@ -169,6 +185,7 @@
 
 @endsection
 @section('js')
+<script src="https://cdn.lordicon.com/qjzruarw.js"></script>
 <script src="{{ asset("js/base.js") }}"></script>
 @if (Session::has('resp'))
 

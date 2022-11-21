@@ -83,7 +83,7 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -1797,6 +1797,13 @@ class SolicitudController extends Controller
         $anular->solicitud_aprobacion = "Anulada";
         //Guardamos el cambio en la BD
         $resp = $anular->save();
+
+        if($anular->requisicion_id){
+            // Buscamos la requisicion
+            $seguimiento = Requisicion::find($anular->requisicion_id);
+            $seguimiento->requisicion_estado = "Anulada";
+            $seguimiento->save();
+        }
 
         return redirect()->route('cuentas.index')->with('resp', $resp);
 

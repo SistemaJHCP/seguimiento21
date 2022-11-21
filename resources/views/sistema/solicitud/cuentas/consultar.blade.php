@@ -76,6 +76,8 @@
                                             <dd>Depósito</dd>
                                         @elseif($solicitud->solicitud_formapago == 4)
                                             <dd>Efectivo</dd>
+                                        @elseif($solicitud->solicitud_formapago == 5)
+                                            <dd>Recarga</dd>
                                         @endif
                                     </div>
                                     <div class="col-6">
@@ -215,6 +217,7 @@
                                                     <option value="Deposito">Depósito</option>
                                                     <option value="Cheque">Cheque</option>
                                                     <option value="Efectivo">Efectivo</option>
+                                                    <option value="Recarga">Recarga</option>
                                                 </select>
                                                 <label>Cuentas de JHCP</label>
                                                 <select name="cuentaJHCP" id="cuentaJHCP" class="form-control opcionCuenta" disabled>
@@ -240,7 +243,7 @@
                                                 </div>
 
                                                 <label>Comentarios</label>
-                                                <textarea name="comentario" id="comentario" maxlength="240" placeholder="Agregue un comentario" class="form-control"></textarea>
+                                                <textarea name="comentario" id="comentario" maxlength="240" placeholder="Agregue un comentario" class="form-control" required></textarea>
                                             </div>
 
                                         </div>

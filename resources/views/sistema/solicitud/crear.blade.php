@@ -104,6 +104,7 @@
                                         <option value="2">Depósito</option>
                                         <option value="3">Cheque</option>
                                         <option value="4">Efectivo</option>
+                                        <option value="5">Recarga</option>
                                     </select>
                                 </div>
                             </div>
