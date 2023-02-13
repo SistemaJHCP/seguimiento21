@@ -41,7 +41,7 @@ $(document).ready(function(){
             calculo( this.value );
             listadoObra( this.value );
 
-            // $('#estadistic').attr('disabled', false);
+            $('#estadistic').attr('disabled', false);
         }
 
     });
@@ -49,6 +49,21 @@ $(document).ready(function(){
     function datosObra(a){
 
         limpiar();
+
+        // $.ajax({
+        //     type: "post",
+        //     url: "../../solicitud/calculo-solicitudes",
+        //     data: {id: a},
+        //     dataType: "json",
+        //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        //     success: function (response) {
+        //         if(response.monto_gasto){
+        //             $('#estadistic').attr('disabled', false);
+        //         } else {
+        //             $('#estadistic').attr('disabled', true);
+        //         }
+        //     }
+        // });
 
         $.ajax({
             type: "post",
@@ -83,26 +98,13 @@ $(document).ready(function(){
     function listadoObra(b){
         limpiar();
 
-        // $.ajax({
-        //     type: "post",
-        //     url: "../../solicitud/calculo-solicitudes",
-        //     data: {id: b},
-        //     dataType: "json",
-        //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        //     success: function (response) {
-        //         if(response.monto_gasto){
-        //             $('#estadistic').attr('disabled', false);
-        //         } else {
-        //             $('#estadistic').attr('disabled', true);
-        //         }
-        //     }
-        // });
-
         if ($('#tipo').val() == "0") {
             $('#estadistic').attr('disabled', true);
-        } 
+        } else {
+            $('#estadistic').attr('disabled', false);
+        }
         $('#listasolicitudesGastos').DataTable({
-            serverSide: true,
+            serverSide:true,
             processing: true,
             ajax: "../obra-seleccionada/" + b,
             columns: [
@@ -140,6 +142,8 @@ $(document).ready(function(){
 
     function calculo(c){
 
+
+
         $.ajax({
             type: "post",
             url: "../../solicitud/calculo-solicitudes",
@@ -156,7 +160,7 @@ $(document).ready(function(){
 
                 if(comp1.monto_gasto){
                     $('#gasto1').html(comp1.monto_gasto);
-                    if ( Number(comp1.resta) >= 1 ) {
+                    if ( Number(comp1.resta) > 1 ) {
                         $('#ganancia1').html(comp1.resta).css('color', '##303438');
                     } else {
                         $('#ganancia1').html(comp1.resta).css('color', 'red');

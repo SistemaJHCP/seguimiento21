@@ -232,7 +232,7 @@ class SolicitudController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {    
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -354,7 +354,7 @@ class SolicitudController extends Controller
                 ->where('solicitud_id', $solicitud->id)->get();
 
         }
-
+        
         return view('sistema.solicitud.consultar')->with(
             [
                 'permisoUsuario' => $permisoUsuario[0],
@@ -393,7 +393,7 @@ class SolicitudController extends Controller
 
         //Solicitamos la lista de proveedores
         $proveedor = Proveedor::select('id', 'proveedor_codigo', 'proveedor_nombre')->where('proveedor_estado', 1)->get();
-        // dump( $solicitud );
+
         //retornamos a la vista para crear solicitudes
         return view('sistema.solicitud.modificar')
         ->with('permisoUsuario', $permisoUsuario[0])
@@ -971,7 +971,7 @@ class SolicitudController extends Controller
     //---------------------- Solicitudes de pago --------------------------------
 
     public function solicitudesPagoIndex()
-    {
+    {   
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -1000,7 +1000,7 @@ class SolicitudController extends Controller
         // $columnName = $_GET['columns'][$columnIndex]['data']; // Column name
         // $columnSortOrder = $_GET['order'][0]['dir']; // asc or desc
         // $searchValue = mysqli_real_escape_string($con,$_GET['search']['value']); // Search value
-        // dump( $draw . " | " . $row . " | " . $rowperpage . " | " . $columnIndex . " | " . $columnName . " | " . $columnSortOrder );
+       
         $buscador = $_GET['search']['value'];
 
         //Realizamos la consulta a la base de datos
@@ -1997,7 +1997,7 @@ class SolicitudController extends Controller
             }
 
         } else {
-            dump("error dydjd7d8ydyd7idj8 consulte a soporte tecnico (A Rosman Gonzalez)");
+            dd("error dydjd7d8ydyd7idj8 consulte a soporte tecnico (A Rosman Gonzalez)");
         }
         // Revisamos que existan valuaciones
         if( count($valuacion) > 1 ){
@@ -2064,7 +2064,7 @@ class SolicitudController extends Controller
             );
 
 
-            // dump($fecha_inicial . " | " . $incrementoDeDias  . " | " . $fecha_fin . " | Semana: " . $dia . " | " . $monto . " | " . $valuacionMonto . " | " . $suma);
+           
             // la fecha inicial pasa a ser la fecha final de la anterior consulta mas un dia
             $fecha_inicial = date('Y-m-d', strtotime($incrementoDeDias."+ 1 days"));
             // La fecha final se vuelve a incrementar 6 dias
@@ -2117,7 +2117,7 @@ class SolicitudController extends Controller
             'incremento' => $incrementoDeDias
         );
 
-        // dump($fecha_inicial . " | " . $fecha_fin . " | Semana: " . $dia . " | " . $monto . " | " . $valuacionMonto . " | " . $suma);
+        
 
         return view('sistema.costo.estadistica')->with([
             'permisoUsuario' => $permisoUsuario[0],
@@ -2472,7 +2472,7 @@ class SolicitudController extends Controller
                         }
                     }
 
-                    // dump($monto . " fecha nicial: " . $fecha_i . " | fecha incrementada: " . $fecha_fin);
+                    
                     $array[] = array('date' => $fecha_i , 'value' => floatval($monto));
 
                 }

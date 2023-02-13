@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item">Home</li>
     <li class="breadcrumb-item">Layout</li> --}}
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -153,6 +153,7 @@
 <script src="{{ asset("plugins/plugins/select2/js/select2.full.min.js") }}"></script>
 <script src="{{ asset("plugins/numeric/jquery.numeric.js") }}"></script>
 <script src="{{ asset("js/costo/costo-archivo.js") }}"></script>
+{{-- <script src="{{ asset("plugins/gstatic/charts-loader.js") }}"></script> --}}
 <!-- Resources -->
 
 @endsection

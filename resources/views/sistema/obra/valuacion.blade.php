@@ -43,7 +43,7 @@
                 <dt class="col-sm-4">Descripción: </dt>
                 <dd class="col-sm-8">{{ $obra->obra_observaciones }}</dd>
               </dl>
-              @if ($permisoUsuario->crear_valuacion)
+              @if ($permisoUsuario->valuacion)
               <button class="btn btn-info float-left" data-toggle="modal" data-target="#crearValuacion"><i class="fas fa-money-bill-wave-alt"> </i> Cargar valuación</button>
               @endif
               <a href="{{ route('obra.index') }}"><button class="btn btn-info float-right"><i class="fas fa-arrow-left"></i> Regresar</button></a>

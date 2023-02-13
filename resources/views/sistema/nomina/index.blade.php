@@ -7,14 +7,14 @@
     {{-- <li class="breadcrumb-item">Home</li>
     <li class="breadcrumb-item">Layout</li> --}}
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Panamá" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Panamá" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-4">
-        @if ( $permisoUsuario->crear_suministros )
+        @if ( $permisoUsuario->crear_nomina )
             <div class="info-box" data-toggle="modal" data-target="#crearSuministro">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-file-invoice"></i></span>
 
@@ -28,7 +28,7 @@
             <!-- /.info-box-content -->
             </div>
         @endif
-        @if ( $permisoUsuario->reactivar_suministros )
+        @if ( $permisoUsuario->reactivar_nomina )
             <a href="{{ route("nomina.deshabilitadas") }}">
                 <div class="info-box">
                     <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-arrow-alt-circle-left"></i></span>

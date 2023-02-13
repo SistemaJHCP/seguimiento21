@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item">Home</li> --}}
     <li class="breadcrumb-item">Solicitud</li>
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -337,9 +337,9 @@
               <dt>Motivo</dt>
               <dd>{{ $solicitud->requisicion_motivo }}</dd>
 
-              @if($solicitud->fecha_requisicion_creacion)
+              @if($solicitud->fecha_solicitud_creacion)
                 <dt>Fecha de creación de requisición</dt>
-                <dd>{{ $solicitud->fecha_requisicion_creacion }}</dd>
+                <dd>{{ $solicitud->fecha_solicitud_creacion }}</dd>
               @else
                 <dt>Fecha de creación de requisición</dt>
                 <dd>Sin registro</dd>

@@ -7,7 +7,7 @@ $(document).ready(function(){
     //     }
     // );
 
-    $('#porcentaje, #total, #anticipo').keypress(function(event) {
+    $('#porcentaje, #total').keypress(function(event) {
         var $this = $(this);
         if ((event.which != 46 || $this.val().indexOf('.') != -1) &&
            ((event.which < 48 || event.which > 57) &&
@@ -125,7 +125,6 @@ $(document).ready(function(){
         $("#codventa").val("");
         $("#nombreObra").val("");
         $("#total").val("");
-        $("#anticipo").val("");
         $("#porcentaje").val("");
         $("#datepicker").val("");
         $("#datepicker2").val("");

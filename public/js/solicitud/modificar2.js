@@ -192,7 +192,7 @@ $(document).ready(function(){
         if(moneda === "$"){
             coin = "$";
         } else {
-            coin = "B/."
+            coin = "Bs"
         }
 
 
@@ -374,7 +374,7 @@ $(document).ready(function(){
             var ban = "";
             var cuenta = "";
             var sel ="";
-            var list = '<option value="">Seleccione...</option>';
+            var list = "";
 
             if (comp) {
                 for (let i = 0; i < comp.length; i++) {
@@ -392,7 +392,7 @@ $(document).ready(function(){
                     if (comp[i].banco_proveedor_id != null) {
                         sel = 'selected="selected"';
                     } else {
-                        sel = "";
+                        sel = ""
                     }
 
                     ban+=   '<div class="info-box mb-3 bg-info">' +
@@ -418,7 +418,7 @@ $(document).ready(function(){
                     }, 34632000)
 
 
-
+                
             } else {
                 console.log("error en el ajax que se encarga de traer a los proveedores y las cuentas");
                 return false;

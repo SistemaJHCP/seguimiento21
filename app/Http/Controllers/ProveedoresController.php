@@ -54,10 +54,10 @@ class ProveedoresController extends Controller
         //validamos que request cumpla con las normas
         $request->validate([
             'tipo' => 'min:5|required',
-            'identificacion' => 'required|min:5|max:25',
+            'identificacion' => 'required|min:5|max:9',
             'nombre' => 'required|min:3|max:50',
             'suministro' => 'required',
-            'telefono' => 'required|min:3|max:12',
+            'telefono' => 'required|min:3|max:11',
             'direccion' => 'required|min:1|max:200'
         ]);
 

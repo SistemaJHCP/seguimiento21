@@ -50,8 +50,10 @@ class ChequeController extends Controller
         ->leftJoin('banco', 'banco.id', '=', 'cuenta.banco_id')
         ->where('chequera.id', $id)
         ->first();
+
         //Consultamos el ultimo numero del cheque que hay
         $codigoActual = Cheque::select('cheque_codigo')->where('chequera_id', $id)->orderBy('id', 'DESC')->first();
+
         //Si existe, creamos el numero siguiente
         if ($codigoActual) {
             $codigoSiguiente = $codigoActual->cheque_codigo + 1;
@@ -139,18 +141,6 @@ class ChequeController extends Controller
         return response()->json( $resp );
     }
 
-    public function buscarCheque_solicitud(Request $request)
-    {
-        //consultamos los
-        $cheque = Cheque::select('id', 'cheque_codigo', 'cheque_destinatario', 'cheque_monto')
-        ->where( 'chequera_id', $request->id )
-        ->whereNotIn( 'cheque_monto', ['0.00'] )
-        ->where( 'cheque_estado', 1 )
-        ->orderBy( 'id', 'DESC' )
-        ->get();
-
-        return response()->json( $cheque );
-    }
 
     public function jq_lista($id)
     {
@@ -176,7 +166,7 @@ class ChequeController extends Controller
         ->where('cheque.chequera_id', $id)
         ->get();
 
-        // validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
+    //validamos que opciones maneja este usuario y dependiendo de esto, se muestra la informacion
         if ( $permisoUsuario[0]->cheque_emp == 1 && $permisoUsuario[0]->ver_boton_Cheque_emp == 1 ) {
             return datatables()->of($query)
             ->addColumn('btn','sistema.banco.cheques.btnCheque')

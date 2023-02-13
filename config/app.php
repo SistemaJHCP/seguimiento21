@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'America/Anguilla',
+    'timezone' => 'America/Caracas',
 
     /*
     |--------------------------------------------------------------------------

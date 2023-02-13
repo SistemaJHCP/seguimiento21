@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item">Home</li> --}}
     <li class="breadcrumb-item">Estadistica</li>
     <li class="breadcrumb-item active">Control de gastos</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -129,7 +129,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 
 
-    <script src="{{ asset('js/costo/estadistica.js') }}"></script>
+    <script src="{{ asset("js/costo/estadistica.js") }}"></script>
     <script>
         estadistica( {{ $obra->id }} );
         laguna( {{ $obra->id }} );

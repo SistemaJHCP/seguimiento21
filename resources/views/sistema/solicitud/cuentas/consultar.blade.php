@@ -7,7 +7,7 @@
     <li class="breadcrumb-item">Solicitud de cuentas</li>
     <li class="breadcrumb-item">Cuentas por pagar</li>
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -139,7 +139,7 @@
                                         </div>
                                         <div class="col-6">
                                             <dt style="margin-top:26%;">Monto de pago:</dt>
-                                            <dd style="font-size: 28px">{{ number_format( $solicitud->pago_monto, 2 ) }} {{ $costo[0]->moneda }}</dd>
+                                            <dd style="font-size: 28px">{{ ($solicitud->pago_monto != null) ? number_format( $solicitud->pago_monto, 2 ) : 0 }} {{ $costo[0]->moneda }}</dd>
                                         </div>
                                     </div>
                                     @if ($cuenta)

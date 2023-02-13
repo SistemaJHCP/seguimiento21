@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>--}}
     <li class="breadcrumb-item">Modificar obra</li>
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -16,13 +16,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <form action="{{ route('obra.modificando', $obra->id) }}" method="post">
-                        @csrf
                     <div class="card-header">
                       Datos a cargar
                     </div>
                     <div class="card-body">
-
+                    <form action="{{ route('obra.modificando', $obra->id) }}" method="post">
+                        @csrf
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -87,7 +86,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Fecha de inicio</label>
-                                    <input type="text" name="fechaInicio" id="datepicker" value="{{ $obra->obra_fechainicio }}" class="form-control" placeholder="dd-mm-yyyy" required>
+                                    <input type="text" name="fechaInicio" id="datepicker" value="{{ $obra->obra_fechainicio }}" class="form-control" placeholder="dd-mm-yyyy">
                                 </div>
                             </div>
                             <div class="col-md-6">

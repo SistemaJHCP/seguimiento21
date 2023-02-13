@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item"><a href="#">Home</a></li> --}}
     <li class="breadcrumb-item">Modificar PTC</li>
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -21,32 +21,32 @@
                     <h5 class="modal-title" id="crearPTCLabel">Crear una propuesta técnica comercial</h5>
 
                   </div>
-                  <form action="{{ route('maestro.modificando', $id) }}" method="post">
+                  <form action="{{ route('maestro.modificando', $ptc->id) }}" method="post">
                       @csrf
                       <div class="modal-body">
                           <div class="form-group">
                               <label>Código de PTC</label>
-                              <input type="text" name="codigoPTC" id="codigoPTC" class="form-control" value="{{ $ptc[1]->codventa_codigo }}" placeholder="Ingrese el código de PTC" maxlength="22" autocomplete="off">
+                              <input type="text" name="codigoPTC" id="codigoPTC" class="form-control" value="{{ $ptc->codventa_codigo }}" placeholder="Ingrese el código de PTC" maxlength="22" autocomplete="off">
                           </div>
                           <div class="form-group">
                               <label>Nombre</label>
-                              <input type="text" name="nombrePTC" id="nombrePTC" class="form-control" value="{{ $ptc[1]->codventa_nombre }}" placeholder="Ingrese las caracteristicas" maxlength="100" autocomplete="off">
+                              <input type="text" name="nombrePTC" id="nombrePTC" class="form-control" value="{{ $ptc->codventa_nombre }}" placeholder="Ingrese las caracteristicas" maxlength="100" autocomplete="off">
                           </div>
                           <div class="form-group">
                             <label>Codigo interno</label>
-                            <input type="text" name="" class="form-control" value="{{ $ptc[1]->codventa_codigo2 }}" placeholder="Ingrese teléfono de contacto" maxlength="40" disabled>
+                            <input type="text" name="" class="form-control" value="{{ $ptc->codventa_codigo2 }}" placeholder="Ingrese teléfono de contacto" maxlength="40" disabled>
                           </div>
                           <div class="form-group">
                               <label>Teléfono</label>
-                              <input type="text" name="telefonoPTC" id="telefonoPTC" class="form-control" value="{{ $ptc[1]->codventa_telefono }}" placeholder="Ingrese teléfono de contacto" maxlength="12" autocomplete="off">
+                              <input type="text" name="telefonoPTC" id="telefonoPTC" class="form-control" value="{{ $ptc->codventa_telefono }}" placeholder="Ingrese teléfono de contacto" maxlength="12" autocomplete="off">
                           </div>
                           <div class="form-group">
                               <label>Dirección</label>
-                              <input type="text" name="direccionPTC" id="direccionPTC" class="form-control" value="{{ $ptc[1]->codventa_direccion }}" placeholder="Ingrese la dirección" maxlength="220" autocomplete="off">
+                              <input type="text" name="direccionPTC" id="direccionPTC" class="form-control" value="{{ $ptc->codventa_direccion }}" placeholder="Ingrese la dirección" maxlength="220" autocomplete="off">
                           </div>
                           <div class="form-group">
                               <label>Correo electrónico</label>
-                              <input type="text" name="correoPTC" id="correoPTC" class="form-control" value="{{ $ptc[1]->codventa_correo }}" placeholder="Ingrese el correo electrónico" maxlength="60" autocomplete="off">
+                              <input type="text" name="correoPTC" id="correoPTC" class="form-control" value="{{ $ptc->codventa_correo }}" placeholder="Ingrese el correo electrónico" maxlength="60" autocomplete="off">
                           </div>
                       </div>
                       <div class="modal-footer">

@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item">Home</li> --}}
     <li class="breadcrumb-item">Consultar requisición</li>
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -149,10 +149,6 @@
             <dd>{{ $requisicion->obra_codigo }}</dd>
             <dt>Nombre de la obra:</dt>
             <dd>{{ $requisicion->obra_nombre }}</dd>
-            <dt>Monto:</dt>
-            <dd>{{ $requisicion->obra_monto }}</dd>
-            <dt>Porcentaje de ganancia:</dt>
-            <dd>{{ $requisicion->obra_ganancia }}</dd>
             <dt>Fecha de inicio:</dt>
             <dd>{{ $requisicion->obra_fecha_inicio }}</dd>
             <dt>Fecha final:</dt>

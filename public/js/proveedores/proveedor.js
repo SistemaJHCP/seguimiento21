@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     limpiar();
-
+    $("#cedula").numeric(false);
     $("#telefono").numeric(false);
 
     $('#listaProveedores').DataTable({
@@ -187,7 +187,8 @@ $(document).ready(function(){
 
 
     $('#suministro').select2({
-        theme: 'bootstrap4'
+        theme: 'bootstrap4',
+        dropdownParent: $('#nuevoProveedor .modal-content')
     });
 
 

@@ -23,7 +23,7 @@ $(document).ready(function(){
         responsive: true,
         autoWidth: false,
         info: false,
-        language: {
+        "language": {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",
             "zeroRecords": "Lo que busca no esta en el registro",
@@ -32,7 +32,7 @@ $(document).ready(function(){
             "infoFiltered": "(Filtrado de _MAX_ registros totales)",
             'paginate':{
                 'next': 'Siguiente',
-                'previous': 'Anteror'
+                'previous': 'Anterior'
             },
             "processing" : "procesando."
         },

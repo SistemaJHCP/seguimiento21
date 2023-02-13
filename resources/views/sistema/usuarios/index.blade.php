@@ -5,7 +5,7 @@
 @endsection
 @section('navegador')
     <li class="breadcrumb-item active">Usuarios</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -162,7 +162,7 @@
                       <label for="">Repita la contraseña</label>
                       <input type="password" name="password2" id="password222" class="form-control" placeholder="Repita la contraseña escrita arriba" maxlength="30"  autocomplete="off" required>
 
-                      <label for="">Nivel de permisología</label>
+                      <label for="">Nombre de usuario</label>
                       <select name="levelAccess" id="levelAccess2" class="form-control" autocomplete="off" required>
                           <option value="">Seleccione...</option>
                           @foreach ($permisos as $p)
@@ -211,7 +211,7 @@
         @if (Session::has('user'))
         <script>
             Swal.fire(
-            'Solicitud procesada!',
+            'Sulicitud procesada!',
             'La información fue cargada exitosamente!',
             'success'
             )

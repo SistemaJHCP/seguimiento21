@@ -7,11 +7,10 @@
     {{-- <li class="breadcrumb-item">Home</li>
     <li class="breadcrumb-item">Layout</li> --}}
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
-
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -25,7 +24,7 @@
                   <tr>
                       <th>Código</th>
                       <th>Tipo</th>
-                      <th>Ruc</th>
+                      <th>Rif</th>
                       <th>Nombre</th>
                       <th>Teléfono</th>
                       <th>Correo</th>
@@ -41,7 +40,7 @@
                     <tr>
                         <th>Código</th>
                         <th>Tipo</th>
-                        <th>Ruc</th>
+                        <th>Rif</th>
                         <th>Nombre</th>
                         <th>Teléfono</th>
                         <th>Correo</th>
@@ -124,6 +123,7 @@
     </div>
 </div>
 
+
 @endsection
 @section('js')
 <script src="{{ asset("plugins/plugins/datatables/jquery.dataTables.min.js") }}"></script>
@@ -141,7 +141,7 @@
     @if (Session::has('resp') == 1)
     <script>
         Swal.fire(
-        'Solicitud procesada!',
+        'Sulicitud procesada!',
         'La información fue cargada exitosamente!',
         'success'
         )

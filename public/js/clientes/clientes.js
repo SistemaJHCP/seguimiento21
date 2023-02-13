@@ -31,7 +31,7 @@ $(document).ready(function(){
             "infoFiltered": "(Filtrado de _MAX_ registros totales)",
             'paginate':{
                 'next': 'Siguiente',
-                'previous': 'Anteror'
+                'previous': 'Anterior'
             },
             "processing" : "procesando."
         },

@@ -34,13 +34,21 @@ class BancoController extends Controller
         if( $permisoUsuario[0]->ban != 1 ){
             return redirect()->route("home");
         }
-
         //Retorna a la vista principal de bancos
         return view('sistema.banco.index')->with([
             'permisoUsuario' => $permisoUsuario[0]
         ]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -80,7 +88,16 @@ class BancoController extends Controller
 
     }
 
-
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -234,12 +251,6 @@ class BancoController extends Controller
     public function guardar(Request $request){
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
-
-        $request->validate([
-            'rif' => 'required',
-            'nombreBanco' => 'required',
-        ]);
-
 
         if( $permisoUsuario[0]->ban != 1 || $permisoUsuario[0]->crear_ban != 1 ){
             return redirect()->route('home');

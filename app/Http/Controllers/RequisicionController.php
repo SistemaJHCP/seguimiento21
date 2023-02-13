@@ -179,8 +179,8 @@ class RequisicionController extends Controller
             'obra.id AS obra_id',
             'obra.obra_codigo AS obra_codigo',
             'obra.obra_nombre AS obra_nombre',
-            'obra.obra_monto AS obra_monto',
-            'obra.obra_ganancia AS obra_ganancia',
+            // 'obra.obra_monto AS obra_monto',
+            // 'obra.obra_ganancia AS obra_ganancia',
             'obra.obra_fechainicio AS obra_fecha_inicio',
             'obra.obra_fechafin AS obra_fecha_fin',
             'obra.obra_observaciones AS obra_observaciones',
@@ -326,7 +326,6 @@ class RequisicionController extends Controller
         $req->requisicion_direccion = $request->direccion;
         $req->requisicion_motivo = $request->motivo;
         $req->requisicion_observaciones = $request->observacion;
-        $req->updated_at = now();
         //Guardamos la modificacion
         $resp = $req->save();
         //Retornamos a la vista principal de requisicion con la respuesta para enviar el mensaje

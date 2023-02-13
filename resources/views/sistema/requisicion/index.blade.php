@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item">Home</li>
     <li class="breadcrumb-item">Layout</li> --}}
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -24,6 +24,7 @@
                 <table id="listaObras" class="table table-bordered table-hover" style="font-size: 12px">
                 <thead>
                 <tr>
+
                     <th>Código</th>
                     <th>Tipo</th>
                     <th>Emisión</th>
@@ -41,6 +42,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
+
                   <th>Código</th>
                   <th>Tipo</th>
                   <th>Emisión</th>
@@ -59,19 +61,19 @@
 </div>
 @endsection
 @section('js')
-<script src="{{ asset('plugins/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('plugins/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('js/requerimiento/requerimientos.js') }}"></script>
+<script src="{{ asset("plugins/plugins/datatables/jquery.dataTables.min.js") }}"></script>
+<script src="{{ asset("plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js") }}"></script>
+<script src="{{ asset("plugins/plugins/datatables-responsive/js/dataTables.responsive.min.js") }}"></script>
+<script src="{{ asset("plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") }}"></script>
+<script src="{{ asset("plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js") }}"></script>
+<script src="{{ asset("plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") }}"></script>
+<script src="{{ asset("js/requerimiento/requerimientos.js") }}"></script>
 @if (Session::has('resp'))
 {{ Session::has('resp') }}
     @if (Session::has('resp') == true)
     <script>
         Swal.fire(
-        'Solicitud procesada!',
+        'Sulicitud procesada!',
         'La información fue cargada exitosamente!',
         'success'
         )

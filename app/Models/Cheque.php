@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cheque extends Model
 {
     use HasFactory;
-    protected $table = "Cheque";
+    protected $table = "cheque";
 
     protected $fillable = [
         'cheque_codigo',

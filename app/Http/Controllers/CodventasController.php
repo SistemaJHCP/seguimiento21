@@ -112,7 +112,6 @@ class CodventasController extends Controller
      */
     public function show($id)
     {
-
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
 
@@ -120,8 +119,7 @@ class CodventasController extends Controller
             return redirect()->route("home");
         }
         //Se buscan los datos del PTC solicitado
-        $ptc = Codventas::find($id);
-        // dd( $ptc );
+        $ptc = Codventas::findOrFail($id);
         //Se retorna a la vista con la informacion capturada en las consultas
         return view("sistema.maestroPTC.ver")->with("permisoUsuario", $permisoUsuario[0])->with("ptc", $ptc);
 
@@ -146,7 +144,7 @@ class CodventasController extends Controller
         $ptc2 = Codventas::find($id);
 
         //Se retorna a la vista con la informacion capturada en las consultas
-        return view("sistema.maestroPTC.modificar")->with("permisoUsuario", $permisoUsuario[0])->with("ptc", $ptc2)->with('id', $id);
+        return view("sistema.maestroPTC.modificar")->with("permisoUsuario", $permisoUsuario[0])->with("ptc", $ptc2[0]);
 
     }
 

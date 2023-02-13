@@ -18,7 +18,6 @@ class Obra extends Migration
             $table->string('obra_codigo', 25)->nullable();
             $table->string('obra_nombre', 100);
             $table->decimal('obra_monto', $precision = 20, $scale = 2)->nullable();
-            $table->decimal('obra_anticipo', $precision = 20, $scale = 2)->nullable();
             $table->decimal('obra_montogasto', $precision = 20, $scale = 2)->nullable();
             $table->decimal('obra_ganancia', $precision = 20, $scale = 2)->nullable();
             $table->date('obra_fechainicio')->nullable();
@@ -30,7 +29,7 @@ class Obra extends Migration
             //---Tablas relacionales---
             $table->unsignedBigInteger('cliente_id')->nullable();;
             $table->foreign('cliente_id')->references('id')->on('cliente');
-            $table->unsignedBigInteger('tipo_id')->nullable();
+            $table->unsignedBigInteger('tipo_id')->nullable();;
             $table->foreign('tipo_id')->references('id')->on('tipo');
             $table->bigInteger('codventa_id')->nullable();;
             $table->timestamps();
@@ -47,15 +46,6 @@ class Obra extends Migration
             $table->timestamps();
         });
 
-        Schema::create('valuacion', function (Blueprint $table) {
-            $table->id();
-            $table->decimal('valuacion_monto', $precision = 20, $scale = 2)->nullable();
-            $table->string('observacion', 200)->nullable();
-            $table->date("valuacion_fecha");
-            $table->bigInteger('obra_id')->nullable();
-
-            $table->foreign('obra_id')->references('id')->on('obra');
-        });
 
     }
 

@@ -117,7 +117,6 @@ $(document).ready(function(){
 
 
     $('#opciones').change(function(){
-        
         $('#opcion21').empty();
         if( this.value === '' ) {
 
@@ -138,8 +137,7 @@ $(document).ready(function(){
         if( this.value == 5 ) {
             $('#botonRequisicion').empty();
             $('#requisicion').attr('disabled', true);
-            $('#obra').val("").trigger("change.select2");
-            $('#botonObra').empty();
+
             $('#requisicion').empty();
             $('#requisicion').html('<option value="">Seleccione...</option>');
             $('#opcion21').append('<input type="hidden" name="opcion" value="5">');
@@ -171,8 +169,7 @@ $(document).ready(function(){
 
             return false;
         } else {
-            $('#obra').val("").trigger("change.select2");
-            $('#botonObra').empty();
+
             $('#opcion21').append('<input type="hidden" name="opcion" value="' + $('#opciones').val() + '">');
             consultarListaSol(this.value);
 
@@ -265,7 +262,6 @@ $(document).ready(function(){
         $('#motivo').val("");
         $('#observacion').val("");
         $('#precioUnitarioSelect').val("");
-        $('#obra').val("").trigger("change.select2");
         $('#cargarLaSolicitud').attr('disabled', true);
     }
 
@@ -307,7 +303,8 @@ $(document).ready(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function(comp) {
-            
+            console.log(comp);
+
             var html = "";
             html+= '<div class="info-box" id="consultarReq" data-toggle="modal" data-target="#consultarRequisicion">' +
                    '<span class="info-box-icon bg-info"><i class="far fa-list-alt"></i></span>' +
@@ -318,6 +315,9 @@ $(document).ready(function(){
                    '</div>';
 
             $('#botonRequisicion').html( html );
+
+            var plex ="";
+
 
 
             var info = "";
@@ -339,12 +339,14 @@ $(document).ready(function(){
             '</div>' +
             '</div>';
 
+            console.log( comp[1] );
             var lista = '';
             for (let e = 0; e < comp[1].length; e++) {
 
                 lista+= '<tr><td>' + comp[1][e].sd_cantidad + '</td><td>' + comp[1][e].nombre + '</td><td>' + comp[1][e].sd_caracteristicas + '</td></tr>';
 
             }
+
 
             $('#obra').val("");
             $('#obra').val(comp[0][0].obra_id).trigger("change.select2");
@@ -559,11 +561,5 @@ $(document).ready(function(){
         })
 
     });
-
-
-
-
-
-
 
 });

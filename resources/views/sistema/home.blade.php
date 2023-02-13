@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -56,7 +56,7 @@
           <div class="row">
               <div class="col-1"></div>
               <div class="col-10">
-              <div class="info-box mb-3 bg-info">
+                <div class="info-box mb-3 bg-info">
                     <span class="info-box-icon"><i class="far fa-check-circle"></i></span>
 
                     <div class="info-box-content">

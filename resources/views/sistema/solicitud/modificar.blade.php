@@ -7,7 +7,7 @@
     {{-- <li class="breadcrumb-item">Home</li> --}}
     <li class="breadcrumb-item">Modificar solicitud</li>
     <li class="breadcrumb-item active">Inicio</li>
-    <img src="{{url('imagen/bandera-panama.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
+    <img src="{{url('imagen/bandera_vzla.png') }}" width="30" height="20" alt="Sistema de Venezuela" style="margin-left: 10px; margin-top:4px;">
 @endsection
 
 @section('contenedor')
@@ -65,7 +65,7 @@
                         @if ($solicitud->moneda == "$")
                             <b>Pago en Dolares</b>
                         @else
-                            <b>Pago en Balboa</b>
+                            <b>Pago en Bolivares</b>
                         @endif
                         <input type="hidden" name="moneda" id="moneda" value="{{ $solicitud->moneda }}">
                         <br><br>

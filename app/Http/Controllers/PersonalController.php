@@ -170,10 +170,10 @@ class PersonalController extends Controller
 
     public function jq_listaPersonal()
     {
-        
+
         //Validamos los permisos
         $permisoUsuario = $this->permisos( \Auth::user()->permiso_id );
-
+        
         // if($permisoUsuario[0]->personal != 1 || $permisoUsuario[0]->reactivar_personal != 1){
         //     return redirect()->route("home");
         // }

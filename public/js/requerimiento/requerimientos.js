@@ -33,9 +33,9 @@ $(document).ready(function(){
             },
             "processing" : "procesando."
         },
-        order: [
+        order: [ 
             [0, "DESC"],
-            [8, "DESC"]
+            [2, "DESC"],
         ],
     });
 

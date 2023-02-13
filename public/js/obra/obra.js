@@ -23,9 +23,6 @@ $(document).ready(function(){
         responsive: true,
         autoWidth: false,
         info: false,
-        columnDefs: [
-            { "width": "19%", "targets": 8 }
-        ],
         language: {
             "search": "Buscar: ",
             "lengthMenu": "Display _MENU_ records per page",
@@ -35,7 +32,7 @@ $(document).ready(function(){
             "infoFiltered": "(Filtrado de _MAX_ registros totales)",
             'paginate':{
                 'next': 'Siguiente',
-                'previous': 'Anteror'
+                'previous': 'Anterior'
             },
             "processing" : "procesando."
         },
