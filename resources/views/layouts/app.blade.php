@@ -94,7 +94,6 @@
 
 
         @if( $permisoUsuario->maestro_btn == 1 )
-
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-wrench"></i>
@@ -109,201 +108,237 @@
                 <li class="nav-item">
                   <a href="{{ route('suministro.index') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p> Suministros </p></a>
+                    <p> Suministros </p>
+                  </a>
                 </li>
               @endif
-
               @if ($permisoUsuario->proveedores == 1)
                 <li class="nav-item">
                   <a href="{{ route('proveedor.index') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p> Proveedores </p></a>
+                    <p> Proveedores </p>
+                  </a>
                 </li>
               @endif
               @if ($permisoUsuario->cliente == 1)
                 <li class="nav-item">
                   <a href="{{ route('cliente.index') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p> Clientes </p></a>
+                    <p> Clientes </p>
+                  </a>
                 </li>
               @endif
-              <?php
-                  if ($permisoUsuario->materiales == 1){
-              ?>
+              @if($permisoUsuario->materiales == 1)
                   <li class="nav-item">
                     <a href="{{ route('materiales.index') }}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p> Materiales </p></a>
+                      <p> Materiales </p>
+                    </a>
                   </li>
-              <?php
-                  }
-              ?>
-              <?php
-                  if ($permisoUsuario->servicio == 1){
-              ?>
+              @endif
+              @if($permisoUsuario->servicio == 1)
                   <li class="nav-item">
                     <a href="{{ route('servicio.index') }}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p> Servicio </p></a>
+                      <p> Servicio </p>
+                    </a>
                   </li>
-              <?php
-                  }
-              ?>
-              <?php
-                  if ($permisoUsuario->viatico == 1){
-              ?>
+              @endif
+              @if($permisoUsuario->viatico == 1)
                   <li class="nav-item">
                     <a href="{{ route('viatico.index') }}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p> Viático </p></a>
+                      <p> Viático </p>
+                    </a>
                   </li>
-              <?php
-                  }
-              ?>
-              <?php
-                  if ($permisoUsuario->nomina == 1){
-              ?>
+              @endif
+              @if ($permisoUsuario->nomina == 1)
                   <li class="nav-item">
                     <a href="{{ route('nomina.index') }}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p> Nómina </p></a>
+                      <p> Nómina </p>
+                    </a>
                   </li>
-              <?php
-                  }
-              ?>
-              <?php
-                  if ($permisoUsuario->ptc == 1){
-              ?>
+              @endif
+              @if($permisoUsuario->ptc == 1)
                   <li class="nav-item">
                     <a href="{{ route('maestro.index') }}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p> Maestro PTC </p></a>
+                      <p> Maestro PTC </p>
+                    </a>
                   </li>
-              <?php
-                  }
-              ?>
+              @endif
             </ul>
           </li>
         @endif
 
-
         @if ($permisoUsuario->banco_btn == 1)
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-university"></i>
-                <p>
-                  Bancos
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-
-          @if ($permisoUsuario->ban == 1)
-            <li class="nav-item">
-              <a href="{{ route('banco.index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p> Bancos </p></a>
-            </li>
-          @endif
-
-          @if ($permisoUsuario->cuenta_emp == 1)
-            <li class="nav-item">
-              <a href="{{ route('cuenta.index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p> Cuentas JHCP </p></a>
-            </li>
-          @endif
-        @endif
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-university"></i>
+              <p>
+                Bancos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+            @if ($permisoUsuario->ban == 1)
+              <li class="nav-item">
+                <a href="{{ route('banco.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Bancos </p>
+                </a>
+              </li>
+            @endif
+            @if ($permisoUsuario->cuenta_emp == 1)
+              <li class="nav-item">
+                <a href="{{ route('cuenta.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Cuentas JHCP </p>
+                </a>
+              </li>
+            @endif
+            </ul>
           </li>
-        </ul>
+        @endif
 
         @if ($permisoUsuario->control_de_obras_btn == 1)
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tools"></i>
-                <p>
-                  Obras
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-
-          @if ($permisoUsuario->ban == 1)
-            <li class="nav-item">
-              <a href="{{ route('banco.index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p> Bancos </p></a>
-            </li>
-          @endif
-
-          @if ($permisoUsuario->cuenta_emp == 1)
-            <li class="nav-item">
-              <a href="{{ route('cuenta.index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p> Cuentas JHCP </p></a>
-            </li>
-          @endif
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tools"></i>
+              <p>
+                Obras
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+            @if ($permisoUsuario->obra == 1)
+              <li class="nav-item">
+                <a href="{{ route('obra.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Obras </p>
+                </a>
+              </li>
+            @endif
+            @if ($permisoUsuario->tipo == 1)
+              <li class="nav-item">
+                <a href="{{ route('tipo.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Tipo de obras </p>
+                </a>
+              </li>
+            @endif
+            @if ($permisoUsuario->personal == 1)
+              <li class="nav-item">
+                <a href="{{ route('personal.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Personal </p>
+                </a>
+              </li>
+            @endif
+            </ul>
+          </li>
         @endif
+
+        @if($permisoUsuario->requisicion == 1)
+          <li class="nav-item">
+            <a href="{{ route('requisicion.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Requisiciones 
+              </p>
+            </a>
           </li>
+        @endif
+        @if($permisoUsuario->solicitud == 1)
+          <li class="nav-item">
+            <a href="{{ route('solicitud.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>
+                Solicitud
+              </p>
+            </a>
+          </li>
+        @endif
+        @if($permisoUsuario->solicitud_pago == 1)
+          <li class="nav-item">
+            <a href="{{ route('sPagoIndex.index') }}" class="nav-link">
+              <i class="nav-icon far fa-check-circle"></i>
+              <p>
+                Solicitud de pago
+              </p>
+            </a>
+          </li>
+        @endif
+        @if ($permisoUsuario->cuentas_por_pagar_btn == 1)
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-money-bill-wave"></i>
+              <p>
+                Cuentas por pagar
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+            @if ($permisoUsuario->compra_cuentas_x_pagar == 1)
+              <li class="nav-item">
+                <a href="{{ route('cuentas.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Solicitud de cuentas  </p>
+                </a>
+              </li>
+            @endif
+            @if ($permisoUsuario->conciliacion == 1)
+              <li class="nav-item">
+                <a href="{{ route('conciliacion.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Conciliación </p>
+                </a>
+              </li>
+            @endif
+            @if ($permisoUsuario->control_de_gasto == 1)
+              <li class="nav-item">
+                <a href="{{ route('costosObra.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Control de gastos </p>
+                </a>
+              </li>
+            @endif
+            </ul>
+          </li>  
+        @endif
+        
+        @if ($permisoUsuario->configuracion_btn == 1)
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Configuración
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+            @if ($permisoUsuario->usuario == 1)
+              <li class="nav-item">
+                <a href="{{ route('usuario.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Usuarios </p>
+                </a>
+              </li>
+            @endif
+            @if ($permisoUsuario->permisos_btn == 1)
+              <li class="nav-item">
+                <a href="{{ route('permisos.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Permisos </p>
+                </a>
+              </li>
+            @endif
+            </ul>
+          </li>
+        @endif     
+
         </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <!-- <li class="nav-header">LABELS</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text">Important</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-warning"></i>
-              <p>Warning</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
-              <p>Informational</p>
-            </a>
-          </li>
-        </ul> -->
       </nav>
       <!-- /.sidebar-menu -->
     </div>
